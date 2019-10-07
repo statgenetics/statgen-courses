@@ -6,12 +6,12 @@ WORKDIR /tmp
 
 USER root
 
-RUN echo "deb [trusted=yes] https://statgen.us/deb ./" | tee -a /etc/apt/sources.list.d/statgen.list && \
+RUN echo "deb [trusted=yes] http://statgen.us/deb ./" | tee -a /etc/apt/sources.list.d/statgen.list && \
     apt-get update && \
-    apt-get install -y vtools-tutorial annovar annovar-humandb statgen-king && \ 
+    apt-get install -y annovar annovar-humandb statgen-king && \ 
     apt-get clean
 
 USER jovyan
 
-RUN conda install -c https://conda.binstar.org/bpeng variant_tool && \
+RUN conda install -c bpeng variant_tools && \
     conda clean --all -tipsy && rm -rf /tmp/* $HOME/.caches

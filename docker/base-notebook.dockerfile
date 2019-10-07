@@ -1,4 +1,4 @@
-FROM jupyter/base-notebook:a97a294194ab
+FROM jupyter/base-notebook:hub-1.0.0
 
 MAINTAINER Gao Wang <gw2411@columbia.edu>
 
@@ -26,19 +26,16 @@ RUN apt-get update \
     libc6-dev \
     libgomp1 \
     libatlas3-base \
-    && apt-get install graphviz pandoc software-properties-common nodejs npm \
+    && apt-get install -y --no-install-recommends graphviz pandoc software-properties-common nodejs \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /var/log/dpkg.log
-
-RUN apt-get update \
-    && apt-get install -y curl unzip  \
-    && apt-get install -y  \
-    && apt-get clean
 
 # R environment
 RUN apt-get update \
     && apt-get install -y r-base r-base-dev \
     && apt-get clean
+
+# RUN R --slave -e "for (p in c('dplyr', 'stringr', 'readr', 'magrittr', 'ggplot2')) if (!require(p, character.only=TRUE)) install.packages(p, repos = 'http://cran.rstudio.com')"
 
 USER jovyan
 # "jovyan" stands for "Jupyter User"
@@ -49,12 +46,6 @@ ENV R_ENVIRON_USER ""
 ENV R_PROFILE_USER ""
 ENV R_LIBS_USER " "
 
-# User packages setup
-
-# R
-RUN R --slave -e "for (p in c('dplyr', 'stringr', 'readr', 'magrittr', 'ggplot2')) if (!require(p, character.only=TRUE)) install.packages(p)"
-
-
 # Bash
 RUN pip install bash_kernel --no-cache-dir
 RUN python -m bash_kernel.install
@@ -63,11 +54,12 @@ RUN python -m bash_kernel.install
 RUN pip install markdown-kernel --no-cache-dir
 RUN python -m markdown_kernel.install 
 
-# SoS
-RUN pip install docker markdown wand graphviz imageio pillow nbformat --no-cache-dir
-RUN conda install -y feather-format -c conda-forge && conda clean --all -tipsy && rm -rf /tmp/* $HOME/.cache
+# SoS Suite
+RUN pip install docker markdown wand graphviz imageio pillow nbformat jupyterlab feather-format --no-cache-dir
 
 ## trigger rerun for sos updates
 ARG DUMMY=unknown
 RUN DUMMY=${DUMMY} pip install sos sos-notebook sos-r sos-python sos-bash --no-cache-dir
 RUN python -m sos_notebook.install
+RUN jupyter labextension install transient-display-data
+RUN jupyter labextension install jupyterlab-sos
