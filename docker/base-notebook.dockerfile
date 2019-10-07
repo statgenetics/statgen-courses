@@ -2,16 +2,16 @@ FROM jupyter/base-notebook:a97a294194ab
 
 MAINTAINER Gao Wang <gw2411@columbia.edu>
 
-USER root
-
 WORKDIR /tmp
+
+USER root
 
 # Tools
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
     curl \
     unzip \
-    ca-certificates \
+    apt-transport-https \
     build-essential \
     gfortran \
     libgfortran-6-dev \
