@@ -35,7 +35,7 @@ RUN apt-get update \
     && apt-get install -y r-base r-base-dev \
     && apt-get clean
 
-# RUN R --slave -e "for (p in c('dplyr', 'stringr', 'readr', 'magrittr', 'ggplot2')) if (!require(p, character.only=TRUE)) install.packages(p, repos = 'http://cran.rstudio.com')"
+RUN R --slave -e "for (p in c('dplyr', 'stringr', 'readr', 'magrittr', 'ggplot2')) if (!require(p, character.only=TRUE)) install.packages(p, repos = 'http://cran.rstudio.com')"
 
 USER jovyan
 # "jovyan" stands for "Jupyter User"

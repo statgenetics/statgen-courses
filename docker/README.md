@@ -22,15 +22,16 @@ docker push statisticalgenetics/vat
 
 ## Running on the cloud
 
-First, `ssh` to the remote computer, and run the follow script to setup support environment:
+First, `ssh` to the remote computer assuming `root` access (for a newly purchased VM for example), and run the follow script to setup support environment:
 
 ```bash
 bash vm-setup.sh
 ```
-Then log out and log back in to enable the new configurations.
 
-To setup the run for an exercise, please copy the `release` script to the remote computer, make it executable `chmod +x statgen-setup`, and type:
+You should then see a script `statgen-setup` under your account folder if you type `ls`.
+
+To set it up for selected exercise, for example for `vat` and `pseq` exercises,
 
 ```
-./statgen-setup launch --exercise 
+./statgen-setup launch --exercise vat pseq 
 ```
