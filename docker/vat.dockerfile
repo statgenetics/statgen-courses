@@ -14,4 +14,4 @@ RUN echo "deb [trusted=yes] http://statgen.us/deb ./" | tee -a /etc/apt/sources.
 USER jovyan
 
 RUN conda install -c bpeng variant_tools && \
-    conda clean --all -tipsy && rm -rf /tmp/* $HOME/.caches
+    conda build purge-all && rm -rf /tmp/* $HOME/.caches

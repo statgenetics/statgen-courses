@@ -6,7 +6,7 @@ Other course specific docker images will be built on top of this base image.
 
 ## Build docker images
 
-To build the base image and push to dockerhub,
+To build the base image and push to dockerhub, on your local computer where `docker` is installed,
 
 ```bash
 docker build --build-arg DUMMY=`date +%s` -t gaow/base-notebook -f base-notebook.dockerfile .
@@ -28,10 +28,10 @@ First, `ssh` to the remote computer assuming `root` access (for a newly purchase
 bash vm-setup.sh
 ```
 
-You should then see a script `statgen-setup` under your account folder if you type `ls`.
+You will find `vm-setup.sh` script in `src` folder of this repo.
 
-To set it up for selected exercise, for example for `vat` and `pseq` exercises,
+To set it up for selected tutorial, for example for `vat` and `pseq` tutorials,
 
 ```
-./statgen-setup launch --exercise vat pseq 
+statgen-setup launch --tutorials vat pseq 
 ```

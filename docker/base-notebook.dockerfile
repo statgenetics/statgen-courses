@@ -54,6 +54,9 @@ RUN python -m bash_kernel.install
 RUN pip install markdown-kernel --no-cache-dir
 RUN python -m markdown_kernel.install 
 
+# Some setup for Jupyterhub
+RUN pip install --no-cache dockerspawner jupyterhub-tmpauthenticator
+
 # SoS Suite
 RUN pip install docker markdown wand graphviz imageio pillow nbformat jupyterlab feather-format --no-cache-dir
 
