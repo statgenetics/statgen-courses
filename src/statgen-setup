@@ -5,7 +5,11 @@
 # List of tutorials to launch
 # see https://hub.docker.com/u/statisticalgenetics/ for a list of options
 parameter: tutorials = []
-fail_if(len(tutorials) == 0, msg = 'Please specify a list of tutorials to launch.')
+
+def is_port_in_use(port):
+    import socket
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        return s.connect_ex(('localhost', port)) == 0
 
 [launch_1]
 output: "cull_idle_servers.py", "jupyterhub_config.py"
@@ -15,19 +19,35 @@ bash:
     curl -fsSL https://raw.githubusercontent.com/statgenetics/statgen-courses/master/src/jupyterhub_config.py -o jupyterhub_config.py
 
 [launch_2]
+fail_if(len(tutorials) == 0, msg = 'Please specify a list of tutorials to launch.')
 input: for_each = 'tutorials', concurrent = False
 docker_build: tag = f'{_tutorials}_hub', expand = True
     FROM gaow/base-notebook
     USER root
+    RUN mkdir -p /srv/jupyterhub/
     COPY jupyterhub_config.py /srv/jupyterhub/jupyterhub_config.py
     COPY cull_idle_servers.py /srv/jupyterhub/cull_idle_servers.py
-    RUN sed -i 's/IMAGE_NAME_PLACE_HOLDER/statisticalgenetics\/{_tutorials}/g' /srv/jupyterhub/jupyterhub_config.py
+    # modify the script to 
+    RUN sed -i 's/jupyterhub/{_tutorials}_hub/g; s/IMAGE_NAME_PLACE_HOLDER/statisticalgenetics\/{_tutorials}/g' /srv/jupyterhub/jupyterhub_config.py
+    EXPOSE 8000
+    WORKDIR /srv/jupyterhub/
+    LABEL org.jupyter.service="jupyterhub"
+    CMD ["jupyterhub"]
+
 
 [launch_3]
-import random, socket
-ports = random.sample(range(1001, 8888), len(tutorials))
+import random
+all_ports = list(range(1001, 8888))
+random.shuffle(all_ports)
+ports = []
+for idx, item in enumerate(all_ports):
+    if not is_port_in_use(item):
+        ports.append(item)
+    if len(ports) >= len(tutorials):
+        break
 from sos.utils import get_output
 ip = get_output("hostname -I | awk '{print $1}'").strip()
+#
 input: for_each = 'tutorials', concurrent = False
 bash: expand = True
     # Stop currently running instances to start from scratch
@@ -40,3 +60,9 @@ bash: expand = True
     docker run --rm -it -d -v /var/run/docker.sock:/var/run/docker.sock --net {_tutorials}_hub --name {_tutorials}_hub -p{ports[_index]}:8000 {_tutorials}_hub
     # Create a shortcut to access from browser
     echo '<meta http-equiv="Refresh" content="0; url=http://{ip}:{ports[_index]}" />' > /var/www/html/{_tutorials}.html
+
+[clean]
+bash:
+    docker stop $(docker ps -a -q) || true
+    docker rm $(docker ps -a -q) || true
+    docker rmi $(docker images -f "dangling=true" -q) || true

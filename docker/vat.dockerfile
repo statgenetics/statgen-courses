@@ -2,8 +2,6 @@ FROM gaow/base-notebook:latest
 
 MAINTAINER Gao Wang <gw2411@columbia.edu>
 
-WORKDIR /tmp
-
 USER root
 
 RUN echo "deb [trusted=yes] http://statgen.us/deb ./" | tee -a /etc/apt/sources.list.d/statgen.list && \
@@ -13,5 +11,10 @@ RUN echo "deb [trusted=yes] http://statgen.us/deb ./" | tee -a /etc/apt/sources.
 
 USER jovyan
 
-RUN conda install -c bpeng variant_tools && \
-    conda build purge-all && rm -rf /tmp/* $HOME/.caches
+RUN conda install -c https://conda.binstar.org/bpeng variant_tools && \
+    conda install scipy && \
+    conda clean --all && rm -rf /tmp/* $HOME/.caches
+
+WORKDIR $HOME
+
+RUN curl -fsSL https://raw.githubusercontent.com/statgenetics/statgen-courses/master/notebooks/VAT.ipynb -o VAT.ipynb
