@@ -22,12 +22,14 @@ c.DockerSpawner.network_name = 'jupyterhub'
 # delete containers when the stop
 c.DockerSpawner.remove = True
 
+# comment out this line to use Jupyter Notebook IDE instead of Jupyterlab
+c.Spawner.default_url = '/lab'
+
 # use another command to start sos-docs
 #c.DockerSpawner.extra_create_kwargs.update({ 'command': 'start-singleuser.sh' })
 
 # set a reasonable number of concurrent users
 c.JupyterHub.active_server_limit = 20
-
 
 # kill idle server after a while
 c.JupyterHub.services = [

@@ -6,8 +6,8 @@
 # see https://hub.docker.com/u/statisticalgenetics/ for a list of options
 parameter: tutorials = []
 
+import socket
 def is_port_in_use(port):
-    import socket
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         return s.connect_ex(('localhost', port)) == 0
 
