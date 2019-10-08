@@ -12,7 +12,7 @@ def is_port_in_use(port):
         return s.connect_ex(('localhost', port)) == 0
 
 [launch_1]
-output: "cull_idle_servers.py", "jupyterhub_config.py"
+output: "~/.cache/cull_idle_servers.py", "~/.cache/jupyterhub_config.py"
 bash:
     docker pull gaow/base-notebook
     mkdir -p $HOME/.cache

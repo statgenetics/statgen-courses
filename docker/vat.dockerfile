@@ -16,6 +16,6 @@ RUN conda install scipy pytables && \
 
 USER jovyan
 
-RUN curl -fsSL http://statgen.us/files/vat.tar.bz2 -o work/vat.tar.bz2 && tar jxvf vat.tar.bz2 && rm -f vat.tar.bz2
+RUN curl -fsSL http://statgen.us/files/vat.tar.bz2 -o vat.tar.bz2 && tar jxvf vat.tar.bz2 && rm -f vat.tar.bz2
 ARG DUMMY=unknown
 RUN DUMMY=${DUMMY} curl -fsSL https://raw.githubusercontent.com/statgenetics/statgen-courses/master/notebooks/VAT.ipynb -o VAT.ipynb
