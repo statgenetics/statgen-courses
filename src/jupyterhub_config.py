@@ -31,11 +31,17 @@ c.Spawner.default_url = '/lab'
 # set a reasonable number of concurrent users
 c.JupyterHub.active_server_limit = 20
 
+# mount volumes
+c.DockerSpawner.volumes = {
+    #'/path/on/host': '/path/in/container'
+    os.path.expanduser('~'): '/home/jovyan/work'
+}
+
 # kill idle server after a while
 c.JupyterHub.services = [
      {
          'name': 'cull-idle',
          'admin': True,
-         'command': [sys.executable, 'cull_idle_servers.py', '--timeout=3600'],
+         'command': [sys.executable, 'cull_idle_servers.py', '--timeout=86400'],
      }
 ]

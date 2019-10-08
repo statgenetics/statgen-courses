@@ -15,13 +15,14 @@ def is_port_in_use(port):
 output: "cull_idle_servers.py", "jupyterhub_config.py"
 bash:
     docker pull gaow/base-notebook
-    curl -fsSL https://raw.githubusercontent.com/statgenetics/statgen-courses/master/src/cull_idle_servers.py -o cull_idle_servers.py
-    curl -fsSL https://raw.githubusercontent.com/statgenetics/statgen-courses/master/src/jupyterhub_config.py -o jupyterhub_config.py
+    mkdir -p $HOME/.cache
+    curl -fsSL https://raw.githubusercontent.com/statgenetics/statgen-courses/master/src/cull_idle_servers.py -o $HOME/.cache/cull_idle_servers.py
+    curl -fsSL https://raw.githubusercontent.com/statgenetics/statgen-courses/master/src/jupyterhub_config.py -o $HOME/.cache/jupyterhub_config.py
 
 [launch_2]
 fail_if(len(tutorials) == 0, msg = 'Please specify a list of tutorials to launch.')
 input: for_each = 'tutorials', concurrent = False
-docker_build: tag = f'{_tutorials}_hub', expand = True
+docker_build: tag = f'{_tutorials}_hub', expand = True, workdir = '~/.cache'
     FROM gaow/base-notebook
     USER root
     RUN mkdir -p /srv/jupyterhub/
@@ -33,7 +34,6 @@ docker_build: tag = f'{_tutorials}_hub', expand = True
     WORKDIR /srv/jupyterhub/
     LABEL org.jupyter.service="jupyterhub"
     CMD ["jupyterhub"]
-
 
 [launch_3]
 import random
@@ -49,12 +49,12 @@ from sos.utils import get_output
 ip = get_output("hostname -I | awk '{print $1}'").strip()
 #
 input: for_each = 'tutorials', concurrent = False
-bash: expand = True
+bash: expand = True, workdir = '~/'
+    # Get the relevant image
+    docker pull statisticalgenetics/{_tutorials}
     # Stop currently running instances to start from scratch
     docker container stop $(docker container ls -q --filter ancestor=statisticalgenetics/{_tutorials}) &> /dev/null || true
     docker container stop $(docker container ls -q --filter ancestor={_tutorials}_hub) &> /dev/null || true
-    # Get the relevant image
-    docker pull statisticalgenetics/{_tutorials}
     # Start jupyterhub
     docker network inspect {_tutorials}_hub &>/dev/null || docker network create {_tutorials}_hub
     docker run --rm -it -d -v /var/run/docker.sock:/var/run/docker.sock --net {_tutorials}_hub --name {_tutorials}_hub -p{ports[_index]}:8000 {_tutorials}_hub
