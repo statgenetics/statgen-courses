@@ -38,9 +38,19 @@ To set it up for selected tutorial, for example for `vat` and `pseq` tutorials,
 statgen-setup launch --tutorials vat pseq
 ```
 
-## Other TODO
+## Render the HTML static website for notebooks
 
-- Add a script to render a HTML static website from the notebooks for people to view online here.
+You need to have `sos` installed if you don't already:
+
+```bash
+pip install sos -U
+```
+
+To generate the website,
+
+```bash
+./release
+```
 
 # For users
 
