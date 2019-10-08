@@ -12,7 +12,7 @@ c.JupyterHub.hub_ip = '0.0.0.0'
 # this is usually the hub container's name
 c.JupyterHub.hub_connect_ip = 'jupyterhub'
 
-# pick a docker image. This should have the same version of jupyterhub
+# pick a docker image. This should have the same version of Jupyterhub
 # in it as our Hub.
 c.DockerSpawner.image = 'IMAGE_NAME_PLACE_HOLDER'
 
