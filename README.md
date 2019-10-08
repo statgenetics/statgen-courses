@@ -35,3 +35,18 @@ To set it up for selected tutorial, for example for `vat` and `pseq` tutorials,
 ```bash
 statgen-setup launch --tutorials vat pseq
 ```
+
+# For users
+
+To view a specific tutorial, say, `vat`, you can simply type in your browser:
+
+```
+http://<ip-address>/vat.html
+```
+
+The server will configure itself the first time it launches; you will then be directed to a JupyterLab interface. 
+Then you should see in the a notebook file `*.ipynb` on the left panel. Click on it to start running the tutorial.
+
+**Note: the session will be there for you until it is killed explicitly, or until the server kills it periodically.**
+**It strongly encouraged that you download and save the notebook for yourself, after you completed the tutorial.**
+**To do this, simply right click on the notebook to bring up the dropdown menu, and click `Download` to download the notebook to your computer to save your own copy.**
