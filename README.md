@@ -16,7 +16,7 @@ docker push gaow/base-notebook
 Similiarly to build other images, eg, `vat`, and push to dockerhub,
 
 ```bash
-docker build -t statisticalgenetics/vat -f docker/vat.dockerfile docker 
+docker build --build-arg DUMMY=`date +%s` -t statisticalgenetics/vat -f docker/vat.dockerfile docker 
 docker push statisticalgenetics/vat
 ```
 
@@ -33,5 +33,5 @@ You will find `vm-setup.sh` script in `src` folder of this repo.
 To set it up for selected tutorial, for example for `vat` and `pseq` tutorials,
 
 ```bash
-statgen-setup launch --tutorials vat pseq 
+statgen-setup launch --tutorials vat pseq
 ```

@@ -16,5 +16,6 @@ RUN conda install -c https://conda.binstar.org/bpeng variant_tools && \
     conda clean --all && rm -rf /tmp/* $HOME/.caches
 
 WORKDIR $HOME
-
-RUN curl -fsSL https://raw.githubusercontent.com/statgenetics/statgen-courses/master/notebooks/VAT.ipynb -o VAT.ipynb
+RUN curl -fsSL http://statgen.us/data/vat.tar.bz2 -o work/vat.tar.bz2 && cd work && tar jxvf vat.tar.bz2 && rm -f vat.tar.bz2 && cd -
+ARG DUMMY=unknown
+RUN DUMMY=${DUMMY} curl -fsSL https://raw.githubusercontent.com/statgenetics/statgen-courses/master/notebooks/VAT.ipynb -o VAT.ipynb
