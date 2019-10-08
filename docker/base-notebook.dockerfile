@@ -2,10 +2,7 @@ FROM jupyter/base-notebook:hub-1.0.0
 
 MAINTAINER Gao Wang <gw2411@columbia.edu>
 
-WORKDIR /tmp
-
 USER root
-
 # Tools
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
@@ -30,9 +27,11 @@ RUN apt-get update \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /var/log/dpkg.log
 
-# R environment
-RUN apt-get update \
-    && apt-get install -y r-base r-base-dev \
+# R environment, for version 3.5
+RUN add-apt-repository 'deb https://cloud.r-project.org/bin/linux/ubuntu bionic-cran35/' \
+    && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E084DAB9 \
+    && apt-get update \
+    && apt-get install -y r-base r-base-dev r-base-core \
     && apt-get clean
 
 RUN R --slave -e "for (p in c('dplyr', 'stringr', 'readr', 'magrittr', 'ggplot2')) if (!require(p, character.only=TRUE)) install.packages(p, repos = 'http://cran.rstudio.com')"
