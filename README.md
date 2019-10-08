@@ -73,4 +73,6 @@ There are two ways to do this:
 
 ## Convert tutorials to HTML and PDF format to download
 
-FIXME: will update this later
+All notebooks can be viewed at: 
+
+https://statgenetics.github.io/statgen-courses/notebooks.html
