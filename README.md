@@ -1,8 +1,10 @@
 # For developers
 
-`docker` folder contains files for docker images to run the statgen course tutorials.
+- `docker` folder contains files for docker images to run the statgen course tutorials.
 The `base-notebook.dockerfile` is used to build a barebone Jupyter / SoS Notebook environment for scientific computing.
 Other course specific docker images will be built on top of this base image.
+- `notebook` folder contains all tutorial notebooks.
+- `src` folder contains utility scripts eg, tools to setup the Jupyter server online.
 
 ## Build docker images
 
@@ -38,6 +40,8 @@ statgen-setup launch --tutorials vat pseq
 
 # For users
 
+## Run tutorials
+
 To view a specific tutorial, say, `vat`, you can simply type in your browser:
 
 ```
@@ -50,3 +54,9 @@ Then you should see in the a notebook file `*.ipynb` on the left panel. Click on
 **Note: the session will be there for you until it is killed explicitly, or until the server kills it periodically.**
 **It strongly encouraged that you download and save the notebook for yourself, after you completed the tutorial.**
 **To do this, simply right click on the notebook to bring up the dropdown menu, and click `Download` to download the notebook to your computer to save your own copy.**
+
+## Convert tutorials to HTML and PDF format to download
+
+FIXME: will update this later
+
+
