@@ -38,6 +38,11 @@ To set it up for selected tutorial, for example for `vat` and `pseq` tutorials,
 statgen-setup launch --tutorials vat pseq
 ```
 
+## Other TODO
+
+- Add a script to render a HTML static website from the notebooks for people to view online here.
+
+
 # For users
 
 ## Run tutorials
@@ -58,5 +63,6 @@ Then you should see in the a notebook file `*.ipynb` on the left panel. Click on
 ## Convert tutorials to HTML and PDF format to download
 
 FIXME: will update this later
+
 
 

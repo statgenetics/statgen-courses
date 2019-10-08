@@ -51,8 +51,8 @@ ip = get_output("hostname -I | awk '{print $1}'").strip()
 input: for_each = 'tutorials', concurrent = False
 bash: expand = True
     # Stop currently running instances to start from scratch
-    docker container stop $(docker container ls -q --filter name={_tutorials}) &> /dev/null || true
-    docker container stop $(docker container ls -q --filter name={_tutorials}_hub) &> /dev/null || true
+    docker container stop $(docker container ls -q --filter ancestor=statisticalgenetics/{_tutorials}) &> /dev/null || true
+    docker container stop $(docker container ls -q --filter ancestor={_tutorials}_hub) &> /dev/null || true
     # Get the relevant image
     docker pull statisticalgenetics/{_tutorials}
     # Start jupyterhub
