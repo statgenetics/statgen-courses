@@ -3,4 +3,5 @@ docs/index.tpl
 docs/js/docs.js
 docs/notebooks.html
 docs/notebooks.tpl
+docs/notebooks/PSEQ.html
 docs/notebooks/VAT.html
