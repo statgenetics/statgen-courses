@@ -48,6 +48,9 @@ RUN curl -fsSL https://github.com/vatlab/varianttools/archive/v3.0.3.zip -o vtoo
     && unzip -qq vtools.zip && cd varianttools-3.0.3 && mv ../zeromq-4.0.3 ./src && mv ../boost_1_49_0 ./src \
     && python setup.py install && cd .. && rm -rf vtools.zip varianttools-3.0.3
 
+# Fix an ImageMagic policy issue to allow view PDF files
+sed -i 's/<policy domain="coder" rights="none" pattern="PDF" \/>/<policy domain="coder" rights="read|write" pattern="PDF" \/>/g' /etc/ImageMagick-6/policy.xml
+
 # Download notebook script and clean up output in the notebook
 USER jovyan
 ENV HDF5_USE_FILE_LOCKING FALSE

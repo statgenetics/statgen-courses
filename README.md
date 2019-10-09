@@ -75,7 +75,7 @@ You also need to have `sos` installed on your local computer to run the command 
 
 ## Convert (roughly) from MS Word to Notebook
 
-Commands below will provide a rough conversion from Word file to Notebook file:
+Commands below will provide a rough conversion from `docx` file (`doc` files will not work!) to Notebook file:
 
 ```bash
 pandoc -s exercise.docx -t markdown -o exercise.md
