@@ -12,8 +12,9 @@ RUN echo "deb [trusted=yes] http://statgen.us/deb ./" | tee -a /etc/apt/sources.
 
 RUN ln -s /usr/bin/plink1 /usr/local/bin/plink
 
-# https://github.com/vatlab/varianttools/blob/master/development/docker/Dockerfile
-
+# https://community.paperspace.com/t/storage-and-h5py-pytables-e-g-keras-save-weights-issues-heres-why-and-how-to-solve-it/430
+# HDF5 locking issues
+ENV HDF5_USE_FILE_LOCKING FALSE
 RUN curl -fsSL -o hdf5-1.10.5.tar.gz http://www.hdfgroup.org/ftp/HDF5/current/src/hdf5-1.10.5.tar.gz \
  && tar -zxvf hdf5-1.10.5.tar.gz \
  && cd hdf5-1.10.5 \
@@ -42,9 +43,7 @@ RUN curl -fsSL http://statgen.us/files/vat-data.tar.bz2 -o vat-data.tar.bz2 && t
 # Install variant tools from source code
 # Do it here to make future version updates easier
 USER root
-# https://community.paperspace.com/t/storage-and-h5py-pytables-e-g-keras-save-weights-issues-heres-why-and-how-to-solve-it/430
-# HDF5 locking issues
-ENV HDF5_USE_FILE_LOCKING FALSE
+# https://github.com/vatlab/varianttools/blob/master/development/docker/Dockerfile
 RUN curl -fsSL https://github.com/vatlab/varianttools/archive/v3.0.3.zip -o vtools.zip \
     && unzip -qq vtools.zip && cd varianttools-3.0.3 && mv ../zeromq-4.0.3 ./src && mv ../boost_1_49_0 ./src \
     && python setup.py install && cd .. && rm -rf vtools.zip varianttools-3.0.3
