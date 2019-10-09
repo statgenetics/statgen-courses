@@ -12,9 +12,6 @@ RUN echo "deb [trusted=yes] http://statgen.us/deb ./" | tee -a /etc/apt/sources.
 
 RUN ln -s /usr/bin/plink1 /usr/local/bin/plink
 
-# https://community.paperspace.com/t/storage-and-h5py-pytables-e-g-keras-save-weights-issues-heres-why-and-how-to-solve-it/430
-# HDF5 locking issues
-ENV HDF5_USE_FILE_LOCKING FALSE
 RUN curl -fsSL -o hdf5-1.10.5.tar.gz http://www.hdfgroup.org/ftp/HDF5/current/src/hdf5-1.10.5.tar.gz \
  && tar -zxvf hdf5-1.10.5.tar.gz \
  && cd hdf5-1.10.5 \
@@ -22,7 +19,6 @@ RUN curl -fsSL -o hdf5-1.10.5.tar.gz http://www.hdfgroup.org/ftp/HDF5/current/sr
  && make -j4 \
  && make install \
  && cd .. && rm -rf hdf5-1.10.5.tar.gz hdf5-1.10.5
-
 
 RUN curl -fsSL -o zeromq-4.0.3.tar.gz http://download.zeromq.org/zeromq-4.0.3.tar.gz \
   && tar -zxvf zeromq-4.0.3.tar.gz && rm -f zeromq-4.0.3.tar.gz
@@ -48,11 +44,10 @@ RUN curl -fsSL https://github.com/vatlab/varianttools/archive/v3.0.3.zip -o vtoo
     && unzip -qq vtools.zip && cd varianttools-3.0.3 && mv ../zeromq-4.0.3 ./src && mv ../boost_1_49_0 ./src \
     && python setup.py install && cd .. && rm -rf vtools.zip varianttools-3.0.3
 
-# Fix an ImageMagic policy issue to allow view PDF files
-sed -i 's/<policy domain="coder" rights="none" pattern="PDF" \/>/<policy domain="coder" rights="read|write" pattern="PDF" \/>/g' /etc/ImageMagick-6/policy.xml
-
 # Download notebook script and clean up output in the notebook
 USER jovyan
+# https://community.paperspace.com/t/storage-and-h5py-pytables-e-g-keras-save-weights-issues-heres-why-and-how-to-solve-it/430
+# HDF5 locking issues
 ENV HDF5_USE_FILE_LOCKING FALSE
 ARG DUMMY=unknown
 RUN DUMMY=${DUMMY} curl -fsSL https://raw.githubusercontent.com/statgenetics/statgen-courses/master/notebooks/VAT.ipynb -o VAT.ipynb

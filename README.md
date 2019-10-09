@@ -54,25 +54,6 @@ To generate the website,
 
 To publish the website, simply add contents in `docs/` folder to the github repository and push to github.
 
-## Render PDF version of the tutorials
-
-On your local computer:
-
-```bash
-cd notebooks
-curl -fsSL https://raw.githubusercontent.com/gaow/pandoc-chs/master/release -o ipynb2pdf && chmod +x ipynb2pdf
-curl -fsSL https://raw.githubusercontent.com/gaow/pandoc-chs/master/pm-template.latex -o pm-template.latex
-docker pull gaow/debian-texlive
-```
-
-Then to convert, say `VAT.ipynb` to `VAT.pdf`
-
-```bash
-./ipynb2pdf --notebook VAT.ipynb --fontsize 11pt --titlepage False --numbersections 0
-```
-
-You also need to have `sos` installed on your local computer to run the command above.
-
 ## Convert (roughly) from MS Word to Notebook
 
 Commands below will provide a rough conversion from `docx` file (`doc` files will not work!) to Notebook file:
@@ -114,3 +95,5 @@ There are two ways to do this:
 - Save to your computer (recommended): to do this, simply right click on the notebook to bring up the dropdown menu, and click `Download` to download the notebook to your computer to save your own copy.
 - Save on the cloud server: copy the notebook (or other files) you want to save to `work` folder found in the left panel showing the directory tree. This will be saved to the cloud server's `$HOME/<my-name>`
 folder where `<my-name>` is an identification used to create the JupyterHub server (default is `hub_user`). **This is a shared folder for potentially exchange data among whoever has the link to the tutorial so if you want to store data here please create subfolders in it with your own name identifier, and save your stuff there.**.
+
+## Convert & Save tutorials to MS Word format
