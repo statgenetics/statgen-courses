@@ -6,7 +6,7 @@ USER root
 
 RUN echo "deb [trusted=yes] http://statgen.us/deb ./" | tee -a /etc/apt/sources.list.d/statgen.list && \
     apt-get update && \
-    apt-get install -y annovar annovar-humandb statgen-king && \ 
+    apt-get install -y annovar annovar-humandb statgen-king plink && \
     apt-get clean
 
 # Install variant tools
@@ -35,11 +35,12 @@ RUN curl -fsSL https://github.com/vatlab/varianttools/archive/v3.0.3.zip -o vtoo
 
 # https://community.paperspace.com/t/storage-and-h5py-pytables-e-g-keras-save-weights-issues-heres-why-and-how-to-solve-it/430
 # HDF5 locking issues
-ENV     HDF5_USE_FILE_LOCKING FALSE
+ENV HDF5_USE_FILE_LOCKING FALSE
 
 USER jovyan
 
 RUN curl -fsSL http://statgen.us/files/vat.tar.bz2 -o vat.tar.bz2 && tar jxvf vat.tar.bz2 && rm -f vat.tar.bz2
+RUN curl -fsSL http://statgen.us/files/vat-cache.tar.bz2 -o vat-cache.tar.bz2 && tar jxvf vat-cache.tar.bz2 && rm -f vat-cache.tar.bz2
 ARG DUMMY=unknown
 RUN DUMMY=${DUMMY} curl -fsSL https://raw.githubusercontent.com/statgenetics/statgen-courses/master/notebooks/VAT.ipynb -o VAT.ipynb
 RUN jupyter nbconvert --ClearOutputPreprocessor.enabled=True --inplace VAT.ipynb
