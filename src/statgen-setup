@@ -5,6 +5,7 @@
 # List of tutorials to launch
 # see https://hub.docker.com/u/statisticalgenetics/ for a list of options
 parameter: tutorials = []
+parameter: my_name = 'hub_user'
 
 import socket
 def is_port_in_use(port):
@@ -20,22 +21,25 @@ bash:
     curl -fsSL https://raw.githubusercontent.com/statgenetics/statgen-courses/master/src/jupyterhub_config.py -o $HOME/.cache/jupyterhub_config.py
 
 [launch_2]
-fail_if(len(tutorials) == 0, msg = 'Please specify a list of tutorials to launch.')
+fail_if(len(tutorials) == 0, msg = 'Please specify a list of tutorials to launch, via ``--tutorials`` option.')
+fail_if(len(my_name) == 0, msg = 'Please assign yourself a username, via ``--my-name`` option.')
+fail_if(not all(a.isalnum() and not a.isspace() for a in my_name), msg = 'Please use only alphanumeric letters and no space for ``--my-name`` input.')
 input: for_each = 'tutorials', concurrent = False
-docker_build: tag = f'{_tutorials}_hub', expand = True, workdir = '~/.cache'
+docker_build: tag = f'{_tutorials}_{my_name}', expand = True, workdir = '~/.cache'
     FROM gaow/base-notebook
     USER root
     RUN mkdir -p /srv/jupyterhub/
     COPY jupyterhub_config.py /srv/jupyterhub/jupyterhub_config.py
     COPY cull_idle_servers.py /srv/jupyterhub/cull_idle_servers.py
-    # modify the script to 
-    RUN sed -i 's/jupyterhub/{_tutorials}_hub/g; s/IMAGE_NAME_PLACE_HOLDER/statisticalgenetics\/{_tutorials}/g' /srv/jupyterhub/jupyterhub_config.py
+    # modify the script to create a unique instance
+    RUN sed -i 's/CONTAINER_NAME/{_tutorials}_{my_name}/g; s/IMAGE_NAME/statisticalgenetics\/{_tutorials}/g; s/HOST_DIR/\/root\/{my_name}/g' /srv/jupyterhub/jupyterhub_config.py
     EXPOSE 8000
     WORKDIR /srv/jupyterhub/
     LABEL org.jupyter.service="jupyterhub"
     CMD ["jupyterhub"]
 
 [launch_3]
+depends: executable('setfacl')
 import random
 all_ports = list(range(1001, 8888))
 random.shuffle(all_ports)
@@ -54,11 +58,14 @@ bash: expand = True, workdir = '~/'
     docker pull statisticalgenetics/{_tutorials}
     # Stop currently running instances to start from scratch
     docker container stop $(docker container ls -q --filter ancestor=statisticalgenetics/{_tutorials}) &> /dev/null || true
-    docker container stop $(docker container ls -q --filter name={_tutorials}_hub) &> /dev/null || true
+    docker container stop $(docker container ls -q --filter name={_tutorials}_{my_name}) &> /dev/null || true
+    # Create a user folder for notebook instance and set the permission
+    ## https://github.com/jupyterhub/dockerspawner/issues/160
+    ## FIXME: there may be smarter solutions but this is what I have so far
+    mkdir -p $HOME/{my_name} && chown 1000:100 $HOME/{my_name} && chmod g+rws $HOME/{my_name} && setfacl -d -m g::rwx $HOME/{my_name}
     # Start jupyterhub
-    mkdir -p /data && chmod 1777 /data
-    docker network inspect {_tutorials}_hub &>/dev/null || docker network create {_tutorials}_hub
-    docker run --rm -it -d -v /var/run/docker.sock:/var/run/docker.sock --net {_tutorials}_hub --name {_tutorials}_hub -p{ports[_index]}:8000 {_tutorials}_hub
+    docker network inspect {_tutorials}_{my_name} &>/dev/null || docker network create {_tutorials}_{my_name}
+    docker run --rm -it -d -v /var/run/docker.sock:/var/run/docker.sock --net {_tutorials}_{my_name} --name {_tutorials}_{my_name} -p{ports[_index]}:8000 {_tutorials}_{my_name}
     # Create a shortcut to access from browser
     echo '<meta http-equiv="Refresh" content="0; url=http://{ip}:{ports[_index]}" />' > /var/www/html/{_tutorials}.html
 

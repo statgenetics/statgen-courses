@@ -10,14 +10,14 @@ c.JupyterHub.spawner_class = 'dockerspawner.DockerSpawner'
 c.JupyterHub.hub_ip = '0.0.0.0'
 # the hostname/ip that should be used to connect to the hub
 # this is usually the hub container's name
-c.JupyterHub.hub_connect_ip = 'jupyterhub'
+c.JupyterHub.hub_connect_ip = 'CONTAINER_NAME'
 
 # pick a docker image. This should have the same version of Jupyterhub
 # in it as our Hub.
-c.DockerSpawner.image = 'IMAGE_NAME_PLACE_HOLDER'
+c.DockerSpawner.image = 'IMAGE_NAME'
 
 # tell the user containers to connect to our docker network
-c.DockerSpawner.network_name = 'jupyterhub'
+c.DockerSpawner.network_name = 'CONTAINER_NAME'
 
 # delete containers when the stop
 c.DockerSpawner.remove = True
@@ -35,8 +35,8 @@ c.JupyterHub.active_server_limit = 20
 # user `jovyan`, and set the notebook directory to `/home/jovyan/work`.
 #c.DockerSpawner.notebook_dir = os.environ.get('DOCKER_NOTEBOOK_DIR') or '/home/jovyan/work'
 
-# Mount the host folder `/data` (created beforehand and was given proper permissions) to a directory in notebook container
-c.DockerSpawner.volumes = { '/data': {"bind":'/home/jovyan/work', "mode":"rw"} }
+# Mount the host folder, created beforehand and was given proper permissions, to a directory in notebook container
+c.DockerSpawner.volumes = { 'HOST_DIR': {"bind": '/home/jovyan/work', "mode":"rw"} }
 
 # kill idle server after a while
 c.JupyterHub.services = [

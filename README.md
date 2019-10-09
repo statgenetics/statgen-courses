@@ -1,21 +1,16 @@
 # For developers
 
 - `docker` folder contains files for docker images to run the statgen course tutorials.
-The `base-notebook.dockerfile` is used to build a barebone Jupyter / SoS Notebook environment for scientific computing.
-Other course specific docker images will be built on top of this base image.
 - `notebook` folder contains all tutorial notebooks.
 - `src` folder contains utility scripts eg, tools to setup the Jupyter server online.
 
-## Build docker images
+## Build tutorial specific images
 
-To build the base image and push to dockerhub, on your local computer where `docker` is installed,
+[`gaow/base-notebook`](https://cloud.docker.com/u/gaow/repository/docker/gaow/base-notebook), 
+a minimal JupyterHub / SoS Notebook environment for scientific computing, is used to derive
+tutorial specific images in this folder.
 
-```bash
-docker build --build-arg DUMMY=`date +%s` -t gaow/base-notebook -f docker/base-notebook.dockerfile docker
-docker push gaow/base-notebook
-```
-
-Similiarly to build other images, eg, `vat`, and push to dockerhub,
+To build tutorial images and push to dockerhub, eg for `vat` tutorial,
 
 ```bash
 docker build --build-arg DUMMY=`date +%s` -t statisticalgenetics/vat -f docker/vat.dockerfile docker 
@@ -24,15 +19,13 @@ docker push statisticalgenetics/vat
 
 ## Running on the cloud
 
-First, `ssh` to the remote computer assuming `root` access (for a newly purchased VM for example), and run the follow script to setup support environment:
+Say from a VPS service provider (eg, vultr.com) we purchase a Debian based VM droplet (Debian 9 is what I use as I document this). In the root terminal of the VM,
 
 ```bash
+curl -fsSL https://raw.githubusercontent.com/statgenetics/statgen-courses/master/src/vm-setup.sh -o vm-setup.sh
 bash vm-setup.sh
 ```
-
-You will find `vm-setup.sh` script in `src` folder of this repo.
-
-To set it up for selected tutorial, for example for `vat` and `pseq` tutorials,
+To set it up for selected tutorial(s), for example for `vat` and `pseq` tutorials,
 
 ```bash
 statgen-setup launch --tutorials vat pseq
@@ -40,7 +33,8 @@ statgen-setup launch --tutorials vat pseq
 
 ## Render the HTML static website for notebooks
 
-You need to have `sos` installed if you don't already:
+That is, generate https://statgenetics.github.io/statgen-courses/notebooks.html
+To do this you need to have `sos` installed on your local computer if you don't already:
 
 ```bash
 pip install sos -U
@@ -52,7 +46,34 @@ To generate the website,
 ./release
 ```
 
+To publish the website, simply add contents in `docs/` folder to the github repository and push to github.
+
+## Render PDF version of the tutorials
+
+On your local computer:
+
+```bash
+cd notebooks
+curl -fsSL https://raw.githubusercontent.com/gaow/pandoc-chs/master/release -o ipynb2pdf && chmod +x ipynb2pdf
+curl -fsSL https://raw.githubusercontent.com/gaow/pandoc-chs/master/pm-template.latex -o pm-template.latex
+docker pull gaow/debian-texlive
+```
+
+Then to convert, say `VAT.ipynb` to `VAT.pdf`
+
+```bash
+./ipynb2pdf --notebook VAT.ipynb --fontsize 11pt --titlepage False --numbersections 0
+```
+
+You also need to have `sos` installed on your local computer to run the command above.
+
 # For users
+
+## All tutorials
+
+All tutorials can be viewed at: 
+
+https://statgenetics.github.io/statgen-courses/notebooks.html
 
 ## Run tutorials
 
@@ -69,10 +90,5 @@ Then you should see in the a notebook file `*.ipynb` on the left panel. Click on
 **It therefore strongly encouraged that you save your work after you complete the tutorial.**
 There are two ways to do this: 
 - Save to your computer (recommended): to do this, simply right click on the notebook to bring up the dropdown menu, and click `Download` to download the notebook to your computer to save your own copy.
-- Save on the cloud server: copy the notebook (or other files) you want to save to `work` folder found in the left panel showing the directory tree. 
-
-## Convert tutorials to HTML and PDF format to download
-
-All notebooks can be viewed at: 
-
-https://statgenetics.github.io/statgen-courses/notebooks.html
+- Save on the cloud server: copy the notebook (or other files) you want to save to `work` folder found in the left panel showing the directory tree. This will be saved to the cloud server's `$HOME/<my-name>`
+folder where `<my-name>` is an identification used to create the JupyterHub server (default is `hub_user`).

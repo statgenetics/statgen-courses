@@ -1,5 +1,5 @@
 # setup web server
-apt-get update & apt-get install -y nginx
+apt-get update & apt-get install -y nginx acl
 # setup docker
 curl -fsSL get.docker.com -o /tmp/get-docker.sh
 sh /tmp/get-docker.sh
