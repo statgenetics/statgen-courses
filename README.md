@@ -22,13 +22,19 @@ docker push statisticalgenetics/vat
 Say from a VPS service provider (eg, vultr.com) we purchase a Debian based VM droplet (Debian 9 is what I use as I document this). In the root terminal of the VM,
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/statgenetics/statgen-courses/master/src/vm-setup.sh -o vm-setup.sh
-bash vm-setup.sh
+curl -fsSL https://raw.githubusercontent.com/statgenetics/statgen-courses/master/src/vm-setup.sh -o /tmp/vm-setup.sh
+bash /tmp/vm-setup.sh
 ```
 To set it up for selected tutorial(s), for example for `vat` and `pseq` tutorials,
 
 ```bash
 statgen-setup launch --tutorials vat pseq
+```
+
+For maintainance, to shutdown all containers and clean up the dangling ones,
+
+```bash
+statgen-setup clean
 ```
 
 ## Render the HTML static website for notebooks

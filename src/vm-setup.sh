@@ -10,8 +10,3 @@ conda install -y -c conda-forge sos
 # utility script for running tutorials
 curl -fsSL https://raw.githubusercontent.com/statgenetics/statgen-courses/master/src/statgen-setup -o /usr/local/bin/statgen-setup
 chmod +x /usr/local/bin/statgen-setup
-# utility script to export notebook to PDF
-curl -fsSL https://raw.githubusercontent.com/gaow/pandoc-chs/master/release -o /usr/local/bin/ipynb2pdf
-chmod +x /usr/local/bin/ipynb2pdf
-curl -fsSL https://raw.githubusercontent.com/gaow/pandoc-chs/master/pm-template.latex -o $HOME/pm-template.latex
-docker pull gaow/debian-texlive

@@ -23,7 +23,7 @@ bash:
 [launch_2]
 fail_if(len(tutorials) == 0, msg = 'Please specify a list of tutorials to launch, via ``--tutorials`` option.')
 fail_if(len(my_name) == 0, msg = 'Please assign yourself a username, via ``--my-name`` option.')
-fail_if(not all(a.isalnum() and not a.isspace() for a in my_name), msg = 'Please use only alphanumeric letters and no space for ``--my-name`` input.')
+fail_if(not all((a.isalnum() or a == '_') and not a.isspace() for a in my_name), msg = 'Please use only alphanumeric letters and no space for ``--my-name`` input.')
 input: for_each = 'tutorials', concurrent = False
 docker_build: tag = f'{_tutorials}_{my_name}', expand = True, workdir = '~/.cache'
     FROM gaow/base-notebook
