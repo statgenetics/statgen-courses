@@ -73,6 +73,17 @@ Then to convert, say `VAT.ipynb` to `VAT.pdf`
 
 You also need to have `sos` installed on your local computer to run the command above.
 
+## Converting (roughly) from MS Word to Notebook
+
+Commands below will provide a rough conversion from Word file to Notebook file:
+
+```bash
+pandoc -s exercise.docx -t markdown -o exercise.md
+notedown exercise.md > exercise.ipynb
+```
+
+However, manual polishment is still needed after the automatic conversion. This is just a start point.
+
 # For users
 
 ## All tutorials
