@@ -4,12 +4,13 @@ MAINTAINER Gao Wang <gw2411@columbia.edu>
 
 USER root
 
+# Install dependency tools
 RUN echo "deb [trusted=yes] http://statgen.us/deb ./" | tee -a /etc/apt/sources.list.d/statgen.list && \
     apt-get update && \
     apt-get install -y annovar annovar-humandb statgen-king plink && \
     apt-get clean
 
-# Install variant tools
+# Install variant tools from source code
 # https://github.com/vatlab/varianttools/blob/master/development/docker/Dockerfile
 
 RUN curl -fsSL -o hdf5-1.10.5.tar.gz http://www.hdfgroup.org/ftp/HDF5/current/src/hdf5-1.10.5.tar.gz \
@@ -38,6 +39,7 @@ RUN curl -fsSL https://github.com/vatlab/varianttools/archive/v3.0.3.zip -o vtoo
 # HDF5 locking issues
 ENV HDF5_USE_FILE_LOCKING FALSE
 
+# Download data and notebook script
 USER jovyan
 
 RUN curl -fsSL http://statgen.us/files/vat.tar.bz2 -o vat.tar.bz2 && tar jxvf vat.tar.bz2 && rm -f vat.tar.bz2
