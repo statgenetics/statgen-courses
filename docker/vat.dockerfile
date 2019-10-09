@@ -12,7 +12,7 @@ RUN echo "deb [trusted=yes] http://statgen.us/deb ./" | tee -a /etc/apt/sources.
 # Install variant tools
 # https://github.com/vatlab/varianttools/blob/master/development/docker/Dockerfile
 
-RUN wget http://www.hdfgroup.org/ftp/HDF5/current/src/hdf5-1.10.5.tar.gz \
+RUN curl -fsSL -o hdf5-1.10.5.tar.gz http://www.hdfgroup.org/ftp/HDF5/current/src/hdf5-1.10.5.tar.gz \
  && tar -zxvf hdf5-1.10.5.tar.gz \
  && cd hdf5-1.10.5 \
  && ./configure --prefix=/usr/local --enable-build-mode=production --enable-threadsafe --disable-hl \
