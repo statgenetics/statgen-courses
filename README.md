@@ -17,7 +17,7 @@ docker build --build-arg DUMMY=`date +%s` -t statisticalgenetics/vat -f docker/v
 docker push statisticalgenetics/vat
 ```
 
-## Running on the cloud
+## Serve on the cloud
 
 Say from a VPS service provider (eg, vultr.com) we purchase a Debian based VM droplet (Debian 9 is what I use as I document this). In the root terminal of the VM,
 
@@ -37,7 +37,7 @@ For maintainance, to shutdown all containers and clean up the dangling ones,
 statgen-setup clean
 ```
 
-## Render the HTML static website for notebooks
+## Render HTML static website for notebooks
 
 That is, generate https://statgenetics.github.io/statgen-courses/notebooks.html
 To do this you need to have `sos` installed on your local computer if you don't already:
@@ -73,7 +73,7 @@ Then to convert, say `VAT.ipynb` to `VAT.pdf`
 
 You also need to have `sos` installed on your local computer to run the command above.
 
-## Converting (roughly) from MS Word to Notebook
+## Convert (roughly) from MS Word to Notebook
 
 Commands below will provide a rough conversion from Word file to Notebook file:
 
@@ -82,7 +82,12 @@ pandoc -s exercise.docx -t markdown -o exercise.md
 notedown exercise.md > exercise.ipynb
 ```
 
-However, manual polishment is still needed after the automatic conversion. This is just a start point.
+The notedown program can be installed via `pip install notedown`. 
+
+Manual polishment is still needed after the automatic conversion. This is just a start point.
+Specifically, it will be important to separate codes from text to different Notebook cells,
+and assign to each cell the approperate kernel if using SoS multi-language Notebook. Command output should also be
+removed from the text because they will be generated automatically and formatted better, after executing the notebook.
 
 # For users
 
