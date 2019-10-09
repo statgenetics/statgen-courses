@@ -45,7 +45,8 @@ ENV HDF5_USE_FILE_LOCKING FALSE
 USER jovyan
 
 RUN curl -fsSL http://statgen.us/files/vat.tar.bz2 -o vat.tar.bz2 && tar jxvf vat.tar.bz2 && rm -f vat.tar.bz2
-RUN curl -fsSL http://statgen.us/files/vat-cache.tar.bz2 -o vat-cache.tar.bz2 && tar jxvf vat-cache.tar.bz2 && rm -f vat-cache.tar.bz2
+RUN curl -fsSL http://statgen.us/files/vat-cache.tar.bz2 -o vat-cache.tar.bz2 && tar jxvf vat-cache.tar.bz2 \
+    && rm -f vat-cache.tar.bz2 && rm -rf .variant_tools/.runtime .vtools_cache/.runtime
 ARG DUMMY=unknown
 RUN DUMMY=${DUMMY} curl -fsSL https://raw.githubusercontent.com/statgenetics/statgen-courses/master/notebooks/VAT.ipynb -o VAT.ipynb
 RUN jupyter nbconvert --ClearOutputPreprocessor.enabled=True --inplace VAT.ipynb
