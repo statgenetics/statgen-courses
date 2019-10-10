@@ -97,3 +97,8 @@ There are two ways to do this:
 folder where `<my-name>` is an identification used to create the JupyterHub server (default is `hub_user`). **This is a shared folder for potentially exchange data among whoever has the link to the tutorial so if you want to store data here please create subfolders in it with your own name identifier, and save your stuff there.**.
 
 ## Convert & Save tutorials to MS Word format
+
+We have the server configured to make it possible to export a notebook as `docx` file (MS Word format) 
+to your local computer. To do this, simply click on `File` botton in the menu bar at the top left of the
+notebook interface, then `Export Notebook As -> Export Notebook to Docx`. Notice that PDF format export is
+currently not supported in our setup (requires `xelatex` which we don't install in our server).
