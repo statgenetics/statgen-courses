@@ -237,7 +237,7 @@ body {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Association-Analysis-of-Sequence-Data-using-Variant-Association-Tools-(VAT)-for-Complex-Traits">Association Analysis of Sequence Data using Variant Association Tools (VAT) for Complex Traits<a class="anchor-link" href="#Association-Analysis-of-Sequence-Data-using-Variant-Association-Tools-(VAT)-for-Complex-Traits">&#182;</a></h1><p>Copyright (c) 2019, Gao Wang, Diana Cornejo Sánchez &amp; Suzanne M. Leal</p>
+<h1 id="Association-Analysis-of-Sequence-Data-using-Variant-Association-Tools-(VAT)-for-Complex-Traits">Association Analysis of Sequence Data using Variant Association Tools (VAT) for Complex Traits<a class="anchor-link" href="#Association-Analysis-of-Sequence-Data-using-Variant-Association-Tools-(VAT)-for-Complex-Traits">&#182;</a></h1><p>Copyright (c) 2019 Gao Wang, Diana Cornejo Sánchez &amp; Suzanne M. Leal</p>
 
 </div>
 </div>
@@ -4497,25 +4497,176 @@ PLXDC1	5.296E-02
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><font size="+3"> References</font></p>
-<p>[1] Wang, G.T., Peng, B., and Leal, S.M. (2014). Variant Association Tools for Quality Control and Analysis of Large-Scale Sequence and Genotyping Array Data. Am. J. Hum. Genet. 94, 770783</p>
-<p>[2] Li B, Leal SM. Methods for detecting associations with rare variants for common diseases: application to analysis of sequence data. Am J Hum Genet 2008 83:311-21</p>
-<p>[3] Auer PL, Wang G, Leal SM. Testing for rare variant associations in the presence of missing data. Genet Epidemiol 2013 37:529-38</p>
-<p>[4] Liu DJ, Leal SM. A novel adaptive method for the analysis of next-generation sequencing data to detect com-plex trait associations with rare variants due to gene main effects and interactions. PLoS Genet 2010 6:e1001156</p>
-<p>[5] Madsen BE, Browning SR. A groupwise association test for rare mutations using a weighted sum statistic. PLoS Genet 2009 5:e1000384</p>
-<p>[6] Price AL, Kryukov GV, de Bakker PI, Purcell SM, Staples J, Wei LJ, Sunyaev SR. Pooled association tests for rare variants in exon-resequencing studies. Am J Hum Genet 20010 86:832-8</p>
-<p>[7] Wu MC, Lee S, Cai T, Li Y, Boehnke M, Lin X. Rare-variant association testing for sequencing data with the sequence kernel association test. Am J Hum Genet 2011 89:82-93</p>
-<p>[8] Lucas FAS, Wang G, Scheet P, Peng B. Integrated annotation and analysis of genetic variants from next-generation sequencing studies with variant tools. Bioinformatics 2012 28:421-2</p>
-<p>[9] Wang K, Li M, Hakonarson H. ANNOVAR: functional annotation of genetic variants from high-throughput sequencing data. Nucleic Acids Res 2010 38:e164</p>
-<p>[10] Manichaikul A, Mychaleckyj JC, Rich SS, Daly K, Sale M, Chen WM. Robust relationship inference in genome-wide association studies. Bioinformatics 2010 26(22):2867-2873</p>
-<p>[11] Purcell S, Neale B, Todd-Brown K, Thomas L, Ferreira MAR, Bender D, Maller J, Sklar P, de Bakker PIW, Daly MJ &amp; Sham PC. PLINK: a toolset for whole-genome association and population-based linkage analysis. Am J Hum Genet, 2007 81:559-75</p>
+<h2 id="Questions">Questions<a class="anchor-link" href="#Questions">&#182;</a></h2><h3 id="Question-1">Question 1<a class="anchor-link" href="#Question-1">&#182;</a></h3><p>List the four lowest p-values and associated variants or gene regions for the EA <code>CV.asso.res</code>, <code>EA RV.asso.res</code>, and <code>EA RV VT.asso.res</code> test outputs, which are results from single variant Wald test, rare variant BRV and VT tests, respectively, using the European American (CEU) population. Also, list the results using Yoruba African (YRI) population from <code>YA CV.asso.res</code>, <code>YA RV.asso.res</code> and <code>YA RV VT.asso.res</code>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>EA CV.asso.res - single variant tests using CEU</p>
+<p>1)</p>
+<p>2)</p>
+<p>3)</p>
+<p>4)</p>
+<p>EA RV.asso.res - BRV tests using CEU</p>
+<p>1)</p>
+<p>2)</p>
+<p>3)</p>
+<p>4)</p>
+<p>EA RV VT.asso.res - VT tests using CEU</p>
+<p>1)</p>
+<p>2)</p>
+<p>3)</p>
+<p>4)</p>
+<p>YA CV.asso.res - single variant tests using YRI</p>
+<p>1)</p>
+<p>2)</p>
+<p>3)</p>
+<p>4)</p>
+<p>YA RV.asso.res - BRV tests using YRI</p>
+<p>1)</p>
+<p>2)</p>
+<p>3)</p>
+<p>4)</p>
+<p>YA RV VT.asso.res - VT tests using YRI</p>
+<p>1)</p>
+<p>2)</p>
+<p>3)</p>
+<p>4)</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Question-2">Question 2<a class="anchor-link" href="#Question-2">&#182;</a></h3><p>List any gene regions that show up in the lowest eight p-values for both the BRV and the VT tests. Why might the p-values for the VT tests be higher than the p-values for the BRV tests? Are any of the top p-value hits significant? Why or why not?</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Answers">Answers<a class="anchor-link" href="#Answers">&#182;</a></h2><h3 id="Question-1">Question 1<a class="anchor-link" href="#Question-1">&#182;</a></h3><p>EA CV.asso.res</p>
+<ol>
+<li>107888886 0.000105185</li>
+<li>15869257 0.00038548</li>
+<li>56293401 0.000386273</li>
+<li>15869388 0.00279873</li>
+</ol>
+<p>EA RV.asso.res</p>
+<ol>
+<li>CIDEA 0.00504822</li>
+<li>UGT1A10 0.00549521</li>
+<li>UGT1A5 0.00549521</li>
+<li>UGT1A6 0.00549521</li>
+</ol>
+<p>EA RV VT.asso.res</p>
+<ol>
+<li>UGT1A9 0.007996</li>
+<li>CPED1 0.00999001</li>
+<li>UGT1A10 0.00999001</li>
+<li>UGT1A6 0.011988</li>
+</ol>
+<p>YA CV.asso.res</p>
+<ol>
+<li>107888886 0.00000974</li>
+<li>6003506 0.000211457</li>
+<li>25901623 0.001329</li>
+<li>3392651 0.00194995</li>
+</ol>
+<p>YA RV.asso.res</p>
+<ol>
+<li>EMILIN2 0.00262487</li>
+<li>ASIC2 0.0551664</li>
+<li>MDN1 0.0593085</li>
+<li>BAZ2B 0.0607625</li>
+</ol>
+<p>YA RV VT.asso.res</p>
+<ol>
+<li>EMILIN2 0.00533156</li>
+<li>MDN1 0.013986</li>
+<li>VLDLR 0.01998</li>
+<li>LRRC9 0.025974</li>
+</ol>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Question-2">Question 2<a class="anchor-link" href="#Question-2">&#182;</a></h3><p>The p-values do not achieve significance based on the corrected p values above (Bonferroni correction for multiple tests). Since the BMI values were randomly generated for each individual it is unlikely that any of the p-values for the single variant and aggregation tests would have achieved significance. Also, because of the multiple testing, the p-values for the VT tests might be higher than the p-values for the BRV tests.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="References">References<a class="anchor-link" href="#References">&#182;</a></h2><ol>
+<li>Wang, G.T., Peng, B., and Leal, S.M. (2014). Variant Association
+Tools for Quality Control and Analysis of Large-Scale Sequence and
+Genotyping Array Data. Am. J. Hum. Genet. 94, 770783</li>
+</ol>
+<ol>
+<li><p>Li B, Leal SM. Methods for
+detecting associations with rare variants for common diseases:
+application to analysis of sequence data. Am J Hum Genet 2008
+83:311-21</p>
+</li>
+<li><p>Auer PL, Wang G, Leal SM. Testing for rare variant associations in
+the presence of missing data. Genet Epidemiol 2013 37:529-38</p>
+</li>
+<li><p>Liu DJ, Leal SM. A novel adaptive method for the analysis of
+next-generation sequencing data to detect com-plex trait
+associations with rare variants due to gene main effects
+and interactions. PLoS Genet 2010 6:e1001156</p>
+</li>
+<li><p>Madsen BE, Browning SR. A groupwise association test for rare
+mutations using a weighted sum statistic. PLoS Genet 2009 5:e1000384</p>
+</li>
+<li><p>Price AL, Kryukov GV, de Bakker PI, Purcell SM, Staples J, Wei LJ,
+Sunyaev SR. Pooled association tests for rare variants in
+exon-resequencing studies. Am J Hum Genet 20010 86:832-8</p>
+</li>
+<li><p>Wu MC, Lee S, Cai T, Li Y, Boehnke M, Lin X. Rare-variant
+association testing for sequencing data with the sequence kernel
+association test. Am J Hum Genet 2011 89:82-93</p>
+</li>
+<li><p>Lucas FAS, Wang G, Scheet P, Peng B. Integrated annotation and
+analysis of genetic variants from next-generation sequencing studies
+with variant tools. Bioinformatics 2012 28:421-2</p>
+</li>
+<li><p>Wang K, Li M, Hakonarson H. ANNOVAR: functional annotation of
+genetic variants from high-throughput sequencing data. Nucleic Acids
+Res 2010 38:e164</p>
+</li>
+<li><p>Manichaikul A, Mychaleckyj JC, Rich SS, Daly K, Sale M, Chen WM.
+Robust relationship inference in genome-wide association studies.
+Bioinformatics 2010 26(22):2867-2873</p>
+</li>
+<li><p>Purcell S, Neale B, Todd-Brown K, Thomas L, Ferreira MAR, Bender D,
+Maller J, Sklar P, de Bakker PIW, Daly MJ &amp; Sham PC. PLINK: a
+toolset for whole-genome association and population-based
+linkage analysis. Am J Hum Genet, 2007 81:559-75</p>
+</li>
+</ol>
 
 </div>
 </div>
 </div>
 <hr>
 &copy 2019 Center for Statistical Genetics, Department of Neurology, Columbia University
-<p><small>Exported from <a href="http://github.com/statgenetics/statgen-courses/blob/d84b94faa024850d7caeba8a37f8dcbe79f380b1/notebooks/VAT.ipynb"><code>notebooks/VAT.ipynb</code></a> committed by Gao Wang on Tue Oct 8 22:26:51 2019 <a href="http://github.com/statgenetics/statgen-courses/commit/d84b94faa024850d7caeba8a37f8dcbe79f380b1">revision 8, d84b94f</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/statgenetics/statgen-courses/blob/86828ce61a81ecb0b4e6ee9408373d210546bd3a/notebooks/VAT.ipynb"><code>notebooks/VAT.ipynb</code></a> committed by Gao Wang on Thu Oct 10 10:07:28 2019 <a href="http://github.com/statgenetics/statgen-courses/commit/86828ce61a81ecb0b4e6ee9408373d210546bd3a">revision 10, 86828ce</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>
