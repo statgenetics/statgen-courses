@@ -17,7 +17,31 @@ docker build --build-arg DUMMY=`date +%s` -t statisticalgenetics/vat -f docker/v
 docker push statisticalgenetics/vat
 ```
 
+## Serve on your own computer
+
+Now you should be able to use the images on your computer, as long as you have [both `SoS` and `docker` installed](http://statgen.us/lab-wiki/orientation/jupyter-setup.html), 
+and have a webserver configured (many OS already have it configured by default; on Debian Linux one option is `apt-get install nginx`).
+
+To set it up for selected tutorial(s), for example for `vat` and `pseq` tutorials,
+
+```bash
+sos run src/statgen-setup launch --tutorials vat pseq
+```
+
+After all steps are complete, you check the Jupyter Hub server on your machine:
+
+```
+$ docker ps
+
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                              NAMES
+4888c67e9774        vat_hub_user        "tini -g -- jupyterh…"   8 seconds ago       Up 7 seconds        8888/tcp, 0.0.0.0:8847->8000/tcp   vat_hub_user
+```
+
+The `0.0.0.0:8847` is the address to the server (your port number may vary). To view it, simply paste that address to your browser. 
+
 ## Serve on the cloud
+
+Having tested the course image and server work on a local computer it is time to deploy them to a cloud service for others to use.
 
 Say from a VPS service provider (eg, vultr.com) we purchase a Debian based VM droplet (Debian 9 is what I use as I document this). In the root terminal of the VM,
 
