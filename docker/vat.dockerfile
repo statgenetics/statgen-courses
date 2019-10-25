@@ -7,7 +7,7 @@ USER root
 # Install dependency tools
 RUN echo "deb [trusted=yes] http://statgen.us/deb ./" | tee -a /etc/apt/sources.list.d/statgen.list && \
     apt-get update && \
-    apt-get install -y annovar annovar-humandb statgen-king plink2 && \
+    apt-get install -y annovar annovar-humandb annovar-humandb-hg18 statgen-king plink2 && \
     apt-get install -y swig && \
     apt-get clean
 
