@@ -19,8 +19,7 @@ docker push statisticalgenetics/vat
 
 ## Serve on your own computer
 
-Now you should be able to use the images on your computer, as long as you have [both `SoS` and `docker` installed](http://statgen.us/lab-wiki/orientation/jupyter-setup.html), 
-and have a webserver configured (many OS already have it configured by default; on Debian Linux one option is `apt-get install nginx`).
+Now you should be able to use the images on your computer, as long as you have [both `SoS` and `docker` installed](http://statgen.us/lab-wiki/orientation/jupyter-setup.html).
 
 To set it up for selected tutorial(s), for example for `vat` and `pseq` tutorials,
 
