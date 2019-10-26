@@ -11,12 +11,13 @@ RUN echo "deb [trusted=yes] http://statgen.us/deb ./" | tee -a /etc/apt/sources.
     apt-get install -y swig && \
     apt-get clean
 
+USER jovyan
+
 # Install data used
 # Notice that I packed annovar's humandb database in vat-data.tar.bz2 because
 # annovar annotations keeps changing and are not version numbered so by bundling
 # a snapshot of it with the data used in the tutorial we ensure reproducibility:
 # ./annotate_variation.pl -downdb -buildver hg19 -webfrom annovar refGene humandb
-USER jovyan
 RUN curl -fsSL http://statgen.us/files/vat-cache.tar.bz2 -o vat-cache.tar.bz2 && tar jxvf vat-cache.tar.bz2 && rm -f vat-cache.tar.bz2
 RUN curl -fsSL http://statgen.us/files/vat-data.tar.bz2 -o vat-data.tar.bz2 && tar jxvf vat-data.tar.bz2 && rm -f vat-data.tar.bz2
 
@@ -24,6 +25,10 @@ RUN mkdir -p $HOME/bin && ln -s /usr/lib/annovar/annotate_variation.pl $HOME/bin
 
 # Install variant tools version 2.7.2
 RUN pip install https://github.com/vatlab/varianttools/archive/vtools-2.7.2.zip
+# Install variant tools version 3.0.x
+# Improvement in 3.0.x is not directly relevant to this tutorial so we'll stick to version 2.7.2 for now.
+# RUN conda install variant_tools==3.0.8 -c bioconda &&
+#    conda clean --all && rm -rf $HOME/.caches
 
 # Download notebook script and clean up output in the notebook
 ARG DUMMY=unknown
