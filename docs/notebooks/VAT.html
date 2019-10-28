@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -234,8 +233,7 @@ body {
   </div><!--/.container -->
 </div><!--/.navbar -->
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="Association-Analysis-of-Sequence-Data-using-Variant-Association-Tools-(VAT)-for-Complex-Traits">Association Analysis of Sequence Data using Variant Association Tools (VAT) for Complex Traits<a class="anchor-link" href="#Association-Analysis-of-Sequence-Data-using-Variant-Association-Tools-(VAT)-for-Complex-Traits">&#182;</a></h1><p>Copyright (c) 2019 Gao Wang, Diana Cornejo Sánchez &amp; Suzanne M. Leal</p>
 
@@ -243,8 +241,7 @@ body {
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="PURPOSE">PURPOSE<a class="anchor-link" href="#PURPOSE">&#182;</a></h2><p>Variant Association Tools [VAT, Wang et al (2014)] [1] was developed to perform quality control and association analysis of sequence data. It can also be used to analyze genotype data, e.g. exome chip data and imputed data. The software incorporates many rare variant association methods which include but not limited to Combined Multivariate Collapsing (CMC) [2], Burden of Rare Variants (BRV) [3], Weighted Sum Statistic (WSS) [4], Kernel Based Adaptive Cluster (KBAC) [5], Variable Threshold (VT) [6] and Sequence Kernel Association Test (SKAT) [7].
 VAT inherits the intuitive command-line interface of Variant Tools (VTools) [8] with re-design and implementation of its infrastructure to accommodate the scale of dataset generated from current sequencing efforts on large populations. Features of VAT are implemented into VTools subcommand system.</p>
@@ -253,8 +250,7 @@ VAT inherits the intuitive command-line interface of Variant Tools (VTools) [8] 
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="RESOURCES">RESOURCES<a class="anchor-link" href="#RESOURCES">&#182;</a></h2><p>Basic concepts to handle sequence data using <code>vtools</code> can be found at:</p>
 <p><a href="http://varianttools.sourceforge.net/Main/Concepts">http://varianttools.sourceforge.net/Main/Concepts</a></p>
@@ -265,8 +261,7 @@ VAT inherits the intuitive command-line interface of Variant Tools (VTools) [8] 
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Genotype-data">Genotype data<a class="anchor-link" href="#Genotype-data">&#182;</a></h3><p>Exome genotype data was downloaded from the 1000 Genomes pilot data July 2010 release for both the CEU and YRI populations. Only the autosomes are contained in the datasets accompanying this exercise.
 The data sets (<code>CEU.exon.2010_03.genotypes.vcf.gz, YRI.exon.2010_03.genotypes.vcf.gz</code>) are available from:
@@ -276,8 +271,7 @@ ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/pilot_data/release/2010_07/exon/snps</p
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Phenotype-data">Phenotype data<a class="anchor-link" href="#Phenotype-data">&#182;</a></h3><p>To demonstrate the association analysis, we simulated a quantitative trait phenotype (BMI). Please note that these phenotypes are NOT from the 1000 genome project.</p>
 
@@ -285,8 +279,7 @@ ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/pilot_data/release/2010_07/exon/snps</p
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Computation-resources">Computation resources<a class="anchor-link" href="#Computation-resources">&#182;</a></h3><p>Due to the nature of next-generation sequencing data, a reasonably powerful machine with high speed internet connection is needed to use this tool for real-world applications. For this reason, in this tutorial we will use a small demo dataset to demonstrate association analysis.</p>
 
@@ -294,8 +287,7 @@ ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/pilot_data/release/2010_07/exon/snps</p
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><font size="+3"> Part I: Data Quality Control, Annotation and Variant/sample Selection</font></p>
 <h2 id="1.1--Getting-started">1.1  Getting started<a class="anchor-link" href="#1.1--Getting-started">&#182;</a></h2><p>Please navigate to the exercise data directory, and check the available subcommands by typing:</p>
@@ -311,7 +303,7 @@ ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/pilot_data/release/2010_07/exon/snps</p
 <div class=" highlight hl-sos"><pre><span></span><span class="n">vtools</span> <span class="o">-</span><span class="n">h</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -321,7 +313,7 @@ ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/pilot_data/release/2010_07/exon/snps</p
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -379,8 +371,7 @@ Use &#39;vtools cmd -h&#39; for details about each command. Please contact Bo Pe
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Subcommand system is used for various data manipulation tasks (to check details of each subcommand use <code>vtools &lt;name of subcommand&gt; -h</code>). This tutorial is mission oriented and focuses on a subset of the commands that are relevant to variant-phenotype association analysis, rather than introducing them systematically. For additional functionality, please refer to documentation and tutorials online.</p>
 
@@ -388,8 +379,7 @@ Use &#39;vtools cmd -h&#39; for details about each command. Please contact Bo Pe
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Initialize-a-project">Initialize a project<a class="anchor-link" href="#Initialize-a-project">&#182;</a></h3>
 </div>
@@ -403,7 +393,7 @@ Use &#39;vtools cmd -h&#39; for details about each command. Please contact Bo Pe
 <div class=" highlight hl-sos"><pre><span></span><span class="n">vtools</span> <span class="n">init</span> <span class="n">VATDemo</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -413,7 +403,7 @@ Use &#39;vtools cmd -h&#39; for details about each command. Please contact Bo Pe
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -430,8 +420,7 @@ INFO: Creating a new project VATDemo
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Command <code>vtools init</code> creates a new project in the current directory. A directory can only have one project. After a project is created, subsequent <code>vtools</code> calls will automatically load the project in the current directory. Working from outside of a project directory is not allowed.</p>
 
@@ -439,16 +428,14 @@ INFO: Creating a new project VATDemo
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Import-variant-and-genotype-data">Import variant and genotype data<a class="anchor-link" href="#Import-variant-and-genotype-data">&#182;</a></h3>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Import all vcf files under the current directory:</p>
 
@@ -463,7 +450,7 @@ INFO: Creating a new project VATDemo
 <div class=" highlight hl-sos"><pre><span></span><span class="n">vtools</span> <span class="kn">import</span> <span class="o">*.</span><span class="n">vcf</span><span class="o">.</span><span class="n">gz</span> <span class="o">--</span><span class="n">var_info</span> <span class="n">DP</span> <span class="nb">filter</span> <span class="o">--</span><span class="n">geno_info</span> <span class="n">DP_geno</span> <span class="o">--</span><span class="n">build</span> <span class="n">hg18</span> <span class="o">-</span><span class="n">j1</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -473,7 +460,7 @@ INFO: Creating a new project VATDemo
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -494,8 +481,7 @@ Importing genotypes: 100% [==========================] 6,987 25.1K/s in 00:00:00
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Command <code>vtools import</code> imports variants, sample genotypes and related information fields. The imported variants are saved to the master variant table for the project, along with their information fields.</p>
 <p>The command above imports two vcf files sequentially into an empty <code>vtools</code> project. The second <code>INFO</code> message in the screen output shows that 3,489 variant sites are imported from the first vcf file, where 3,489 new means that all of them are new because prior to importing the first vcf the project was empty so there was 0 site. The fourth <code>INFO</code> message tells that 5,175 variant sites are imported from the second vcf file, but only 3,498 of them are new (which are not seen in the existing 3,489) because prior to importing the second vcf there were already 3,489 existing variant sites from first vcf.</p>
@@ -516,7 +502,7 @@ Importing genotypes: 100% [==========================] 6,987 25.1K/s in 00:00:00
 <div class=" highlight hl-sos"><pre><span></span><span class="n">vtools</span> <span class="n">liftover</span> <span class="n">hg19</span> <span class="o">--</span><span class="n">flip</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -526,7 +512,7 @@ Importing genotypes: 100% [==========================] 6,987 25.1K/s in 00:00:00
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -567,8 +553,7 @@ INFO: Flipping primary and alternative reference genome
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Import-phenotype-data">Import phenotype data<a class="anchor-link" href="#Import-phenotype-data">&#182;</a></h3><p>The aim of the association test is to find variants that modulate the phenotype BMI. We simulated BMI values for each of the individuals. The phenotype file must be in plain text format with sample names matching the sample IDs in the vcf file(s):</p>
 
@@ -583,7 +568,7 @@ INFO: Flipping primary and alternative reference genome
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">preview</span> <span class="n">phenotypes</span><span class="o">.</span><span class="n">csv</span> <span class="o">-</span><span class="n">n</span> <span class="o">-</span><span class="n">l</span> <span class="mi">10</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -593,7 +578,7 @@ INFO: Flipping primary and alternative reference genome
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -605,7 +590,7 @@ INFO: Flipping primary and alternative reference genome
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -705,8 +690,7 @@ INFO: Flipping primary and alternative reference genome
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The phenotype file includes information for every individual, the sample name, sequencing panel, sex and BMI. To import the phenotype data:</p>
 
@@ -721,7 +705,7 @@ INFO: Flipping primary and alternative reference genome
 <div class=" highlight hl-sos"><pre><span></span><span class="n">vtools</span> <span class="n">phenotype</span> <span class="o">--</span><span class="n">from_file</span> <span class="n">phenotypes</span><span class="o">.</span><span class="n">csv</span> <span class="o">--</span><span class="n">delimiter</span> <span class="s2">&quot;,&quot;</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -731,7 +715,7 @@ INFO: Flipping primary and alternative reference genome
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -748,8 +732,7 @@ INFO: 3 field (3 new, 0 existing) phenotypes of 202 samples are updated.
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Unlike <code>vtools import</code>, this command imports/adds properties to samples rather than to variants. More details about <code>vtools phenotype</code> command can be found at:</p>
 <p><a href="http://varianttools.sourceforge.net/Vtools/Phenotype">http://varianttools.sourceforge.net/Vtools/Phenotype</a></p>
@@ -758,8 +741,7 @@ INFO: 3 field (3 new, 0 existing) phenotypes of 202 samples are updated.
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="View-imported-data">View imported data<a class="anchor-link" href="#View-imported-data">&#182;</a></h3><p>Summary information for the project can be viewed anytime using the command <code>vtools show</code>, which displays various project and system information. More details about <code>vtools show</code> can be found at:</p>
 <p><a href="http://varianttools.sourceforge.net/Vtools/Show">http://varianttools.sourceforge.net/Vtools/Show</a></p>
@@ -776,7 +758,7 @@ INFO: 3 field (3 new, 0 existing) phenotypes of 202 samples are updated.
 <div class=" highlight hl-sos"><pre><span></span><span class="n">vtools</span> <span class="n">show</span> <span class="n">project</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -786,7 +768,7 @@ INFO: 3 field (3 new, 0 existing) phenotypes of 202 samples are updated.
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -814,7 +796,7 @@ Annotation databases:
 <div class=" highlight hl-sos"><pre><span></span><span class="n">vtools</span> <span class="n">show</span> <span class="n">tables</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -824,7 +806,7 @@ Annotation databases:
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -846,7 +828,7 @@ variant        6,987    Jul06 Master variant table
 <div class=" highlight hl-sos"><pre><span></span><span class="n">vtools</span> <span class="n">show</span> <span class="n">table</span> <span class="n">variant</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -856,7 +838,7 @@ variant        6,987    Jul06 Master variant table
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -883,7 +865,7 @@ Number of variants:     6987
 <div class=" highlight hl-sos"><pre><span></span><span class="n">vtools</span> <span class="n">show</span> <span class="n">fields</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -893,7 +875,7 @@ Number of variants:     6987
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -916,8 +898,7 @@ variant.alt_pos (int)
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="1.2--Overview-of-variant-and-genotype-data">1.2  Overview of variant and genotype data<a class="anchor-link" href="#1.2--Overview-of-variant-and-genotype-data">&#182;</a></h2><h3 id="Total-number-of-variants">Total number of variants<a class="anchor-link" href="#Total-number-of-variants">&#182;</a></h3><p>The number of imported variants may be greater than number of lines in the vcf file, because when a variant has two alternative alleles (e.g. A-&gt;T/C) it is treated as two separate variants.</p>
 
@@ -932,7 +913,7 @@ variant.alt_pos (int)
 <div class=" highlight hl-sos"><pre><span></span><span class="n">vtools</span> <span class="n">select</span> <span class="n">variant</span> <span class="o">--</span><span class="n">count</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -942,7 +923,7 @@ variant.alt_pos (int)
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -957,8 +938,7 @@ variant.alt_pos (int)
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>There are 6987 variants in our toy data-set.</p>
 
@@ -966,8 +946,7 @@ variant.alt_pos (int)
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><code>vtools select table condition action</code> selects from a variant table <code>table</code> a subset of variants satisfying a specified <code>condition</code>, and perform an <code>action</code> of</p>
 <ul>
@@ -980,8 +959,7 @@ variant.alt_pos (int)
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The <code>condition</code> should be a SQL expression using one or more fields in a project (displayed in <code>vtools show</code> fields). If the condition argument is unspecified, then all variants in the table will be selected. An optional condition <code>--samples [condition]</code> can also be used to limit selected variants to specific samples. More details about <code>vtools select</code> command can be found at:</p>
 <p><a href="http://varianttools.sourceforge.net/Vtools/Select">http://varianttools.sourceforge.net/Vtools/Select</a></p>
@@ -990,8 +968,7 @@ variant.alt_pos (int)
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Genotype-Summary">Genotype Summary<a class="anchor-link" href="#Genotype-Summary">&#182;</a></h3><p>The command <code>vtools show genotypes</code> displays the number of genotypes for each sample and names of the available genotype information fields for each sample, e.g. GT - genotype; DP geno - genotype read depth. Such information is useful for the calculation of summary statistics of genotypes (e.g. depth of coverage).</p>
 
@@ -1006,7 +983,7 @@ variant.alt_pos (int)
 <div class=" highlight hl-sos"><pre><span></span><span class="n">vtools</span> <span class="n">show</span> <span class="n">genotypes</span> <span class="o">&gt;</span> <span class="n">genotype_summary</span><span class="o">.</span><span class="n">txt</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1019,7 +996,7 @@ variant.alt_pos (int)
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">preview</span> <span class="n">genotype_summary</span><span class="o">.</span><span class="n">txt</span> <span class="o">-</span><span class="n">n</span> <span class="o">-</span><span class="n">l</span> <span class="mi">10</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1029,7 +1006,7 @@ variant.alt_pos (int)
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1041,7 +1018,7 @@ variant.alt_pos (int)
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -1064,8 +1041,7 @@ NA07051    	CEU.exon...notypes.vcf.gz	3451         	GT,DP_geno
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Variant-Quality-Overview">Variant Quality Overview<a class="anchor-link" href="#Variant-Quality-Overview">&#182;</a></h3><p>The following command calculates summary statistics on the variant site depth of coverage (DP). Below is the command to calculate depth of coverage information for all variant sites.</p>
 
@@ -1080,7 +1056,7 @@ NA07051    	CEU.exon...notypes.vcf.gz	3451         	GT,DP_geno
 <div class=" highlight hl-sos"><pre><span></span><span class="n">vtools</span> <span class="n">output</span> <span class="n">variant</span> <span class="s2">&quot;max(DP)&quot;</span> <span class="s2">&quot;min(DP)&quot;</span> <span class="s2">&quot;avg(DP)&quot;</span> <span class="s2">&quot;stdev(DP)&quot;</span> <span class="s2">&quot;lower_quartile(DP)&quot;</span> <span class="s2">&quot;upper_quartile(DP)&quot;</span> <span class="o">--</span><span class="n">header</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1090,7 +1066,7 @@ NA07051    	CEU.exon...notypes.vcf.gz	3451         	GT,DP_geno
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -1105,8 +1081,7 @@ NA07051    	CEU.exon...notypes.vcf.gz	3451         	GT,DP_geno
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>In the test data, the maximum DP for variant sites is 25490, minimum DP 13, average DP about 6815, standard deviation of DP about 3434, lower quartile of DP 4301 and upper quartile of DP 9143.</p>
 <p>The same syntax can be applied to other variant information or annotation information fields. The command <code>vtools output &lt;name of variant table&gt;</code> outputs properties of variants in a specified variant table. The properties include fields from annotation databases and variant tables, basically fields outputted from command <code>vtools show fields</code>, and SQL-supported functions and expressions. There are several freely available SQL resources on the web to learn more about SQL functions and expressions.</p>
@@ -1123,7 +1098,7 @@ NA07051    	CEU.exon...notypes.vcf.gz	3451         	GT,DP_geno
 <div class=" highlight hl-sos"><pre><span></span><span class="n">vtools</span> <span class="n">select</span> <span class="n">variant</span> <span class="s2">&quot;filter=&#39;PASS&#39;&quot;</span> <span class="o">--</span><span class="n">count</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1133,7 +1108,7 @@ NA07051    	CEU.exon...notypes.vcf.gz	3451         	GT,DP_geno
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -1148,8 +1123,7 @@ NA07051    	CEU.exon...notypes.vcf.gz	3451         	GT,DP_geno
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>All 6987 variants have passed the quality filters. To combine variant filtering and summary statistics:</p>
 
@@ -1164,7 +1138,7 @@ NA07051    	CEU.exon...notypes.vcf.gz	3451         	GT,DP_geno
 <div class=" highlight hl-sos"><pre><span></span><span class="n">vtools</span> <span class="n">select</span> <span class="n">variant</span> <span class="s2">&quot;filter=&#39;PASS&#39;&quot;</span> <span class="o">-</span><span class="n">o</span> <span class="s2">&quot;max(DP)&quot;</span> <span class="s2">&quot;min(DP)&quot;</span> <span class="s2">&quot;avg(DP)&quot;</span> <span class="s2">&quot;stdev(DP)&quot;</span> <span class="s2">&quot;lower_quartile(DP)&quot;</span> <span class="s2">&quot;upper_quartile(DP)&quot;</span> <span class="o">--</span><span class="n">header</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1174,7 +1148,7 @@ NA07051    	CEU.exon...notypes.vcf.gz	3451         	GT,DP_geno
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -1189,8 +1163,7 @@ NA07051    	CEU.exon...notypes.vcf.gz	3451         	GT,DP_geno
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The output information of command above will be the same as the previous vtools output command, since all variants have passed quality filter.</p>
 
@@ -1198,8 +1171,7 @@ NA07051    	CEU.exon...notypes.vcf.gz	3451         	GT,DP_geno
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="1.3--Data-exploration">1.3  Data exploration<a class="anchor-link" href="#1.3--Data-exploration">&#182;</a></h2><h3 id="Variant-level-summaries">Variant level summaries<a class="anchor-link" href="#Variant-level-summaries">&#182;</a></h3><p>The command below will calculate:</p>
 <ul>
@@ -1224,7 +1196,7 @@ NA07051    	CEU.exon...notypes.vcf.gz	3451         	GT,DP_geno
 <div class=" highlight hl-sos"><pre><span></span><span class="n">vtools</span> <span class="n">update</span> <span class="n">variant</span> <span class="o">--</span><span class="n">from_stat</span> <span class="s1">&#39;total=#(GT)&#39;</span> <span class="s1">&#39;num=#(alt)&#39;</span> <span class="s1">&#39;het=#(het)&#39;</span> <span class="s1">&#39;hom=#(hom)&#39;</span> <span class="s1">&#39;other=#(other)&#39;</span> <span class="s1">&#39;minDP=min(DP_geno)&#39;</span> <span class="s1">&#39;maxDP=max(DP_geno)&#39;</span> <span class="s1">&#39;meanDP=avg(DP_geno)&#39;</span> <span class="s1">&#39;maf=maf()&#39;</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1234,7 +1206,7 @@ NA07051    	CEU.exon...notypes.vcf.gz	3451         	GT,DP_geno
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -1266,7 +1238,7 @@ INFO: 6987 records are updated
 <div class=" highlight hl-sos"><pre><span></span><span class="n">vtools</span> <span class="n">show</span> <span class="n">fields</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1276,7 +1248,7 @@ INFO: 6987 records are updated
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -1316,7 +1288,7 @@ variant.meanDP (float)  Created from stat &#34;avg(DP_geno)&#34;  with type FLOA
 <div class=" highlight hl-sos"><pre><span></span><span class="n">vtools</span> <span class="n">show</span> <span class="n">table</span> <span class="n">variant</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1326,7 +1298,7 @@ variant.meanDP (float)  Created from stat &#34;avg(DP_geno)&#34;  with type FLOA
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -1347,8 +1319,7 @@ Number of variants:     6987
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Command <code>vtools update</code> updates variant info fields (and to a lesser extend genotype info fields) by adding more fields or updating values at existing fields. It does not add any new variants or genotypes, and does not change existing variants, samples, or genotypes. Using three parameters <code>--from_file</code>, <code>--from_stat</code>, and <code>--set</code>, variant information fields could be updated from external file, sample genotypes, and existing fields. More details about vtools update command can be found at</p>
 <p><a href="http://varianttools.sourceforge.net/Vtools/Update">http://varianttools.sourceforge.net/Vtools/Update</a></p>
@@ -1357,8 +1328,7 @@ Number of variants:     6987
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Summaries-for-different-genotype-depth-(GD)-and-genotype-quality-(GQ)-filters">Summaries for different genotype depth (GD) and genotype quality (GQ) filters<a class="anchor-link" href="#Summaries-for-different-genotype-depth-(GD)-and-genotype-quality-(GQ)-filters">&#182;</a></h3><p>The <code>--genotypes CONDITION</code> option restricts calculation to genotypes satisfying a given condition. Later we will remove individual genotypes by <code>DP_geno</code> filters. The command below will calculate summary statistics genotypes of all samples per variant site. It can assist us in determining filtering criteria for genotype call quality.</p>
 
@@ -1373,7 +1343,7 @@ Number of variants:     6987
 <div class=" highlight hl-sos"><pre><span></span><span class="n">vtools</span> <span class="n">update</span> <span class="n">variant</span> <span class="o">--</span><span class="n">from_stat</span> <span class="s1">&#39;totalGD10=#(GT)&#39;</span> <span class="s1">&#39;numGD10=#(alt)&#39;</span> <span class="s1">&#39;hetGD10=#(het)&#39;</span> <span class="s1">&#39;homGD10=#(hom)&#39;</span> <span class="s1">&#39;otherGD10=#(other)&#39;</span> <span class="s1">&#39;mafGD10=maf()&#39;</span> <span class="o">--</span><span class="n">genotypes</span> <span class="s2">&quot;DP_geno &gt; 10&quot;</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1383,7 +1353,7 @@ Number of variants:     6987
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -1412,7 +1382,7 @@ INFO: 6976 records are updated
 <div class=" highlight hl-sos"><pre><span></span><span class="n">vtools</span> <span class="n">show</span> <span class="n">fields</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1422,7 +1392,7 @@ INFO: 6976 records are updated
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -1471,7 +1441,7 @@ variant.mafGD10 (float)
 <div class=" highlight hl-sos"><pre><span></span><span class="n">vtools</span> <span class="n">show</span> <span class="n">table</span> <span class="n">variant</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1481,7 +1451,7 @@ variant.mafGD10 (float)
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -1503,8 +1473,7 @@ Number of variants:     6987
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>You will notice the change in genotype counts when applying the filter on genotype depth of coverage and only retaining those genotypes with a read depth greater than 10X. There are now 6976 variant sites after filtering on <code>DP_geno&gt;10</code>. Note that some variant sites will become monomorphic after removing genotypes due to low read depth.</p>
 <h3 id="Minor-allele-frequencies-(MAFs)">Minor allele frequencies (MAFs)<a class="anchor-link" href="#Minor-allele-frequencies-(MAFs)">&#182;</a></h3><p>In previous steps, we calculated MAFs for each variant site before and after filtering on genotype read depth. Below is a summary of the results:</p>
@@ -1520,7 +1489,7 @@ Number of variants:     6987
 <div class=" highlight hl-sos"><pre><span></span><span class="n">vtools</span> <span class="n">output</span> <span class="n">variant</span> <span class="nb">chr</span> <span class="n">pos</span> <span class="n">maf</span> <span class="n">mafGD10</span> <span class="o">--</span><span class="n">header</span> <span class="o">--</span><span class="n">limit</span> <span class="mi">20</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1530,7 +1499,7 @@ Number of variants:     6987
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -1564,8 +1533,7 @@ Number of variants:     6987
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Adding “<code>&gt; filename.txt</code>” at the end of the above command will write the output to a file.</p>
 <p>Next, we examine population specific MAFs. Our data is imported from two files, a CEU dataset (90 samples) and an YRI dataset (112 samples). To calculate allele frequency for each population, let us first assign an additional RACE phenotype (0 for YRI samples and 1 for CEU samples):</p>
@@ -1581,7 +1549,7 @@ Number of variants:     6987
 <div class=" highlight hl-sos"><pre><span></span><span class="n">vtools</span> <span class="n">phenotype</span> <span class="o">--</span><span class="nb">set</span> <span class="s2">&quot;RACE=0&quot;</span> <span class="o">--</span><span class="n">samples</span> <span class="s2">&quot;filename like &#39;YRI%&#39;&quot;</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1591,7 +1559,7 @@ Number of variants:     6987
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -1613,7 +1581,7 @@ INFO: 112 values of 1 phenotypes (1 new, 0 existing) of 112 samples are updated.
 <div class=" highlight hl-sos"><pre><span></span><span class="n">vtools</span> <span class="n">phenotype</span> <span class="o">--</span><span class="nb">set</span> <span class="s2">&quot;RACE=1&quot;</span> <span class="o">--</span><span class="n">samples</span> <span class="s2">&quot;filename like &#39;CEU%&#39;&quot;</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1623,7 +1591,7 @@ INFO: 112 values of 1 phenotypes (1 new, 0 existing) of 112 samples are updated.
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -1644,7 +1612,7 @@ INFO: 112 values of 1 phenotypes (1 new, 0 existing) of 112 samples are updated.
 <div class=" highlight hl-sos"><pre><span></span><span class="n">vtools</span> <span class="n">show</span> <span class="n">samples</span> <span class="o">--</span><span class="n">limit</span> <span class="mi">10</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1654,7 +1622,7 @@ INFO: 112 values of 1 phenotypes (1 new, 0 existing) of 112 samples are updated.
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -1679,8 +1647,7 @@ NA07346    	CEU.exon...notypes.vcf.gz	.                 	2  	30.978	1
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Population specific MAF calculations will be performed using those genotypes that passed the read depth filter (<code>DP_geno&gt;10</code>).</p>
 
@@ -1695,7 +1662,7 @@ NA07346    	CEU.exon...notypes.vcf.gz	.                 	2  	30.978	1
 <div class=" highlight hl-sos"><pre><span></span><span class="n">vtools</span> <span class="n">update</span> <span class="n">variant</span> <span class="o">--</span><span class="n">from_stat</span> <span class="s1">&#39;CEU_mafGD10=maf()&#39;</span> <span class="o">--</span><span class="n">genotypes</span> <span class="s1">&#39;DP_geno&gt;10&#39;</span> <span class="o">--</span><span class="n">samples</span> <span class="s2">&quot;RACE=1&quot;</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1705,7 +1672,7 @@ NA07346    	CEU.exon...notypes.vcf.gz	.                 	2  	30.978	1
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -1730,7 +1697,7 @@ INFO: 3483 records are updated
 <div class=" highlight hl-sos"><pre><span></span><span class="n">vtools</span> <span class="n">update</span> <span class="n">variant</span> <span class="o">--</span><span class="n">from_stat</span> <span class="s1">&#39;YRI_mafGD10=maf()&#39;</span> <span class="o">--</span><span class="n">genotypes</span> <span class="s1">&#39;DP_geno&gt;10&#39;</span> <span class="o">--</span><span class="n">samples</span> <span class="s2">&quot;RACE=0&quot;</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1740,7 +1707,7 @@ INFO: 3483 records are updated
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -1765,7 +1732,7 @@ INFO: 5167 records are updated
 <div class=" highlight hl-sos"><pre><span></span><span class="n">vtools</span> <span class="n">output</span> <span class="n">variant</span> <span class="nb">chr</span> <span class="n">pos</span> <span class="n">mafGD10</span> <span class="n">CEU_mafGD10</span> <span class="n">YRI_mafGD10</span> <span class="o">--</span><span class="n">header</span> <span class="o">--</span><span class="n">limit</span> <span class="mi">10</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1775,7 +1742,7 @@ INFO: 5167 records are updated
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -1799,8 +1766,7 @@ INFO: 5167 records are updated
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>You will observe zero values because some variant sites are monomorphic or they are population specific.</p>
 <h3 id="Sample-level-genotype-summaries">Sample level genotype summaries<a class="anchor-link" href="#Sample-level-genotype-summaries">&#182;</a></h3><p>Similar operations could be performed on a sample level instead of on a variant level. More details about obtaining genotype level summary information using <code>vtools phenotype --from_stat</code> can be found at</p>
@@ -1817,7 +1783,7 @@ INFO: 5167 records are updated
 <div class=" highlight hl-sos"><pre><span></span><span class="n">vtools</span> <span class="n">phenotype</span> <span class="o">--</span><span class="n">from_stat</span> <span class="s1">&#39;CEU_totalGD10=#(GT)&#39;</span> <span class="s1">&#39;CEU_numGD10=#(alt)&#39;</span> <span class="o">--</span><span class="n">genotypes</span> <span class="s1">&#39;DP_geno&gt;10&#39;</span> <span class="o">--</span><span class="n">samples</span> <span class="s2">&quot;RACE=1&quot;</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1827,7 +1793,7 @@ INFO: 5167 records are updated
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -1849,7 +1815,7 @@ INFO: 180 values of 2 phenotypes (2 new, 0 existing) of 90 samples are updated.
 <div class=" highlight hl-sos"><pre><span></span><span class="n">vtools</span> <span class="n">phenotype</span> <span class="o">--</span><span class="n">from_stat</span> <span class="s1">&#39;YRI_totalGD10=#(GT)&#39;</span> <span class="s1">&#39;YRI_numGD10=#(alt)&#39;</span> <span class="o">--</span><span class="n">genotypes</span> <span class="s1">&#39;DP_geno&gt;10&#39;</span> <span class="o">--</span><span class="n">samples</span> <span class="s2">&quot;RACE=0&quot;</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1859,7 +1825,7 @@ INFO: 180 values of 2 phenotypes (2 new, 0 existing) of 90 samples are updated.
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -1881,7 +1847,7 @@ INFO: 224 values of 2 phenotypes (2 new, 0 existing) of 112 samples are updated.
 <div class=" highlight hl-sos"><pre><span></span><span class="n">vtools</span> <span class="n">phenotype</span> <span class="o">--</span><span class="n">output</span> <span class="n">sample_name</span> <span class="n">CEU_totalGD10</span> <span class="n">CEU_numGD10</span> <span class="n">YRI_totalGD10</span> <span class="n">YRI_numGD10</span> <span class="o">--</span><span class="n">header</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1891,7 +1857,7 @@ INFO: 224 values of 2 phenotypes (2 new, 0 existing) of 112 samples are updated.
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -2107,8 +2073,7 @@ NA19266	NA	NA	4878	1211
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="1.4--Variant-Annotation">1.4  Variant Annotation<a class="anchor-link" href="#1.4--Variant-Annotation">&#182;</a></h2><p>For rare variant aggregated association tests, we want to focus on analyzing aggregating variants having potential functional contribution to a phenotype. Thus, each variant site needs to be annotated for its functionality. Annotation is performed using <code>variant annotation tools</code> [7] which implements an <code>ANNOVAR</code> pipeline for variant function annotation [9]. More details about the ANNOVAR pipeline can be found at</p>
 <p><a href="http://varianttools.sourceforge.net/Pipeline/Annovar">http://varianttools.sourceforge.net/Pipeline/Annovar</a></p>
@@ -2126,7 +2091,7 @@ NA19266	NA	NA	4878	1211
 <span class="n">vtools</span> <span class="n">execute</span> <span class="n">ANNOVAR</span> <span class="n">geneanno</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -2136,7 +2101,7 @@ NA19266	NA	NA	4878	1211
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -2176,8 +2141,7 @@ INFO: Execution of pipeline ANNOVAR.geneanno is successful with output /data/ism
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The following command will output the annotated variant sites to the screen.</p>
 
@@ -2192,7 +2156,7 @@ INFO: Execution of pipeline ANNOVAR.geneanno is successful with output /data/ism
 <div class=" highlight hl-sos"><pre><span></span><span class="n">vtools</span> <span class="n">output</span> <span class="n">variant</span> <span class="nb">chr</span> <span class="n">pos</span> <span class="n">ref</span> <span class="n">alt</span> <span class="n">mut_type</span> <span class="o">--</span><span class="n">limit</span> <span class="mi">20</span> <span class="o">--</span><span class="n">header</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -2202,7 +2166,7 @@ INFO: Execution of pipeline ANNOVAR.geneanno is successful with output /data/ism
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -2236,8 +2200,7 @@ INFO: Execution of pipeline ANNOVAR.geneanno is successful with output /data/ism
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Many more annotation sources are available which are not covered in this tutorial. Please read</p>
 <p><a href="http://varianttools.sourceforge.net/Annotation">http://varianttools.sourceforge.net/Annotation</a></p>
@@ -2256,7 +2219,7 @@ INFO: Execution of pipeline ANNOVAR.geneanno is successful with output /data/ism
 <div class=" highlight hl-sos"><pre><span></span><span class="n">vtools_report</span> <span class="n">trans_ratio</span> <span class="n">variant</span> <span class="o">-</span><span class="n">n</span> <span class="n">num</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -2266,7 +2229,7 @@ INFO: Execution of pipeline ANNOVAR.geneanno is successful with output /data/ism
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -2281,8 +2244,7 @@ INFO: Execution of pipeline ANNOVAR.geneanno is successful with output /data/ism
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The command above counts the number of transition and transversion variants and calculates its ratio. More details about <code>vtools report trans_ratio</code> command can be found at</p>
 <p><a href="http://varianttools.sourceforge.net/VtoolsReport/TransRatio">http://varianttools.sourceforge.net/VtoolsReport/TransRatio</a></p>
@@ -2299,7 +2261,7 @@ INFO: Execution of pipeline ANNOVAR.geneanno is successful with output /data/ism
 <div class=" highlight hl-sos"><pre><span></span><span class="n">vtools_report</span> <span class="n">trans_ratio</span> <span class="n">variant</span> <span class="o">-</span><span class="n">n</span> <span class="n">numGD10</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -2309,7 +2271,7 @@ INFO: Execution of pipeline ANNOVAR.geneanno is successful with output /data/ism
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -2324,8 +2286,7 @@ INFO: Execution of pipeline ANNOVAR.geneanno is successful with output /data/ism
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We can see that Ti/Tv ratio has increase slightly if low depth of coverage calls are removed. There is only a small change in the Ti/Tv ratio since only a few variant sites become monomorphic and are no longer included in the calculation. In practice Ti/Tv ratios can be used to evaluate which threshold should be used in data QC.</p>
 <h3 id="Removal-of-low-quality-variant-sites">Removal of low quality variant sites<a class="anchor-link" href="#Removal-of-low-quality-variant-sites">&#182;</a></h3><p>We should not need to remove any variant site based on read depth because all variants passed the quality filter. To demonstrate removal of variant sites, let us remove those with a total read depth <code>DP&lt;15</code>:</p>
@@ -2341,7 +2302,7 @@ INFO: Execution of pipeline ANNOVAR.geneanno is successful with output /data/ism
 <div class=" highlight hl-sos"><pre><span></span><span class="n">vtools</span> <span class="n">select</span> <span class="n">variant</span> <span class="s2">&quot;DP&lt;15&quot;</span> <span class="o">-</span><span class="n">t</span> <span class="n">to_remove</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -2351,7 +2312,7 @@ INFO: Execution of pipeline ANNOVAR.geneanno is successful with output /data/ism
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -2373,7 +2334,7 @@ INFO: 1 variants selected.
 <div class=" highlight hl-sos"><pre><span></span><span class="n">vtools</span> <span class="n">show</span> <span class="n">tables</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -2383,7 +2344,7 @@ INFO: 1 variants selected.
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -2406,7 +2367,7 @@ variant          6,987    Jul06 Master variant table
 <div class=" highlight hl-sos"><pre><span></span><span class="n">vtools</span> <span class="n">remove</span> <span class="n">variants</span> <span class="n">to_remove</span> <span class="o">-</span><span class="n">v0</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -2419,7 +2380,7 @@ variant          6,987    Jul06 Master variant table
 <div class=" highlight hl-sos"><pre><span></span><span class="n">vtools</span> <span class="n">show</span> <span class="n">tables</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -2429,7 +2390,7 @@ variant          6,987    Jul06 Master variant table
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -2444,8 +2405,7 @@ variant        6,986    Jul06 Master variant table
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We can see that one variant site has been removed from master variant table. The <code>vtools remove</code> command can remove various items from the current project. More details about <code>vtools remove</code> command can be found at:</p>
 <p><a href="http://varianttools.sourceforge.net/Vtools/Remove">http://varianttools.sourceforge.net/Vtools/Remove</a></p>
@@ -2463,14 +2423,13 @@ variant        6,986    Jul06 Master variant table
 <div class=" highlight hl-sos"><pre><span></span><span class="n">vtools</span> <span class="n">remove</span> <span class="n">genotypes</span> <span class="s2">&quot;DP_geno&lt;10&quot;</span> <span class="o">-</span><span class="n">v0</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Select-variants-by-annotated-functionality">Select variants by annotated functionality<a class="anchor-link" href="#Select-variants-by-annotated-functionality">&#182;</a></h3><p>To select potentially functional variants for association mapping:</p>
 
@@ -2485,7 +2444,7 @@ variant        6,986    Jul06 Master variant table
 <div class=" highlight hl-sos"><pre><span></span><span class="n">vtools</span> <span class="n">select</span> <span class="n">variant</span> <span class="s2">&quot;mut_type like &#39;non%&#39; or mut_type like &#39;stop%&#39; or region_type=&#39;splicing&#39;&quot;</span> <span class="o">-</span><span class="n">t</span> <span class="n">v_funct</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -2495,7 +2454,7 @@ variant        6,986    Jul06 Master variant table
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -2517,7 +2476,7 @@ INFO: 3524 variants selected.
 <div class=" highlight hl-sos"><pre><span></span><span class="n">vtools</span> <span class="n">show</span> <span class="n">tables</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -2527,7 +2486,7 @@ INFO: 3524 variants selected.
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -2543,8 +2502,7 @@ variant        6,986    Jul06 Master variant table
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The command above selects variant sites that are either nonsynonymous (by condition <code>mut_type like ’non%’</code>) or stop-gain/stop-loss (by condition <code>mut_type like ’stop%’</code>) or alternative splicing (by condition <code>region-type=’splicing’</code>)</p>
 <p>3367 functional variant sites are selected.</p>
@@ -2553,8 +2511,7 @@ variant        6,986    Jul06 Master variant table
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><font size="+3"> Part II: Association Tests for Quantitative Traits</font></p>
 <h2 id="2.1--View-phenotype-data">2.1  View phenotype data<a class="anchor-link" href="#2.1--View-phenotype-data">&#182;</a></h2>
@@ -2569,7 +2526,7 @@ variant        6,986    Jul06 Master variant table
 <div class=" highlight hl-sos"><pre><span></span><span class="n">vtools</span> <span class="n">show</span> <span class="n">samples</span> <span class="o">--</span><span class="n">limit</span> <span class="mi">5</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -2579,7 +2536,7 @@ variant        6,986    Jul06 Master variant table
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -2599,8 +2556,7 @@ NA06994    	CEU.exon...notypes.vcf.gz	ABI_SOLID+ILLUMINA	1  	23.858	1   	1730   
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="2.2--Analysis-plan">2.2  Analysis plan<a class="anchor-link" href="#2.2--Analysis-plan">&#182;</a></h2><p>We want to carry out the association analysis for CEU and YRI separately. For starters we demonstrate analysis of CEU samples; and the same commands will be applicable for YRI samples. After completing the analysis of CEU samples please use the same commands to analyze the YRI data set. You should not analyze the data from different populations together, once you have the p-values from each analysis, you may perform a meta-analysis.</p>
 <h2 id="2.3--Subset-data-by-MAFs">2.3  Subset data by MAFs<a class="anchor-link" href="#2.3--Subset-data-by-MAFs">&#182;</a></h2><p>To carry out association tests we need to treat common and rare variants separately. The dataset for our tutorial has very small sample size, but with large sample size it is reasonable to define rare variants as having observed MAF&lt;0.01, and common variants as variants having observed MAF$\ge$0.05. First, we create variant tables based on calculated alternative allele frequencies for both populations</p>
@@ -2616,7 +2572,7 @@ NA06994    	CEU.exon...notypes.vcf.gz	ABI_SOLID+ILLUMINA	1  	23.858	1   	1730   
 <div class=" highlight hl-sos"><pre><span></span><span class="n">vtools</span> <span class="n">select</span> <span class="n">variant</span> <span class="s2">&quot;CEU_mafGD10&gt;=0.05&quot;</span> <span class="o">--</span><span class="n">samples</span> <span class="s2">&quot;RACE=1&quot;</span> <span class="o">-</span><span class="n">t</span> <span class="n">common_ceu</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -2626,7 +2582,7 @@ NA06994    	CEU.exon...notypes.vcf.gz	ABI_SOLID+ILLUMINA	1  	23.858	1   	1730   
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -2650,7 +2606,7 @@ INFO: 1450 variants selected.
 <div class=" highlight hl-sos"><pre><span></span><span class="n">vtools</span> <span class="n">select</span> <span class="n">v_funct</span> <span class="s2">&quot;CEU_mafGD10&lt;0.01&quot;</span> <span class="o">--</span><span class="n">samples</span> <span class="s2">&quot;RACE=1&quot;</span> <span class="o">-</span><span class="n">t</span> <span class="n">rare_ceu</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -2660,7 +2616,7 @@ INFO: 1450 variants selected.
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -2677,8 +2633,7 @@ INFO: 602 variants selected.
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Notice that for selection of rare variants we only keep those that are annotated as functional (chosen from <code>v_funct</code> table). There are 1450 and 604 variant sites selected for MAF0.05 and MAF&lt;0.01, respectively.</p>
 <h2 id="2.4--Annotate-variants-to-genes">2.4  Annotate variants to genes<a class="anchor-link" href="#2.4--Annotate-variants-to-genes">&#182;</a></h2><p>For gene based rare variant analysis we need annotations that tell us the boundaries of genes. We use the refGene annotation database for this purpose.</p>
@@ -2694,7 +2649,7 @@ INFO: 602 variants selected.
 <div class=" highlight hl-sos"><pre><span></span><span class="n">vtools</span> <span class="n">use</span> <span class="n">refGene</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -2704,7 +2659,7 @@ INFO: 602 variants selected.
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -2727,7 +2682,7 @@ INFO: refseq Genes
 <div class=" highlight hl-sos"><pre><span></span><span class="n">vtools</span> <span class="n">show</span> <span class="n">annotation</span> <span class="n">refGene</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -2737,7 +2692,7 @@ INFO: refseq Genes
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -2767,8 +2722,7 @@ Reference genome hg19:  chr, txStart, txEnd
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The names of genes are contained in the <code>refGene.name2</code> field. The <code>vtools use</code> command, attaches an annotation database to the project, effectively incorporating one or more attributes available to variants in the project. More details about <code>vtools use</code> command can be found at</p>
 <p><a href="http://varianttools.sourceforge.net/Vtools/Use">http://varianttools.sourceforge.net/Vtools/Use</a></p>
@@ -2777,8 +2731,7 @@ Reference genome hg19:  chr, txStart, txEnd
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="2.5--Association-testing-of-common/rare-variants">2.5  Association testing of common/rare variants<a class="anchor-link" href="#2.5--Association-testing-of-common/rare-variants">&#182;</a></h2><p>The association test program suite is implemented as the <code>vtools associate</code> subcommand. To list available association test options</p>
 
@@ -2793,7 +2746,7 @@ Reference genome hg19:  chr, txStart, txEnd
 <div class=" highlight hl-sos"><pre><span></span><span class="n">vtools</span> <span class="n">associate</span> <span class="o">-</span><span class="n">h</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -2803,7 +2756,7 @@ Reference genome hg19:  chr, txStart, txEnd
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -2936,7 +2889,7 @@ Output of test statistics:
 <div class=" highlight hl-sos"><pre><span></span><span class="n">vtools</span> <span class="n">show</span> <span class="n">tests</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -2946,7 +2899,7 @@ Output of test statistics:
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -3011,7 +2964,7 @@ aSum                    Adaptive Sum score test for protective and deleterious
 <div class=" highlight hl-sos"><pre><span></span><span class="n">vtools</span> <span class="n">show</span> <span class="n">test</span> <span class="n">LinRegBurden</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -3021,7 +2974,7 @@ aSum                    Adaptive Sum score test for protective and deleterious
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -3113,8 +3066,7 @@ optional arguments:
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Note that we use the quantitative trait BMI as the phenotype, and we will account for “SEX” as a covariate in the regression framework. More details about <code>vtools associate</code> command can be found at</p>
 <p><a href="http://varianttools.sourceforge.net/Vtools/Associate">http://varianttools.sourceforge.net/Vtools/Associate</a></p>
@@ -3131,7 +3083,7 @@ optional arguments:
 <div class=" highlight hl-sos"><pre><span></span><span class="n">vtools</span> <span class="n">associate</span> <span class="n">common_ceu</span> <span class="n">BMI</span> <span class="o">--</span><span class="n">covariate</span> <span class="n">SEX</span> <span class="o">--</span><span class="n">samples</span> <span class="s2">&quot;RACE=1&quot;</span> <span class="o">-</span><span class="n">m</span> <span class="s2">&quot;LinRegBurden --alternative 2&quot;</span> <span class="o">-</span><span class="n">j1</span> <span class="o">--</span><span class="n">to_db</span> <span class="n">EA_CV</span> <span class="o">&gt;</span> <span class="n">EA_CV</span><span class="o">.</span><span class="n">asso</span><span class="o">.</span><span class="n">res</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -3141,7 +3093,7 @@ optional arguments:
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -3162,8 +3114,7 @@ INFO: 1450 out of 6986 variant.chr, variant.pos are annotated through annotation
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Option <code>-j1</code> specifies that 1 CPU core be used for association testing. You may use larger number of jobs for real world data analysis, e.g., use <code>-j16</code> if your computational resources has 16 CPU cores available. Linux command <code>cat /proc/cpuinfo</code> shows the number of cores and other information related to the CPU on your computer.</p>
 <p>The following command displays error messages about the failed tests. In each case, the sample size was too small to perform the regression analysis.</p>
@@ -3179,7 +3130,7 @@ INFO: 1450 out of 6986 variant.chr, variant.pos are annotated through annotation
 <div class=" highlight hl-sos"><pre><span></span><span class="n">grep</span> <span class="o">-</span><span class="n">i</span> <span class="n">error</span> <span class="o">*.</span><span class="n">log</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="mi">5</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -3189,7 +3140,7 @@ INFO: 1450 out of 6986 variant.chr, variant.pos are annotated through annotation
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -3207,8 +3158,7 @@ INFO: 1450 out of 6986 variant.chr, variant.pos are annotated through annotation
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>A summary from the association test is written to the file <code>EA_CV.asso.res</code>. The first column indicates the variant chromosome and base pair position so that you may follow up on the top signals using various annotation sources that we will not introduce in this tutorial. The result will be automatically built into annotation database if <code>--to_db</code> option is specified.</p>
 
@@ -3223,7 +3173,7 @@ INFO: 1450 out of 6986 variant.chr, variant.pos are annotated through annotation
 <div class=" highlight hl-sos"><pre><span></span><span class="n">head</span> <span class="n">EA_CV</span><span class="o">.</span><span class="n">asso</span><span class="o">.</span><span class="n">res</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -3233,7 +3183,7 @@ INFO: 1450 out of 6986 variant.chr, variant.pos are annotated through annotation
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -3256,8 +3206,7 @@ INFO: 1450 out of 6986 variant.chr, variant.pos are annotated through annotation
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>To sort the results by p-value and output the first 10 lines of the file use the command:</p>
 
@@ -3272,7 +3221,7 @@ INFO: 1450 out of 6986 variant.chr, variant.pos are annotated through annotation
 <div class=" highlight hl-sos"><pre><span></span><span class="n">sort</span> <span class="o">-</span><span class="n">g</span> <span class="o">-</span><span class="n">k7</span> <span class="n">EA_CV</span><span class="o">.</span><span class="n">asso</span><span class="o">.</span><span class="n">res</span> <span class="o">|</span> <span class="n">head</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -3282,7 +3231,7 @@ INFO: 1450 out of 6986 variant.chr, variant.pos are annotated through annotation
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -3307,8 +3256,7 @@ sort: write error
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>If you obtain significant p-values be sure to also observe the accompanying sample size. Significant p-values from too small of a sample size may not be results you can trust.</p>
 <p>Also, depending on your phenotype you may have to add additional covariates to your analysis. VAT allows you to test many different models for the various phenotypes and covariates. P-values for covariates are also reported.</p>
@@ -3325,7 +3273,7 @@ sort: write error
 <div class=" highlight hl-sos"><pre><span></span><span class="n">vtools</span> <span class="n">show</span> <span class="n">fields</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -3335,7 +3283,7 @@ sort: write error
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -3425,8 +3373,7 @@ EA_CV.wald_2_LinRegBurden (float)
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>You see additional annotation fields starting with EA CV, the name of the annotation database you just created from association test (if you used the --to db option mentioned above). You can use them to easily select/output variants of interest. More details about outputting annotation fields for significant findings can be found at</p>
 <p><a href="http://varianttools.sourceforge.net/Vtools/Output">http://varianttools.sourceforge.net/Vtools/Output</a></p>
@@ -3444,7 +3391,7 @@ EA_CV.wald_2_LinRegBurden (float)
 <div class=" highlight hl-sos"><pre><span></span><span class="n">vtools</span> <span class="n">associate</span> <span class="n">rare_ceu</span> <span class="n">BMI</span> <span class="o">--</span><span class="n">covariate</span> <span class="n">SEX</span> <span class="o">--</span><span class="n">samples</span> <span class="s2">&quot;RACE=1&quot;</span> <span class="o">-</span><span class="n">m</span> <span class="s2">&quot;LinRegBurden --alternative 2&quot;</span> <span class="o">-</span><span class="n">g</span> <span class="n">refGene</span><span class="o">.</span><span class="n">name2</span> <span class="o">-</span><span class="n">j1</span> <span class="o">--</span><span class="n">to_db</span> <span class="n">EA_RV</span>  <span class="o">&gt;</span> <span class="n">EA_RV</span><span class="o">.</span><span class="n">asso</span><span class="o">.</span><span class="n">res</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -3454,7 +3401,7 @@ EA_CV.wald_2_LinRegBurden (float)
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -3475,8 +3422,7 @@ INFO: 404 out of 23269 refGene.refGene.name2 are annotated through annotation da
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Association tests on 404 groups have completed. 13 failed. To view failed tests:</p>
 
@@ -3491,7 +3437,7 @@ INFO: 404 out of 23269 refGene.refGene.name2 are annotated through annotation da
 <div class=" highlight hl-sos"><pre><span></span><span class="n">grep</span> <span class="o">-</span><span class="n">i</span> <span class="n">error</span> <span class="o">*.</span><span class="n">log</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="mi">10</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -3501,7 +3447,7 @@ INFO: 404 out of 23269 refGene.refGene.name2 are annotated through annotation da
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -3524,8 +3470,7 @@ INFO: 404 out of 23269 refGene.refGene.name2 are annotated through annotation da
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The output file is <code>EA_RV.asso.res</code>. The first column is the gene name, with corresponding p-values in the sixth column for the entire gene.</p>
 
@@ -3540,7 +3485,7 @@ INFO: 404 out of 23269 refGene.refGene.name2 are annotated through annotation da
 <div class=" highlight hl-sos"><pre><span></span><span class="n">head</span> <span class="n">EA_RV</span><span class="o">.</span><span class="n">asso</span><span class="o">.</span><span class="n">res</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -3550,7 +3495,7 @@ INFO: 404 out of 23269 refGene.refGene.name2 are annotated through annotation da
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -3573,8 +3518,7 @@ AHNAK        	89                      	4                        	4              
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>You can also sort these results by p-value using command:</p>
 
@@ -3589,7 +3533,7 @@ AHNAK        	89                      	4                        	4              
 <div class=" highlight hl-sos"><pre><span></span><span class="n">sort</span> <span class="o">-</span><span class="n">g</span> <span class="o">-</span><span class="n">k6</span> <span class="n">EA_RV</span><span class="o">.</span><span class="n">asso</span><span class="o">.</span><span class="n">res</span> <span class="o">|</span> <span class="n">head</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -3599,7 +3543,7 @@ AHNAK        	89                      	4                        	4              
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -3624,8 +3568,7 @@ sort: write error
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Variable-thresholds-test-for-rare-variants-(VT)">Variable thresholds test for rare variants (VT)<a class="anchor-link" href="#Variable-thresholds-test-for-rare-variants-(VT)">&#182;</a></h3><p>The variable thresholds (VT) method will carry out multiple testing in the same gene region using groups of variants based on observed variant allele frequencies. This test will maximize over statistics thus obtain a final test statistic, and calculate the empirical p-value so that multiple comparisons are adjusted for correctly.</p>
 <p>We will use adaptive permutation to obtain empirical p-values. Therefore, to avoid performing too large number of permutations we use a cutoff to limit the number of permutations when the p-value is greater than 0.0005, e.g. not all 100,000 permutations are performed. Generally, even more permutations are used but we limit it to 100,000 to save time for this exercise.</p>
@@ -3643,7 +3586,7 @@ sort: write error
     <span class="o">-</span><span class="n">g</span> <span class="n">refGene</span><span class="o">.</span><span class="n">name2</span> <span class="o">-</span><span class="n">j1</span> <span class="o">--</span><span class="n">to_db</span> <span class="n">EA_RV</span> <span class="o">&gt;</span> <span class="n">EA_RV_VT</span><span class="o">.</span><span class="n">asso</span><span class="o">.</span><span class="n">res</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -3653,7 +3596,7 @@ sort: write error
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -3674,8 +3617,7 @@ INFO: 404 out of 23269 refGene.refGene.name2 are annotated through annotation da
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>To view test that failed,</p>
 
@@ -3690,7 +3632,7 @@ INFO: 404 out of 23269 refGene.refGene.name2 are annotated through annotation da
 <div class=" highlight hl-sos"><pre><span></span><span class="n">grep</span> <span class="o">-</span><span class="n">i</span> <span class="n">error</span> <span class="o">*.</span><span class="n">log</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="mi">10</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -3700,7 +3642,7 @@ INFO: 404 out of 23269 refGene.refGene.name2 are annotated through annotation da
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -3723,8 +3665,7 @@ INFO: 404 out of 23269 refGene.refGene.name2 are annotated through annotation da
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>To view results,</p>
 
@@ -3739,7 +3680,7 @@ INFO: 404 out of 23269 refGene.refGene.name2 are annotated through annotation da
 <div class=" highlight hl-sos"><pre><span></span><span class="n">head</span> <span class="n">EA_RV_VT</span><span class="o">.</span><span class="n">asso</span><span class="o">.</span><span class="n">res</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -3749,7 +3690,7 @@ INFO: 404 out of 23269 refGene.refGene.name2 are annotated through annotation da
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -3772,8 +3713,7 @@ AHNAK        	89              	4                	4             	-1.18887   	0.76
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Sort and output the lowest p-values using the command:</p>
 
@@ -3788,7 +3728,7 @@ AHNAK        	89              	4                	4             	-1.18887   	0.76
 <div class=" highlight hl-sos"><pre><span></span><span class="n">sort</span> <span class="o">-</span><span class="n">g</span> <span class="o">-</span><span class="n">k6</span> <span class="n">EA_RV_VT</span><span class="o">.</span><span class="n">asso</span><span class="o">.</span><span class="n">res</span> <span class="o">|</span> <span class="n">head</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -3798,7 +3738,7 @@ AHNAK        	89              	4                	4             	-1.18887   	0.76
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -3821,8 +3761,7 @@ PDSS1        	55              	1                	1             	-11.7564   	0.03
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Why-do-some-tests-fail?">Why do some tests fail?<a class="anchor-link" href="#Why-do-some-tests-fail?">&#182;</a></h3><p>Notice that <code>vtools associate</code> command will fail on some association test units. Instances of failure are printed to terminal in red and are recorded in the project log file. Most failures occur due to an association test unit having too few samples or number of variants (for gene based analysis). You should view these error messages after each association scan is complete, e.g., using the Linux command <code>grep -i error *.log</code> and make sure you are informed of why failures occur.</p>
 <p>In the variable thresholds analysis above, gene TMCC1 failed the association test. If we look at this gene more closely we can see which variants are being analyzed by our test:</p>
@@ -3838,7 +3777,7 @@ PDSS1        	55              	1                	1             	-11.7564   	0.03
 <div class=" highlight hl-sos"><pre><span></span><span class="n">vtools</span> <span class="n">select</span> <span class="n">rare_ceu</span> <span class="s2">&quot;refGene.name2=&#39;TMCC1&#39;&quot;</span> <span class="o">-</span><span class="n">o</span> <span class="nb">chr</span> <span class="n">pos</span> <span class="n">ref</span> <span class="n">alt</span> <span class="n">CEU_mafGD10</span> <span class="n">numGD10</span> <span class="n">mut_type</span> <span class="o">--</span><span class="n">header</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -3848,7 +3787,7 @@ PDSS1        	55              	1                	1             	-11.7564   	0.03
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -3863,8 +3802,7 @@ PDSS1        	55              	1                	1             	-11.7564   	0.03
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>After applying our QC filters we are left with one variant within the TMCC1 gene to analyze. Because the MAF for this variant is 0.0 there are no variants in the gene to analyze so that this gene is ignored. Note that all individuals are homozygous for the alternative allele for this variant site.</p>
 <h3 id="QQ-and-Manhattan-plots-for-association-results">QQ and Manhattan plots for association results<a class="anchor-link" href="#QQ-and-Manhattan-plots-for-association-results">&#182;</a></h3><p>The vtools report plot association command generates QQ and Manhattan plots from output of vtools associate command. More details about vtools report plot association can be found at</p>
@@ -3882,7 +3820,7 @@ PDSS1        	55              	1                	1             	-11.7564   	0.03
 <span class="n">vtools_report</span> <span class="n">plot_association</span> <span class="n">manhattan</span> <span class="o">-</span><span class="n">o</span> <span class="n">MHRV</span> <span class="o">-</span><span class="n">b</span> <span class="o">--</span><span class="n">label_top</span> <span class="mi">5</span> <span class="o">--</span><span class="n">color</span> <span class="n">Dark2</span> <span class="o">--</span><span class="n">chrom_prefix</span> <span class="bp">None</span> <span class="o">-</span><span class="n">f</span> <span class="mi">6</span> <span class="o">&lt;</span> <span class="n">EA_RV</span><span class="o">.</span><span class="n">asso</span><span class="o">.</span><span class="n">res</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -3892,7 +3830,7 @@ PDSS1        	55              	1                	1             	-11.7564   	0.03
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -3921,7 +3859,7 @@ INFO: Complete!
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">preview</span> <span class="n">MHRV</span><span class="o">.</span><span class="n">pdf</span> <span class="o">-</span><span class="n">s</span> <span class="n">png</span> <span class="o">--</span><span class="n">dpi</span> <span class="mi">150</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -3931,7 +3869,7 @@ INFO: Complete!
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -3943,7 +3881,7 @@ INFO: Complete!
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -3967,7 +3905,7 @@ INFO: Complete!
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">preview</span> <span class="n">QQRV</span><span class="o">.</span><span class="n">pdf</span> <span class="o">-</span><span class="n">s</span> <span class="n">png</span> <span class="o">--</span><span class="n">dpi</span> <span class="mi">150</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -3977,7 +3915,7 @@ INFO: Complete!
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -3989,7 +3927,7 @@ INFO: Complete!
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -4006,12 +3944,11 @@ INFO: Complete!
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>QQ plots aid in evaluating if there is systematic inflation of test statistics. A common cause of inflation is population structure or batch effects.  If you observe significant inflation of test you may consider including MDS components in the association test model.</p>
-<h3 id="MDS-analysis-and-PC-adjustment">MDS analysis and PC adjustment<a class="anchor-link" href="#MDS-analysis-and-PC-adjustment">&#182;</a></h3><p>This pipeline needs <a href="http://zzz.bwh.harvard.edu/plink/dist/plink-1.07-x86_64.zip">PLINK 1.07</a>
-and <a href="http://people.virginia.edu/~wc9c/KING/executables/Linux-king214.tar.gz">KING</a>.</p>
+<h3 id="MDS-analysis-and-PC-adjustment">MDS analysis and PC adjustment<a class="anchor-link" href="#MDS-analysis-and-PC-adjustment">&#182;</a></h3><p>This pipeline needs <a href="https://www.cog-genomics.org/plink/1.9/">PLINK 1.9</a>
+and <a href="http://people.virginia.edu/~wc9c/KING/executables/Linux-king224.tar.gz">KING</a>.</p>
 
 </div>
 </div>
@@ -4024,7 +3961,7 @@ and <a href="http://people.virginia.edu/~wc9c/KING/executables/Linux-king214.tar
 <div class=" highlight hl-sos"><pre><span></span><span class="n">vtools</span> <span class="n">execute</span> <span class="n">KING</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -4034,7 +3971,7 @@ and <a href="http://people.virginia.edu/~wc9c/KING/executables/Linux-king214.tar
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -4085,7 +4022,7 @@ INFO: Execution of pipeline KING.king is successful with output KING.RelatedIndi
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">preview</span> <span class="n">KING</span><span class="o">.</span><span class="n">mds</span><span class="o">.</span><span class="n">pdf</span> <span class="o">-</span><span class="n">s</span> <span class="n">png</span> <span class="o">--</span><span class="n">dpi</span> <span class="mi">150</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -4095,7 +4032,7 @@ INFO: Execution of pipeline KING.king is successful with output KING.RelatedIndi
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -4107,7 +4044,7 @@ INFO: Execution of pipeline KING.king is successful with output KING.RelatedIndi
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -4124,8 +4061,7 @@ INFO: Execution of pipeline KING.king is successful with output KING.RelatedIndi
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>You should not arbitrarily include MDS (or PCA) components in the analysis.  Instead put in each MDS component and examine the lambda value, i.e. include MDS component 1 them MDS components 1 and 2, etc. Visualization of the QQ plot is also useful to determine if population substructure/admixture is controlled.</p>
 <h2 id="2.6--Association-analysis-of-YRI-samples">2.6  Association analysis of YRI samples<a class="anchor-link" href="#2.6--Association-analysis-of-YRI-samples">&#182;</a></h2><p>Procedures for YRI sample association analysis is the same as for CEU samples as previously has been described, thus is left as an extra exercise for you to work on your own. Commands to perform analysis for YRI are found below:</p>
@@ -4141,7 +4077,7 @@ INFO: Execution of pipeline KING.king is successful with output KING.RelatedIndi
 <div class=" highlight hl-sos"><pre><span></span><span class="n">vtools</span> <span class="n">associate</span> <span class="n">rare_ceu</span> <span class="n">BMI</span> <span class="o">--</span><span class="n">covariate</span> <span class="n">SEX</span> <span class="n">KING_MDS1</span> <span class="n">KING_MDS2</span> <span class="o">-</span><span class="n">m</span> <span class="s2">&quot;LinRegBurden --name RVMDS2 --alternative 2&quot;</span> <span class="o">-</span><span class="n">g</span> <span class="n">refGene</span><span class="o">.</span><span class="n">name2</span> <span class="o">-</span><span class="n">j1</span> <span class="o">--</span><span class="n">to_db</span> <span class="n">EA_RV</span> <span class="o">&gt;</span> <span class="n">EA_RV_MDS2</span><span class="o">.</span><span class="n">asso</span><span class="o">.</span><span class="n">res</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -4151,7 +4087,7 @@ INFO: Execution of pipeline KING.king is successful with output KING.RelatedIndi
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -4191,7 +4127,7 @@ INFO: 404 out of 23269 refGene.refGene.name2 are annotated through annotation da
 <div class=" highlight hl-sos"><pre><span></span><span class="n">vtools_report</span> <span class="n">plot_association</span> <span class="n">qq</span> <span class="o">-</span><span class="n">o</span> <span class="n">QQRV_MDS2</span> <span class="o">-</span><span class="n">b</span> <span class="o">--</span><span class="n">label_top</span> <span class="mi">2</span> <span class="o">-</span><span class="n">f</span> <span class="mi">6</span> <span class="o">&lt;</span> <span class="n">EA_RV_MDS2</span><span class="o">.</span><span class="n">asso</span><span class="o">.</span><span class="n">res</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -4201,7 +4137,7 @@ INFO: 404 out of 23269 refGene.refGene.name2 are annotated through annotation da
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -4226,7 +4162,7 @@ INFO: Complete!
 <div class=" highlight hl-sos"><pre><span></span><span class="n">vtools</span> <span class="n">select</span> <span class="n">variant</span> <span class="s2">&quot;YRI_mafGD10&gt;=0.05&quot;</span> <span class="o">--</span><span class="n">samples</span> <span class="s2">&quot;RACE=0&quot;</span> <span class="o">-</span><span class="n">t</span> <span class="n">common_yri</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -4236,7 +4172,7 @@ INFO: Complete!
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -4260,7 +4196,7 @@ INFO: 1984 variants selected.
 <div class=" highlight hl-sos"><pre><span></span><span class="n">vtools</span> <span class="n">select</span> <span class="n">v_funct</span> <span class="s2">&quot;YRI_mafGD10&lt;0.01&quot;</span> <span class="o">--</span><span class="n">samples</span> <span class="s2">&quot;RACE=0&quot;</span> <span class="o">-</span><span class="n">t</span> <span class="n">rare_yri</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -4270,7 +4206,7 @@ INFO: 1984 variants selected.
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -4294,7 +4230,7 @@ INFO: 746 variants selected.
 <div class=" highlight hl-sos"><pre><span></span><span class="n">vtools</span> <span class="n">associate</span> <span class="n">common_yri</span> <span class="n">BMI</span> <span class="o">--</span><span class="n">covariate</span> <span class="n">SEX</span> <span class="o">--</span><span class="n">samples</span> <span class="s2">&quot;RACE=0&quot;</span> <span class="o">-</span><span class="n">m</span> <span class="s2">&quot;LinRegBurden --alternative 2&quot;</span> <span class="o">-</span><span class="n">j1</span> <span class="o">--</span><span class="n">to_db</span> <span class="n">YA_CV</span> <span class="o">&gt;</span> <span class="n">YA_CV</span><span class="o">.</span><span class="n">asso</span><span class="o">.</span><span class="n">res</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -4304,7 +4240,7 @@ INFO: 746 variants selected.
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -4332,7 +4268,7 @@ INFO: 1984 out of 6986 variant.chr, variant.pos are annotated through annotation
 <div class=" highlight hl-sos"><pre><span></span><span class="n">vtools</span> <span class="n">associate</span> <span class="n">rare_yri</span> <span class="n">BMI</span> <span class="o">--</span><span class="n">covariate</span> <span class="n">SEX</span> <span class="o">--</span><span class="n">samples</span> <span class="s2">&quot;RACE=0&quot;</span> <span class="o">-</span><span class="n">m</span> <span class="s2">&quot;LinRegBurden --alternative 2&quot;</span> <span class="o">-</span><span class="n">g</span> <span class="n">refGene</span><span class="o">.</span><span class="n">name2</span> <span class="o">-</span><span class="n">j1</span> <span class="o">--</span><span class="n">to_db</span> <span class="n">YA_RV</span> <span class="o">&gt;</span> <span class="n">YA_RV</span><span class="o">.</span><span class="n">asso</span><span class="o">.</span><span class="n">res</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -4342,7 +4278,7 @@ INFO: 1984 out of 6986 variant.chr, variant.pos are annotated through annotation
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -4371,7 +4307,7 @@ INFO: 419 out of 23269 refGene.refGene.name2 are annotated through annotation da
     <span class="o">-</span><span class="n">g</span> <span class="n">refGene</span><span class="o">.</span><span class="n">name2</span> <span class="o">-</span><span class="n">j1</span> <span class="o">--</span><span class="n">to_db</span> <span class="n">YA_RV</span> <span class="o">&gt;</span> <span class="n">YA_RV_VT</span><span class="o">.</span><span class="n">asso</span><span class="o">.</span><span class="n">res</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -4381,7 +4317,7 @@ INFO: 419 out of 23269 refGene.refGene.name2 are annotated through annotation da
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -4402,8 +4338,7 @@ INFO: 419 out of 23269 refGene.refGene.name2 are annotated through annotation da
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="2.7--Meta-analysis">2.7  Meta-analysis<a class="anchor-link" href="#2.7--Meta-analysis">&#182;</a></h2><p>Here we demonstrate the application of meta-analysis to combine association results from the two populations via <code>vtools report meta_analysis</code>. More details about <code>vtools report meta_analysis</code> command can be found at</p>
 <p><a href="http://varianttools.sourceforge.net/VtoolsReport/MetaAnalysis">http://varianttools.sourceforge.net/VtoolsReport/MetaAnalysis</a></p>
@@ -4420,14 +4355,13 @@ INFO: 419 out of 23269 refGene.refGene.name2 are annotated through annotation da
 <div class=" highlight hl-sos"><pre><span></span><span class="n">vtools_report</span> <span class="n">meta_analysis</span> <span class="n">EA_RV_VT</span><span class="o">.</span><span class="n">asso</span><span class="o">.</span><span class="n">res</span> <span class="n">YA_RV_VT</span><span class="o">.</span><span class="n">asso</span><span class="o">.</span><span class="n">res</span> <span class="o">--</span><span class="n">beta</span> <span class="mi">5</span> <span class="o">--</span><span class="n">pval</span> <span class="mi">6</span> <span class="o">--</span><span class="n">se</span> <span class="mi">7</span> <span class="o">-</span><span class="n">n</span> <span class="mi">2</span> <span class="o">--</span><span class="n">link</span> <span class="mi">1</span> <span class="o">&gt;</span> <span class="n">META_RV_VT</span><span class="o">.</span><span class="n">asso</span><span class="o">.</span><span class="n">res</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>To view the results,</p>
 
@@ -4442,7 +4376,7 @@ INFO: 419 out of 23269 refGene.refGene.name2 are annotated through annotation da
 <div class=" highlight hl-sos"><pre><span></span><span class="n">cut</span> <span class="o">-</span><span class="n">f1</span><span class="p">,</span><span class="mi">3</span> <span class="n">META_RV_VT</span><span class="o">.</span><span class="n">asso</span><span class="o">.</span><span class="n">res</span> <span class="o">|</span> <span class="n">sort</span> <span class="o">-</span><span class="n">g</span> <span class="o">-</span><span class="n">k2</span> <span class="o">|</span> <span class="n">head</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -4452,7 +4386,7 @@ INFO: 419 out of 23269 refGene.refGene.name2 are annotated through annotation da
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -4475,8 +4409,7 @@ PLXDC1	5.296E-02
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Note that for genes that only appears in one study but not the other, or only have a valid p-value in one study but not the other, will be ignored from meta-analysis.</p>
 <h2 id="2.8--Summary">2.8  Summary<a class="anchor-link" href="#2.8--Summary">&#182;</a></h2><p>Analyzing variants with VAT is much like any other analysis software with a general workflow of:</p>
@@ -4494,8 +4427,7 @@ PLXDC1	5.296E-02
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Questions">Questions<a class="anchor-link" href="#Questions">&#182;</a></h2><h3 id="Question-1">Question 1<a class="anchor-link" href="#Question-1">&#182;</a></h3><p>List the four lowest p-values and associated variants or gene regions for the EA <code>CV.asso.res</code>, <code>EA RV.asso.res</code>, and <code>EA RV VT.asso.res</code> test outputs, which are results from single variant Wald test, rare variant BRV and VT tests, respectively, using the European American (CEU) population. Also, list the results using Yoruba African (YRI) population from <code>YA CV.asso.res</code>, <code>YA RV.asso.res</code> and <code>YA RV VT.asso.res</code>.</p>
 
@@ -4503,8 +4435,7 @@ PLXDC1	5.296E-02
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>EA CV.asso.res - single variant tests using CEU</p>
 <p>1)</p>
@@ -4541,8 +4472,7 @@ PLXDC1	5.296E-02
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Question-2">Question 2<a class="anchor-link" href="#Question-2">&#182;</a></h3><p>List any gene regions that show up in the lowest eight p-values for both the BRV and the VT tests. Why might the p-values for the VT tests be higher than the p-values for the BRV tests? Are any of the top p-value hits significant? Why or why not?</p>
 
@@ -4550,8 +4480,7 @@ PLXDC1	5.296E-02
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Answers">Answers<a class="anchor-link" href="#Answers">&#182;</a></h2><h3 id="Question-1">Question 1<a class="anchor-link" href="#Question-1">&#182;</a></h3><p>EA CV.asso.res</p>
 <ol>
@@ -4600,8 +4529,7 @@ PLXDC1	5.296E-02
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Question-2">Question 2<a class="anchor-link" href="#Question-2">&#182;</a></h3><p>The p-values do not achieve significance based on the corrected p values above (Bonferroni correction for multiple tests). Since the BMI values were randomly generated for each individual it is unlikely that any of the p-values for the single variant and aggregation tests would have achieved significance. Also, because of the multiple testing, the p-values for the VT tests might be higher than the p-values for the BRV tests.</p>
 
@@ -4609,8 +4537,7 @@ PLXDC1	5.296E-02
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="References">References<a class="anchor-link" href="#References">&#182;</a></h2><ol>
 <li>Wang, G.T., Peng, B., and Leal, S.M. (2014). Variant Association
@@ -4666,7 +4593,7 @@ linkage analysis. Am J Hum Genet, 2007 81:559-75</p>
 </div>
 <hr>
 &copy 2019 Center for Statistical Genetics, Department of Neurology, Columbia University
-<p><small>Exported from <a href="http://github.com/statgenetics/statgen-courses/blob/86828ce61a81ecb0b4e6ee9408373d210546bd3a/notebooks/VAT.ipynb"><code>notebooks/VAT.ipynb</code></a> committed by Gao Wang on Thu Oct 10 10:07:28 2019 <a href="http://github.com/statgenetics/statgen-courses/commit/86828ce61a81ecb0b4e6ee9408373d210546bd3a">revision 10, 86828ce</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/statgenetics/statgen-courses/blob/7af5e49f44d48e273f2210f622e163696e37ee9e/notebooks/VAT.ipynb"><code>notebooks/VAT.ipynb</code></a> committed by Gao Wang on Mon Oct 28 08:30:48 2019 <a href="http://github.com/statgenetics/statgen-courses/commit/7af5e49f44d48e273f2210f622e163696e37ee9e">revision 12, 7af5e49</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>
