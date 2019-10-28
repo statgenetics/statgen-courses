@@ -4,6 +4,18 @@
 - `notebook` folder contains all tutorial notebooks.
 - `src` folder contains utility scripts eg, tools to setup the Jupyter server online.
 
+## Prepare your computer for the job
+
+Software you need to install on your computer are [`SoS` and `docker` installed](http://statgen.us/lab-wiki/orientation/jupyter-setup.html).
+Additionally to test the course material on your computer (not on cloud VM) you have to put `src/statgen-setup` script to your `PATH` and change it to executable, 
+eg, `chmod +x ~/bin/statgen-setup` if you put it under `~/bin` which is part of your `PATH`. To verify your setup, type:
+
+```
+statgen-setup -h
+```
+
+you should see some meaningful output
+
 ## Build tutorial specific images
 
 [`gaow/base-notebook`](https://cloud.docker.com/u/gaow/repository/docker/gaow/base-notebook), 
@@ -19,11 +31,7 @@ docker push statisticalgenetics/vat
 
 ## Setup course JupyterHub server on your computer
 
-Now you should be able to use the images on your computer, as long as you have [both `SoS` and `docker` installed](http://statgen.us/lab-wiki/orientation/jupyter-setup.html).
-Additionally you have to put `src/statgen-setup` script to your `PATH` and change it to executable, eg, `chmod +x ~/bin/statgen-setup` if you put it under `~/bin` which is
-part of your `PATH`.
-
-To set it up for selected tutorial(s), for example for `vat` and `pseq` tutorials,
+To set it up for selected tutorial(s) on your local computer, for example for `vat` and `pseq` tutorials,
 
 ```bash
 statgen-setup launch --tutorials vat pseq
