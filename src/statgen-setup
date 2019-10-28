@@ -69,6 +69,27 @@ bash: expand = True, workdir = '~/'
     # Create a shortcut to access from browser
     echo '<meta http-equiv="Refresh" content="0; url=http://{ip}:{ports[_index]}" />' 2> /dev/null 1> /var/www/html/{_tutorials}.html && printf '\nDone! Users can now access {_tutorials} tutorial at http://{ip}/{_tutorials}.html\n\n' || true
 
+[login]
+fail_if(len(tutorials) == 0, msg = 'Please specify a list of tutorials to launch, via ``--tutorials`` option.')
+fail_if(len(my_name) == 0 or my_name == 'hub_user', msg = 'Please assign yourself a username, via ``--my-name`` option.')
+fail_if(not all((a.isalnum() or a == '_') and not a.isspace() for a in my_name), msg = 'Please use only alphanumeric letters and no space for ``--my-name`` input.')
+input: for_each = 'tutorials', concurrent = False
+bash: expand = '$[ ]', workdir = '~/'
+    cmd="docker exec -it sandbox_$[_tutorials]_$[my_name] bash"
+    echo "Logging in via: $cmd"
+    {
+    $cmd 2> /dev/null
+    } || {
+    # Get the relevant image
+    docker pull statisticalgenetics/$[_tutorials]
+    # Stop currently running instances to start from scratch
+    docker stop sandbox_$[_tutorials]_$[my_name] &> /dev/null || true
+    # Run it in the background, `-d` option
+    docker run -d --rm --security-opt label:disable -v $HOME:/home/jovyan/work -v /tmp:/tmp -t --name sandbox_$[_tutorials]_$[my_name] -h $[_tutorials]-$[my_name] statisticalgenetics/$[_tutorials]
+    # Then login
+    $cmd
+    }
+
 [clean]
 bash:
     docker stop $(docker ps -a -q) || true

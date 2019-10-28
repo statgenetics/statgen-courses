@@ -15,3 +15,5 @@ USER jovyan
 ARG DUMMY=unknown
 RUN DUMMY=${DUMMY} curl -fsSL https://raw.githubusercontent.com/statgenetics/statgen-courses/master/notebooks/PSEQ.ipynb -o PSEQ.ipynb
 RUN jupyter nbconvert --ClearOutputPreprocessor.enabled=True --inplace PSEQ.ipynb
+RUN curl -fsSL https://raw.githubusercontent.com/statgenetics/statgen-courses/master/handout/PSEQ.docx -o PSEQ.docx
+RUN curl -fsSL https://raw.githubusercontent.com/statgenetics/statgen-courses/master/handout/PSEQ.pdf -o PSEQ.pdf

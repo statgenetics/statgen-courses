@@ -17,14 +17,16 @@ docker build --build-arg DUMMY=`date +%s` -t statisticalgenetics/vat -f docker/v
 docker push statisticalgenetics/vat
 ```
 
-## Serve on your own computer
+## Setup course JupyterHub server on your computer
 
 Now you should be able to use the images on your computer, as long as you have [both `SoS` and `docker` installed](http://statgen.us/lab-wiki/orientation/jupyter-setup.html).
+Additionally you have to put `src/statgen-setup` script to your `PATH` and change it to executable, eg, `chmod +x ~/bin/statgen-setup` if you put it under `~/bin` which is
+part of your `PATH`.
 
 To set it up for selected tutorial(s), for example for `vat` and `pseq` tutorials,
 
 ```bash
-sos run src/statgen-setup launch --tutorials vat pseq
+statgen-setup launch --tutorials vat pseq
 ```
 
 After all steps are complete, you check the Jupyter Hub server on your machine:
@@ -38,7 +40,7 @@ CONTAINER ID        IMAGE               COMMAND                  CREATED        
 
 The `0.0.0.0:8847` is the address to the server (your port number may vary). To view it, simply paste that address to your browser. 
 
-## Serve on the cloud
+## Setup course JupyterHub server on cloud
 
 Having tested the course image and server work on a local computer it is time to deploy them to a cloud service for others to use.
 
@@ -103,7 +105,17 @@ All tutorials can be viewed at:
 
 https://statgenetics.github.io/statgen-courses/notebooks.html
 
-## Run tutorials
+## Run tutorial from command terminal
+
+The idea is to start your own docker container and log into it from commandline. To do this,
+
+```
+statgen-setup login --tutorials vat --my-name <my-name>
+```
+
+where `<my-name>` is an identification that you chose (that should not conflict with the choice of another user if you share a computer). When you are done with the tutorial just type `exit` to exit.
+
+## Run tutorials via JupyterHub server
 
 To view a specific tutorial, say, `vat`, you can simply type in your browser:
 

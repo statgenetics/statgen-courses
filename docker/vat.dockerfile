@@ -44,3 +44,4 @@ RUN vtools admin --update_resource existing
 ARG DUMMY=unknown
 RUN DUMMY=${DUMMY} curl -fsSL https://raw.githubusercontent.com/statgenetics/statgen-courses/master/notebooks/VAT.ipynb -o VAT.ipynb
 RUN jupyter nbconvert --ClearOutputPreprocessor.enabled=True --inplace VAT.ipynb
+RUN curl -fsSL https://raw.githubusercontent.com/statgenetics/statgen-courses/master/handout/VAT.doc -o VAT.doc
