@@ -64,7 +64,7 @@ statgen-setup clean
 
 ## Render HTML static website for notebooks
 
-That is, generate https://statgenetics.github.io/statgen-courses/notebooks.html
+That is, generate https://statgenetics.github.io/statgen-courses/notebooks.html.
 To do this you need to have `sos` installed on your local computer if you don't already:
 
 ```bash
@@ -88,9 +88,9 @@ pandoc -s exercise.docx -t markdown -o exercise.md
 notedown exercise.md > exercise.ipynb
 ```
 
-The notedown program can be installed via `pip install notedown`. 
+The notedown program can be installed via `pip install notedown`. Additionally you need to install `pandoc` program.
 
-Manual polishment is still needed after the automatic conversion. This is just a start point.
+The conversion is just a start point. Manual polishment is still needed after the automatic conversion.
 Specifically, it will be important to separate codes from text to different Notebook cells,
 and assign to each cell the approperate kernel if using SoS multi-language Notebook. Command output should also be
 removed from the text because they will be generated automatically and formatted better, after executing the notebook.
