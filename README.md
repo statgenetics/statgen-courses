@@ -44,13 +44,18 @@ The `0.0.0.0:8847` is the address to the server (your port number may vary). To 
 
 Having tested the course image and server work on a local computer it is time to deploy them to a cloud service for others to use.
 
+### Setup a cloud VM
+
 Say from a VPS service provider (eg, vultr.com) we purchase a Debian based VM droplet (Debian 9 is what I use as I document this). In the root terminal of the VM,
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/statgenetics/statgen-courses/master/src/vm-setup.sh -o /tmp/vm-setup.sh
 bash /tmp/vm-setup.sh
 ```
-To set it up for selected tutorial(s), for example for `vat` and `pseq` tutorials,
+
+### Start tutorial server on VM
+
+To set it up for selected tutorial(s), for example for `vat` and `pseq` tutorials, run from the root terminal
 
 ```bash
 statgen-setup launch --tutorials vat pseq
@@ -61,6 +66,8 @@ For maintainance, to shutdown all containers and clean up the dangling ones,
 ```bash
 statgen-setup clean
 ```
+
+I suggest you run `statgen-setup clean` before launching a new tutorial (`statgen-setup launch`). This will terminate other running tutorial servers on machine to free up resources for the new tutorial. Otherwise you might run out of memory for having too many tutorials servers running the same time on a small VM.
 
 **Note: if you (as a developer) would like to modify the notebook on cloud server please remember to download it to your local computer after modifications; or save to `workdir` and download from there later. The docker container does not preserve changes made to the notebook in it.** 
 
@@ -117,11 +124,13 @@ where `<my-name>` is an identification that you chose (that should not conflict 
 
 ## Run tutorials via JupyterHub server
 
-To view a specific tutorial, say, `vat`, you can simply type in your browser:
+To run a specific tutorial, say, `vat`, you can simply type in your browser:
 
 ```
 http://<ip-address>/vat.html
 ```
+
+(If you are not provided this link, you would need to login as root to the cloud VM you are assigned to, and start the tutorial server before you can run them. See section `Start tutorial server on VM` above for details.)
 
 The server will configure itself the first time it launches; you will then be directed to a JupyterLab interface. 
 Then you should see in the a notebook file `*.ipynb` on the left panel. Click on it to start running the tutorial.
