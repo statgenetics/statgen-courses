@@ -60,6 +60,8 @@ For maintainance, to shutdown all containers and clean up the dangling ones,
 statgen-setup clean
 ```
 
+**Note: if you (as a developer) would like to modify the notebook on cloud server please remember to download it to your local computer after modifications; or save to `workdir` and download from there later. The docker container does not preserve changes made to the notebook in it.** 
+
 ## Render HTML static website for notebooks
 
 That is, generate https://statgenetics.github.io/statgen-courses/notebooks.html
