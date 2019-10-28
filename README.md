@@ -118,10 +118,10 @@ To run a specific tutorial, say, `vat`, you can simply type in your browser:
 http://<ip-address>/vat.html
 ```
 
+(If you are not provided this link, you would need to login as root to the cloud VM you are assigned to, and start the tutorial server before you can run them. See section `Start tutorial server on VM` above for details.)
+
 The server will configure itself the first time it launches; you will then be directed to a JupyterLab interface. 
 Then you should see in the a notebook file `*.ipynb` on the left panel. Click on it to start running the tutorial.
-
-If you are not provided the link above, you would need to login as root to the cloud VM you are assigned to, and start the tutorial server before you can run them. See section `Start tutorial server on VM` above for details.
 
 **Note: the session will be there for you until it is killed explicitly, or until the server kills it periodically (currently configured to kill after 24hrs inactivity).**
 **It therefore strongly encouraged that you save your work after you complete the tutorial.**
