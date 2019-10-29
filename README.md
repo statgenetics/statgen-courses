@@ -80,6 +80,20 @@ I suggest you run `statgen-setup clean` before launching a new tutorial (`statge
 
 **Note: if you (as a developer) would like to modify the notebook on cloud server please remember to download it to your local computer after modifications; or save to `workdir` and download from there later. The docker container does not preserve changes made to the notebook in it.** 
 
+## Create user accounts on cloud VM
+
+I provide a shortcut to create new users on the cloud:
+
+```
+statgen-setup useradd --my-name <my_name>
+```
+
+It will generate a password for the user, add it and print the new user ID and password. To add multiple users, say 30 users,
+
+```
+for i in {1..30}; do statgen-setup useradd --my-name student_$i -v0; done
+```
+
 ## Render HTML static website for notebooks
 
 That is, generate https://statgenetics.github.io/statgen-courses/notebooks.html.

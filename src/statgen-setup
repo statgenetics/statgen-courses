@@ -102,6 +102,14 @@ bash: expand = '$[ ]', workdir = '~/'
     fi
     }
 
+[useradd]
+fail_if(len(my_name) == 0 or my_name == 'hub_user', msg = 'Please assign yourself a username, via ``--my-name`` option.')
+passwd = random.randint(10000, 99999)
+bash: expand = True
+  useradd -g docker {my_name} -d /home/{my_name} -m -s /bin/bash
+  echo {my_name}_{passwd} | passwd --stdin {my_name}
+  printf "\nNew user created: {my_name}:{my_name}_{passwd}\n"
+
 [clean]
 bash:
     docker stop $(docker ps -a -q) || true
