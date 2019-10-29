@@ -7,10 +7,22 @@
 parameter: tutorial = []
 parameter: my_name = 'hub_user'
 
-import socket
+import socket, random
+
 def is_port_in_use(port):
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         return s.connect_ex(('localhost', port)) == 0
+
+def get_ports(num):
+    all_ports = list(range(1001, 8888))
+    random.shuffle(all_ports)
+    ports = []
+    for idx, item in enumerate(all_ports):
+        if not is_port_in_use(item):
+            ports.append(item)
+        if len(ports) >= num:
+            break
+    return ports
 
 [launch_1]
 output: "~/.cache/cull_idle_servers.py", "~/.cache/jupyterhub_config.py"
@@ -40,16 +52,7 @@ docker_build: tag = f'{_tutorial}_{my_name}', expand = True, workdir = '~/.cache
 
 [launch_3]
 depends: executable('setfacl')
-import random
-all_ports = list(range(1001, 8888))
-random.shuffle(all_ports)
-ports = []
-for idx, item in enumerate(all_ports):
-    if not is_port_in_use(item):
-        ports.append(item)
-    if len(ports) >= len(tutorial):
-        break
-from sos.utils import get_output
+ports = get_ports(len(tutorial))
 ip = get_output("hostname -I | awk '{print $1}'").strip()
 #
 input: for_each = 'tutorial', concurrent = False
@@ -74,6 +77,9 @@ fail_if(len(tutorial) != 1, msg = 'Please specify a tutorial to launch, via ``--
 fail_if(len(my_name) == 0 or my_name == 'hub_user', msg = 'Please assign yourself a username, via ``--my-name`` option.')
 fail_if(not all((a.isalnum() or a == '_') and not a.isspace() for a in my_name), msg = 'Please use only alphanumeric letters and no space for ``--my-name`` input.')
 tutorial = tutorial[0]
+if tutorial == 'igv':
+    port = get_ports(1)[0]
+    ip = get_output("hostname -I | awk '{print $1}'").strip()
 bash: expand = '$[ ]', workdir = '~/'
     cmd="docker exec -it sandbox_$[tutorial]_$[my_name] bash"
     echo "Logging in via: $cmd"
@@ -84,22 +90,17 @@ bash: expand = '$[ ]', workdir = '~/'
     docker pull statisticalgenetics/$[tutorial]
     # Stop currently running instances to start from scratch
     docker stop sandbox_$[tutorial]_$[my_name] &> /dev/null || true
-    # Run it in the background, `-d` option
-    docker run -d --rm --security-opt label:disable -v $HOME:/home/jovyan/work -v /tmp:/tmp -t --name sandbox_$[tutorial]_$[my_name] -h $[tutorial]-$[my_name] statisticalgenetics/$[tutorial]
-    # Then login
-    $cmd
+    if [ "$[tutorial]" == "igv" ]
+    then 
+        docker run -d --rm --security-opt label:disable -t --name sandbox_$[tutorial]_$[my_name] -h $[tutorial]-$[my_name] -p $[port]:8080 statisticalgenetics/$[tutorial]
+        printf '\nPlease access the IGV server at http://$[ip]:$[port]\n\n'
+    else
+        # Run it in the background, `-d` option
+        docker run -d --rm --security-opt label:disable -v $HOME:/home/jovyan/work -v /tmp:/tmp -t --name sandbox_$[tutorial]_$[my_name] -h $[tutorial]-$[my_name] statisticalgenetics/$[tutorial]
+        # Then login
+        $cmd
+    fi
     }
-
-[igv_1]
-fail_if(len(my_name) == 0 or my_name == 'hub_user', msg = 'Please assign yourself a username, via ``--my-name`` option.')
-fail_if(not all((a.isalnum() or a == '_') and not a.isspace() for a in my_name), msg = 'Please use only alphanumeric letters and no space for ``--my-name`` input.')
-bash: expand = '$[ ]', workdir = '~/'
-    # Get the relevant image
-    docker pull dceoy/igv-webapp
-    # Stop currently running instances to start from scratch
-    docker stop igv_$[my_name] &> /dev/null || true
-    # Run it in the background, `-d` option
-    docker run -d --rm --security-opt label:disable -v $HOME:/root/workhome/jovyan/work -v /tmp:/tmp -t --name sandbox_$[tutorial]_$[my_name] -h $[tutorial]-$[my_name] statisticalgenetics/$[tutorial]
 
 [clean]
 bash:

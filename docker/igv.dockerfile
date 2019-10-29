@@ -1,8 +1,6 @@
 FROM dceoy/igv-webapp:latest
 
-WORKDIR $HOME
-RUN mkdir -p work
-
+WORKDIR /root
 # FIXME: add commands to download data to current directory
 
 ARG DUMMY=unknown
