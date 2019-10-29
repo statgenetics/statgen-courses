@@ -90,6 +90,17 @@ bash: expand = '$[ ]', workdir = '~/'
     $cmd
     }
 
+[igv_1]
+fail_if(len(my_name) == 0 or my_name == 'hub_user', msg = 'Please assign yourself a username, via ``--my-name`` option.')
+fail_if(not all((a.isalnum() or a == '_') and not a.isspace() for a in my_name), msg = 'Please use only alphanumeric letters and no space for ``--my-name`` input.')
+bash: expand = '$[ ]', workdir = '~/'
+    # Get the relevant image
+    docker pull dceoy/igv-webapp
+    # Stop currently running instances to start from scratch
+    docker stop igv_$[my_name] &> /dev/null || true
+    # Run it in the background, `-d` option
+    docker run -d --rm --security-opt label:disable -v $HOME:/root/workhome/jovyan/work -v /tmp:/tmp -t --name sandbox_$[tutorial]_$[my_name] -h $[tutorial]-$[my_name] statisticalgenetics/$[tutorial]
+
 [clean]
 bash:
     docker stop $(docker ps -a -q) || true
