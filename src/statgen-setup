@@ -77,6 +77,7 @@ fail_if(len(tutorial) != 1, msg = 'Please specify a tutorial to launch, via ``--
 fail_if(len(my_name) == 0 or my_name == 'hub_user', msg = 'Please assign yourself a username, via ``--my-name`` option.')
 fail_if(not all((a.isalnum() or a == '_') and not a.isspace() for a in my_name), msg = 'Please use only alphanumeric letters and no space for ``--my-name`` input.')
 tutorial = tutorial[0]
+port = ip = None
 if tutorial == 'igv':
     port = get_ports(1)[0]
     ip = get_output("hostname -I | awk '{print $1}'").strip()
