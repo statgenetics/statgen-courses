@@ -135,15 +135,23 @@ All tutorials can be viewed at:
 
 https://statgenetics.github.io/statgen-courses/notebooks.html
 
+## Available tutorials
+
+Available tutorials (via `statgen-setup ... --tutorial`) option are those with
+[docker images prepared](https://hub.docker.com/u/statisticalgenetics/). Currently
+available options are:
+
+- `igv`, `vat`, `pseq` ... (FIXME: please add to this list as tutorial images are ready)
+
 ## Run tutorial from command terminal
 
 The idea is to start your own docker container and log into it from commandline. To do this,
 
 ```
-statgen-setup login --tutorial vat --my-name <my-name>
+statgen-setup login --tutorial <tutorial> --my-name <my-name>
 ```
 
-where `<my-name>` is an identification that you chose (that should not conflict with the choice of another user if you share a computer). When you are done with the tutorial just type `exit` to exit.
+where `<tutorial>` is one of the available tutorials (see section above), and `<my-name>` is an identification that you chose (that should not conflict with the choice of another user if you share a computer). When you are done with the tutorial just type `exit` to exit.
 
 ## Run tutorials via JupyterHub server
 
