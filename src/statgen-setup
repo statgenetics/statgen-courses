@@ -73,6 +73,7 @@ bash: expand = True, workdir = '~/'
 fail_if(len(tutorial) != 1, msg = 'Please specify a tutorial to launch, via ``--tutorial`` option.')
 fail_if(len(my_name) == 0 or my_name == 'hub_user', msg = 'Please assign yourself a username, via ``--my-name`` option.')
 fail_if(not all((a.isalnum() or a == '_') and not a.isspace() for a in my_name), msg = 'Please use only alphanumeric letters and no space for ``--my-name`` input.')
+tutorial = tutorial[0]
 bash: expand = '$[ ]', workdir = '~/'
     cmd="docker exec -it sandbox_$[tutorial]_$[my_name] bash"
     echo "Logging in via: $cmd"
