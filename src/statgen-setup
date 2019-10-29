@@ -87,8 +87,6 @@ bash: expand = '$[ ]', workdir = '~/'
     {
     $cmd 2> /dev/null
     } || {
-    # Get the relevant image
-    docker pull statisticalgenetics/$[tutorial]
     # Stop currently running instances to start from scratch
     docker stop sandbox_$[tutorial]_$[my_name] &> /dev/null || true
     if [ "$[tutorial]" == "igv" ]
