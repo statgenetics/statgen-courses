@@ -91,7 +91,7 @@ statgen-setup useradd --my-name <my_name>
 It will generate a password for the user, add it and print the new user ID and password. To add multiple users, say 30 users,
 
 ```
-for i in {1..30}; do statgen-setup useradd --my-name student_$i -v0; done
+for i in {1..30}; do statgen-setup useradd --my-name student_$i 2> /dev/null; done
 ```
 
 ## Render HTML static website for notebooks
