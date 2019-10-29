@@ -57,6 +57,7 @@ ip = get_output("hostname -I | awk '{print $1}'").strip()
 #
 input: for_each = 'tutorial', concurrent = False
 bash: expand = True, workdir = '~/'
+    set -e
     # Get the relevant image
     docker pull statisticalgenetics/{_tutorial}
     # Stop currently running instances to start from scratch
@@ -65,12 +66,12 @@ bash: expand = True, workdir = '~/'
     # Create a user folder for notebook instance and set the permission
     ## https://github.com/jupyterhub/dockerspawner/issues/160
     ## FIXME: there may be smarter solutions but this is what I have so far
-    mkdir -p $HOME/{my_name} && chown 1000:100 $HOME/{my_name} && chmod g+rws $HOME/{my_name} && setfacl -d -m g::rwx $HOME/{my_name}
+    (mkdir -p $HOME/{my_name} && chown 1000:100 $HOME/{my_name} && chmod g+rws $HOME/{my_name} && setfacl -d -m g::rwx $HOME/{my_name}) || true
     # Start jupyterhub
     docker network inspect {_tutorial}_{my_name} &>/dev/null || docker network create {_tutorial}_{my_name}
     docker run --rm -it -d -v /var/run/docker.sock:/var/run/docker.sock --net {_tutorial}_{my_name} --name {_tutorial}_{my_name} -p{ports[_index]}:8000 {_tutorial}_{my_name}
     # Create a shortcut to access from browser
-    echo '<meta http-equiv="Refresh" content="0; url=http://{ip}:{ports[_index]}" />' 2> /dev/null 1> /var/www/html/{_tutorial}.html && printf '\nDone! Users can now access {_tutorial} tutorial at http://{ip}/{_tutorial}.html\n\n' || true
+    (echo '<meta http-equiv="Refresh" content="0; url=http://{ip}:{ports[_index]}" />' 2> /dev/null 1> /var/www/html/{_tutorial}.html && printf '\nDone! Users can now access {_tutorial} tutorial at http://{ip}/{_tutorial}.html\n\n') || true
 
 [login]
 fail_if(len(tutorial) != 1, msg = 'Please specify a tutorial to launch, via ``--tutorial`` option.')
