@@ -129,9 +129,9 @@ removed from the text because they will be generated automatically and formatted
 
 # For users
 
-## All tutorials
+## Tutorial notebooks
 
-All tutorials can be viewed at: 
+Some tutorials are available as IPython Notebooks and can be viewed at: 
 
 https://statgenetics.github.io/statgen-courses/notebooks.html
 
