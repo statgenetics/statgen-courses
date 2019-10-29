@@ -1,7 +1,8 @@
 # For developers
 
 - `docker` folder contains files for docker images to run the statgen course tutorials.
-- `notebook` folder contains all tutorial notebooks.
+- `notebooks` folder contains tutorial notebooks.
+- `handout` folder contains some handouts.
 - `src` folder contains utility scripts eg, tools to setup the Jupyter server online.
 
 ## Prepare your computer for the job
@@ -14,7 +15,7 @@ eg, `chmod +x ~/bin/statgen-setup` if you put it under `~/bin` which is part of 
 statgen-setup -h
 ```
 
-you should see some meaningful output
+you should see some meaningful output.
 
 ## Build tutorial specific images
 
@@ -34,7 +35,7 @@ docker push statisticalgenetics/vat
 To set it up for selected tutorial(s) on your local computer, for example for `vat` and `pseq` tutorials,
 
 ```bash
-statgen-setup launch --tutorials vat pseq
+statgen-setup launch --tutorial vat pseq
 ```
 
 After all steps are complete, you check the Jupyter Hub server on your machine:
@@ -66,7 +67,7 @@ bash /tmp/vm-setup.sh
 To set it up for selected tutorial(s), for example for `vat` and `pseq` tutorials, run from the root terminal
 
 ```bash
-statgen-setup launch --tutorials vat pseq
+statgen-setup launch --tutorial vat pseq
 ```
 
 For maintainance, to shutdown all containers and clean up the dangling ones,
@@ -125,7 +126,7 @@ https://statgenetics.github.io/statgen-courses/notebooks.html
 The idea is to start your own docker container and log into it from commandline. To do this,
 
 ```
-statgen-setup login --tutorials vat --my-name <my-name>
+statgen-setup login --tutorial vat --my-name <my-name>
 ```
 
 where `<my-name>` is an identification that you chose (that should not conflict with the choice of another user if you share a computer). When you are done with the tutorial just type `exit` to exit.
