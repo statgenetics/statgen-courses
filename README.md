@@ -137,7 +137,7 @@ https://statgenetics.github.io/statgen-courses/notebooks.html
 
 ## Available tutorials
 
-Available tutorials (via `statgen-setup ... --tutorial`) option are those with
+Available tutorials (via `--tutorial` option of `statgen-setup` script) are those with
 [docker images prepared](https://hub.docker.com/u/statisticalgenetics/). Currently
 available options are:
 
