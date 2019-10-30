@@ -95,7 +95,7 @@ bash: expand = '$[ ]', workdir = '~/'
     if [ "$[tutorial]" == "igv" ]
     then 
         docker run -d --rm --security-opt label:disable -t --name sandbox_$[tutorial]_$[my_name] -h $[tutorial]-$[my_name] -p $[port]:8080 statisticalgenetics/$[tutorial]
-        printf '\nPlease access the IGV server at http://$[ip]:$[port]\n'
+        printf '\nPlease access the IGV server at http://$[ip]:$[port]'
         printf '\nor, if you run this server locally (on your computer), at http://0.0.0.0:$[port]\n\n'
     else
         # Run it in the background, `-d` option
