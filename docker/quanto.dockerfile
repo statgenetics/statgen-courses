@@ -3,8 +3,6 @@ FROM debian:stretch-slim
 MAINTAINER Gao Wang <gw2411@columbia.edu>
 
 USER root
-WORKDIR /root
-
 # Commands below will install wine 32 bit on Debian Linux then download Quanto installer
 RUN dpkg --add-architecture i386 && \
     apt-get update && \
@@ -12,6 +10,7 @@ RUN dpkg --add-architecture i386 && \
     apt-get clean
 RUN curl -fsSL https://download.informer.com/win-1193149165-6cf55402-69d39bf5/quanto1_2_4.exe -o /tmp/quanto_installer.exe
 RUN mkdir -p /root/.wine && mkdir -p /root/work && chmod a+rw -R /root/work
+RUN echo -e '#!/bin/bash\nwine /root/.wine/drive_c/Program\ Files/Quanto/Quanto.exe' > /usr/local/bin/quanto && chmod +x /usr/local/bin/quanto
 CMD ["bash"]
 
 # But this is not over ... because the downloaded program is an installer, we have to actually log into that installer, install it then push the change back to the image. 
@@ -33,5 +32,5 @@ CMD ["bash"]
 # Now I can stop that container as it was intended to install quanto this time.
 # $ docker stop quanto-installer
 # Next time to run it, 
-# $ docker run --rm --security-opt label:disable -t --net=host --env="DISPLAY" -v "$HOME/.Xauthority:/root/.Xauthority:rw" -v $HOME/quanto:/root/work quanto-app wine /root/.wine/drive_c/Program\ Files/Quanto/Quanto.exe
+# $ docker run --rm --security-opt label:disable -t --net=host --env="DISPLAY" -v "$HOME/.Xauthority:/root/.Xauthority:rw" -v $HOME/quanto:/root/work quanto-app quanto
 # I can also, in principle, tarball the installed `/root/Quanto` folder, save it somewhere else and directly grab and use it when I build this docker image. But this is likely a violation of copyright so I'll not do that.
