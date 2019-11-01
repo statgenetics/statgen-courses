@@ -12,3 +12,5 @@ curl -fsSL https://raw.githubusercontent.com/statgenetics/statgen-courses/master
 chmod +x /usr/local/bin/statgen-setup
 # pull docker images
 for i in vat pseq igv; do docker pull statisticalgenetics/$i; done
+# add users
+statgen-setup useradd --my-name student --num-users 15
