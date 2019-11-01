@@ -85,14 +85,10 @@ I suggest you run `statgen-setup clean` before launching a new tutorial (`statge
 I provide a shortcut to create new users on the cloud:
 
 ```
-statgen-setup useradd --my-name <my_name>
+statgen-setup useradd --my-name student --num-users 10
 ```
 
-It will generate a password for the user, add it and print the new user ID and password. To add multiple users, say 30 users,
-
-```
-for i in {1..30}; do statgen-setup useradd --my-name student$i 2> /dev/null; done
-```
+It will generate a password for the user, add it and print the new user ID and password.
 
 ## Render HTML static website for notebooks
 
