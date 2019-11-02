@@ -1,6 +1,6 @@
 # `quanto` docker image
 
-`quanto` is a Windows (32bit!) based program with GUI. Docker containers are Linux based and Linux only. However for simple Windows programs it is possible to run them under Linux using an emulator program `wine`. So the idea is to run quanto under Linux based container via the emulator, then run the docker image under any other OS with proper GUI sharing settings.
+`quanto` is a Windows (32bit!) based program with GUI. Docker images for cross platform use are Linux based. However for simple Windows programs it is possible to run them under Linux using an emulator program `wine`. So the idea is to run quanto under Linux based container via the emulator, then run the docker image under any other OS with proper GUI sharing settings.
 
 ## Build docker image for `quanto` installer
 
