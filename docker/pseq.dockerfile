@@ -4,7 +4,7 @@ MAINTAINER Gao Wang <gw2411@columbia.edu>
 
 USER root
 
-# Install dependency tools
+# Install dependency tools and deploy data-set package that Carl made
 RUN echo "deb [trusted=yes] http://statgen.us/deb ./" | tee -a /etc/apt/sources.list.d/statgen.list && \
     apt-get update && \
     apt-get install -y plinkseq plinkseq-tutorial && \

@@ -11,7 +11,7 @@ See `quanto.dockerfile`. Make a docker image from that file.
 To do this we first start a container from the image then log into the container and make change. On a Linux host,
 
 ```bash
-docker run -d --rm --security-opt label:disable -t --name quanto-installer --net=host --env="DISPLAY" -v "$HOME/.Xauthority:/root/.Xauthority:rw" -v $HOME/quanto:/root/work quanto-app bash
+docker run -d --rm --security-opt label:disable -t --name quanto-installer --net=host --env="DISPLAY" -v "$HOME/.Xauthority:/root/.Xauthority:rw" -v $HOME/quanto:/root/work statisticalgenetics/quanto bash
 ```
 Then log into it,
 
@@ -35,11 +35,12 @@ docker ps
 ```
 ```
 # CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
-# d1f9d78678b9        quanto-app          "bash"              10 minutes ago      Up 10 minutes                           quanto-installer
+# d1f9d78678b9        statisticalgenetics/quanto          "bash"              10 minutes ago      Up 10 minutes                           quanto-installer
 ```
 and commit the changes
 ```
-docker commit quanto-installer quanto-app
+docker commit quanto-installer statisticalgenetics/quanto
+docker push statisticalgenetics/quanto
 ```
 
 Now we can stop that container as it was only intended to install quanto:
@@ -51,10 +52,16 @@ Notice that I can also, in principle, tarball the installed `quanto` and save it
 
 ## Run `quanto`
 
-The trickiness is to run GUI based application in Docker.
+The trickiness is to run GUI based application in Docker. It is different for different OS.
 
 ### On Linux
 
 ```
-docker run --rm --security-opt label:disable -t --net=host --env="DISPLAY" -v "$HOME/.Xauthority:/root/.Xauthority:rw" -v $HOME/quanto:/root/work quanto-app quanto
+docker run --rm --security-opt label:disable -t --net=host --env="DISPLAY" -v "$HOME/.Xauthority:/root/.Xauthority:rw" -v $HOME/quanto:/root/work statisticalgenetics/quanto quanto
 ```
+
+### On Mac
+FIXME
+
+### On Windows
+FIXME
