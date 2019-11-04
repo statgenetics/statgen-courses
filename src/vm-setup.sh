@@ -11,6 +11,6 @@ conda install -y -c conda-forge sos
 curl -fsSL https://raw.githubusercontent.com/statgenetics/statgen-courses/master/src/statgen-setup -o /usr/local/bin/statgen-setup
 chmod +x /usr/local/bin/statgen-setup
 # pull docker images
-for i in vat pseq igv; do docker pull statisticalgenetics/$i; done
+statgen-setup update --tutorial vat pseq igv
 # add users
 statgen-setup useradd --my-name student --num-users 15

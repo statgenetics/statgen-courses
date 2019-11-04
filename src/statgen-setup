@@ -105,6 +105,11 @@ bash: expand = '$[ ]', workdir = '~/'
     fi
     }
 
+[update]
+input: for_each = 'tutorial', concurrent = False
+bash: expand = True
+    docker pull statisticalgenetics/{_tutorial}
+
 [useradd]
 fail_if(len(my_name) == 0 or my_name == 'hub_user', msg = 'Please assign a username prefix, via ``--my-name`` option.')
 parameter: num_users = 1
