@@ -13,4 +13,4 @@ chmod +x /usr/local/bin/statgen-setup
 # pull docker images
 statgen-setup update --tutorial vat pseq igv
 # add users
-statgen-setup useradd --my-name student --num-users 15
+statgen-setup useradd --my-name student --num-users 15 2> useradd.log

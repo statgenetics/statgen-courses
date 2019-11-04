@@ -117,9 +117,12 @@ passwd = [random.randint(10000, 99999) for i in range(num_users)]
 input: for_each = 'passwd', concurrent = False
 bash: expand = True
   set -e
+  if [ `id -u {my_name}_{_index+1} 2>/dev/null || echo -1` -ge 0 ]; then 
+    userdel -r {my_name}_{_index+1} 2>/dev/null
+  fi
   useradd -g docker {my_name}_{_index+1} -d /home/{my_name}_{_index+1} -m -s /bin/bash
-  echo -e "{my_name}_{_passwd}\n{my_name}_{_passwd}" | passwd {my_name}_{_index+1} &> /dev/null
-  printf "\nNew user created: {my_name}_{_index+1}:{my_name}_{_passwd}\n\n"
+  echo -e "{my_name}_{_passwd}\n{my_name}_{_passwd}" | passwd {my_name}_{_index+1}
+  printf "\nNew user created: {my_name}_{_index+1}:{my_name}_{_passwd}\n"
 
 [clean]
 bash:
