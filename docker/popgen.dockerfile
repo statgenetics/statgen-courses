@@ -4,13 +4,6 @@ MAINTAINER Diana Cornejo <dmc2245@cumc.columbia.edu>
 
 USER root
 
-#Install dependency tools and install data-set using Carl's deb packages
-
-RUN echo "deb [trusted=yes] http://statgen.us/deb ./" | tee -a /etc/apt/sources.list.d/statgen.list && \
-apt-get update && \
-    apt-get install -y popgen-tutorial && \
-    apt-get clean && mv /home/shared/* /home/jovyan && chown jovyan.users -R /home/jovyan/*
-
 #Download scripts and tutorial files
 
 USER jovyan
