@@ -23,12 +23,20 @@ you should see some meaningful output.
 a minimal JupyterHub / SoS Notebook environment for scientific computing, is used to derive
 tutorial specific images in this folder.
 
-To build tutorial images and push to dockerhub, eg for `vat` tutorial,
+To build tutorial images and push to dockerhub, eg for tutorial `igv` found under `docker` folder,
 
 ```bash
-docker build --build-arg DUMMY=`date +%s` -t statisticalgenetics/vat -f docker/vat.dockerfile docker 
-docker push statisticalgenetics/vat
+statgen-setup build --tutorial igv
 ```
+
+Or, multiple tutorials,
+
+```bash
+statgen-setup build --tutorial igv vat pseq regression annovar
+```
+
+If you run into this error `denied: requested access to the resource is denied` please make sure you have push access to dockerhub account `statisticalgenetics`.
+Please contact Gao Wang for the password to that account and use `docker login` command to login from your terminal. Then try build again.
 
 ## Setup course JupyterHub server on your computer
 
