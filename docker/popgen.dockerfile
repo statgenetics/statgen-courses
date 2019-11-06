@@ -22,5 +22,5 @@ RUN curl -fsSL https://raw.githubusercontent.com/statgenetics/statgen-courses/ma
 RUN curl -fsSL https://raw.githubusercontent.com/statgenetics/statgen-courses/master/handout/PopGen.sim.noscript.docx -o PopGen.sim.noscript.docx
 RUN curl -fsSL https://raw.githubusercontent.com/statgenetics/statgen-courses/master/handout/PopGen.sim.noscript.pdf -o PopGen.sim.noscript.pdf
 RUN curl -fsSL https://raw.githubusercontent.com/statgenetics/statgen-courses/master/handout/PopGen.sim.pdf -o PopGen.sim.pdf
-RUN curl -fsSL https://raw.githubusercontent.com/statgenetics/statgen-courses/master/code/popgen_drif.R -o popgen_drift.R
+RUN curl -fsSL https://raw.githubusercontent.com/statgenetics/statgen-courses/master/code/popgen_drift.R -o popgen_drift.R
 RUN curl -fsSL https://raw.githubusercontent.com/statgenetics/statgen-courses/master/code/popgen_selection.R -o popgen_selection.R
