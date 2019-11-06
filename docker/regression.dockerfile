@@ -17,4 +17,5 @@ USER jovyan
 ARG DUMMY=unknown
 RUN DUMMY=${DUMMY} curl -fsSL https://raw.githubusercontent.com/statgenetics/statgen-courses/master/handout/regression.docx -o regression.docx
 RUN curl -fsSL https://raw.githubusercontent.com/statgenetics/statgen-courses/master/handout/regression.pdf -o regression.pdf
-RUN curl -fsSL https://raw.githubusercontent.com/statgenetics/statgen-courses/master/code/regression.R -o regression.R
+RUN curl -fsSL https://raw.githubusercontent.com/statgenetics/statgen-courses/master/code/regression.R -o regression.q
+
