@@ -8,7 +8,7 @@
 ## Prepare your computer to manage the tutorials
 
 Software you need to install on your computer are `SoS` (simply type `pip install sos` to install, or, check out [here for alternative installation methods](https://vatlab.github.io/sos-docs/running.html) if you have troubles with that command) and [`docker`](http://statgen.us/lab-wiki/orientation/jupyter-setup.html#install-docker).
-Additionally to test the course material on your computer (not on cloud VM) you have to put `src/statgen-setup` script to your `PATH` and change it to executable, 
+Additionally to run the course material on your computer (not on cloud VM) you have to put `src/statgen-setup` script to your `PATH` and change it to executable, 
 eg, `chmod +x ~/bin/statgen-setup` if you put it under `~/bin` which is part of your `PATH`. To verify your setup, type:
 
 ```
