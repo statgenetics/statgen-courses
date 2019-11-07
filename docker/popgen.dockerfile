@@ -2,11 +2,7 @@ FROM gaow/base-notebook:latest
 
 MAINTAINER Diana Cornejo <dmc2245@cumc.columbia.edu>
 
-USER root
-
 #Download scripts and tutorial files
-
-USER jovyan
 ARG DUMMY=unknown
 RUN DUMMY=${DUMMY} curl -fsSL https://raw.githubusercontent.com/statgenetics/statgen-courses/master/handout/PopGen.docx -o PopGen.docx
 RUN DUMMY=${DUMMY} curl -fsSL https://raw.githubusercontent.com/statgenetics/statgen-courses/master/handout/PopGen.pp.docx -o PopGen.pp.docx
