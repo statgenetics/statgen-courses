@@ -75,7 +75,7 @@ bash: expand = True, workdir = '~/'
     ## https://github.com/jupyterhub/dockerspawner/issues/160
     ## FIXME: there may be smarter solutions but this is what I have so far
     if [ $EUID -eq 0 ]; then
-   	chown 1000:100 $HOME/{my_name} && chmod g+rws $HOME/{my_name} && setfacl -d -m g::rwx $HOME/{my_name})
+   	(chown 1000:100 $HOME/{my_name} && chmod g+rws $HOME/{my_name} && setfacl -d -m g::rwx $HOME/{my_name})
     fi
     # Start jupyterhub
     docker network inspect {_tutorial}_{my_name} &>/dev/null || docker network create {_tutorial}_{my_name}
