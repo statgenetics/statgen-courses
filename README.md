@@ -155,7 +155,7 @@ statgen-setup login --tutorial <tutorial> --my-name <my-name>
 where `<tutorial>` is one of the available tutorials. Currently available options are:
 - `igv`, `vat`, `pseq`, `annovar`, `regression`, `popgen`
 
-`<my-name>` is any (unique) identification of your choice that should not conflict with the choice of another user if you share a computer. If you have your unique Linux user accounts, you can use `--my-name $USER`. 
+`<my-name>` is any (unique) identification of your choice that should not conflict with the choice of another user if you share a computer. If you have your unique Linux user accounts, you can use `--my-name $USER`. When you are done with the tutorial just type `exit` to exit.
 
 ## Run tutorials via JupyterHub server
 
