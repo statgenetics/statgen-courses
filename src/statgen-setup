@@ -94,7 +94,8 @@ if tutorial == 'igv':
     ip = get_output("hostname -I | awk '{print $1}'").strip()
 bash: expand = '$[ ]', workdir = '~/'
     cmd="docker exec -it sandbox_$[tutorial]_$[my_name] bash"
-    echo "Logging in via: $cmd"
+    echo "INFO: Logging in via '$cmd'"
+    echo "INFO: '~/work' folder is mounted to '$HOME/$[my_name]' on your machine"
     {
     $cmd 2> /dev/null
     } || {
@@ -106,8 +107,9 @@ bash: expand = '$[ ]', workdir = '~/'
         printf '\nPlease access the IGV server at http://$[ip]:$[port]'
         printf '\nor, if you run this server locally (on your computer), at http://0.0.0.0:$[port]\n\n'
     else
+        mkdir -p $HOME/$[my_name] && chmod g=u $HOME/$[my_name]
         # Run it in the background, `-d` option
-        docker run -d --rm --security-opt label:disable -v $HOME:/home/jovyan/work -v /tmp:/tmp -t --name sandbox_$[tutorial]_$[my_name] -h $[tutorial]-$[my_name] statisticalgenetics/$[tutorial]
+        docker run -d --rm --security-opt label:disable -v $HOME/$[my_name]:/home/jovyan/work -v /tmp:/tmp -t --name sandbox_$[tutorial]_$[my_name] -h $[tutorial]-$[my_name] statisticalgenetics/$[tutorial] > /dev/null
         # Then login
         $cmd
     fi
@@ -128,9 +130,13 @@ bash: expand = True
   if [ `id -u {my_name}_{_index+1} 2>/dev/null || echo -1` -ge 0 ]; then 
     userdel -r {my_name}_{_index+1} 2>/dev/null
   fi
-  useradd -g docker {my_name}_{_index+1} -d /home/{my_name}_{_index+1} -m -s /bin/bash
-  echo -e "{my_name}_{_passwd}\n{my_name}_{_passwd}" | passwd {my_name}_{_index+1}
-  printf "\nNew user created: {my_name}_{_index+1}:{my_name}_{_passwd}\n"
+  # Group `users` have group ID 100 which agrees with group ID in our docker images
+  useradd -g users {my_name}_{_index+1} -d /home/{my_name}_{_index+1} -m -s /bin/bash
+  # Add group `docker` to the user
+  usermod -aG docker {my_name}_{_index+1}
+  # Use `-m` for chpasswd option to avoid PAM's check for simple passwords
+  echo "{my_name}_{_index+1}:{my_name}_{_passwd}" | chpasswd -m
+  printf "New user created: {my_name}_{_index+1}:{my_name}_{_passwd}\n"
 
 [clean]
 bash:
