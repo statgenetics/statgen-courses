@@ -108,11 +108,14 @@ bash: expand = '$[ ]', workdir = '~/'
         cmd="docker exec -it sandbox_$[tutorial]_$[my_name] bash"
         echo "INFO: Logging in via '$cmd'"
         echo "INFO: '~/work' folder is mounted to '$HOME/$[my_name]' on your machine"
+        # Stop currently running instances to start a new container
+        if [ "$[restart]" == "True" ]
+        then
+            docker stop sandbox_$[tutorial]_$[my_name] &> /dev/null || true
+        fi
         {
-        $cmd 2> /dev/null && $[str(restart).lower()]
+        $cmd 2> /dev/null
         } || {
-        # Stop currently running instances to start from scratch
-        docker stop sandbox_$[tutorial]_$[my_name] &> /dev/null || true
         # Run it in the background, `-d` option
         docker run -d --rm --security-opt label:disable -v $HOME/$[my_name]:/home/jovyan/work -v /tmp:/tmp -t --name sandbox_$[tutorial]_$[my_name] -h $[tutorial]-$[my_name] statisticalgenetics/$[tutorial] > /dev/null
         # Then login
