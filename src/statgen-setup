@@ -84,6 +84,8 @@ bash: expand = True, workdir = '~/'
     (echo '<meta http-equiv="Refresh" content="0; url=http://{ip}:{ports[_index]}" />' 2> /dev/null 1> /var/www/html/{_tutorial}.html && printf '\nDone! Users can now access {_tutorial} tutorial at http://{ip}/{_tutorial}.html\n\n') || true
 
 [login]
+# use --restart to false restart the container
+parameter: restart = False
 fail_if(len(tutorial) != 1, msg = 'Please specify a tutorial to launch, via ``--tutorial`` option.')
 fail_if(len(my_name) == 0 or my_name == 'hub_user', msg = 'Please assign yourself a username, via ``--my-name`` option.')
 fail_if(not all((a.isalnum() or a == '_') and not a.isspace() for a in my_name), msg = 'Please use only alphanumeric letters and no space for ``--my-name`` input.')
@@ -107,13 +109,14 @@ bash: expand = '$[ ]', workdir = '~/'
         echo "INFO: Logging in via '$cmd'"
         echo "INFO: '~/work' folder is mounted to '$HOME/$[my_name]' on your machine"
         {
-        $cmd 2> /dev/null
+        $cmd 2> /dev/null && $[str(restart).lower()]
         } || {
         # Stop currently running instances to start from scratch
         docker stop sandbox_$[tutorial]_$[my_name] &> /dev/null || true
         # Run it in the background, `-d` option
         docker run -d --rm --security-opt label:disable -v $HOME/$[my_name]:/home/jovyan/work -v /tmp:/tmp -t --name sandbox_$[tutorial]_$[my_name] -h $[tutorial]-$[my_name] statisticalgenetics/$[tutorial] > /dev/null
         # Then login
+        echo "Started a new instance at `date`"
         $cmd
         }
     fi
@@ -142,6 +145,8 @@ bash: expand = True
   printf "New user created: {my_name}_{_index+1}:{my_name}_{_passwd}\n"
 
 [clean]
+import os
+fail_if(not os.geteuid() == 0, msg = 'This command is only meant for root user (eg, use ``sudo`` to run it)')
 bash:
     docker stop $(docker ps -a -q) || true
     docker rm $(docker ps -a -q) || true

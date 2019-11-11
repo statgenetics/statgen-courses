@@ -155,7 +155,9 @@ statgen-setup login --tutorial <tutorial> --my-name <my-name>
 where `<tutorial>` is one of the available tutorials. Currently available options are:
 - `igv`, `vat`, `pseq`, `annovar`, `regression`, `popgen`
 
-`<my-name>` is any (unique) identification of your choice that should not conflict with the choice of another user if you share a computer. If you have your unique Linux user accounts, you can use `--my-name $USER`. When you are done with the tutorial just type `exit` to exit.
+`<my-name>` is any (unique) identification of your choice that should not conflict with the choice of another user if you share a computer. If you have your unique Linux user accounts, you can use `--my-name $USER`. When you are done with the tutorial just type `exit` to exit. If you log in again, your session should resume unless the container has been terminated externally.
+
+If you want to fresh restart the container you can add `--restart` switch to the command above.
 
 ## Run tutorials via JupyterHub server
 
