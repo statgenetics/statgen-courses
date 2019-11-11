@@ -119,7 +119,7 @@ bash: expand = '$[ ]', workdir = '~/'
         # Run it in the background, `-d` option
         docker run -d --rm --security-opt label:disable -v $HOME/$[my_name]:/home/jovyan/work -v /tmp:/tmp -t --name sandbox_$[tutorial]_$[my_name] -h $[tutorial]-$[my_name] statisticalgenetics/$[tutorial] > /dev/null
         # Then login
-        echo "Started a new instance at `date`"
+        echo "Started a new container at `date`"
         $cmd
         }
     fi
