@@ -158,3 +158,9 @@ bash:
     docker stop $(docker ps -a -q) || true
     docker rm $(docker ps -a -q) || true
     docker rmi $(docker images -f "dangling=true" -q) || true
+
+# install gemini data to server
+[gemini-data]
+parameter: data_dir = path('/opt/gemini-data')
+bash: container='statisticalgenetics/gemini', volumes = [f"{data_dir:a}:/home/jovyan/gemini-data"]
+    gemini update --dataonly --extra cadd_score gerp_bp

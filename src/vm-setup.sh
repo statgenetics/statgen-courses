@@ -14,3 +14,6 @@ chmod +x /usr/local/bin/statgen-setup
 statgen-setup update --tutorial vat pseq igv popgen regression annovar #mlink slink
 # add users
 statgen-setup useradd --my-name student --num-users 12 2> useradd.log
+# setup gemini data
+# This will download large data-set; please comment it out if you do not need it
+mkdir -p /opt/gemini-data && statgen-setup gemini-data --data-dir /opt/gemini-data
