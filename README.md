@@ -78,14 +78,6 @@ To set it up for selected tutorial(s), for example for `vat` and `pseq` tutorial
 statgen-setup launch --tutorial vat pseq
 ```
 
-For maintainance, to shutdown all containers and clean up the dangling ones,
-
-```bash
-statgen-setup clean
-```
-
-I suggest you run `statgen-setup clean` before launching a new tutorial (`statgen-setup launch`). This will terminate other running tutorial servers on machine to free up resources for the new tutorial. Otherwise you might run out of memory for having too many tutorials servers running the same time on a small VM.
-
 **Note: if you (as a developer) would like to modify the notebook on cloud server please remember to download it to your local computer after modifications; or save to `workdir` and download from there later. The docker container does not preserve changes made to the notebook in it.** 
 
 ## Create user accounts on cloud VM
@@ -97,6 +89,18 @@ statgen-setup useradd --my-name student --num-users 10
 ```
 
 It will generate a password for the user, add it and print the new user ID and password.
+
+## Shutdown all running containers
+
+For maintainance, to shutdown all containers and clean up the dangling ones,
+
+```bash
+statgen-setup clean
+```
+
+This command is only available to `root` user. For adminstrators I suggest you run `statgen-setup clean` from time to time to maintain the server. 
+This will terminate running past tutorials in order to free up resources for new tutorials. 
+Otherwise with too many tutorial containers running the same time on a VM it may run out of memory.
 
 ## Render HTML static website for notebooks
 
