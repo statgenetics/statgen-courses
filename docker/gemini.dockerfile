@@ -10,5 +10,5 @@ RUN bash -c "source activate py2 && conda install --yes -c conda-forge -c biocon
 # Update the exercise text
 USER jovyan
 RUN echo "source activate py2" >> $HOME/.bashrc
-RUN mkdir -p gemini-data
+RUN mkdir -p $HOME/.gemini $HOME/gemini-data && echo "annotation_dir: $HOME/gemini-data" > $HOME/.gemini/gemini-config.yaml
 ARG DUMMY=unknown
