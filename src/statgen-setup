@@ -88,6 +88,7 @@ bash: expand = True, workdir = '~/'
 [login]
 # use --restart to false restart the container
 parameter: restart = False
+parameter: gemini_data_dir = path('./gemini-data')
 fail_if(len(tutorial) != 1, msg = 'Please specify a tutorial to launch, via ``--tutorial`` option.')
 fail_if(len(my_name) == 0 or my_name == 'hub_user', msg = 'Please assign yourself a username, via ``--my-name`` option.')
 fail_if(not all((a.isalnum() or a == '_') and not a.isspace() for a in my_name), msg = 'Please use only alphanumeric letters and no space for ``--my-name`` input.')
@@ -96,6 +97,9 @@ port = ip = None
 if tutorial == 'igv':
     port = get_ports(1)[0]
     ip = get_output("hostname -I | awk '{print $1}'").strip()
+extra_docker_args = ''
+if tutorial == 'gemini':
+    extra_docker_args = f'-v {gemini_data_dir:a}:/home/jovyan/gemini-data'
 bash: expand = '$[ ]', workdir = '~/'
     if [ "$[tutorial]" == "igv" ]
     then 
@@ -119,7 +123,7 @@ bash: expand = '$[ ]', workdir = '~/'
         $cmd 2> /dev/null
         } || {
         # Run it in the background, `-d` option
-        docker run -d --rm --security-opt label:disable -v $HOME/$[my_name]:/home/jovyan/work -v /tmp:/tmp -t --name sandbox_$[tutorial]_$[my_name] -h $[tutorial]-$[my_name] statisticalgenetics/$[tutorial] > /dev/null
+        docker run -d --rm --security-opt label:disable -v $HOME/$[my_name]:/home/jovyan/work -v /tmp:/tmp $[extra_docker_args] -t --name sandbox_$[tutorial]_$[my_name] -h $[tutorial]-$[my_name] statisticalgenetics/$[tutorial] > /dev/null
         # Then login
         echo "Started a new container at `date`"
         $cmd
@@ -161,6 +165,8 @@ bash:
 
 # install gemini data to server
 [gemini-data]
-parameter: data_dir = path('gemini-data')
-bash: container='statisticalgenetics/gemini', volumes = [f"{data_dir:a}:/home/jovyan/gemini-data"]
-    source activate py2 && gemini update --dataonly --extra cadd_score gerp_bp
+parameter: gemini_data_dir = path('./gemini-data')
+bash: container='statisticalgenetics/gemini', volumes = [f"{gemini_data_dir:a}:/home/jovyan/gemini-data"]
+    source activate py2 \
+        && gemini update --dataonly --extra cadd_score \
+        && gemini update --dataonly --extra gerp_bp
