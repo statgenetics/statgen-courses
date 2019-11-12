@@ -1,4 +1,4 @@
-FROM gaow/base-notebook:latest
+FROM gaow/base-notebook:1.0.0
 
 MAINTAINER Diana Cornejo <dmc2245@cumc.columbia.edu>
 
@@ -16,4 +16,3 @@ ARG DUMMY=unknown
 RUN DUMMY=${DUMMY} curl -fsSL https://raw.githubusercontent.com/statgenetics/statgen-courses/master/handout/regression.docx -o regression.docx
 RUN curl -fsSL https://raw.githubusercontent.com/statgenetics/statgen-courses/master/handout/regression.pdf -o regression.pdf
 RUN curl -fsSL https://raw.githubusercontent.com/statgenetics/statgen-courses/master/code/regression.R -o regression.R
-
