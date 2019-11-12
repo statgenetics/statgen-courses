@@ -127,9 +127,11 @@ bash: expand = '$[ ]', workdir = '~/'
     fi
 
 [update]
+# version tag, default to `latest`
+parameter: tag = 'latest'
 input: for_each = 'tutorial', concurrent = False
 bash: expand = True
-    docker pull statisticalgenetics/{_tutorial}
+    docker pull statisticalgenetics/{_tutorial}:{tag}
 
 [useradd]
 fail_if(len(my_name) == 0 or my_name == 'hub_user', msg = 'Please assign a username prefix, via ``--my-name`` option.')
