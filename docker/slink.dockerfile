@@ -1,4 +1,4 @@
-FROM gaow/base-notebook:latest
+FROM gaow/base-notebook:1.0.0
 
 MAINTAINER Diana Cornejo <dmc2245@cumc.columbia.edu>
 

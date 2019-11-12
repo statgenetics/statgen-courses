@@ -35,8 +35,11 @@ Or, multiple tutorials,
 statgen-setup build --tutorial igv vat pseq regression annovar
 ```
 
+You can use option `--tag` to add version tag to a build, eg, `--tag 1.0.0`.
+
 If you run into this error `denied: requested access to the resource is denied` please make sure you have push access to dockerhub account `statisticalgenetics`.
 Please contact Gao Wang for the password to that account and use `docker login` command to login from your terminal. Then try build again.
+
 
 ## Setup course JupyterHub server on your computer
 
@@ -162,6 +165,12 @@ where `<tutorial>` is one of the available tutorials. Currently available option
 `<my-name>` is any (unique) identification of your choice that should not conflict with the choice of another user if you share a computer. If you have your unique Linux user accounts, you can use `--my-name $USER`. When you are done with the tutorial just type `exit` to exit. If you log in again, your session should resume unless the container has been terminated externally.
 
 If you want to fresh restart the container you can add `--restart` switch to the command above.
+
+**Note: the container may be killed periodically to maintain the server at a reasonable load.** What you can do are:
+
+1. Transfer output generated during the tutorial to the cloud server: move or copy results to `~/work` folder. This will save them to the cloud server's `$HOME/<my-name>`
+folder where `<my-name>` is an identification used to create the container.
+2. Transfer output to your computer: once they are saved to the cloud server as instructed above, you can use `scp` command from your local computer to copy the files, eg, `scp -r <username>@<cloud_IP>:./<my-name> ./` where `<my-name>` is an identification used to create the container.
 
 ## Run tutorials via JupyterHub server
 
