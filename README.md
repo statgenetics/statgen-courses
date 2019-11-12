@@ -173,9 +173,9 @@ folder where `<my-name>` is an identification used to create the container.
 
 Example after you log in to the container: 
 
-```
+```bash
 cd # this will change your directory to $HOME
-cp *.* ~/work # this will copy all files with any extestions from $HOME to $HOME/work. You can also replace `cp` with `mv`
+cp *.* ~/work # this will copy all files with any extestions from $HOME to $HOME/work. You can also replace `cp` with `mv` if you want to move the files instead of copy them over
 ```
 
 - Transfer output to your computer: once they are saved to the cloud server as instructed above, you can use `scp` command from your local computer to copy the files, eg, `scp -r <username>@<cloud_IP>:./<my-name> ./` where `<my-name>` is an identification used to create the container.
