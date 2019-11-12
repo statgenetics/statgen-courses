@@ -161,6 +161,6 @@ bash:
 
 # install gemini data to server
 [gemini-data]
-parameter: data_dir = path('/opt/gemini-data')
+parameter: data_dir = path('gemini-data')
 bash: container='statisticalgenetics/gemini', volumes = [f"{data_dir:a}:/home/jovyan/gemini-data"]
-    gemini update --dataonly --extra cadd_score gerp_bp
+    source activate py2 && gemini update --dataonly --extra cadd_score gerp_bp
