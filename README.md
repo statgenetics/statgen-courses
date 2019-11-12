@@ -168,9 +168,17 @@ If you want to fresh restart the container you can add `--restart` switch to the
 
 **Note: the container may be killed periodically to maintain the server at a reasonable load.** What you can do are:
 
-1. Transfer output generated during the tutorial to the cloud server: move or copy results to `~/work` folder. This will save them to the cloud server's `$HOME/<my-name>`
+- Transfer output generated during the tutorial to the cloud server: move or copy results to `~/work` folder. This will save them to the cloud server's `$HOME/<my-name>`
 folder where `<my-name>` is an identification used to create the container.
-2. Transfer output to your computer: once they are saved to the cloud server as instructed above, you can use `scp` command from your local computer to copy the files, eg, `scp -r <username>@<cloud_IP>:./<my-name> ./` where `<my-name>` is an identification used to create the container.
+
+Example after you log in to the container: 
+
+```
+cd # this will change your directory to $HOME
+cp *.* ~/work # this will copy all files with any extestions from $HOME to $HOME/work. You can also replace `cp` with `mv`
+```
+
+- Transfer output to your computer: once they are saved to the cloud server as instructed above, you can use `scp` command from your local computer to copy the files, eg, `scp -r <username>@<cloud_IP>:./<my-name> ./` where `<my-name>` is an identification used to create the container.
 
 ## Run tutorials via JupyterHub server
 
