@@ -6,7 +6,7 @@ USER root
 #Install dependency tools and deploy data-set package that Carl made
 RUN echo "deb [trusted=yes] http://statgen.us/deb ./" | tee -a /etc/apt/sources.list.d/statgen.list && \
     apt-get update && \
-    apt-get install -y annotation-tutorial curl && \	
+    apt-get install -y annotation-tutorial && \
     apt-get clean && mv /home/shared/functional_annotation/* /home/jovyan && rm -rf /home/shared && chown jovyan.users -R /home/jovyan/*
 
 #Update the exercise text
