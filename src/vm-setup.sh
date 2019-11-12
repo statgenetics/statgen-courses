@@ -11,7 +11,7 @@ conda install -y -c conda-forge sos
 curl -fsSL https://raw.githubusercontent.com/statgenetics/statgen-courses/master/src/statgen-setup -o /usr/local/bin/statgen-setup
 chmod +x /usr/local/bin/statgen-setup
 # pull docker images
-statgen-setup update --tutorial vat pseq igv popgen regression annovar mlink slink
+statgen-setup update --tutorial vat pseq igv popgen regression annovar mlink slink gemini
 # add users
 statgen-setup useradd --my-name student --num-users 12 2> useradd.log
 # setup gemini data
