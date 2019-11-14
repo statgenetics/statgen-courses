@@ -10,5 +10,6 @@ RUN bash -c "source activate py2 && conda install --yes -c conda-forge -c biocon
 # Update the exercise text
 USER jovyan
 RUN echo "source activate py2" >> $HOME/.bashrc
-RUN mkdir -p $HOME/.gemini $HOME/gemini-data && echo "annotation_dir: $HOME/gemini-data" > $HOME/.gemini/gemini-config.yaml
+RUN mkdir -p $HOME/.gemini $HOME/annotation_db && echo "annotation_dir: $HOME/annotation_db" > $HOME/.gemini/gemini-config.yaml
+RUN printf "This folder is meant for gemini annotation resource databases,\nas is configured in ~/.gemini/gemini-config.yaml\nThese databases were used to generate the `my.db` file in the tutorial." > $HOME/annotation_db/README.md
 ARG DUMMY=unknown

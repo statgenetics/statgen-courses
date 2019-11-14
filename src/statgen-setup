@@ -88,7 +88,7 @@ bash: expand = True, workdir = '~/'
 [login]
 # use --restart to false restart the container
 parameter: restart = False
-parameter: gemini_data_dir = path('./gemini-data')
+parameter: gemini_data_dir = path('./annotation_db')
 fail_if(len(tutorial) != 1, msg = 'Please specify a tutorial to launch, via ``--tutorial`` option.')
 fail_if(len(my_name) == 0 or my_name == 'hub_user', msg = 'Please assign yourself a username, via ``--my-name`` option.')
 fail_if(not all((a.isalnum() or a == '_') and not a.isspace() for a in my_name), msg = 'Please use only alphanumeric letters and no space for ``--my-name`` input.')
@@ -99,7 +99,7 @@ if tutorial == 'igv':
     ip = get_output("hostname -I | awk '{print $1}'").strip()
 extra_docker_args = ''
 if tutorial == 'gemini':
-    extra_docker_args = f'-v {gemini_data_dir:a}:/home/jovyan/gemini-data'
+    extra_docker_args = f'-v {gemini_data_dir:a}:/home/jovyan/annotation_db'
 bash: expand = '$[ ]', workdir = '~/'
     if [ "$[tutorial]" == "igv" ]
     then 
@@ -163,12 +163,12 @@ bash:
     docker rm $(docker ps -a -q) || true
     docker rmi $(docker images -f "dangling=true" -q) || true
 
-# install gemini data to server
-[gemini-data]
-parameter: gemini_data_dir = path('./gemini-data')
+# install gemini database to server
+[gemini-db]
+parameter: gemini_data_dir = path('./annotation_db')
 bash: expand = True
     mkdir -p {gemini_data_dir:a}
-bash: container='statisticalgenetics/gemini', volumes = [f"{gemini_data_dir:a}:/home/jovyan/gemini-data"]
+bash: container='statisticalgenetics/gemini', volumes = [f"{gemini_data_dir:a}:/home/jovyan/annotation_db"]
     source activate py2 \
         && gemini update --dataonly --extra cadd_score \
         && gemini update --dataonly --extra gerp_bp

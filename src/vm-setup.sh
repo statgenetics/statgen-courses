@@ -13,5 +13,5 @@ statgen-setup update --tutorial vat pseq igv popgen regression annovar mlink sli
 # add users
 statgen-setup useradd --my-name student --num-users 12 2> useradd.log
 # setup gemini data
-# This will download large data-set; please comment it out if you do not need it
-statgen-setup gemini-data --gemini-data-dir /root/gemini-data && chown root.users -R /root/gemini-data
+# This will download large data-set; please comment it out if you do not need it for the exercise
+# statgen-setup annotation_db --gemini-data-dir /root/annotation_db && chown root.users -R /root/annotation_db
