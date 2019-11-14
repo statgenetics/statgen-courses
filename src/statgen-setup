@@ -98,7 +98,7 @@ if tutorial == 'igv':
     port = get_ports(1)[0]
     ip = get_output("hostname -I | awk '{print $1}'").strip()
 extra_docker_args = ''
-if tutorial == 'gemini':
+if tutorial == 'gemini' and gemini_data_dir.is_dir():
     extra_docker_args = f'-v {gemini_data_dir:a}:/home/jovyan/annotation_db'
 bash: expand = '$[ ]', workdir = '~/'
     if [ "$[tutorial]" == "igv" ]
