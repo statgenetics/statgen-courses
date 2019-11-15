@@ -28,6 +28,9 @@ Input is `AD.decomposed.vcf` output is `AD.decomposed.vep.vcf`
 
 ```bash
 data=AD.decomposed
+```
+
+```bash
 variant_effect_predictor.pl -i $data.vcf \
     --cache \
     --sift b \
