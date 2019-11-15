@@ -15,3 +15,4 @@ RUN echo "deb [trusted=yes] http://statgen.us/deb ./" | tee -a /etc/apt/sources.
 # Download scripts and tutorial files
 USER jovyan
 ARG DUMMY=unknown
+RUN curl -fsSL http://statgen.us/files/peds-a.pre -o peds-a.pre
