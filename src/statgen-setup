@@ -172,3 +172,5 @@ bash: container='statisticalgenetics/gemini', volumes = [f"{gemini_data_dir:a}:/
     source activate py2 \
         && gemini update --dataonly --extra cadd_score \
         && gemini update --dataonly --extra gerp_bp
+    # gemini update command is flawed, without running the line below the downloaded data will not be usable.
+    mv annotation_db/gemini/data/* annotation_db/ && rm -rf annotation_db/gemini
