@@ -15,3 +15,4 @@ RUN echo "source activate py2" >> $HOME/.bashrc
 RUN mkdir -p $HOME/.gemini $HOME/annotation_db && echo "annotation_dir: $HOME/annotation_db" > $HOME/.gemini/gemini-config.yaml
 RUN printf "This folder is meant for gemini annotation resource databases,\nas is configured in ~/.gemini/gemini-config.yaml\nThese databases were used to generate the `my.db` file in the tutorial." > $HOME/annotation_db/README.md
 ARG DUMMY=unknown
+RUN curl -fsSL https://raw.githubusercontent.com/statgenetics/statgen-courses/master/handout/Gemini.docx -o Gemini.docx
