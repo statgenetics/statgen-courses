@@ -26,7 +26,7 @@ It is about 5GB data.
 
 Input is `AD.decomposed.vcf` output is `AD.decomposed.vep.vcf`
 
-```
+```bash
 data=AD.decomposed
 variant_effect_predictor.pl -i $data.vcf \
     --cache \
@@ -47,11 +47,12 @@ Added `--port 3337` for GRCh37.
 
 ### Build gemini database
 
-```
+```bash
 gemini load -v $data.vep.vcf -t VEP $data.db
 ```
 
 **caution** : I found a warning message: 
+
 ```
 [W::vcf_parse] INFO 'EVSMAF' is not defined in the header, assuming Type=String
 ```
