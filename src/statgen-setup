@@ -31,8 +31,8 @@ parameter: tag = 'latest'
 input: for_each = 'tutorial', concurrent = False
 bash: expand = True, workdir = root_dir
     git pull
-    docker build --build-arg DUMMY=`date +%s` -t statisticalgenetics/{_tutorial}:{tag} -f docker/{_tutorial}.dockerfile docker
-    docker push statisticalgenetics/{_tutorial}:{tag} || true
+    docker build --build-arg DUMMY=`date +%s` -t statisticalgenetics/{_tutorial}:{tag} -f docker/{_tutorial}.dockerfile docker && \
+    (docker push statisticalgenetics/{_tutorial}:{tag} || true)
 
 [launch_1]
 output: "~/.cache/cull_idle_servers.py", "~/.cache/jupyterhub_config.py"
