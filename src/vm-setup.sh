@@ -30,4 +30,4 @@ statgen-setup update --tutorial vat pseq igv popgen regression annovar mlink sli
 # setup gemini data
 ## This will download large data-set; please comment it out if you do not need it for the tutorial
 ## By default we don't need this step for our current version of gemini tutorial.
-## statgen-setup annotation_db --gemini-data-dir /root/annotation_db && chown root.users -R /root/annotation_db
+## statgen-setup annotation_db --gemini-data-dir /opt/annotation_db && chown root.users -R /opt/annotation_db && chmod g=u -R /opt/annotation_db
