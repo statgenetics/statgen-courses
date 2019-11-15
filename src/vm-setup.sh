@@ -1,11 +1,15 @@
 #!/bin/bash
+# This script can be executed as is under `root`, to setup a new Debian 10 VM purchased
+# from a cloud server provider. This script is all you need to setup computing environment
+# to run course tutorials. If you are using it in a different context (i.e., on a machine
+# not a brand new VM with Debian 10 OS) please read comments for each command and decide what to do.
 set -e
 # setup web server (assuming Debian OS)
-## Note: you can skip this step if 1) you already have some webserver running, or 2) you don't need to run the exercise via Jupyter Hub
+## Note: you can skip this step if 1) you already have some webserver running, or 2) you don't need to run the tutorial via Jupyter Hub
 apt-get update && apt-get install -y nginx
 # install setfacl command (assuming Debian OS)
 apt-get install acl
-## Note: you can skip this step if 1) you already have setfacl command tool installed or 2) you don't need to run the exercise via Jupyter Hub
+## Note: you can skip this step if 1) you already have setfacl command tool installed or 2) you don't need to run the tutorial via Jupyter Hub
 # setup docker
 ## Note: you can skip this step if you've already got docker installed
 curl -fsSL get.docker.com -o /tmp/get-docker.sh && sh /tmp/get-docker.sh
@@ -24,6 +28,6 @@ statgen-setup useradd --my-name student --num-users 12 2> useradd.log
 # pull latest verson of docker images
 statgen-setup update --tutorial vat pseq igv popgen regression annovar mlink slink gemini
 # setup gemini data
-## This will download large data-set; please comment it out if you do not need it for the exercise
-## By default we don't need this step for our current version of gemini exercise.
+## This will download large data-set; please comment it out if you do not need it for the tutorial
+## By default we don't need this step for our current version of gemini tutorial.
 ## statgen-setup annotation_db --gemini-data-dir /root/annotation_db && chown root.users -R /root/annotation_db
