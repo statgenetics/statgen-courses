@@ -10,7 +10,7 @@ RUN bash -c "source activate py2 && conda install --yes -c conda-forge -c biocon
  
 USER jovyan
 # Download datafiles
-RUN curl -fsSL http://statgen.us/files/2017/09/data/gemini.tar.gz -o gemini.tar.gz && tar zxvf gemini.tar.gz && rm -f gemini.tar.gz  
+RUN curl -fsSL http://statgen.us/files/gemini-tutorial-data.tar.bz2 -o gemini.tar.bz2 && tar jxvf gemini.tar.bz2 && rm -f gemini.tar.bz2
 # Update the exercise text
 RUN echo "source activate py2" >> $HOME/.bashrc
 RUN mkdir -p $HOME/.gemini $HOME/annotation_db && echo "annotation_dir: $HOME/annotation_db" > $HOME/.gemini/gemini-config.yaml
