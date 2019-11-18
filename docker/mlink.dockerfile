@@ -16,3 +16,4 @@ RUN echo "deb [trusted=yes] http://statgen.us/deb ./" | tee -a /etc/apt/sources.
 USER jovyan
 ARG DUMMY=unknown
 RUN curl -fsSL http://statgen.us/files/peds-a.pre -o peds-a.pre
+RUN DUMMY=${DUMMY} curl -fsSL https://raw.githubusercontent.com/statgenetics/statgen-courses/master/handout/MLINK.pdf -o MLINK.pdf 
