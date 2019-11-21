@@ -11,7 +11,7 @@ apt-get clean
 
 ## Download data for the exercise
 ## Data should be installed to `/usr/local/src/igv-webapp/dist` to be accessible
-RUN curl -fsSL http://statgen.us/files/2017/09/data/igv_exercise.zip -o igv_exercise.zip && unzip igv_exercise.zip && mv igv/*.* /usr/local/src/igv-webapp/dist && rm -rf igv_exercise.zip igv
+RUN curl -fsSL http://statgen.us/files/igv_exercise.zip -o igv_exercise.zip && unzip igv_exercise.zip && mv igv/*.* /usr/local/src/igv-webapp/dist && rm -rf igv_exercise.zip igv
 
 ## Update the exercise text
 ARG DUMMY=unknown
