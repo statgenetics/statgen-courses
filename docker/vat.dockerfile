@@ -29,8 +29,8 @@ RUN curl -fsSL http://statgen.us/files/vat-data.tar.bz2 -o vat-data.tar.bz2 && t
 
 RUN mkdir -p $HOME/bin && ln -s /usr/lib/annovar/annotate_variation.pl $HOME/bin/annotate_variation.pl && echo "export PATH=\$HOME/bin:\$PATH" >> $HOME/.bashrc
 
-# Install variant tools version 3.0.x
-RUN conda install variant_tools==3.0.9 -c bioconda && \
+# Install variant tools version 3.x
+RUN conda install variant_tools==3.1.0 -c bioconda && \
    conda clean --all && rm -rf $HOME/.caches
 
 # Update resource files to current VAT release
