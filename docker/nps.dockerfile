@@ -25,8 +25,3 @@ RUN curl -fsSL http://statgen.us/files/NPS.Test1.tar.gz -o NPS.Test1.tar.gz && \
     rm -f NPS.Test1.tar.gz
 RUN cd ..
 
-# Download notebook script and clean up output in the notebook
-#ARG DUMMY=unknown
-#RUN DUMMY=${DUMMY} curl -fsSL https://raw.githubusercontent.com/statgenetics/statgen-courses/master/notebooks/VAT.ipynb -o VAT.ipynb
-#RUN jupyter nbconvert --ClearOutputPreprocessor.enabled=True --inplace VAT.ipynb
-#RUN curl -fsSL https://raw.githubusercontent.com/statgenetics/statgen-courses/master/handout/VAT.doc -o VAT.doc
