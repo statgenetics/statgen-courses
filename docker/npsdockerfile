@@ -1,0 +1,28 @@
+FROM gaow/base-notebook:1.0.0
+
+MAINTAINER Diana Cornejo  <dmc2245@cumc.columbia.edu>
+
+USER root
+
+# Update ubuntu
+
+RUN apt-get update && \
+    apt-get clean
+
+# Install and compile NPS1.1
+# Install associated R packages
+# Download NPS test data and place ir under testdata/ folder
+
+USER jovyan
+RUN curl -fsSL https://github.com/sgchun/nps/archive/1.1.tar.gz && -o nps-1.1.tar.gz && tar -zxvf nps-1.1.tar.gz && rm -f nps-1.1.tar.gz
+RUN cd nps-1.1/
+RUN make
+RUN Rscript -e 'install.packages("pROC", repos="http://cran.r-project.org")'
+RUN Rscript -e 'install.packages("DescTools", repos="http://cran.r-project.org")'
+RUN curl -fsSL http://statgen.us/files/NPS.Test1.tar.gz -o nps-1.1/testdata NPS.Test1.tar.gz && tar -zxvf NPS.Test1.tar.gz && rm -f NPS.Test1.tar.gz
+
+# Download notebook script and clean up output in the notebook
+#ARG DUMMY=unknown
+#RUN DUMMY=${DUMMY} curl -fsSL https://raw.githubusercontent.com/statgenetics/statgen-courses/master/notebooks/VAT.ipynb -o VAT.ipynb
+#RUN jupyter nbconvert --ClearOutputPreprocessor.enabled=True --inplace VAT.ipynb
+#RUN curl -fsSL https://raw.githubusercontent.com/statgenetics/statgen-courses/master/handout/VAT.doc -o VAT.doc
