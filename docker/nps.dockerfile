@@ -24,7 +24,7 @@ RUN cd nps-1.1/ && \
     Rscript -e 'install.packages("pROC", repos="http://cran.r-project.org")' && \
     Rscript -e 'install.packages("DescTools", repos="http    ://cran.r-project.org")' && \
     cd .. && \
-    mv nps-1.1/ /home/jovyan
+    mv nps-1.1/ home/
 
 
 #Download NPS test data and place it under testdata/ folder
