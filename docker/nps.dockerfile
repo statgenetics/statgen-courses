@@ -13,22 +13,22 @@ RUN apt-get update && \
    
 #Install and compile NPS1.1
 #Install associated R packages
+#Download NPS test data and place it under testdata/ folder
 
 RUN curl -fsSL https://github.com/sgchun/nps/archive/1.1.tar.gz -o nps-1.1.tar.gz && \
     tar xvzf nps-1.1.tar.gz && \
+    rm -rf nps-1.1.tar.gz && \
     cd nps-1.1/ && \
     make && \
     Rscript -e 'install.packages("pROC", repos="http://cran.r-project.org")' && \
-    Rscript -e 'install.packages("DescTools", repos="http    ://cran.r-project.org")' && \
-    cd .. && \
-    rm -rf nps-1.1.tar.gz && \
-    mv nps-1.1/ ~/jovyan/
-
-
-#Download NPS test data and place it under testdata/ folder
-
-USER jovyan
-RUN curl -fsSL http://statgen.us/files/NPS.Test1.tar.gz -o NPS.Test1.tar.gz && \
+    Rscript -e 'install.packages("DescTools", repos="http://cran.r-project.org")' && \
+    cd testdata/ && \
+    curl -fsSL http://statgen.us/files/NPS.Test1.tar.gz -o NPS.Test1.tar.gz && \
     tar xvzf NPS.Test1.tar.gz && \
     rm -rf NPS.Test1.tar.gz
 
+#RUN mv ~/nps-1.1 /home/
+
+USER jovyan
+#ARG DUMMY=unknown
+#RUN DUMMY=${DUMMY} curl -fsSL https://raw.githubusercontent.com/statgenetics/statgen-courses/master/handout/NPS -o NPS
