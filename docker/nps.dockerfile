@@ -23,6 +23,7 @@ RUN curl -fsSL https://github.com/sgchun/nps/archive/1.1.tar.gz -o nps-1.1.tar.g
 RUN cd nps-1.1/ && \
     Rscript -e 'install.packages("pROC", repos="http://cran.r-project.org")' && \
     Rscript -e 'install.packages("DescTools", repos="http    ://cran.r-project.org")' && \
+    cd .. && \
     mv nps-1.1/ /home/jovyan
 
 
