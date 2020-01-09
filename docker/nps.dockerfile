@@ -9,16 +9,7 @@ RUN apt-get update && \
     libz-dev libbz2-dev liblzma-dev libpcre3-dev libssl-dev libcurl4-openssl-dev \
     libopenblas-dev default-jre unzip libboost-all-dev \
     libpng-dev libcairo2-dev tabix --yes && \
-    apt-get clean && \
-    curl -O https://cloud.r-project.org/src/base/R-3/R-3.5.1.tar.gz && \
-    tar xvzf R-3.5.1.tar.gz && \
-    cd R-3.5.1 && \
-    ./configure --with-x=no --with-blas="-lopenblas" && \
-    make && \
-    mkdir -p /usr/local/lib/R/lib && \
-    make install && \
-    cd .. && \
-    rm -rf R-3.5.1*
+    apt-get clean
    
 #Install and compile NPS1.1
 #Install associated R packages
