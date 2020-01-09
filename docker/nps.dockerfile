@@ -18,21 +18,17 @@ RUN curl -fsSL https://github.com/sgchun/nps/archive/1.1.tar.gz -o nps-1.1.tar.g
     tar xvzf nps-1.1.tar.gz && \
     cd nps-1.1/ && \
     make && \
-    rm -rf nps-1.1.tar.gz
-
-RUN cd nps-1.1/ && \
     Rscript -e 'install.packages("pROC", repos="http://cran.r-project.org")' && \
     Rscript -e 'install.packages("DescTools", repos="http    ://cran.r-project.org")' && \
     cd .. && \
-    mv nps-1.1/ home/
+    rm -rf nps-1.1.tar.gz && \
+    mv nps-1.1/ ~/jovyan/
 
 
 #Download NPS test data and place it under testdata/ folder
 
 USER jovyan
-RUN cd nps-1.1/testdata/
 RUN curl -fsSL http://statgen.us/files/NPS.Test1.tar.gz -o NPS.Test1.tar.gz && \
     tar xvzf NPS.Test1.tar.gz && \
-    rm -rf NPS.Test1.tar.gz &&\
-    cd ..
+    rm -rf NPS.Test1.tar.gz
 
