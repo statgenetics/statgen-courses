@@ -5,7 +5,10 @@ MAINTAINER Diana Cornejo  <dmc2245@cumc.columbia.edu>
 USER root
 
 RUN apt-get update && \
-    apt-get install curl make gcc g++ libopenblas-dev --yes && \
+    apt-get install curl make gcc g++ libreadline-dev \
+    libz-dev libbz2-dev liblzma-dev libpcre3-dev libssl-dev libcurl4-openssl-dev \
+    libopenblas-dev default-jre unzip libboost-all-dev \
+    libpng-dev libcairo2-dev tabix --yes && \
     apt-get clean && \
     curl -O https://cloud.r-project.org/src/base/R-3/R-3.5.1.tar.gz && \
     tar xvzf R-3.5.1.tar.gz && \
