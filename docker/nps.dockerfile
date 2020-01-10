@@ -18,9 +18,7 @@ RUN apt-get update && \
 RUN Rscript -e 'install.packages("pROC", repos="http://cran.r-project.org")' && \
     Rscript -e 'install.packages("DescTools", repos="http://cran.r-project.org")'
     
-USER jovyan
-RUN cd /home/jovyan && \
-    curl -fsSL https://github.com/sgchun/nps/archive/1.1.0.tar.gz -o nps-1.1.0.tar.gz && \
+RUN curl -fsSL https://github.com/sgchun/nps/archive/1.1.0.tar.gz -o nps-1.1.0.tar.gz && \
     tar xvzf nps-1.1.0.tar.gz && \
     rm -rf nps-1.1.0.tar.gz && \
     cd nps-1.1.0/ && \
