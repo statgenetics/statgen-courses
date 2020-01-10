@@ -28,5 +28,9 @@ RUN curl -fsSL https://github.com/sgchun/nps/archive/1.1.0.tar.gz -o nps-1.1.0.t
     tar xvzf NPS.Test1.tar.gz && \
     rm -rf NPS.Test1.tar.gz
 
+RUN mv nps-1.1.0 /home/jovyan/nps && chown jovyan.user -R /home/jovyan/nps
+
+USER jovyan
+
 #ARG DUMMY=unknown
 #RUN DUMMY=${DUMMY} curl -fsSL https://raw.githubusercontent.com/statgenetics/statgen-courses/master/handout/NPS -o NPS
