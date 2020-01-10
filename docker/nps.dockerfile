@@ -11,14 +11,14 @@ RUN apt-get update && \
     libpng-dev libcairo2-dev tabix --yes && \
     apt-get clean
    
-#Install and compile NPS1.1
+#Install and compile NPS.1.1.0
 #Install associated R packages
 #Download NPS test data and place it under testdata/ folder
 
-RUN curl -fsSL https://github.com/sgchun/nps/archive/1.1.tar.gz -o nps-1.1.tar.gz && \
-    tar xvzf nps-1.1.tar.gz && \
-    rm -rf nps-1.1.tar.gz && \
-    cd nps-1.1/ && \
+RUN curl -fsSL https://github.com/sgchun/nps/archive/1.1.0.tar.gz -o nps-1.1.0.tar.gz && \
+    tar xvzf nps-1.1.0.tar.gz && \
+    rm -rf nps-1.1.0.tar.gz && \
+    cd nps-1.1.0/ && \
     make && \
     Rscript -e 'install.packages("pROC", repos="http://cran.r-project.org")' && \
     Rscript -e 'install.packages("DescTools", repos="http://cran.r-project.org")' && \
@@ -27,7 +27,7 @@ RUN curl -fsSL https://github.com/sgchun/nps/archive/1.1.tar.gz -o nps-1.1.tar.g
     tar xvzf NPS.Test1.tar.gz && \
     rm -rf NPS.Test1.tar.gz
 
-#RUN mv ~/nps-1.1 /home/
+#RUN mv ~/nps-1.1.0 /home/
 
 USER jovyan
 #ARG DUMMY=unknown
