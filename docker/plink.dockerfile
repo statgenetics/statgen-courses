@@ -14,6 +14,6 @@ RUN echo "deb [trusted=yes] http://statgen.us/deb ./" | tee -a /etc/apt/sources.
 USER jovyan
 
 ARG DUMMY=unknown
-RUN DUMMY=${DUMMY} curl -fsSL https://raw.githubusercontent.com/statgenetics/statgen-courses/master/handout/PLINK_data_qc.docx -o Plink_data_qc.docx
-RUN curl -fsSL https://raw.githubusercontent.com/statgenetics/statgen-courses/master/handout/PLINK_Substructure.docx  -o Plink_substructure.docx
+RUN DUMMY=${DUMMY} curl -fsSL https://github.com/statgenetics/statgen-courses/tree/master/handout/PLINK_data_qc.docx -o Plink_data_qc.docx
+RUN curl -fsSL https://github.com/statgenetics/statgen-courses/tree/master/handout/PLINK_Substructure.docx  -o Plink_substructure.docx
 
