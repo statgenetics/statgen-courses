@@ -6,12 +6,23 @@ ENV LC_ALL C.UTF-8
 ENV LANG C.UTF-8
 
 USER root
+
 RUN apt-get update && \
-    apt-get install curl make gcc g++ cmake gfortran libreadline-dev \
-    libz-dev libbz2-dev liblzma-dev libpcre3-dev libssl-dev libcurl4-openssl-dev \
-    libopenblas-dev default-jre unzip libboost-all-dev \
-    libpng-dev libcairo2-dev tabix --yes && \
-    apt-get clean
+    apt-get install -y \
+    make \
+    gcc \
+    g++ \
+    cmake \ 
+    libreadline-dev \
+    libz-dev \
+    libpcre3-dev \
+    libopenblas-dev \
+    default-jre \
+    libboost-all-dev \
+    libpng-dev \
+    libcairo2-dev \
+    tabix \
+    && apt-get clean
     #curl -O https://cloud.r-project.org/src/base/R-3/R-3.5.1.tar.gz && \
     #tar xvzf R-3.5.1.tar.gz && \
     #cd R-3.5.1 && \
@@ -22,8 +33,12 @@ RUN apt-get update && \
     #cd .. && \
     #rm -rf R-3.5.1*
 
-RUN apt-get install --yes && \
-    pip install cget
+RUN chown jovyan.users -R /home/jovyan/
+
+RUN pip install cget
+
+#RUN conda create --name py2 python=2.7
+#RUN bash -c "source activate py2"
 
 RUN apt install wget
 #RUN src_branch=master  && \
@@ -53,11 +68,9 @@ RUN rm -r SAIGE && \
 	#rm master.zip
 	rm SAIGE_GENE_casecontrol_imbalace.zip
 
-ENV PATH "/usr/local/bin/:$PATH"
+ENV PATH "/usr/local/bin/:/home/jovyan/:$PATH"
 
 ADD step1_fitNULLGLMM.R step2_SPAtests.R createSparseGRM.R /usr/local/bin/
-
-RUN chown jovyan.users -R /home/jovyan/
 
 USER jovyan
 
