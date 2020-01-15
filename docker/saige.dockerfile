@@ -9,69 +9,32 @@ USER root
 
 RUN apt-get update && \
     apt-get install -y \
-    make \
-    gcc \
-    g++ \
-    cmake \ 
+    wget \
+    cmake \
     libreadline-dev \
     libz-dev \
     libpcre3-dev \
-    libopenblas-dev \
     default-jre \
     libboost-all-dev \
     libpng-dev \
     libcairo2-dev \
     tabix \
     && apt-get clean
-    #curl -O https://cloud.r-project.org/src/base/R-3/R-3.5.1.tar.gz && \
-    #tar xvzf R-3.5.1.tar.gz && \
-    #cd R-3.5.1 && \
-    #./configure --with-x=no --with-blas="-lopenblas" && \
-    #make && \
-    #mkdir -p /usr/local/lib/R/lib && \
-    #make install && \
-    #cd .. && \
-    #rm -rf R-3.5.1*
 
-RUN chown jovyan.users -R /home/jovyan/
-
+# Dependency Python packages for SAIGE pipelines
 RUN pip install cget
+RUN conda install -c conda-forge bgen==3.0.3 bgen-reader==3.0.7
 
-#RUN conda create --name py2 python=2.7
-#RUN bash -c "source activate py2"
-
-RUN apt install wget
-#RUN src_branch=master  && \
-#	repo_src_url=https://github.com/weizhouUMICH/SAIGE && \
-#	git clone --depth 0 -b $src_branch $repo_src_url
-
-
-#RUN wget https://github.com/weizhouUMICH/SAIGE/archive/master.zip && \
-#        unzip master.zip && \
-#        mv SAIGE-master SAIGE 
-
-RUN echo "update2" &&  wget https://github.com/weizhouUMICH/SAIGE/archive/SAIGE_GENE_casecontrol_imbalace.zip && \
-	unzip SAIGE_GENE_casecontrol_imbalace.zip && \
-	mv SAIGE-SAIGE_GENE_casecontrol_imbalace SAIGE
-
-RUN Rscript SAIGE/extdata/install_packages.R
-
-RUN R CMD INSTALL SAIGE
-
-RUN Rscript SAIGE/extdata/step1_fitNULLGLMM.R --help
-
-RUN Rscript SAIGE/extdata/step2_SPAtests.R --help
-
-RUN echo "hello world" 
-
-RUN rm -r SAIGE && \
-	#rm master.zip
-	rm SAIGE_GENE_casecontrol_imbalace.zip
-
-ENV PATH "/usr/local/bin/:/home/jovyan/:$PATH"
-
-ADD step1_fitNULLGLMM.R step2_SPAtests.R createSparseGRM.R /usr/local/bin/
+# Dependency R packages for SAIGE
+# https://github.com/weizhouUMICH/SAIGE/blob/dc642fbf4c943594cc9b05774b8bc187892eaa25/DESCRIPTION#L10
+# https://github.com/weizhouUMICH/SAIGE/blob/dc642fbf4c943594cc9b05774b8bc187892eaa25/extdata/install_packages.R
+RUN Rscript -e 'p = c("remotes", "Rcpp", "RcppArmadillo", "RcppParallel", "data.table", "SPAtest", "RcppEigen", "BH", "optparse", "SKAT", "MetaSKAT"); install.packages(p, repos="https://cloud.r-project.org")'
+# Use a fork to remove bgen dependency because I've installed it using conda
+# https://github.com/statgenetics/SAIGE/commit/465a367c1bd7169d1381975015b5dcb648e2c197
+ENV SAIGE_VERSION 96125c983d952cccf9ba71c6d2fa293b59060436
+RUN Rscript -e 'remotes::install_github("statgenetics/SAIGE", ref = "'${SAIGE_VERSION}'")'
 
 USER jovyan
-
-
+# Get SAIGE pipeline scripts
+RUN curl -fsSL https://github.com/weizhouUMICH/SAIGE/archive/dc642fbf4c943594cc9b05774b8bc187892eaa25.zip -o SAIGE.zip \
+    && unzip SAIGE.zip && mv SAIGE-*/extdata/* ./ && rm -rf SAIGE* && rm -r output/*
