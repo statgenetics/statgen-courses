@@ -36,10 +36,8 @@ RUN Rscript -e 'remotes::install_github("statgenetics/SAIGE", ref = "'${SAIGE_VE
 
 USER jovyan
 # Get SAIGE pipeline scripts
-#RUN curl -fsSL https://github.com/weizhouUMICH/SAIGE/archive/dc642fbf4c943594cc9b05774b8bc187892eaa25.zip -o SAIGE.zip \
-#    && unzip SAIGE.zip && mv SAIGE-*/extdata/* ./ && rm -rf SAIGE* && rm -r output/*
-RUN wget https://github.com/statgenetics/SAIGE/blob/96125c983d952cccf9ba71c6d2fa293b59060436/extdata/createSparseGRM.R 
-RUN wget https://github.com/statgenetics/SAIGE/blob/96125c983d952cccf9ba71c6d2fa293b59060436/extdata/step1_fitNULLGLMM.R
-RUN wget https://github.com/statgenetics/SAIGE/blob/96125c983d952cccf9ba71c6d2fa293b59060436/extdata/step2_SPAtests.R
+RUN wget https://raw.githubusercontent.com/statgenetics/SAIGE/96125c983d952cccf9ba71c6d2fa293b59060436/extdata/createSparseGRM.R
+RUN wget https://raw.githubusercontent.com/statgenetics/SAIGE/96125c983d952cccf9ba71c6d2fa293b59060436/extdata/step1_fitNULLGLMM.R
+RUN wget https://raw.githubusercontent.com/statgenetics/SAIGE/96125c983d952cccf9ba71c6d2fa293b59060436/extdata/step2_SPAtests.R
 RUN curl -fsSL http://statgen.us/files/2020/01/saige_data.tar.gz -o saige_data.tar.gz && tar -xzvf saige_data.tar.gz && mkdir input && mv /home/jovyan/saige_data/* input/ && rm -rf *.tar.gz saige_data
 
