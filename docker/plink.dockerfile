@@ -9,6 +9,7 @@ USER root
 RUN echo "deb [trusted=yes] http://statgen.us/deb ./" | tee -a /etc/apt/sources.list.d/statgen.list && \
     apt-get update && \
     apt-get install -y plink-tutorial && \
+    conda install -y -c bioconda plink && \	
     apt-get clean && mv /home/shared/* /home/jovyan && rm -rf /home/shared && chown jovyan.users -R /home/jovyan/*
 
 USER jovyan
