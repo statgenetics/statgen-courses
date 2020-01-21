@@ -13,9 +13,9 @@ RUN conda install -y  -c bioconda plink  && \
 
 RUN curl -fsSL http://statgen.us/files/2020/01/PRACDATA.zip -o PRACDATA.zip && \
     unzip PRACDATA.zip && \
-    mv PRACDATA/fastlmmc /home/jovyan && chmod a+x fastlmmc && \
-    mv PRACDATA/quantfamdata.*  /home/jovyan && \
-    rm -rf PRACDAT* && \ 
+    mv PRACDATA/* /home/jovyan && rm -rf PRACDAT* && \
+    cd /home/jovyan &&  chmod a+x fastlmmc gcta64 cassi plink && mv fastlmmc gcta64 cassi plink /usr/local/bin && \
+    rm -rf sim* $HOME/.caches && \ 
     chown jovyan.users -R /home/jovyan/*
 
 USER jovyan
@@ -23,4 +23,4 @@ USER jovyan
 ARG DUMMY=unknown
 
 RUN curl -fsSL https://github.com/statgenetics/statgen-courses/blob/master/handout/FASTLMM-NY2020.pdf -o FASTLMM.pdf
-
+RUN curl -fsSL https://github.com/statgenetics/statgen-courses/blob/master/handout/GCTA-NY2020.pdf -o GCTA.pdf
