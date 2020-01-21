@@ -40,4 +40,4 @@ RUN wget https://raw.githubusercontent.com/statgenetics/SAIGE/96125c983d952cccf9
 RUN wget https://raw.githubusercontent.com/statgenetics/SAIGE/96125c983d952cccf9ba71c6d2fa293b59060436/extdata/step1_fitNULLGLMM.R
 RUN wget https://raw.githubusercontent.com/statgenetics/SAIGE/96125c983d952cccf9ba71c6d2fa293b59060436/extdata/step2_SPAtests.R
 RUN curl -fsSL http://statgen.us/files/2020/01/saige_data.tar.gz -o saige_data.tar.gz && tar -xzvf saige_data.tar.gz && mkdir input && mv /home/jovyan/saige_data/* input/ && rm -rf *.tar.gz saige_data
-
+RUN mkdir output
