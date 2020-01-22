@@ -216,8 +216,9 @@ Then you should see in the a notebook file `*.ipynb` on the left panel. Click on
 **It therefore strongly encouraged that you save your work after you complete the tutorial.**
 There are two ways to do this: 
 - Save to your computer (recommended): to do this, simply right click on the notebook to bring up the dropdown menu, and click `Download` to download the notebook to your computer to save your own copy.
-- Save on the cloud server: copy the notebook (or other files) you want to save to `work` folder found in the left panel showing the directory tree. This will be saved to the cloud server's `$HOME/<my-name>`
-folder where `<my-name>` is an identification used to create the JupyterHub server (default is `hub_user`). **This is a shared folder for potentially exchange data among whoever has the link to the tutorial so if you want to store data here please create subfolders in it with your own name identifier, and save your stuff there**.
+- Save on the cloud server: copy the notebook (or other files) you want to save to `work` folder found in the left panel showing the directory tree. **This is a shared folder for potentially exchange data among whoever has the link to the tutorial so if you want to store data here please create subfolders in it with your own name identifier, and save your stuff there**. e.g., `work/<your first name>-<your last name>`. Please ask the course teaching assistant if you are not sure how to create this folder.
+
+Under the hood, `work` folder is mounted to the cloud server's `/root/<my-name>` folder where `<my-name>` is an identification used when the administrator created the JupyterHub server (default is `hub_user`). As a regular user you will not have direct access to `/root` folder but it won't matter because everything is accessible from the `work` folder of your Jupyter IDE.
 
 ## Convert & Save tutorials to MS Word format
 
