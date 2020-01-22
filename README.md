@@ -89,7 +89,7 @@ http://<machine URL>:<port number>
 
 where `<machine URL>` is the address you used to login the cloud VM, port number is what you see above, in this case `8847`.
 
-It is important to start the server from `root` because this will set the permission of the shared folder correctly. This should be done before the course starts, ideally right after running [the setup script](https://github.com/statgenetics/statgen-courses/blob/master/src/vm-setup.sh).
+It is important to start the server from `root` because this will set the permission of the shared folder correctly for users of the Jupyter server to share files. These servers should be started beforehand for users to access, ideally right after running [the setup script](https://github.com/statgenetics/statgen-courses/blob/master/src/vm-setup.sh).
 
 **Note: if you (as a developer) would like to modify the notebook on cloud server please remember to download it to your local computer after modifications; or save to `workdir` and download from there later. The docker container does not preserve changes made to the notebook in it.** 
 
