@@ -75,11 +75,21 @@ bash /tmp/vm-setup.sh
 
 ### Start tutorial server on VM
 
-To set it up for selected tutorial(s), for example for `vat` and `pseq` tutorials, run from the root terminal
+To set it up for selected tutorial(s), for example for `vat` and `pseq` tutorials, run **as `root` user** from the terminal:
 
 ```bash
 statgen-setup launch --tutorial vat pseq
 ```
+
+Then run `docker ps | grep hub_user` to see a list of containers. You should get a similar output as above section. But this time instead of using address `0.0.0.0:8847` you need to type in below:
+
+```
+http://<machine URL>:<port number>
+```
+
+where `<machine URL>` is the address you used to login the cloud VM, port number is what you see above, in this case `8847`.
+
+It is important to start the server from `root` because this will set the permission of the shared folder correctly. This should be done before the course starts, ideally right after running [the setup script](https://github.com/statgenetics/statgen-courses/blob/master/src/vm-setup.sh).
 
 **Note: if you (as a developer) would like to modify the notebook on cloud server please remember to download it to your local computer after modifications; or save to `workdir` and download from there later. The docker container does not preserve changes made to the notebook in it.** 
 
@@ -182,13 +192,22 @@ cp *.* ~/work # this will copy all files with any extestions from $HOME to $HOME
 
 ## Run tutorials via JupyterHub server
 
-To run a specific tutorial, say, `vat`, you can simply type in your browser:
+To run a specific tutorial, say, `vat`, first, find out if a server already exists by typing in `docker ps | grep hub_user`. You should see something like below:
 
 ```
-http://<ip-address>/vat.html
+4888c67e9774        vat_hub_user        "tini -g -- jupyterh…"   8 seconds ago       Up 7 seconds        8888/tcp, 0.0.0.0:8847->8000/tcp   vat_hub_user
 ```
 
-(If you are not provided this link, you would need to login as root to the cloud VM you are assigned to, and start the tutorial server before you can run them. See section `Start tutorial server on VM` above for details.)
+where `8847` is the port number you've got to keep track of. Then type in the web browser of your laptop or desktop: 
+
+```
+http://<machine URL>:<port number>
+```
+
+where `<machine URL>` is the address you used to login the cloud VM, port number is what you see above.
+
+If you don't see the `*_hub_user` container listed above, please ask your administrator to start the tutorial server. 
+(Administrators, please see section `Start tutorial server on VM` above for details.)
 
 The server will configure itself the first time it launches; you will then be directed to a JupyterLab interface. 
 Then you should see in the a notebook file `*.ipynb` on the left panel. Click on it to start running the tutorial.
