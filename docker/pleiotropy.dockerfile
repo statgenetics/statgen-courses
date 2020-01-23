@@ -7,9 +7,8 @@ MAINTAINER Diana Cornejo  <dmc2245@cumc.columbia.edu>
 
 USER root
      
-RUN conda install -c bioconda plink
-
-RUN R -e 'install.packages("mediation", repos="http://cran.r-project.org")'
+RUN conda install -c bioconda plink && \
+    R -e 'install.packages("mediation", repos="http://cran.r-project.org")'
 
 RUN curl -fsSL http://statgen.us/files/2020/01/pleiotropy_final_datasets.zip -o pleiotropy.zip && unzip pleiotropy.zip && mv pleiotropy_final_datasets/*  /home/jovyan  && \
     rm -rf pleiotro* && \ 
