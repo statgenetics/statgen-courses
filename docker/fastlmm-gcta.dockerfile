@@ -7,9 +7,6 @@ MAINTAINER Diana Cornejo  <dmc2245@cumc.columbia.edu>
 #download datasets from Heather Cordell uploaded to statgen.us
 
 USER root
-     
-RUN apt-get update && \
-    apt-get clean
 		
 RUN conda install --yes -c bioconda -c biobuilds plink gcta==1.26.0
 
