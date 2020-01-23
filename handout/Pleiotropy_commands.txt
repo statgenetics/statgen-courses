@@ -108,4 +108,3 @@ less dataset2_subset.mqfam.total
 ##Question 3
 
 Output of summary(med.out) for each SNP
-

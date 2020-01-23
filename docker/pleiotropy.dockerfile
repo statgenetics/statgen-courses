@@ -22,4 +22,4 @@ ARG DUMMY=unknown
 
 RUN curl -fsSL https://github.com/statgenetics/statgen-courses/blob/master/handout/Pleiotropy.docx -o Pleiotropy.docx
 RUN curl -fsSL https://github.com/statgenetics/statgen-courses/blob/master/handout/Pleiotropy_answers.docx -o Pleiotropy_answers.docx
-RUN curl -fsSL https://github.com/statgenetics/statgen-courses/blob/master/handout/Pleiotropy_commands.txt -o Pleiotropy_commands.txt
+RUN curl -fsSL https://github.com/statgenetics/statgen-courses/blob/master/handout/Pleiotropy_commands.txt  -o Pleiotropy_commands.txt
