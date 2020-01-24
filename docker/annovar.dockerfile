@@ -2,8 +2,10 @@ FROM gaow/base-notebook:1.0.0
 
 MAINTAINER Diana Cornejo <dmc2245@cumc.columbia.edu>
 
-USER root
 #Install dependency tools and deploy data-set package that Carl made
+
+USER root
+
 RUN echo "deb [trusted=yes] http://statgen.us/deb ./" | tee -a /etc/apt/sources.list.d/statgen.list && \
     apt-get update && \
     apt-get install -y annotation-tutorial && \

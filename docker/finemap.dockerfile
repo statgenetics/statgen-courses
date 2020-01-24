@@ -1,12 +1,12 @@
 FROM gaow/base-notebook:1.0.0
 
 MAINTAINER Diana Cornejo  <dmc2245@cumc.columbia.edu>
-
-USER root
    
 #Install susieR
 #Install associated R packages
 #Download data under the jovyan directory
+
+USER root
 
 RUN R -e 'remotes::install_github("stephenslab/susieR@0.9.0")' && \
     R -e 'install.packages("glmnet", repos="http://cran.r-project.org")' && \

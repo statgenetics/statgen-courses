@@ -92,6 +92,20 @@ out.fit<-glm(X2~X1+rs343927_2, data=combined2, family=binomial("logit"))
 med.out<-mediate(med.fit, out.fit, treat="rs343927_2", mediator = "X1", boot = TRUE, boot.ci.type = "bca", sims = 1000)
 summary(med.out)
 
+#Covariate analysis example for 1 SNP and 1 covariate 
+
+library(mediation)
+genotypes <- read.table(“dataset1_subset.raw”, header=T)
+phenotypes <- read.table(“dataset1_phenotype_w_covariates.txt”, header=T)
+combined <- merge(genotypes, phenotypes)
+head(combined)                                    #to see variable names in combined dataset
+med.fit<-glm(W1~ rs1342326 + SEX, data=combined, family=binomial("logit"))
+out.fit<-glm(W2~W1+ rs134226 + SEX, data=combined, family=binomial("logit"))
+med.out<-mediate(med.fit, out.fit, treat="rs1342326", mediator = "W1", boot = TRUE, boot.ci.type = "bca", sims = 1000)
+summary(med.out)
+summary(med.fit)
+summary(out.fit)
+
 #Answers 
 
 ##Question 1

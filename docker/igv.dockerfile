@@ -6,12 +6,16 @@ WORKDIR /root
 
 ## Install unzip
 RUN apt-get update && \
-apt-get install -y unzip && \
-apt-get clean
+    apt-get install -y unzip && \
+    apt-get clean
 
 ## Download data for the exercise
 ## Data should be installed to `/usr/local/src/igv-webapp/dist` to be accessible
-RUN curl -fsSL http://statgen.us/files/igv_exercise.zip -o igv_exercise.zip && unzip igv_exercise.zip && mv igv/*.* /usr/local/src/igv-webapp/dist && rm -rf igv_exercise.zip igv
+
+RUN curl -fsSL http://statgen.us/files/igv_exercise.zip -o igv_exercise.zip && \
+    unzip igv_exercise.zip && \
+    mv igv/*.* /usr/local/src/igv-webapp/dist && \
+    rm -rf igv_exercise.zip igv
 
 ## Update the exercise text
 ARG DUMMY=unknown

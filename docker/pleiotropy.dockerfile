@@ -20,6 +20,6 @@ USER jovyan
 
 ARG DUMMY=unknown
 
-RUN curl -fsSL https://github.com/statgenetics/statgen-courses/blob/master/handout/Pleiotropy.docx -o Pleiotropy.docx
-RUN curl -fsSL https://github.com/statgenetics/statgen-courses/blob/master/handout/Pleiotropy_answers.docx -o Pleiotropy_answers.docx
-RUN curl -fsSL https://github.com/statgenetics/statgen-courses/blob/master/handout/pleiotropy_commands.txt  -o pleiotropy_commands.txt
+RUN wget  https://raw.githubusercontent.com/statgenetics/statgen-courses/master/handout/Pleiotropy.docx && \
+    wget  https://raw.githubusercontent.com/statgenetics/statgen-courses/master/handout/Pleiotropy_answers.docx && \
+    wget  https://raw.githubusercontent.com/statgenetics/statgen-courses/master/handout/Pleiotropy_commands.txt 

@@ -2,9 +2,9 @@ FROM gaow/base-notebook:1.0.0
 
 MAINTAINER Diana Cornejo  <dmc2245@cumc.columbia.edu>
 
-USER root
-   
 #Install dependecy tools and download datasets
+
+USER root
      
 RUN apt-get update && \
     apt-get install g++ && \		
@@ -21,4 +21,4 @@ USER jovyan
 
 ARG DUMMY=unknown
 
-RUN curl -fsSL https://github.com/statgenetics/statgen-courses/blob/master/handout/Epistasis-NY2020.pdf -o Epistasis.pdf
+RUN wget https://raw.githubusercontent.com/statgenetics/statgen-courses/master/handout/Epistasis-NY2020.pdf
