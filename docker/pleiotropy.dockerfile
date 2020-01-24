@@ -22,4 +22,4 @@ ARG DUMMY=unknown
 
 RUN wget  https://raw.githubusercontent.com/statgenetics/statgen-courses/master/handout/Pleiotropy.docx && \
     wget  https://raw.githubusercontent.com/statgenetics/statgen-courses/master/handout/Pleiotropy_answers.docx && \
-    wget  https://raw.githubusercontent.com/statgenetics/statgen-courses/master/handout/Pleiotropy_commands.txt 
+    wget  https://raw.githubusercontent.com/statgenetics/statgen-courses/master/handout/pleiotropy_commands.txt 
