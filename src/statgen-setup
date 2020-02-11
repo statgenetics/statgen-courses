@@ -83,7 +83,7 @@ bash: expand = True, workdir = '~/'
     docker network inspect {_tutorial}_{my_name} &>/dev/null || docker network create {_tutorial}_{my_name}
     docker run --rm -it -d -v /var/run/docker.sock:/var/run/docker.sock --net {_tutorial}_{my_name} --name {_tutorial}_{my_name} -p{ports[_index]}:8000 {_tutorial}_{my_name}
     # Create a shortcut to access from browser
-    (echo '<meta http-equiv="Refresh" content="0; url=http://{ip}:{ports[_index]}" />' 2> /dev/null 1> /var/www/html/{_tutorial}.html && printf '\nDone! Users can now access {_tutorial} tutorial at http://{ip}/{_tutorial}.html\n\n') || true
+    (mkdir -p /var/www/html/{my_name}/{_tutorial} && echo '<meta http-equiv="Refresh" content="0; url=http://{ip}:{ports[_index]}" />' 2> /dev/null 1> /var/www/html/{my_name}/{_tutorial}/index.html && printf '\nDone! Users can now access {_tutorial} tutorial at http://{ip}/{my_name}/{_tutorial}\n\n') || true
 
 [login]
 # use --restart to false restart the container
@@ -102,7 +102,7 @@ if tutorial == 'gemini' and gemini_data_dir.is_dir():
     extra_docker_args = f'-v {gemini_data_dir:a}:/home/jovyan/annotation_db'
 bash: expand = '$[ ]', workdir = '~/'
     if [ "$[tutorial]" == "igv" ]
-    then 
+    then
         # Stop currently running instances to start from scratch
         docker stop sandbox_$[tutorial]_$[my_name] &> /dev/null || true
         # Run it in the background, `-d` option
@@ -144,7 +144,7 @@ passwd = [random.randint(10000, 99999) for i in range(num_users)]
 input: for_each = 'passwd', concurrent = False
 bash: expand = True
   set -e
-  if [ `id -u {my_name}_{_index+1} 2>/dev/null || echo -1` -ge 0 ]; then 
+  if [ `id -u {my_name}_{_index+1} 2>/dev/null || echo -1` -ge 0 ]; then
     userdel -r {my_name}_{_index+1} 2>/dev/null
   fi
   # Group `users` have group ID 100 which agrees with group ID in our docker images
