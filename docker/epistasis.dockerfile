@@ -21,4 +21,4 @@ USER jovyan
 
 ARG DUMMY=unknown
 
-RUN wget https://raw.githubusercontent.com/statgenetics/statgen-courses/master/handout/Epistasis-NY2020.pdf
+RUN wget https://raw.githubusercontent.com/statgenetics/statgen-courses/master/handout/Epistasis.pdf

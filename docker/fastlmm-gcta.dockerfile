@@ -24,5 +24,5 @@ USER jovyan
 
 ARG DUMMY=unknown
 
-RUN wget  https://raw.githubusercontent.com/statgenetics/statgen-courses/master/handout/FASTLMM-NY2020.pdf && \
-    wget  https://raw.githubusercontent.com/statgenetics/statgen-courses/master/handout/GCTA-NY2020.pdf
+RUN wget  https://raw.githubusercontent.com/statgenetics/statgen-courses/master/handout/FASTLMM.pdf && \
+    wget  https://raw.githubusercontent.com/statgenetics/statgen-courses/master/handout/GCTA.pdf
