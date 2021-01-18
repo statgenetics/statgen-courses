@@ -8,7 +8,13 @@ MAINTAINER Diana Cornejo  <dmc2245@cumc.columbia.edu>
 
 USER root
 		
-RUN conda install --yes -c bioconda plink
+# RUN conda install --yes -c bioconda plink
+
+RUN mkdir -p /tmp/plink1.90 && cd /tmp/plink1.90 && \
+    wget -q http://s3.amazonaws.com/plink1-assets/plink_linux_x86_64_20200219.zip && \
+    unzip plink_linux_x86_64_20200219.zip && \
+    cp plink /usr/local/bin && \
+    rm -rf /tmp/plink1.90
 
 RUN cd /tmp && \
     curl -fsSL https://cnsgenomics.com/software/gcta/bin/gcta_1.93.2beta.zip -o gcta.zip && \
