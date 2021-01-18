@@ -8,7 +8,7 @@ MAINTAINER Diana Cornejo  <dmc2245@cumc.columbia.edu>
 
 USER root
 		
-RUN conda install --yes -c bioconda -c biobuilds plink
+RUN conda install --yes -c bioconda plink
 
 RUN cd /tmp && \
     curl -fsSL https://cnsgenomics.com/software/gcta/bin/gcta_1.93.2beta.zip -o gcta.zip && \
