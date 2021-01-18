@@ -4,7 +4,7 @@ MAINTAINER Diana Cornejo  <dmc2245@cumc.columbia.edu>
    
 USER root
 
-RUN R -e 'remotes::install_github("stephenslab/susieR")' 
+RUN R --slave -e 'remotes::install_github("stephenslab/susieR")' 
     
 USER jovyan
 

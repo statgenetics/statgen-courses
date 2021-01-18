@@ -23,7 +23,7 @@ you should see some meaningful output.
 a minimal JupyterHub / SoS Notebook environment for scientific computing, is used to derive
 tutorial specific images in this folder.
 
-To build tutorial images and push to dockerhub, eg for tutorial `igv` found under `docker` folder,
+To build tutorial images and push to dockerhub, eg for tutorial `igv` found under `docker` folder, please execute command below under the root of this repo (same folder as this `README.md` file) 
 
 ```bash
 statgen-setup build --tutorial igv
