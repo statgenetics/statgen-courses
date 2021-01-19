@@ -69,8 +69,8 @@ bash: expand = True, workdir = '~/'
     set -e
     # Get the relevant image
     docker pull statisticalgenetics/{_tutorial}
-    # Stop currently running instances to start from scratch
-    docker container stop $(docker container ls -q --filter ancestor=statisticalgenetics/{_tutorial}) &> /dev/null || true
+    # Stop currently running servers to start from scratch if they are the same name; but don't stop any running instances (line below commented out)
+    # docker container stop $(docker container ls -q --filter ancestor=statisticalgenetics/{_tutorial}) &> /dev/null || true
     docker container stop $(docker container ls -q --filter name={_tutorial}_{my_name}) &> /dev/null || true
     # Create a user folder for notebook instance and set the permission
     mkdir -p $HOME/{my_name}
@@ -113,7 +113,7 @@ bash: expand = '$[ ]', workdir = '~/'
         mkdir -p $HOME/$[my_name] && chmod g=u $HOME/$[my_name]
         cmd="docker exec -it sandbox_$[tutorial]_$[my_name] bash"
         echo "INFO: Logging in via '$cmd'"
-        echo "INFO: '~/work' folder is mounted to '$HOME/$[my_name]' on your machine"
+        echo "INFO: '~/saved_work' folder is mounted to '$HOME/$[my_name]' on your machine"
         # Stop currently running instances to start a new container
         if [ "$[restart]" == "True" ]
         then
@@ -123,7 +123,7 @@ bash: expand = '$[ ]', workdir = '~/'
         $cmd 2> /dev/null
         } || {
         # Run it in the background, `-d` option
-        docker run -d --rm --security-opt label:disable -v $HOME/$[my_name]:/home/jovyan/work -v /tmp:/tmp $[extra_docker_args] -t --name sandbox_$[tutorial]_$[my_name] -h $[tutorial]-$[my_name] statisticalgenetics/$[tutorial] > /dev/null
+        docker run -d --rm --security-opt label:disable -v $HOME/$[my_name]:/home/jovyan/saved_work -v /tmp:/tmp $[extra_docker_args] -t --name sandbox_$[tutorial]_$[my_name] -h $[tutorial]-$[my_name] statisticalgenetics/$[tutorial] > /dev/null
         # Then login
         echo "Started a new container at `date`"
         $cmd
