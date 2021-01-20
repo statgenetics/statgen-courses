@@ -14,4 +14,4 @@ RUN echo "deb [trusted=yes] http://statgen.us/deb ./" | tee -a /etc/apt/sources.
 #Update the exercise text
 USER jovyan
 ARG DUMMY=unknown
-RUN DUMMY=${DUMMY} curl -fsSL https://raw.githubusercontent.com/statgenetics/statgen-courses/master/handout/FunctionalAnnotation.docx -o FunctionalAnnotation.docx 
+RUN DUMMY=${DUMMY} curl -fsSL https://raw.githubusercontent.com/statgenetics/statgen-courses/master/handout/FunctionalAnnotation.2021.pdf -o FunctionalAnnotation.pdf

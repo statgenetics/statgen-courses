@@ -20,6 +20,6 @@ USER jovyan
 
 ARG DUMMY=unknown
 
-RUN wget  https://raw.githubusercontent.com/statgenetics/statgen-courses/master/handout/Pleiotropy.docx && \
-    wget  https://raw.githubusercontent.com/statgenetics/statgen-courses/master/handout/Pleiotropy_answers.docx && \
+RUN wget  https://raw.githubusercontent.com/statgenetics/statgen-courses/master/handout/Pleiotropy.pdf && \
+    wget  https://raw.githubusercontent.com/statgenetics/statgen-courses/master/handout/Pleiotropy_answers.pdf && \
     wget  https://raw.githubusercontent.com/statgenetics/statgen-courses/master/handout/pleiotropy_commands.txt 

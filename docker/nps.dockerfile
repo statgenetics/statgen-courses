@@ -33,4 +33,4 @@ RUN mv nps-1.1.0 /home/jovyan/nps && chown jovyan.users -R /home/jovyan/nps
 USER jovyan
 
 ARG DUMMY=unknown
-RUN DUMMY=${DUMMY} curl -fsSL https://raw.githubusercontent.com/statgenetics/statgen-courses/master/handout/NPS.docx -o NPS.docx
+RUN DUMMY=${DUMMY} curl -fsSL https://raw.githubusercontent.com/statgenetics/statgen-courses/master/handout/NPS.pdf -o NPS.pdf
