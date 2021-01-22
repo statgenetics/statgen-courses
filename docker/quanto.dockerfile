@@ -9,7 +9,7 @@ RUN dpkg --add-architecture i386 && \
     apt-get install -y wine32 curl && \
     apt-get clean
 RUN curl -fsSL https://download.informer.com/win-1193149165-6cf55402-69d39bf5/quanto1_2_4.exe -o /tmp/quanto_installer.exe
-RUN mkdir -p /root/.wine && mkdir -p /root/work && chmod a+rw -R /root/work
+RUN mkdir -p /root/.wine && mkdir -p /root/saved_work && chmod a+rw -R /root/saved_work
 RUN echo -e '#!/bin/bash\nwine /root/.wine/drive_c/Program\ Files/Quanto/Quanto.exe' > /usr/local/bin/quanto && chmod +x /usr/local/bin/quanto
 CMD ["bash"]
 

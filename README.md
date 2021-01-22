@@ -91,7 +91,7 @@ where `<machine URL>` is the address you used to login the cloud VM, port number
 
 It is important to start the server from `root` because this will set the permission of the shared folder correctly for users of the Jupyter server to share files. These servers should be started beforehand for users to access, ideally right after running [the setup script](https://github.com/statgenetics/statgen-courses/blob/master/src/vm-setup.sh). Please see section `Run tutorials via JupyterHub server` below for instructions to users how to use the server.
 
-**Note: if you (as a developer) would like to modify the notebook on cloud server please remember to download it to your local computer after modifications; or save to `workdir` and download from there later. The docker container does not preserve changes made to the notebook in it.** 
+**Note: if you (as a developer) would like to modify the notebook on cloud server please remember to download it to your local computer after modifications; or save to `saved_work` directory and download from there later. The docker container does not preserve changes made to the notebook in it.** 
 
 ## Create user accounts on cloud VM
 
@@ -178,14 +178,14 @@ If you want to fresh restart the container you can add `--restart` switch to the
 
 **Note: the container may be killed periodically to maintain the server at a reasonable load.** What you can do are:
 
-- Transfer output generated during the tutorial to the cloud server: move or copy results to `~/work` folder. This will save them to the cloud server's `$HOME/<my-name>`
+- Transfer output generated during the tutorial to the cloud server: move or copy results to `~/saved_work` folder. This will save them to the cloud server's `$HOME/<my-name>`
 folder where `<my-name>` is an identification used to create the container.
 
 Example after you log in to the container: 
 
 ```bash
 cd # this will change your directory to $HOME
-cp *.* ~/work # this will copy all files with any extestions from $HOME to $HOME/work. You can also replace `cp` with `mv` if you want to move the files instead of copy them over
+cp *.* ~/saved_work # this will copy all files with any extestions from $HOME to $HOME/saved_work. You can also replace `cp` with `mv` if you want to move the files instead of copy them over
 ```
 
 - Transfer output to your computer: once they are saved to the cloud server as instructed above, you can use `scp` command from your local computer to copy the files, eg, `scp -r <username>@<cloud_IP>:./<my-name> ./` where `<my-name>` is an identification used to create the container.
@@ -216,9 +216,9 @@ Then you should see in the a notebook file `*.ipynb` on the left panel. Click on
 **It therefore strongly encouraged that you save your work after you complete the tutorial.**
 There are two ways to do this: 
 - Save to your computer (recommended): to do this, simply right click on the notebook to bring up the dropdown menu, and click `Download` to download the notebook to your computer to save your own copy.
-- Save on the cloud server: copy the notebook (or other files) you want to save to `work` folder found in the left panel showing the directory tree. **This is a shared folder for potentially exchange data among whoever has the link to the tutorial so if you want to store data here please create subfolders in it with your own name identifier, and save your stuff there**. e.g., `work/<your first name>-<your last name>`. Please ask the course teaching assistant if you are not sure how to create this folder.
+- Save on the cloud server: copy the notebook (or other files) you want to save to `saved_work` folder found in the left panel showing the directory tree. **This is a shared folder for potentially exchange data among whoever has the link to the tutorial so if you want to store data here please create subfolders in it with your own name identifier, and save your stuff there**. e.g., `saved_work/<your first name>-<your last name>`. Please ask the course teaching assistant if you are not sure how to create this folder.
 
-Under the hood, `work` folder is mounted to the cloud server's `/root/<my-name>` folder where `<my-name>` is an identification used when the administrator created the JupyterHub server (default is `hub_user`). As a regular user you will not have direct access to `/root` folder but it won't matter because everything is accessible from the `work` folder of your Jupyter IDE.
+Under the hood, `saved_work` folder is mounted to the cloud server's `/root/<my-name>` folder where `<my-name>` is an identification used when the administrator created the JupyterHub server (default is `hub_user`). As a regular user you will not have direct access to `/root` folder but it won't matter because everything is accessible from the `saved_work` folder of your Jupyter IDE.
 
 ## Convert & Save tutorials to MS Word format
 
