@@ -37,7 +37,7 @@ notebook_dir = '/home/jovyan/work'
 c.DockerSpawner.notebook_dir = notebook_dir
 c.DockerSpawner.extra_create_kwargs = {'user': 'root'}
 
-# To solve permission issue https://github.com/jupyterhub/dockerspawner/issues/160
+# Below is not necessary if volume path already exists and was given proper permissions.
 def create_dir_hook(spawner):
     volume_path = 'HOST_DIR'
     if not os.path.exists(volume_path):
