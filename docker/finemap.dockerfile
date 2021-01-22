@@ -15,6 +15,6 @@ RUN echo ''' \
 	curl -fsSL https://raw.githubusercontent.com/statgenetics/statgen-courses/master/notebooks/finemapping.ipynb -o finemapping.ipynb && \
 	jupyter nbconvert --ClearOutputPreprocessor.enabled=True --inplace finemapping.ipynb && \
 	curl -fsSL https://raw.githubusercontent.com/statgenetics/statgen-courses/master/handout/finemapping.pdf -o finemapping.pdf && \
-	mv *.* ~/ \
+	mv *.* ~/work \
 	''' >>  ~/.bin/pull-tutorial
 
