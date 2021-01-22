@@ -113,7 +113,7 @@ bash: expand = '$[ ]', workdir = '~/'
         mkdir -p $HOME/$[my_name] && chmod g=u $HOME/$[my_name]
         cmd="docker exec -it sandbox_$[tutorial]_$[my_name] bash"
         echo "INFO: Logging in via '$cmd'"
-        echo "INFO: '~/saved_work' folder is mounted to '$HOME/$[my_name]' on your machine"
+        echo "INFO: '~/work' folder is mounted to '$HOME/$[my_name]' on your machine"
         # Stop currently running instances to start a new container
         if [ "$[restart]" == "True" ]
         then
@@ -123,7 +123,7 @@ bash: expand = '$[ ]', workdir = '~/'
         $cmd 2> /dev/null
         } || {
         # Run it in the background, `-d` option
-        docker run -d --rm --security-opt label:disable -v $HOME/$[my_name]:/home/jovyan/saved_work -v /tmp:/tmp $[extra_docker_args] -t --name sandbox_$[tutorial]_$[my_name] -h $[tutorial] statisticalgenetics/$[tutorial] > /dev/null
+        docker run -d --rm --security-opt label:disable -v $HOME/$[my_name]:/home/jovyan/work -v /tmp:/tmp $[extra_docker_args] -t --name sandbox_$[tutorial]_$[my_name] -h $[tutorial] statisticalgenetics/$[tutorial] > /dev/null
         # Then login
         echo "Started a new container at `date`"
         $cmd

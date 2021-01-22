@@ -11,7 +11,7 @@ See `quanto.dockerfile`. Make a docker image from that file.
 To do this we first start a container from the image then log into the container and make change. On a Linux host,
 
 ```bash
-docker run -d --rm --security-opt label:disable -t --name quanto-installer --net=host --env="DISPLAY" -v "$HOME/.Xauthority:/root/.Xauthority:rw" -v $HOME/quanto:/root/saved_work statisticalgenetics/quanto bash
+docker run -d --rm --security-opt label:disable -t --name quanto-installer --net=host --env="DISPLAY" -v "$HOME/.Xauthority:/root/.Xauthority:rw" -v $HOME/quanto:/root/work statisticalgenetics/quanto bash
 ```
 Then log into it,
 
@@ -57,7 +57,7 @@ The trickiness is to run GUI based application in Docker. It is different for di
 ### On Linux
 
 ```
-docker run --rm --security-opt label:disable -t --net=host --env="DISPLAY" -v "$HOME/.Xauthority:/root/.Xauthority:rw" -v $HOME/quanto:/root/saved_work statisticalgenetics/quanto quanto
+docker run --rm --security-opt label:disable -t --net=host --env="DISPLAY" -v "$HOME/.Xauthority:/root/.Xauthority:rw" -v $HOME/quanto:/root/work statisticalgenetics/quanto quanto
 ```
 
 ### On Mac

@@ -32,11 +32,11 @@ c.Spawner.default_url = '/lab'
 c.JupyterHub.active_server_limit = 20
 
 # Most jupyter/docker-stacks *-notebook images run the Notebook server as
-# user `jovyan`, and set the notebook directory to `/home/jovyan/saved_work`.
-#c.DockerSpawner.notebook_dir = os.environ.get('DOCKER_NOTEBOOK_DIR') or '/home/jovyan/saved_work'
+# user `jovyan`, and set the notebook directory to `/home/jovyan/work`.
+#c.DockerSpawner.notebook_dir = os.environ.get('DOCKER_NOTEBOOK_DIR') or '/home/jovyan/work'
 
 # Mount the host folder, created beforehand and was given proper permissions, to a directory in notebook container
-c.DockerSpawner.volumes = { 'HOST_DIR': {"bind": '/home/jovyan/saved_work', "mode":"rw"} }
+c.DockerSpawner.volumes = { 'HOST_DIR': {"bind": '/home/jovyan/work', "mode":"rw"} }
 
 # kill idle server after a while
 c.JupyterHub.services = [
