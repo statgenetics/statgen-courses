@@ -1,5 +1,4 @@
-import os
-import sys
+import os, sys, shutil
 
 c.JupyterHub.authenticator_class = 'tmpauthenticator.TmpAuthenticator'
 
@@ -33,10 +32,22 @@ c.JupyterHub.active_server_limit = 20
 
 # Most jupyter/docker-stacks *-notebook images run the Notebook server as
 # user `jovyan`, and set the notebook directory to `/home/jovyan/work`.
-#c.DockerSpawner.notebook_dir = os.environ.get('DOCKER_NOTEBOOK_DIR') or '/home/jovyan/work'
+#notebook_dir = os.environ.get('DOCKER_NOTEBOOK_DIR') or '/home/jovyan/work'
+notebook_dir = '/home/jovyan/work'
+c.DockerSpawner.notebook_dir = notebook_dir
+c.DockerSpawner.extra_create_kwargs = {'user': 'root'}
+
+# To solve permission issue https://github.com/jupyterhub/dockerspawner/issues/160
+def create_dir_hook(spawner):
+    volume_path = 'HOST_DIR'
+    if not os.path.exists(volume_path):
+        os.mkdir(volume_path)
+        shutil.chown(volume_path, user=spawner.user.name, group='users')
+
+#c.Spawner.pre_spawn_hook = create_dir_hook
 
 # Mount the host folder, created beforehand and was given proper permissions, to a directory in notebook container
-c.DockerSpawner.volumes = { 'HOST_DIR': {"bind": '/home/jovyan/work', "mode":"rw"} }
+c.DockerSpawner.volumes = { 'HOST_DIR': {"bind": notebook_dir, "mode":"rw"} }
 
 # kill idle server after a while
 c.JupyterHub.services = [

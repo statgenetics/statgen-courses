@@ -47,15 +47,17 @@ bash: expand = True
 fail_if(len(tutorial) == 0, msg = 'Please specify a list of tutorial to launch, via ``--tutorial`` option.')
 fail_if(len(my_name) == 0, msg = 'Please assign yourself a username, via ``--my-name`` option.')
 fail_if(not all((a.isalnum() or a == '_') and not a.isspace() for a in my_name), msg = 'Please use only alphanumeric letters and no space for ``--my-name`` input.')
+import os
+home = os.path.expanduser("~").replace('/', '\\/')
 input: for_each = 'tutorial', concurrent = False
-docker_build: tag = f'{_tutorial}_{my_name}', expand = True, workdir = '~/.cache'
-    FROM gaow/base-notebook:{version}
+docker_build: tag = f'{_tutorial}_{my_name}', expand = '$[ ]', workdir = '~/.cache'
+    FROM gaow/base-notebook:$[version]
     USER root
     RUN mkdir -p /srv/jupyterhub/
     COPY jupyterhub_config.py /srv/jupyterhub/jupyterhub_config.py
     COPY cull_idle_servers.py /srv/jupyterhub/cull_idle_servers.py
     # modify the script to create a unique instance
-    RUN sed -i 's/CONTAINER_NAME/{_tutorial}_{my_name}/g; s/IMAGE_NAME/statisticalgenetics\/{_tutorial}/g; s/HOST_DIR/\/root\/${_tutorial}_{my_name}/g' /srv/jupyterhub/jupyterhub_config.py
+    RUN sed -i "s/CONTAINER_NAME/$[_tutorial]_$[my_name]/g; s/IMAGE_NAME/statisticalgenetics\/$[_tutorial]/g; s/HOST_DIR/$[home]\/$[_tutorial]_$[my_name]/g" /srv/jupyterhub/jupyterhub_config.py
     EXPOSE 8000
     WORKDIR /srv/jupyterhub/
     LABEL org.jupyter.service="jupyterhub"
@@ -75,11 +77,6 @@ bash: expand = True, workdir = '~/'
     docker container stop $(docker container ls -q --filter name={_tutorial}_{my_name}) &> /dev/null || true
     # Create a user folder for notebook instance and set the permission
     mkdir -p $HOME/{_tutorial}_{my_name}
-    ## https://github.com/jupyterhub/dockerspawner/issues/160
-    ## FIXME: there may be smarter solutions but this is what I have so far
-    if [ $EUID -eq 0 ]; then
-   	chown 1000:100 $HOME/{_tutorial}_{my_name} && chmod g+rws $HOME/{_tutorial}_{my_name} && setfacl -d -m g::rwx $HOME/{_tutorial}_{my_name}
-    fi
     # Start jupyterhub
     docker network inspect {_tutorial}_{my_name} &>/dev/null || docker network create {_tutorial}_{my_name}
     docker run --rm -it -d -v /var/run/docker.sock:/var/run/docker.sock --net {_tutorial}_{my_name} --name {_tutorial}_{my_name} -p{ports[_index]}:8000 {_tutorial}_{my_name}
