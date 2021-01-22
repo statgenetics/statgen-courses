@@ -7,6 +7,7 @@
 parameter: tutorial = []
 import getpass
 parameter: my_name = getpass.getuser()
+parameter: version = '1.0.0'
 import socket, random
 
 def is_port_in_use(port):
@@ -36,8 +37,8 @@ bash: expand = True, workdir = root_dir
 
 [launch_1]
 output: "~/.cache/cull_idle_servers.py", "~/.cache/jupyterhub_config.py"
-bash:
-    docker pull gaow/base-notebook
+bash: expand = True
+    docker pull gaow/base-notebook:{version}
     mkdir -p $HOME/.cache
     curl -fsSL https://raw.githubusercontent.com/statgenetics/statgen-courses/master/src/cull_idle_servers.py -o $HOME/.cache/cull_idle_servers.py
     curl -fsSL https://raw.githubusercontent.com/statgenetics/statgen-courses/master/src/jupyterhub_config.py -o $HOME/.cache/jupyterhub_config.py
@@ -48,7 +49,7 @@ fail_if(len(my_name) == 0, msg = 'Please assign yourself a username, via ``--my-
 fail_if(not all((a.isalnum() or a == '_') and not a.isspace() for a in my_name), msg = 'Please use only alphanumeric letters and no space for ``--my-name`` input.')
 input: for_each = 'tutorial', concurrent = False
 docker_build: tag = f'{_tutorial}_{my_name}', expand = True, workdir = '~/.cache'
-    FROM gaow/base-notebook
+    FROM gaow/base-notebook:{version}
     USER root
     RUN mkdir -p /srv/jupyterhub/
     COPY jupyterhub_config.py /srv/jupyterhub/jupyterhub_config.py
