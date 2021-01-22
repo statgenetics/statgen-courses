@@ -1,4 +1,4 @@
-FROM gaow/base-notebook:1.0.0
+FROM gaow/base-notebook:1.3.0
 
 MAINTAINER Gao Wang <gw2411@columbia.edu>
 

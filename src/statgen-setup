@@ -5,8 +5,8 @@
 # List of tutorial to launch
 # see https://hub.docker.com/u/statisticalgenetics/ for a list of options
 parameter: tutorial = []
-parameter: my_name = 'hub_user'
-
+import getpass
+parameter: my_name = getpass.getuser()
 import socket, random
 
 def is_port_in_use(port):
@@ -90,7 +90,7 @@ bash: expand = True, workdir = '~/'
 parameter: restart = False
 parameter: gemini_data_dir = path('/opt/annotation_db')
 fail_if(len(tutorial) != 1, msg = 'Please specify a tutorial to launch, via ``--tutorial`` option.')
-fail_if(len(my_name) == 0 or my_name == 'hub_user', msg = 'Please assign yourself a username, via ``--my-name`` option.')
+fail_if(len(my_name) == 0, msg = 'Please assign yourself a username, via ``--my-name`` option.')
 fail_if(not all((a.isalnum() or a == '_') and not a.isspace() for a in my_name), msg = 'Please use only alphanumeric letters and no space for ``--my-name`` input.')
 tutorial = tutorial[0]
 port = ip = None
@@ -106,7 +106,7 @@ bash: expand = '$[ ]', workdir = '~/'
         # Stop currently running instances to start from scratch
         docker stop sandbox_$[tutorial]_$[my_name] &> /dev/null || true
         # Run it in the background, `-d` option
-        docker run -d --rm --security-opt label:disable -t --name sandbox_$[tutorial]_$[my_name] -h $[tutorial]-$[my_name] -p $[port]:8080 statisticalgenetics/$[tutorial] > /dev/null
+        docker run -d --rm --security-opt label:disable -t --name sandbox_$[tutorial]_$[my_name] -h $[tutorial] -p $[port]:8080 statisticalgenetics/$[tutorial] > /dev/null
         printf '\nPlease access the IGV server at http://$[ip]:$[port]'
         printf '\nor, if you run this server locally (on your computer), at http://0.0.0.0:$[port]\n\n'
     else
@@ -123,7 +123,7 @@ bash: expand = '$[ ]', workdir = '~/'
         $cmd 2> /dev/null
         } || {
         # Run it in the background, `-d` option
-        docker run -d --rm --security-opt label:disable -v $HOME/$[my_name]:/home/jovyan/saved_work -v /tmp:/tmp $[extra_docker_args] -t --name sandbox_$[tutorial]_$[my_name] -h $[tutorial]-$[my_name] statisticalgenetics/$[tutorial] > /dev/null
+        docker run -d --rm --security-opt label:disable -v $HOME/$[my_name]:/home/jovyan/saved_work -v /tmp:/tmp $[extra_docker_args] -t --name sandbox_$[tutorial]_$[my_name] -h $[tutorial] statisticalgenetics/$[tutorial] > /dev/null
         # Then login
         echo "Started a new container at `date`"
         $cmd
@@ -138,7 +138,7 @@ bash: expand = True
     docker pull statisticalgenetics/{_tutorial}:{tag}
 
 [useradd]
-fail_if(len(my_name) == 0 or my_name == 'hub_user', msg = 'Please assign a username prefix, via ``--my-name`` option.')
+fail_if(len(my_name) == 0 or my_name == getpass.getuser(), msg = 'Please assign a username prefix, via ``--my-name`` option.')
 parameter: num_users = 1
 passwd = [random.randint(10000, 99999) for i in range(num_users)]
 input: for_each = 'passwd', concurrent = False
