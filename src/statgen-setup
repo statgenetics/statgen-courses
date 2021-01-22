@@ -111,10 +111,10 @@ bash: expand = '$[ ]', workdir = '~/'
         printf '\nPlease access the IGV server at http://$[ip]:$[port]'
         printf '\nor, if you run this server locally (on your computer), at http://0.0.0.0:$[port]\n\n'
     else
-        mkdir -p $HOME/$[_tutorial]_$[my_name] && chmod g=u $HOME/$[_tutorial]_$[my_name]
+        mkdir -p $HOME/$[tutorial]_$[my_name] && chmod g=u $HOME/$[tutorial]_$[my_name]
         cmd="docker exec -it sandbox_$[tutorial]_$[my_name] bash"
         echo "INFO: Logging in via '$cmd'"
-        echo "INFO: '~/work' folder is mounted to '$HOME/$[_tutorial]_$[my_name]' on your machine"
+        echo "INFO: '~/work' folder is mounted to '$HOME/$[tutorial]_$[my_name]' on your machine"
         # Stop currently running instances to start a new container
         if [ "$[restart]" == "True" ]
         then
@@ -124,7 +124,7 @@ bash: expand = '$[ ]', workdir = '~/'
         $cmd 2> /dev/null
         } || {
         # Run it in the background, `-d` option
-        docker run -d --rm --security-opt label:disable -v $HOME/$[_tutorial]_$[my_name]:/home/jovyan/work -v /tmp:/tmp $[extra_docker_args] -t --name sandbox_$[tutorial]_$[my_name] -h $[tutorial] statisticalgenetics/$[tutorial] > /dev/null
+        docker run -d --rm --security-opt label:disable -v $HOME/$[tutorial]_$[my_name]:/home/jovyan/work -v /tmp:/tmp $[extra_docker_args] -t --name sandbox_$[tutorial]_$[my_name] -h $[tutorial] statisticalgenetics/$[tutorial] > /dev/null
         # Then login
         echo "Started a new container at `date`"
         $cmd
