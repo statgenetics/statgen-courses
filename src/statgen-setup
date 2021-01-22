@@ -54,7 +54,7 @@ docker_build: tag = f'{_tutorial}_{my_name}', expand = True, workdir = '~/.cache
     COPY jupyterhub_config.py /srv/jupyterhub/jupyterhub_config.py
     COPY cull_idle_servers.py /srv/jupyterhub/cull_idle_servers.py
     # modify the script to create a unique instance
-    RUN sed -i 's/CONTAINER_NAME/{_tutorial}_{my_name}/g; s/IMAGE_NAME/statisticalgenetics\/{_tutorial}/g; s/HOST_DIR/\/root\/{my_name}/g' /srv/jupyterhub/jupyterhub_config.py
+    RUN sed -i 's/CONTAINER_NAME/{_tutorial}_{my_name}/g; s/IMAGE_NAME/statisticalgenetics\/{_tutorial}/g; s/HOST_DIR/\/root\/${_tutorial}_{my_name}/g' /srv/jupyterhub/jupyterhub_config.py
     EXPOSE 8000
     WORKDIR /srv/jupyterhub/
     LABEL org.jupyter.service="jupyterhub"
@@ -73,11 +73,11 @@ bash: expand = True, workdir = '~/'
     # docker container stop $(docker container ls -q --filter ancestor=statisticalgenetics/{_tutorial}) &> /dev/null || true
     docker container stop $(docker container ls -q --filter name={_tutorial}_{my_name}) &> /dev/null || true
     # Create a user folder for notebook instance and set the permission
-    mkdir -p $HOME/{my_name}
+    mkdir -p $HOME/{_tutorial}_{my_name}
     ## https://github.com/jupyterhub/dockerspawner/issues/160
     ## FIXME: there may be smarter solutions but this is what I have so far
     if [ $EUID -eq 0 ]; then
-   	chown 1000:100 $HOME/{my_name} && chmod g+rws $HOME/{my_name} && setfacl -d -m g::rwx $HOME/{my_name}
+   	chown 1000:100 $HOME/{_tutorial}_{my_name} && chmod g+rws $HOME/{_tutorial}_{my_name} && setfacl -d -m g::rwx $HOME/{_tutorial}_{my_name}
     fi
     # Start jupyterhub
     docker network inspect {_tutorial}_{my_name} &>/dev/null || docker network create {_tutorial}_{my_name}
@@ -110,10 +110,10 @@ bash: expand = '$[ ]', workdir = '~/'
         printf '\nPlease access the IGV server at http://$[ip]:$[port]'
         printf '\nor, if you run this server locally (on your computer), at http://0.0.0.0:$[port]\n\n'
     else
-        mkdir -p $HOME/$[my_name] && chmod g=u $HOME/$[my_name]
+        mkdir -p $HOME/$[_tutorial]_$[my_name] && chmod g=u $HOME/$[_tutorial]_$[my_name]
         cmd="docker exec -it sandbox_$[tutorial]_$[my_name] bash"
         echo "INFO: Logging in via '$cmd'"
-        echo "INFO: '~/work' folder is mounted to '$HOME/$[my_name]' on your machine"
+        echo "INFO: '~/work' folder is mounted to '$HOME/$[_tutorial]_$[my_name]' on your machine"
         # Stop currently running instances to start a new container
         if [ "$[restart]" == "True" ]
         then
@@ -123,7 +123,7 @@ bash: expand = '$[ ]', workdir = '~/'
         $cmd 2> /dev/null
         } || {
         # Run it in the background, `-d` option
-        docker run -d --rm --security-opt label:disable -v $HOME/$[my_name]:/home/jovyan/work -v /tmp:/tmp $[extra_docker_args] -t --name sandbox_$[tutorial]_$[my_name] -h $[tutorial] statisticalgenetics/$[tutorial] > /dev/null
+        docker run -d --rm --security-opt label:disable -v $HOME/$[_tutorial]_$[my_name]:/home/jovyan/work -v /tmp:/tmp $[extra_docker_args] -t --name sandbox_$[tutorial]_$[my_name] -h $[tutorial] statisticalgenetics/$[tutorial] > /dev/null
         # Then login
         echo "Started a new container at `date`"
         $cmd
