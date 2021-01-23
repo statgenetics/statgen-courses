@@ -7,7 +7,12 @@ USER root
 RUN R --slave -e 'remotes::install_github("stephenslab/susieR")' 
 RUN R --slave -e 'install.packages("corrplot")' 
     
-
+# Insert this to the notebook startup script,
+# https://github.com/jupyter/docker-stacks/blob/fad26c25b8b2e8b029f582c0bdae4cba5db95dc6/base-notebook/Dockerfile#L151
+RUN sed -i '2 i \
+	pull-tutorial.sh \
+	'  /usr/local/bin/start-notebook.sh
+# Content for the pull-tutorial.sh
 RUN echo "#!/bin/bash" > /usr/local/bin/pull-tutorial.sh && chmod +x /usr/local/bin/pull-tutorial.sh
 RUN echo ''' \
 	mkdir -p /tmp/.cache && cd /tmp/.cache && \
@@ -17,9 +22,5 @@ RUN echo ''' \
 	curl -fsSL https://raw.githubusercontent.com/statgenetics/statgen-courses/master/handout/finemapping.docx -o finemapping.docx && \
 	chown -R jovyan.users *.* && mv *.* /home/jovyan/work \
 	''' >>  /usr/local/bin/pull-tutorial.sh
-# Insert this to the notebook startup script,
-# https://github.com/jupyter/docker-stacks/blob/fad26c25b8b2e8b029f582c0bdae4cba5db95dc6/base-notebook/Dockerfile#L151
-RUN sed -i '2 i \
-	pull-tutorial.sh \
-	'  /usr/local/bin/start-notebook.sh
+
 USER jovyan
