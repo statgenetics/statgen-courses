@@ -13,6 +13,7 @@ RUN mkdir -p ~/.bin && echo "#!/bin/bash" > ~/.bin/pull-tutorial && chmod +x ~/.
 RUN echo ''' \
 	mkdir -p ~/.cache && cd ~/.cache && \
 	curl -fsSL https://raw.githubusercontent.com/statgenetics/statgen-courses/master/notebooks/finemapping.ipynb -o finemapping.ipynb && \
+	curl -fsSL https://raw.githubusercontent.com/statgenetics/statgen-courses/master/notebooks/finemapping_answers.ipynb -o finemapping_answers.ipynb && \
 	jupyter nbconvert --ClearOutputPreprocessor.enabled=True --inplace finemapping.ipynb && \
 	curl -fsSL https://raw.githubusercontent.com/statgenetics/statgen-courses/master/handout/finemapping.pdf -o finemapping.pdf && \
 	mv *.* ~/work \
