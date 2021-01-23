@@ -7,19 +7,19 @@ USER root
 RUN R --slave -e 'remotes::install_github("stephenslab/susieR")' 
 RUN R --slave -e 'install.packages("corrplot")' 
     
-USER jovyan
 
-# Download notebook script and clean up output in the notebook
-RUN mkdir -p ~/.bin && echo "#!/bin/bash" > ~/.bin/pull-tutorial && chmod +x ~/.bin/pull-tutorial && echo "export PATH=$HOME/.bin:$PATH" >> $HOME/.bashrc
+RUN echo "#!/bin/bash" > /usr/local/bin/pull-tutorial.sh && chmod +x /usr/local/bin/pull-tutorial.sh
 RUN echo ''' \
-	mkdir -p ~/.cache && cd ~/.cache && \
+	mkdir -p /tmp/.cache && cd /tmp/.cache && \
 	curl -fsSL https://raw.githubusercontent.com/statgenetics/statgen-courses/master/notebooks/finemapping.ipynb -o finemapping.ipynb && \
 	curl -fsSL https://raw.githubusercontent.com/statgenetics/statgen-courses/master/notebooks/finemapping_answers.ipynb -o finemapping_answers.ipynb && \
 	jupyter nbconvert --ClearOutputPreprocessor.enabled=True --inplace finemapping.ipynb && \
 	curl -fsSL https://raw.githubusercontent.com/statgenetics/statgen-courses/master/handout/finemapping.docx -o finemapping.docx && \
-	mv *.* ~/work \
-	''' >>  ~/.bin/pull-tutorial
-
-# Modify the start command to execute the tutorial
+	chown -R jovyan.users *.* && mv *.* /home/jovyan/work \
+	''' >>  /usr/local/bin/pull-tutorial.sh
+# Insert this to the notebook startup script,
 # https://github.com/jupyter/docker-stacks/blob/fad26c25b8b2e8b029f582c0bdae4cba5db95dc6/base-notebook/Dockerfile#L151
-CMD ["start-notebook.sh && ~/.bin/pull-tutorial"]
+RUN sed -i '2 i \
+	pull-tutorial.sh \
+	'  /usr/local/bin/start-notebook.sh
+USER jovyan
