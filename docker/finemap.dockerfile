@@ -20,3 +20,6 @@ RUN echo ''' \
 	mv *.* ~/work \
 	''' >>  ~/.bin/pull-tutorial
 
+# Modify the start command to execute the tutorial
+# https://github.com/jupyter/docker-stacks/blob/fad26c25b8b2e8b029f582c0bdae4cba5db95dc6/base-notebook/Dockerfile#L151
+CMD ["start-notebook.sh && ~/.bin/pull-tutorial"]
