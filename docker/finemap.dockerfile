@@ -14,7 +14,7 @@ RUN chmod a+x /usr/local/bin/pull-tutorial.sh
 # Insert this to the notebook startup script,
 # https://github.com/jupyter/docker-stacks/blob/fad26c25b8b2e8b029f582c0bdae4cba5db95dc6/base-notebook/Dockerfile#L151
 RUN sed -i '2 i \
-	( pull-tutorial.sh  && convert-ipynb.sh ) & \
+	( pull-tutorial.sh finemap  && convert-ipynb.sh ) & \
 	'  /usr/local/bin/start-notebook.sh
 
 # Content for pull-tutorial.sh script

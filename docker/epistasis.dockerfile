@@ -33,22 +33,4 @@ RUN sed -i '2 i \
 	download-pracdata.sh & \
 	'  /usr/local/bin/start-notebook.sh
 
-
-# Content for download-prcdata.sh script
-# RUN echo "#!/bin/bash \n\
-# cd /tmp\n\
-# ls -l /home/jovyan/work > status.txt \n\
-# curl -fsSL http://statgen.us/files/2020/01/PRACDATA.zip -o PRACDATA.zip \n\
-# unzip PRACDATA.zip \n\
-# mv PRACDATA/simcasecon.* /home/jovyan/work \n\
-# rm -rf PRACDATA* \n\
-# chown -R jovyan.users /home/jovyan \n\
-# echo \"wrote files to /home/jovyan/work\" >> status.txt \n\
-# ls -l /home/jovyan/work >> status.txt \n\
-# " >>  /usr/local/bin/download-pracdata.sh && chmod a+x /usr/local/bin/download-pracdata.sh
-
 USER jovyan
-
-# ARG DUMMY=unknown
-
-# RUN wget https://raw.githubusercontent.com/statgenetics/statgen-courses/master/handout/Epistasis.pdf

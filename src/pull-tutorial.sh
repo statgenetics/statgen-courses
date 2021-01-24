@@ -35,6 +35,7 @@ function move_data_to_user_work_dir() {
 }
 
 function prep_user() {
+  chown -R ${USER}.users /home/${USER}
   if [ ! -f /home/${USER}/.firstrun ] ; then
     echo cd /home/${USER}/work >> /home/${USER}/.bashrc
     touch /home/${USER}/.firstrun
@@ -43,7 +44,6 @@ function prep_user() {
     mv /home/${USER}/.work/* /home/${USER}/work/
     rm -rf /home/${USER}/.work
   fi
-  chown -R ${USER}.users /home/${USER}
 }
 
 function cleanup() {
