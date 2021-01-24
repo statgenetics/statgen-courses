@@ -6,7 +6,7 @@ MAINTAINER Diana Cornejo  <dmc2245@cumc.columbia.edu>
 
 USER root
      
-RUN DEBIAN_FRONTEND=noninteractive apt-get --allow-unauthenticated update && \
+RUN apt-get --allow-insecure-repositories update && \
     apt-get install g++ && \		
     conda install -c bioconda plink && \
     apt-get clean
