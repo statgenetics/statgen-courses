@@ -34,7 +34,7 @@ RUN cd /tmp && \
 
 RUN curl -fsSL http://statgen.us/files/2020/01/PRACDATA.zip -o PRACDATA.zip && \
     unzip PRACDATA.zip && \
-    mv PRACDATA/* /home/jovyan/work && rm -rf PRACDAT* && \
+    mv PRACDATA/* /home/jovyan/.work && rm -rf PRACDATA* && \
     rm -rf sim* cassi plink gcta64 fastlmmc && \ 
     chown jovyan.users -R /home/jovyan
 
