@@ -28,9 +28,13 @@ RUN curl -fsSL https://github.com/sgchun/nps/archive/1.1.0.tar.gz -o nps-1.1.0.t
     tar xvzf NPS.Test1.tar.gz && \
     rm -rf NPS.Test1.tar.gz
 
-RUN mv nps-1.1.0 /home/jovyan/nps && chown jovyan.users -R /home/jovyan/nps
+RUN mv nps-1.1.0 /home/jovyan/.work/nps && chown jovyan.users -R /home/jovyan/.work/nps
+
+RUN curl -s -o /usr/local/bin/pull-tutorial.sh https://raw.githubusercontent.com/statgenetics/statgen-courses/pull-tutorials/src/pull-tutorial.sh
+RUN chmod a+x /usr/local/bin/pull-tutorial.sh
+
+RUN sed -i '2 i \
+	pull-tutorial.sh nps & \
+	'  /usr/local/bin/start-notebook.sh
 
 USER jovyan
-
-ARG DUMMY=unknown
-RUN DUMMY=${DUMMY} curl -fsSL https://raw.githubusercontent.com/statgenetics/statgen-courses/master/handout/NPS.pdf -o NPS.pdf
