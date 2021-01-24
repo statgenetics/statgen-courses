@@ -10,6 +10,8 @@ USER root
 		
 # RUN conda install --yes -c bioconda plink
 
+RUN mkdir -p /home/jovyan/.work
+
 RUN mkdir -p /tmp/plink1.90 && cd /tmp/plink1.90 && \
     wget -q http://s3.amazonaws.com/plink1-assets/plink_linux_x86_64_20200219.zip && \
     unzip plink_linux_x86_64_20200219.zip && \
