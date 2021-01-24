@@ -12,7 +12,7 @@ RUN echo "deb [trusted=yes] http://statgen.us/deb ./" | tee -a /etc/apt/sources.
     apt-get clean
 
 RUN curl -s -o /usr/local/bin/pull-tutorial.sh https://raw.githubusercontent.com/statgenetics/statgen-courses/pull-tutorials/src/pull-tutorial.sh
-run chmod a+x /usr/local/bin/pull-tutorial.sh
+RUN chmod a+x /usr/local/bin/pull-tutorial.sh
 
 # Insert this to the notebook startup script,
 # https://github.com/jupyter/docker-stacks/blob/fad26c25b8b2e8b029f582c0bdae4cba5db95dc6/base-notebook/Dockerfile#L151

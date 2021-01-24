@@ -38,9 +38,14 @@ RUN curl -fsSL http://statgen.us/files/2020/01/PRACDATA.zip -o PRACDATA.zip && \
     rm -rf sim* cassi plink gcta64 fastlmmc && \ 
     chown jovyan.users -R /home/jovyan/*
 
+
+RUN curl -s -o /usr/local/bin/pull-tutorial.sh https://raw.githubusercontent.com/statgenetics/statgen-courses/pull-tutorials/src/pull-tutorial.sh
+RUN chmod a+x /usr/local/bin/pull-tutorial.sh
+
+RUN sed -i '2 i \
+	pull-tutorial.sh fastlmm-gcta & \
+	'  /usr/local/bin/start-notebook.sh
+
 USER jovyan
 
 ARG DUMMY=unknown
-
-RUN wget  https://raw.githubusercontent.com/statgenetics/statgen-courses/master/handout/FASTLMM.pdf && \
-    wget  https://raw.githubusercontent.com/statgenetics/statgen-courses/master/handout/GCTA.pdf

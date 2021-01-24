@@ -17,32 +17,14 @@ RUN curl -fsSL https://www.staff.ncl.ac.uk/richard.howey/cassi/cassi-v2.51-code.
 RUN curl -fsSL http://statgen.us/files/2020/01/PRACDATA.zip -o PRACDATA.zip && unzip PRACDATA.zip && mv PRACDATA/simcasecon.*  /home/jovyan  && rm -rf PRACDAT* && \ 
     chown jovyan.users -R /home/jovyan/*
 
+RUN curl -s -o /usr/local/bin/pull-tutorial.sh https://raw.githubusercontent.com/statgenetics/statgen-courses/pull-tutorials/src/pull-tutorial.sh
+RUN chmod a+x /usr/local/bin/pull-tutorial.sh
+
 # Insert this to the notebook startup script,
 # https://github.com/jupyter/docker-stacks/blob/fad26c25b8b2e8b029f582c0bdae4cba5db95dc6/base-notebook/Dockerfile#L151
 RUN sed -i '2 i \
-	pull-tutorial.sh & \
+	pull-tutorial.sh epistasis & \
 	'  /usr/local/bin/start-notebook.sh
-
-
-# Content for pull-tutorial.sh script
-RUN echo "#!/bin/bash \n\
-\n\
-mkdir -p /tmp/.cache \n\
-cd /tmp/.cache \n\
-\n\
-# Operations specific to this exercise. \n\
-wget https://raw.githubusercontent.com/statgenetics/statgen-courses/master/handout/Epistasis.pdf && \n\
-\n\
-chown -R jovyan.users * /home/jovyan \n\
-mv * /home/jovyan/work \n\
-cd \n\
-rm -rf /tmp/.cache \n\
-\n\
-if [ ! -f /home/jovyan/.firstrun ] ; then \n\
-   echo cd /home/jovyan/work >> /home/jovyan/.bashrc \n\
-   touch /home/jovyan/.firstrun \n\
-fi \n\
-" >  /usr/local/bin/pull-tutorial.sh && chmod +x /usr/local/bin/pull-tutorial.sh
 
 USER jovyan
 
