@@ -12,14 +12,14 @@ RUN R --slave -e 'install.packages("corrplot")'
 RUN sed -i '2 i \
 	pull-tutorial.sh \
 	'  /usr/local/bin/start-notebook.sh
-# Content for the pull-tutorial.sh
+
+# Content for pull-tutorial.sh script
 RUN echo "#!/bin/bash" > /usr/local/bin/pull-tutorial.sh && chmod +x /usr/local/bin/pull-tutorial.sh
 RUN echo ''' \
 	mkdir -p /tmp/.cache && cd /tmp/.cache && \
 	curl -fsSL https://raw.githubusercontent.com/statgenetics/statgen-courses/master/notebooks/finemapping.ipynb -o finemapping.ipynb && \
 	curl -fsSL https://raw.githubusercontent.com/statgenetics/statgen-courses/master/notebooks/finemapping_answers.ipynb -o finemapping_answers.ipynb && \
 	jupyter nbconvert --ClearOutputPreprocessor.enabled=True --inplace finemapping.ipynb && \
-	curl -fsSL https://raw.githubusercontent.com/statgenetics/statgen-courses/master/handout/finemapping.docx -o finemapping.docx && \
 	chown -R jovyan.users *.* && mv *.* /home/jovyan/work \
 	''' >>  /usr/local/bin/pull-tutorial.sh
 
