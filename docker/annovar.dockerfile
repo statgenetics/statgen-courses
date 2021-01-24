@@ -12,11 +12,12 @@ RUN echo "deb [trusted=yes] http://statgen.us/deb ./" | tee -a /etc/apt/sources.
     apt-get clean
 
 RUN curl -s -o /usr/local/bin/pull-tutorial.sh https://raw.githubusercontent.com/statgenetics/statgen-courses/pull-tutorials/src/pull-tutorial.sh
+run chmod a+x /usr/local/bin/pull-tutorial.sh
 
 # Insert this to the notebook startup script,
 # https://github.com/jupyter/docker-stacks/blob/fad26c25b8b2e8b029f582c0bdae4cba5db95dc6/base-notebook/Dockerfile#L151
 RUN sed -i '2 i \
-    pull-tutorial.sh & \
+    pull-tutorial.sh annovar & \
     copy-datasets.sh & \
     '  /usr/local/bin/start-notebook.sh
 
@@ -34,7 +35,7 @@ chown -R jovyan.users * /home/jovyan \n\
 mv * /home/jovyan/work \n\
 cd \n\
 rm -rf /tmp/.datacache \n\
-" >  /usr/local/bin/copy-datasets.sh && chmod +x /usr/local/bin/copy-datasets.sh
+" >  /usr/local/bin/copy-datasets.sh && chmod a+x /usr/local/bin/copy-datasets.sh
 
 #Update the exercise text
 USER jovyan

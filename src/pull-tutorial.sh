@@ -18,10 +18,6 @@ function main() {
   exit 0
 }
 
-
-# Operations specific to this exercise.
-
-
 function create_working_dir() {
   mkdir -p /tmp/.cache
   cd /tmp/.cache
