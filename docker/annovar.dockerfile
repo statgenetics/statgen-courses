@@ -17,16 +17,18 @@ RUN sed -i '2 i \
 	pull-tutorial.sh & \
 	'  /usr/local/bin/start-notebook.sh
 
-# Content for pull-tutorial.sh script\
-RUN echo '''#!/bin/bash \
-	mkdir -p /tmp/.cache && \
-    cd /tmp/.cache && \
-    \
-    cp -r /home/shared/functional_annotation/* ./ && \
-    curl -fsSL https://raw.githubusercontent.com/statgenetics/statgen-courses/master/handout/FunctionalAnnotation.2021.pdf -o FunctionalAnnotation.pdf && \
-    \
-	chown -R jovyan.users *.* && \
-    mv *.* /home/jovyan/work \
+# Content for pull-tutorial.sh script
+RUN echo '''#!/bin/bash
+
+	mkdir -p /tmp/.cache
+    cd /tmp/.cache
+    
+    # Operations specific to this exercise.
+    cp -r /home/shared/functional_annotation/* ./
+    curl -fsSL https://raw.githubusercontent.com/statgenetics/statgen-courses/master/handout/FunctionalAnnotation.2021.pdf -o FunctionalAnnotation.pdf
+
+	chown -R jovyan.users *.*
+    mv *.* /home/jovyan/work
 	''' >  /usr/local/bin/pull-tutorial.sh && chmod +x /usr/local/bin/pull-tutorial.sh
 
 #Update the exercise text
