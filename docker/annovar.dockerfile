@@ -21,7 +21,7 @@ RUN sed -i '2 i \
     copy-datasets.sh & \
     '  /usr/local/bin/start-notebook.sh
 
-# Content for pull-tutorial.sh script
+# Content for copy-datasets.sh script
 RUN echo "#!/bin/bash \n\
 \n\
 mkdir -p /tmp/.datacache \n\
@@ -29,7 +29,7 @@ cd /tmp/.datacache \n\
 \n\
 # Operations specific to this exercise. \n\
 cp -r /home/shared/functional_annotation/* ./ \n\
-ln -s work/humandb /home/jovyan/humandb \n\
+ln -s ../humandb /home/jovyan/work/humandb \n\
 \n\
 chown -R jovyan.users * /home/jovyan \n\
 mv * /home/jovyan/work \n\
