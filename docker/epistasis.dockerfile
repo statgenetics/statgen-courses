@@ -14,17 +14,36 @@ RUN apt-get --allow-insecure-repositories update && \
 RUN curl -fsSL https://www.staff.ncl.ac.uk/richard.howey/cassi/cassi-v2.51-code.zip -o cassi.zip && \
     unzip cassi.zip && cd cassi-v2.51-code && g++ -m64 -O3 *.cpp -o cassi && mv cassi /usr/local/bin && cd - && rm -rf cass*
 
-RUN curl -fsSL http://statgen.us/files/2020/01/PRACDATA.zip -o PRACDATA.zip && unzip PRACDATA.zip && mv PRACDATA/simcasecon.*  /home/jovyan/work  && rm -rf PRACDAT* && \ 
-    chown jovyan.users -R /home/jovyan
+RUN curl -fsSL http://statgen.us/files/2020/01/PRACDATA.zip -o PRACDATA.zip && unzip PRACDATA.zip && mv PRACDATA/simcasecon.* /home/jovyan/work && rm -rf PRACDATA*
+
 
 RUN curl -s -o /usr/local/bin/pull-tutorial.sh https://raw.githubusercontent.com/statgenetics/statgen-courses/pull-tutorials/src/pull-tutorial.sh
 RUN chmod a+x /usr/local/bin/pull-tutorial.sh
+
+RUN chown jovyan.users -R /home/jovyan
+
+RUN ls -l /home/jovyan/work
 
 # Insert this to the notebook startup script,
 # https://github.com/jupyter/docker-stacks/blob/fad26c25b8b2e8b029f582c0bdae4cba5db95dc6/base-notebook/Dockerfile#L151
 RUN sed -i '2 i \
 	pull-tutorial.sh epistasis & \
+	download-pracdata.sh & \
 	'  /usr/local/bin/start-notebook.sh
+
+
+# Content for download-prcdata.sh script
+RUN echo "#!/bin/bash \n\
+cd /tmp\n\
+ls -l /home/jovyan/work > status.txt \n\
+curl -fsSL http://statgen.us/files/2020/01/PRACDATA.zip -o PRACDATA.zip \n\
+unzip PRACDATA.zip \n\
+mv PRACDATA/simcasecon.* /home/jovyan/work \n\
+rm -rf PRACDATA* \n\
+chown -R jovyan.users /home/jovyan \n\
+echo \"wrote files to /home/jovyan/work\" >> status.txt \n\
+ls -l /home/jovyan/work >> status.txt \n\
+" >>  /usr/local/bin/download-pracdata.sh && chmod a+x /usr/local/bin/download-pracdata.sh
 
 USER jovyan
 
