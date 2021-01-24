@@ -14,6 +14,10 @@ RUN conda create --name py2 python=2.7 && \
 RUN curl -s -o /usr/local/bin/pull-tutorial.sh https://raw.githubusercontent.com/statgenetics/statgen-courses/pull-tutorials/src/pull-tutorial.sh
 RUN chmod a+x /usr/local/bin/pull-tutorial.sh
 
+RUN sed -i '2 i \
+	pull-tutorial.sh gemini & \
+	'  /usr/local/bin/start-notebook.sh
+
 
 #Download datafiles 
 #Update the exercise handout
