@@ -6,7 +6,7 @@ MAINTAINER Diana Cornejo  <dmc2245@cumc.columbia.edu>
 
 USER root
      
-RUN apt-get update && \
+RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
     apt-get install g++ && \		
     conda install -c bioconda plink && \
     apt-get clean
