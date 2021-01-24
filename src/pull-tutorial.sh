@@ -26,7 +26,11 @@ function create_working_dir() {
 function download_tutorial_docs() {
   FILE_LIST=$( curl -so - https://raw.githubusercontent.com/statgenetics/statgen-courses/${GIT_BRANCH}/handout/_${TUTORIAL_NAME}.txt )
   for URL in ${FILE_LIST} ; do
-    curl -so ${URL##*/} ${URL}
+    FILE=${URL##*/}
+    curl -so ${FILE} ${URL}
+    if [[ ${FILE} == *.ipynb ]] ; then
+      jupyter nbconvert --ClearOutputPreprocessor.enabled=True --inplace ${FILE}
+    fi
   done
 }
 
