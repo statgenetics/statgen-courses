@@ -23,17 +23,26 @@ RUN sed -i '2 i \
 	pull-tutorial.sh & \
 	'  /usr/local/bin/start-notebook.sh
 
-# Content for pull-tutorial.sh script\
-RUN echo '''#!/bin/bash \
-	mkdir -p /tmp/.cache && \
-    cd /tmp/.cache && \
-    \
-    wget https://raw.githubusercontent.com/statgenetics/statgen-courses/master/handout/Epistasis.pdf && \
-    \
-	chown -R jovyan.users *.* && \
-    mv *.* /home/jovyan/work \
-	''' >  /usr/local/bin/pull-tutorial.sh && chmod +x /usr/local/bin/pull-tutorial.sh
-RUN 
+
+# Content for pull-tutorial.sh script
+RUN echo "#!/bin/bash \n\
+\n\
+mkdir -p /tmp/.cache \n\
+cd /tmp/.cache \n\
+\n\
+# Operations specific to this exercise. \n\
+wget https://raw.githubusercontent.com/statgenetics/statgen-courses/master/handout/Epistasis.pdf && \n\
+\n\
+chown -R jovyan.users * /home/jovyan \n\
+mv * /home/jovyan/work \n\
+cd \n\
+rm -rf /tmp/.cache \n\
+\n\
+if [ ! -f /home/jovyan/.firstrun ] ; then \n\
+   echo cd /home/jovyan/work >> /home/jovyan/.bashrc \n\
+   touch /home/jovyan/.firstrun \n\
+fi \n\
+" >  /usr/local/bin/pull-tutorial.sh && chmod +x /usr/local/bin/pull-tutorial.sh
 
 USER jovyan
 

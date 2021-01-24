@@ -34,7 +34,7 @@ cd \n\
 rm -rf /tmp/.cache \n\
 \n\
 if [ ! -f /home/jovyan/.firstrun ] ; then \n\
-   echo  cd /home/jovyan/work >> /home/jovyan/.bashrc \n\
+   echo cd /home/jovyan/work >> /home/jovyan/.bashrc \n\
    touch /home/jovyan/.firstrun \n\
 fi \n\
 " >  /usr/local/bin/pull-tutorial.sh && chmod +x /usr/local/bin/pull-tutorial.sh
