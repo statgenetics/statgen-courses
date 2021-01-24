@@ -1,6 +1,6 @@
 FROM gaow/base-notebook:1.0.0
 
-MAINTAINER Diana Cornejo  <dmc2245@cumc.columbia.edu>
+LABEL maintainer="Diana Cornejo <dmc2245@cumc.columbia.edu>"
 
 #Install plink==1.9 and R libraries
 #Download Andrew's datasets from statgen.us 

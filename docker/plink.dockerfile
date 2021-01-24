@@ -1,6 +1,6 @@
 FROM gaow/base-notebook:1.0.0
 
-MAINTAINER Diana Cornejo  <dmc2245@cumc.columbia.edu>
+LABEL maintainer="Diana Cornejo <dmc2245@cumc.columbia.edu>"
    
 #Install dependecy tools and download datasets
 
@@ -12,8 +12,11 @@ RUN echo "deb [trusted=yes] http://statgen.us/deb ./" | tee -a /etc/apt/sources.
     conda install -y -c bioconda plink && \	
     apt-get clean && mv /home/shared/* /home/jovyan && rm -rf /home/shared && chown jovyan.users -R /home/jovyan/*
 
-USER jovyan
+RUN curl -s -o /usr/local/bin/pull-tutorial.sh https://raw.githubusercontent.com/statgenetics/statgen-courses/pull-tutorials/src/pull-tutorial.sh
+RUN chmod a+x /usr/local/bin/pull-tutorial.sh
 
-ARG DUMMY=unknown
-RUN curl -fsSL https://raw.githubusercontent.com/statgenetics/statgen-courses/master/handout/PLINK_data_QC.docx -o Plink_data_qc.docx && \
-    curl -fsSL https://raw.githubusercontent.com/statgenetics/statgen-courses/master/handout/PLINK_Substructure.docx -o Plink_substructure.docx
+RUN sed -i '2 i \
+	pull-tutorial.sh plink & \
+	'  /usr/local/bin/start-notebook.sh
+
+USER jovyan

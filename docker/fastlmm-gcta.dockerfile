@@ -1,6 +1,6 @@
 FROM gaow/base-notebook:1.0.0
 
-MAINTAINER Diana Cornejo  <dmc2245@cumc.columbia.edu>
+LABEL maintainer="Diana Cornejo <dmc2245@cumc.columbia.edu>"
 
 #Install dependecy tools for fastlmm the binary executable from microsoft was used
 #gcta.v.1.26.0 installed with conda

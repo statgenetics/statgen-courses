@@ -1,6 +1,6 @@
 FROM gaow/base-notebook:1.0.0
 
-MAINTAINER Diana Cornejo <dmc2245@cumc.columbia.edu>
+LABEL maintainer="Diana Cornejo <dmc2245@cumc.columbia.edu>"
 
 # GEMINI installer needs anaconda 2 environment; only python 2.7 is not enough
 # Also install vt for VCF decomposition, VEP for annotation
