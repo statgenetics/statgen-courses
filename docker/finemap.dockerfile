@@ -17,7 +17,7 @@ RUN sed -i '2 i \
 	( pull-tutorial.sh finemap  && convert-ipynb.sh ) & \
 	'  /usr/local/bin/start-notebook.sh
 
-# Content for pull-tutorial.sh script
+# Content for convert-ipynb.sh.sh script
 RUN echo "#!/bin/bash \n\
 cd /home/jovyan/work \n\
 jupyter nbconvert --ClearOutputPreprocessor.enabled=True --inplace finemapping.ipynb \n\
