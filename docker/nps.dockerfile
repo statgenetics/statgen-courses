@@ -17,7 +17,9 @@ RUN apt-get --allow-insecure-repositories update && \
 
 RUN Rscript -e 'install.packages("pROC", repos="http://cran.r-project.org")' && \
     Rscript -e 'install.packages("DescTools", repos="http://cran.r-project.org")'
-    
+
+RUN mkdir /home/jovyan/.work
+
 RUN curl -fsSL https://github.com/sgchun/nps/archive/1.1.0.tar.gz -o nps-1.1.0.tar.gz && \
     tar xvzf nps-1.1.0.tar.gz && \
     rm -rf nps-1.1.0.tar.gz && \
@@ -28,7 +30,7 @@ RUN curl -fsSL https://github.com/sgchun/nps/archive/1.1.0.tar.gz -o nps-1.1.0.t
     tar xvzf NPS.Test1.tar.gz && \
     rm -rf NPS.Test1.tar.gz
 
-RUN mv nps-1.1.0 /home/jovyan/.work/nps && chown jovyan.users -R /home/jovyan/.work/nps
+RUN mv nps-1.1.0 /home/jovyan/.work/nps
 
 RUN curl -s -o /usr/local/bin/pull-tutorial.sh https://raw.githubusercontent.com/statgenetics/statgen-courses/pull-tutorials/src/pull-tutorial.sh
 RUN chmod a+x /usr/local/bin/pull-tutorial.sh
