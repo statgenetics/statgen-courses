@@ -11,33 +11,30 @@ RUN echo "deb [trusted=yes] http://statgen.us/deb ./" | tee -a /etc/apt/sources.
     apt-get install -y annotation-tutorial && \
     apt-get clean
 
+RUN curl -s -o /usr/local/bin/pull-tutorial.sh https://raw.githubusercontent.com/statgenetics/statgen-courses/pull-tutorials/src/pull-tutorial.sh
+
 # Insert this to the notebook startup script,
 # https://github.com/jupyter/docker-stacks/blob/fad26c25b8b2e8b029f582c0bdae4cba5db95dc6/base-notebook/Dockerfile#L151
 RUN sed -i '2 i \
     pull-tutorial.sh & \
+    copy-datasets.sh & \
     '  /usr/local/bin/start-notebook.sh
 
 # Content for pull-tutorial.sh script
 RUN echo "#!/bin/bash \n\
 \n\
-mkdir -p /tmp/.cache \n\
-cd /tmp/.cache \n\
+mkdir -p /tmp/.datacache \n\
+cd /tmp/.datacache \n\
 \n\
 # Operations specific to this exercise. \n\
 cp -r /home/shared/functional_annotation/* ./ \n\
-curl -fsSL https://raw.githubusercontent.com/statgenetics/statgen-courses/master/handout/FunctionalAnnotation.2021.pdf -o FunctionalAnnotation.pdf \n\
 ln -s work/humandb /home/jovyan/humandb \n\
 \n\
 chown -R jovyan.users * /home/jovyan \n\
 mv * /home/jovyan/work \n\
 cd \n\
-rm -rf /tmp/.cache \n\
-\n\
-if [ ! -f /home/jovyan/.firstrun ] ; then \n\
-   echo cd /home/jovyan/work >> /home/jovyan/.bashrc \n\
-   touch /home/jovyan/.firstrun \n\
-fi \n\
-" >  /usr/local/bin/pull-tutorial.sh && chmod +x /usr/local/bin/pull-tutorial.sh
+rm -rf /tmp/.datacache \n\
+" >  /usr/local/bin/copy-datasets.sh && chmod +x /usr/local/bin/copy-datasets.sh
 
 #Update the exercise text
 USER jovyan
