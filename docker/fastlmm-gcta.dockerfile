@@ -34,9 +34,9 @@ RUN cd /tmp && \
 
 RUN curl -fsSL http://statgen.us/files/2020/01/PRACDATA.zip -o PRACDATA.zip && \
     unzip PRACDATA.zip && \
-    mv PRACDATA/* /home/jovyan && rm -rf PRACDAT* && \
+    mv PRACDATA/* /home/jovyan/work && rm -rf PRACDAT* && \
     rm -rf sim* cassi plink gcta64 fastlmmc && \ 
-    chown jovyan.users -R /home/jovyan/*
+    chown jovyan.users -R /home/jovyan
 
 
 RUN curl -s -o /usr/local/bin/pull-tutorial.sh https://raw.githubusercontent.com/statgenetics/statgen-courses/pull-tutorials/src/pull-tutorial.sh
