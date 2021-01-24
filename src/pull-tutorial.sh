@@ -32,7 +32,6 @@ function download_tutorial_docs() {
 
 function move_data_to_user_work_dir() {
   mv * /home/${USER}/work
-  chown -R ${USER}.users /home/${USER}
 }
 
 function prep_user() {
@@ -40,6 +39,7 @@ function prep_user() {
     echo cd /home/${USER}/work >> /home/${USER}/.bashrc
     touch /home/${USER}/.firstrun
   fi
+  chown -R ${USER}.users /home/${USER}
 }
 
 function cleanup() {
