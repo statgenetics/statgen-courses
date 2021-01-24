@@ -18,7 +18,7 @@ RUN cd /tmp && wget http://people.virginia.edu/~wc9c/KING/executables/Linux-king
 	tar -zxvf Linux-king224.tar.gz && unzip plink_linux_x86_64_20191024.zip && \
 	mv king plink /usr/local/bin && cd - && rm -rf /tmp/*
 
-RUN curl -s -o /usr/local/bin/pull-tutorial.sh https://raw.githubusercontent.com/statgenetics/statgen-courses/pull-tutorials/src/pull-tutorial.sh
+RUN curl -s -o /usr/local/bin/pull-tutorial.sh https://raw.githubusercontent.com/statgenetics/statgen-courses/master/src/pull-tutorial.sh
 RUN chmod a+x /usr/local/bin/pull-tutorial.sh
     
 # Insert this to the notebook startup script,

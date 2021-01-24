@@ -11,7 +11,7 @@ RUN conda create --name py2 python=2.7 && \
     bash -c "source activate py2 && conda install --yes -c conda-forge -c bioconda gemini=0.30.2-0 vt=2015.11.10 variant-effect-predictor=87-0"
 
 
-RUN curl -s -o /usr/local/bin/pull-tutorial.sh https://raw.githubusercontent.com/statgenetics/statgen-courses/pull-tutorials/src/pull-tutorial.sh
+RUN curl -s -o /usr/local/bin/pull-tutorial.sh https://raw.githubusercontent.com/statgenetics/statgen-courses/master/src/pull-tutorial.sh
 RUN chmod a+x /usr/local/bin/pull-tutorial.sh
 
 RUN sed -i '2 i \
