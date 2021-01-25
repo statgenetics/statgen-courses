@@ -45,11 +45,8 @@ RUN mkdir -p $HOME/bin && \
   echo "export PATH=\$HOME/bin:\$PATH" >> $HOME/.bashrc
 
 # Install variant tools version 3.x
-# RUN conda install variant_tools==3.1.3 -c bioconda
-RUN conda install -c conda-forge boost-cpp gsl numpy cython blosc hdf5
-RUN pip install variant_tools==3.1.3
-RUN conda clean --all
-RUN rm -rf $HOME/.caches
+RUN conda install variant_tools==3.1.3 -c bioconda -c conda-forge && \
+    conda clean --all && rm -rf $HOME/.caches
 
 # Update resource files to current VAT release
 # This should be fine as I have excluded databases from
