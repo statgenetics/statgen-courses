@@ -31,10 +31,10 @@ cd /tmp/.datacache \n\
 \n\
 # Operations specific to this exercise. \n\
 cp -r /home/shared/functional_annotation/* ./ \n\
-ln -s ../humandb /home/jovyan/work/humandb \n\
-\n\
+ln -s work/humandb /home/jovyan/humandb \n\
 chown -R jovyan.users * /home/jovyan \n\
-mv * /home/jovyan/work \n\
+mv * /home/jovyan/.work \n\
+\n\
 cd \n\
 rm -rf /tmp/.datacache \n\
 " >  /usr/local/bin/copy-datasets.sh && chmod a+x /usr/local/bin/copy-datasets.sh
