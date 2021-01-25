@@ -18,13 +18,19 @@ RUN mkdir -p /tmp/plink1.90 && cd /tmp/plink1.90 && \
     cp plink /usr/local/bin && \
     rm -rf /tmp/plink1.90
 
+# RUN cd /tmp && \
+#     curl -so gcta.zip https://cnsgenomics.com/software/gcta/bin/gcta_1.93.2beta.zip && \
+#     unzip gcta.zip && \
+#     mv gcta_1.93.2beta/gcta64 /usr/local/bin && \
+#     chmod a+x /usr/local/bin/gcta64 && \
+#     cd - && \
+#     rm -rf /tmp/*
+
 RUN cd /tmp && \
-    curl -so gcta.zip https://cnsgenomics.com/software/gcta/bin/gcta_1.93.2beta.zip && \
-    unzip gcta.zip && \
-    mv gcta_1.93.2beta/gcta64 /usr/local/bin && \
+    curl -so - http://statgen.us/files/gcta-1.93.2beta.tar.xz | tar Jx && \
+    mv gcta-1.93.2beta/gcta64 /usr/local/bin && \
     chmod a+x /usr/local/bin/gcta64 && \
-    cd - && \
-    rm -rf /tmp/*
+    rm -rf gcta-1.93.2beta
 
 RUN cd /tmp && \
     curl -so FaSTLMM.zip https://download.microsoft.com/download/B/0/9/B095C9A0-C08B-41F7-9C7E-76097E875235/FaSTLMM.207.zip && \
