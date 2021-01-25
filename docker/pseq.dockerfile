@@ -6,13 +6,12 @@ USER root
 
 RUN mkdir /home/jovyan/.work
 
-RUN curl -so plinkseq.zip https://bitbucket.org/statgen/plinkseq/get/5d071291075c.zip
-RUN unzip plinkseq.zip
-RUN mv statgen-plinkseq* plinkseq
-RUN cd plinkseq && \
+RUN curl -so plinkseq.zip https://bitbucket.org/statgen/plinkseq/get/5d071291075c.zip && \
+  unzip plinkseq.zip && \
+  mv statgen-plinkseq* plinkseq && \
+  cd plinkseq && \
   make && \
-  rm -f build/execs/*.o && \
-  rm -f build/execs/*.dep && \
+  rm -f build/execs/*.o build/execs/*.dep && \
   mv build/execs/* /usr/local/bin && \
   cd - && \
   rm -rf plinkseq*
