@@ -22,5 +22,5 @@ USER jovyan
 # Download data
 
 RUN mkdir /home/jovyan/.work
-RUN cd /home/jovyan/.workls -alh
+RUN cd /home/jovyan/.works
 RUN curl -s -o - http://statgen.us/files/plinkseq-data.tar.bz2 | tar jx
