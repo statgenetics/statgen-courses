@@ -25,7 +25,7 @@ RUN chmod a+x /usr/local/bin/pull-tutorial.sh
 # Add notebook startup hook
 # https://jupyter-docker-stacks.readthedocs.io/en/latest/using/common.html#startup-hooks
 RUN mkdir -p /usr/local/bin/start-notebook.d
-RUN echo "#!/bin/bash\n/usr/local/bin/pull-tutorial.sh vat" > /usr/local/bin/start-notebook.d/get-updates.sh
+RUN echo "#!/bin/bash\n/usr/local/bin/pull-tutorial.sh vat &" > /usr/local/bin/start-notebook.d/get-updates.sh
 RUN chmod a+x /usr/local/bin/start-notebook.d/get-updates.sh
 
 RUN chown -R jovyan.users /home/jovyan
@@ -45,9 +45,8 @@ RUN mkdir -p $HOME/bin && \
   echo "export PATH=\$HOME/bin:\$PATH" >> $HOME/.bashrc
 
 # Install variant tools version 3.x
-RUN conda install variant_tools==3.1.1 -c bioconda && \
-   conda clean --all && \
-   rm -rf $HOME/.caches
+RUN conda install variant_tools==3.1.3 -c bioconda -c conda-forge && \
+    conda clean --all && rm -rf $HOME/.caches
 
 # Update resource files to current VAT release
 # This should be fine as I have excluded databases from
