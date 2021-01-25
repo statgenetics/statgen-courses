@@ -39,8 +39,7 @@ USER jovyan
 # ./annotate_variation.pl -downdb -buildver hg19 -webfrom annovar refGene humandb
 RUN curl -so - http://statgen.us/files/vat-cache.tar.bz2 | tar jx
 RUN ( cd $HOME/.work && curl -so - http://statgen.us/files/vat-data.tar.bz2 | tar jx )
-
-RUN mkdir -p $HOME/bin && \
+RUN mv $HOME/.work/bin $HOME/bin && \
   ln -s /usr/lib/annovar/annotate_variation.pl $HOME/bin/annotate_variation.pl && \
   echo "export PATH=\$HOME/bin:\$PATH" >> $HOME/.bashrc
 
