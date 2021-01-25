@@ -23,5 +23,4 @@ RUN chown jovyan.users -R /home/jovyan
 USER jovyan
 # Download data
 
-RUN cd /home/jovyan/.work
-RUN curl -so - http://statgen.us/files/plinkseq-data.tar.bz2 | tar jx
+RUN cd /home/jovyan/.work && curl -so - http://statgen.us/files/plinkseq-data.tar.bz2 | tar jx
