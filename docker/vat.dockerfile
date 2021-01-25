@@ -28,7 +28,7 @@ RUN mkdir -p /usr/local/bin/start-notebook.d
 RUN echo "#!/bin/bash\n/usr/local/bin/pull-tutorial.sh vat" > /usr/local/bin/start-notebook.d/get-updates.sh
 RUN chmod a+x /usr/local/bin/start-notebook.d/get-updates.sh
 
-chown -R jovyan.users /home/jovyan
+RUN chown -R jovyan.users /home/jovyan
 USER jovyan
 
 # Install data used
