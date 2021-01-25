@@ -1,6 +1,6 @@
 #!/bin/bash
 
-GIT_BRANCH="master"
+GIT_BRANCH="pull-tutorials"
 TUTORIAL_NAME=${1}
 USER="jovyan"
 

@@ -13,7 +13,8 @@ RUN echo "deb [trusted=yes] http://statgen.us/deb ./" | tee -a /etc/apt/sources.
 
 
 
-RUN curl -s -o /usr/local/bin/pull-tutorial.sh https://raw.githubusercontent.com/statgenetics/statgen-courses/master/src/pull-tutorial.sh
+# RUN curl -s -o /usr/local/bin/pull-tutorial.sh https://raw.githubusercontent.com/statgenetics/statgen-courses/master/src/pull-tutorial.sh
+RUN curl -s -o /usr/local/bin/pull-tutorial.sh https://raw.githubusercontent.com/statgenetics/statgen-courses/pull-tutorials/src/pull-tutorial.sh
 RUN chmod a+x /usr/local/bin/pull-tutorial.sh
     
 # Add notebook startup hook
