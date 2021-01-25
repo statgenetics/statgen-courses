@@ -45,9 +45,9 @@ RUN mkdir -p $HOME/bin && \
   echo "export PATH=\$HOME/bin:\$PATH" >> $HOME/.bashrc
 
 # Install variant tools version 3.x
-RUN conda install variant_tools==3.1.1 -c bioconda && \
-   conda clean --all && \
-   rm -rf $HOME/.caches
+RUN conda install variant_tools==3.1.1 -c bioconda
+RUN conda clean --all
+RUN rm -rf $HOME/.caches
 
 # Update resource files to current VAT release
 # This should be fine as I have excluded databases from
