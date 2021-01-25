@@ -15,7 +15,7 @@ RUN chmod a+x /usr/local/bin/pull-tutorial.sh
 # Add notebook startup hook
 # https://jupyter-docker-stacks.readthedocs.io/en/latest/using/common.html#startup-hooks
 RUN mkdir -p /usr/local/bin/start-notebook.d
-RUN echo "#!/bin/bash\n/usr/local/bin/pull-tutorial.sh fastlmm-gcta" > /usr/local/bin/start-notebook.d/get-updates.sh
+RUN echo "#!/bin/bash\n/usr/local/bin/pull-tutorial.sh pseq" > /usr/local/bin/start-notebook.d/get-updates.sh
 RUN chmod a+x /usr/local/bin/start-notebook.d/get-updates.sh
 
 RUN chown jovyan.users -R /home/jovyan

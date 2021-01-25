@@ -26,7 +26,7 @@ RUN echo "#!/bin/bash \n\
 /usr/local/bin/pull-tutorial.sh annovar\n\
 cp -r /home/shared/functional_annotation/* /home/jovyan/work \n\
 ln -s work/humandb /home/jovyan/humandb \n\
-chown -R jovyan.users * /home/jovyan \n\
+chown -R jovyan.users /home/jovyan \n\
 " > /usr/local/bin/start-notebook.d/get-updates.sh
 RUN chmod a+x /usr/local/bin/start-notebook.d/get-updates.sh
 

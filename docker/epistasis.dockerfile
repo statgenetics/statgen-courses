@@ -21,14 +21,11 @@ RUN curl -fsSL https://www.staff.ncl.ac.uk/richard.howey/cassi/cassi-v2.51-code.
 RUN curl -so /usr/local/bin/pull-tutorial.sh https://raw.githubusercontent.com/statgenetics/statgen-courses/pull-tutorials/src/pull-tutorial.sh
 RUN chmod a+x /usr/local/bin/pull-tutorial.sh
 
-# RUN ls -l /home/jovyan/work
-
-# Insert this to the notebook startup script,
-# https://github.com/jupyter/docker-stacks/blob/fad26c25b8b2e8b029f582c0bdae4cba5db95dc6/base-notebook/Dockerfile#L151
-RUN sed -i '2 i \
-	pull-tutorial.sh epistasis & \
-	download-pracdata.sh & \
-	'  /usr/local/bin/start-notebook.sh
+# Add notebook startup hook
+# https://jupyter-docker-stacks.readthedocs.io/en/latest/using/common.html#startup-hooks
+RUN mkdir -p /usr/local/bin/start-notebook.d
+RUN echo "#!/bin/bash\n/usr/local/bin/pull-tutorial.sh epistasis" > /usr/local/bin/start-notebook.d/get-updates.sh
+RUN chmod a+x /usr/local/bin/start-notebook.d/get-updates.sh
 
 RUN chown jovyan.users -R /home/jovyan
 
