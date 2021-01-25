@@ -1,17 +1,35 @@
 FROM gaow/base-notebook:1.0.0
 
-MAINTAINER Diana Cornejo <dmc2245@cumc.columbia.edu>
+LABEL maintainer="Diana Cornejo <dmc2245@cumc.columbia.edu>"
 
 #Install dependency tools and deploy data-set package that Carl made
 
 USER root
 
+RUN mkdir -p /home/jovyan/.work
+
 RUN echo "deb [trusted=yes] http://statgen.us/deb ./" | tee -a /etc/apt/sources.list.d/statgen.list && \
     apt-get --allow-insecure-repositories update && \
     apt-get install -y annotation-tutorial && \
-    apt-get clean && mv /home/shared/functional_annotation/* /home/jovyan && rm -rf /home/shared && chown jovyan.users -R /home/jovyan/*
+    apt-get clean
 
-#Update the exercise text
+
+
+# RUN curl -so /usr/local/bin/pull-tutorial.sh https://raw.githubusercontent.com/statgenetics/statgen-courses/master/src/pull-tutorial.sh
+RUN curl -so /usr/local/bin/pull-tutorial.sh https://raw.githubusercontent.com/statgenetics/statgen-courses/pull-tutorials/src/pull-tutorial.sh
+RUN chmod a+x /usr/local/bin/pull-tutorial.sh
+    
+# Add notebook startup hook
+# https://jupyter-docker-stacks.readthedocs.io/en/latest/using/common.html#startup-hooks
+RUN mkdir -p /usr/local/bin/start-notebook.d
+RUN echo "#!/bin/bash \n\
+/usr/local/bin/pull-tutorial.sh annovar\n\
+cp -r /home/shared/functional_annotation/* /home/jovyan/work \n\
+ln -s work/humandb /home/jovyan/humandb \n\
+chown -R jovyan.users /home/jovyan \n\
+" > /usr/local/bin/start-notebook.d/get-updates.sh
+RUN chmod a+x /usr/local/bin/start-notebook.d/get-updates.sh
+
+RUN chown jovyan.users -R /home/jovyan
+
 USER jovyan
-ARG DUMMY=unknown
-RUN DUMMY=${DUMMY} curl -fsSL https://raw.githubusercontent.com/statgenetics/statgen-courses/master/handout/FunctionalAnnotation.2021.pdf -o FunctionalAnnotation.pdf
