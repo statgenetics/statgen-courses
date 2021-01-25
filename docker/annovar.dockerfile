@@ -11,15 +11,16 @@ RUN echo "deb [trusted=yes] http://statgen.us/deb ./" | tee -a /etc/apt/sources.
     apt-get install -y annotation-tutorial && \
     apt-get clean
 
+
+
 RUN curl -s -o /usr/local/bin/pull-tutorial.sh https://raw.githubusercontent.com/statgenetics/statgen-courses/master/src/pull-tutorial.sh
 RUN chmod a+x /usr/local/bin/pull-tutorial.sh
-
-# Insert this to the notebook startup script,
-# https://github.com/jupyter/docker-stacks/blob/fad26c25b8b2e8b029f582c0bdae4cba5db95dc6/base-notebook/Dockerfile#L151
-RUN sed -i '2 i \
-    pull-tutorial.sh annovar & \
-    copy-datasets.sh & \
-    '  /usr/local/bin/start-notebook.sh
+    
+# Add notebook startup hook
+# https://jupyter-docker-stacks.readthedocs.io/en/latest/using/common.html#startup-hooks
+RUN mkdir -p /usr/local/bin/start-notebook.d
+RUN echo "#!/bin/bash\n/usr/local/bin/pull-tutorial.sh annovar\n/usr/local/bin/copy-datasets.sh" > /usr/local/bin/start-notebook.d/get-updates.sh
+RUN chmod a+x /usr/local/bin/start-notebook.d/get-updates.sh
 
 # Content for copy-datasets.sh script
 RUN echo "#!/bin/bash \n\
@@ -39,5 +40,3 @@ rm -rf /tmp/.datacache \n\
 
 #Update the exercise text
 USER jovyan
-# ARG DUMMY=unknown
-# RUN DUMMY=${DUMMY} curl -fsSL https://raw.githubusercontent.com/statgenetics/statgen-courses/master/handout/FunctionalAnnotation.2021.pdf -o FunctionalAnnotation.pdf
