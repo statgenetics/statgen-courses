@@ -9,8 +9,7 @@ RUN mkdir -p /home/jovyan/.work
 RUN R --slave -e 'remotes::install_github("stephenslab/susieR")' 
 RUN R --slave -e 'install.packages("corrplot")'
 
-# RUN curl -so /usr/local/bin/pull-tutorial.sh https://raw.githubusercontent.com/statgenetics/statgen-courses/master/src/pull-tutorial.sh
-RUN curl -so /usr/local/bin/pull-tutorial.sh https://raw.githubusercontent.com/statgenetics/statgen-courses/pull-tutorials/src/pull-tutorial.sh
+RUN curl -so /usr/local/bin/pull-tutorial.sh https://raw.githubusercontent.com/statgenetics/statgen-courses/master/src/pull-tutorial.sh
 RUN chmod a+x /usr/local/bin/pull-tutorial.sh
 
 # Add notebook startup hook

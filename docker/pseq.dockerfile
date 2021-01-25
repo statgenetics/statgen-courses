@@ -6,10 +6,18 @@ USER root
 
 RUN mkdir /home/jovyan/.work
 
-RUN curl -fsSL https://bitbucket.org/statgen/plinkseq/get/5d071291075c.zip -o plinkseq.zip && unzip plinkseq.zip && mv statgen-plinkseq* plinkseq && cd plinkseq && make && rm -f build/execs/*.o && rm -f build/execs/*.dep && mv build/execs/* /usr/local/bin && cd - && rm -rf plinkseq*
+RUN curl -so plinkseq.zip https://bitbucket.org/statgen/plinkseq/get/5d071291075c.zip
+RUN unzip plinkseq.zip
+RUN mv statgen-plinkseq* plinkseq
+RUN cd plinkseq && \
+  make && \
+  rm -f build/execs/*.o && \
+  rm -f build/execs/*.dep && \
+  mv build/execs/* /usr/local/bin && \
+  cd - && \
+  rm -rf plinkseq*
 
-# RUN curl -so /usr/local/bin/pull-tutorial.sh https://raw.githubusercontent.com/statgenetics/statgen-courses/master/src/pull-tutorial.sh
-RUN curl -so /usr/local/bin/pull-tutorial.sh https://raw.githubusercontent.com/statgenetics/statgen-courses/pull-tutorials/src/pull-tutorial.sh
+RUN curl -so /usr/local/bin/pull-tutorial.sh https://raw.githubusercontent.com/statgenetics/statgen-courses/master/src/pull-tutorial.sh
 RUN chmod a+x /usr/local/bin/pull-tutorial.sh
 
 # Add notebook startup hook
