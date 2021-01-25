@@ -13,8 +13,6 @@ RUN echo "deb [trusted=yes] http://statgen.us/deb ./" | tee -a /etc/apt/sources.
     apt-get install -y annotation-tutorial && \
     apt-get clean
 
-
-
 # RUN curl -so /usr/local/bin/pull-tutorial.sh https://raw.githubusercontent.com/statgenetics/statgen-courses/master/src/pull-tutorial.sh
 RUN curl -so /usr/local/bin/pull-tutorial.sh https://raw.githubusercontent.com/statgenetics/statgen-courses/pull-tutorials/src/pull-tutorial.sh
 RUN chmod a+x /usr/local/bin/pull-tutorial.sh
@@ -25,11 +23,8 @@ RUN mkdir -p /usr/local/bin/start-notebook.d
 RUN echo "#!/bin/bash \n\
 /usr/local/bin/pull-tutorial.sh annovar\n\
 cp -r /home/shared/functional_annotation/* /home/jovyan/work \n\
-ln -s work/humandb /home/jovyan/humandb \n\
 chown -R jovyan.users /home/jovyan \n\
 " > /usr/local/bin/start-notebook.d/get-updates.sh
 RUN chmod a+x /usr/local/bin/start-notebook.d/get-updates.sh
-
-RUN chown jovyan.users -R /home/jovyan
 
 USER jovyan
