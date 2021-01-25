@@ -45,7 +45,7 @@ RUN mkdir -p $HOME/bin && \
   echo "export PATH=\$HOME/bin:\$PATH" >> $HOME/.bashrc
 
 # Install variant tools version 3.x
-RUN conda install variant_tools==3.1.1 -c bioconda
+RUN conda install variant_tools==3.1.3 -c bioconda
 RUN conda clean --all
 RUN rm -rf $HOME/.caches
 
