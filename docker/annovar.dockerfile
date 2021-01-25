@@ -28,20 +28,6 @@ chown -R jovyan.users * /home/jovyan \n\
 " > /usr/local/bin/start-notebook.d/get-updates.sh
 RUN chmod a+x /usr/local/bin/start-notebook.d/get-updates.sh
 
-# # Content for copy-datasets.sh script
-# RUN echo "#!/bin/bash \n\
-# \n\
-# mkdir -p /tmp/.datacache \n\
-# cd /tmp/.datacache \n\
-# \n\
-# # Operations specific to this exercise. \n\
-# cp -r /home/shared/functional_annotation/* /home/jovyan/work \n\
-# ln -s work/humandb /home/jovyan/humandb \n\
-# chown -R jovyan.users * /home/jovyan \n\
-# \n\
-# cd \n\
-# rm -rf /tmp/.datacache \n\
-# " >  /usr/local/bin/copy-datasets.sh && chmod a+x /usr/local/bin/copy-datasets.sh
+RUN chown jovyan.users -R /home/jovyan
 
-#Update the exercise text
 USER jovyan

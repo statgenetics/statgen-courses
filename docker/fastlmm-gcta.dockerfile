@@ -29,25 +29,28 @@ RUN cd /tmp && \
 RUN cd /tmp && \
     curl -fsSL https://download.microsoft.com/download/B/0/9/B095C9A0-C08B-41F7-9C7E-76097E875235/FaSTLMM.207.zip -o FaSTLMM.zip && \
     unzip FaSTLMM.zip && \
-    mv FaSTLMM.207c/Bin/Linux_MKL/fastlmmc  /usr/local/bin && \
+    mv FaSTLMM.207c/Bin/Linux_MKL/fastlmmc /usr/local/bin && \
     chmod a+x /usr/local/bin/fastlmmc && \
     cd - && \
     rm -rf /tmp/*
 
 RUN curl -fsSL http://statgen.us/files/2020/01/PRACDATA.zip -o PRACDATA.zip && \
     unzip PRACDATA.zip && \
-    mv PRACDATA/* /home/jovyan/.work && rm -rf PRACDATA* && \
-    rm -rf sim* cassi plink gcta64 fastlmmc && \ 
-    chown jovyan.users -R /home/jovyan
+    (cd PRACDATA && rm -rf sim* cassi plink gcta64 fastlmmc ) && \ 
+    mv PRACDATA/* /home/jovyan/.work && \
+    rm -rf PRACDATA*
 
 
-RUN curl -s -o /usr/local/bin/pull-tutorial.sh https://raw.githubusercontent.com/statgenetics/statgen-courses/master/src/pull-tutorial.sh
+# RUN curl -s -o /usr/local/bin/pull-tutorial.sh https://raw.githubusercontent.com/statgenetics/statgen-courses/master/src/pull-tutorial.sh
+RUN curl -s -o /usr/local/bin/pull-tutorial.sh https://raw.githubusercontent.com/statgenetics/statgen-courses/pull-tutorials/src/pull-tutorial.sh
 RUN chmod a+x /usr/local/bin/pull-tutorial.sh
 
-RUN sed -i '2 i \
-	pull-tutorial.sh fastlmm-gcta & \
-	'  /usr/local/bin/start-notebook.sh
+# Add notebook startup hook
+# https://jupyter-docker-stacks.readthedocs.io/en/latest/using/common.html#startup-hooks
+RUN mkdir -p /usr/local/bin/start-notebook.d
+RUN echo "#!/bin/bash\n/usr/local/bin/pull-tutorial.sh fastlmm-gcta" > /usr/local/bin/start-notebook.d/get-updates.sh
+RUN chmod a+x /usr/local/bin/start-notebook.d/get-updates.sh
+
+RUN chown jovyan.users -R /home/jovyan
 
 USER jovyan
-
-ARG DUMMY=unknown
