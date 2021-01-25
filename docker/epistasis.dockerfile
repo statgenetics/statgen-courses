@@ -5,6 +5,8 @@ LABEL maintainer="Diana Cornejo <dmc2245@cumc.columbia.edu>"
 #Install dependecy tools and download datasets
 
 USER root
+
+RUN mkdir /home/jovyan/.work
      
 RUN apt-get --allow-insecure-repositories update && \
     apt-get install g++ && \		
@@ -14,15 +16,10 @@ RUN apt-get --allow-insecure-repositories update && \
 RUN curl -fsSL https://www.staff.ncl.ac.uk/richard.howey/cassi/cassi-v2.51-code.zip -o cassi.zip && \
     unzip cassi.zip && cd cassi-v2.51-code && g++ -m64 -O3 *.cpp -o cassi && mv cassi /usr/local/bin && cd - && rm -rf cass*
 
-RUN mkdir /home/jovyan/.work
 
-RUN curl -fsSL http://statgen.us/files/2020/01/PRACDATA.zip -o PRACDATA.zip && unzip PRACDATA.zip && mv PRACDATA/simcasecon.* /home/jovyan/.work && rm -rf PRACDATA*
-
-
-RUN curl -s -o /usr/local/bin/pull-tutorial.sh https://raw.githubusercontent.com/statgenetics/statgen-courses/master/src/pull-tutorial.sh
+# RUN curl -so /usr/local/bin/pull-tutorial.sh https://raw.githubusercontent.com/statgenetics/statgen-courses/master/src/pull-tutorial.sh
+RUN curl -so /usr/local/bin/pull-tutorial.sh https://raw.githubusercontent.com/statgenetics/statgen-courses/pull-tutorials/src/pull-tutorial.sh
 RUN chmod a+x /usr/local/bin/pull-tutorial.sh
-
-RUN chown jovyan.users -R /home/jovyan
 
 # RUN ls -l /home/jovyan/work
 
@@ -33,4 +30,11 @@ RUN sed -i '2 i \
 	download-pracdata.sh & \
 	'  /usr/local/bin/start-notebook.sh
 
+RUN chown jovyan.users -R /home/jovyan
+
 USER jovyan
+
+RUN curl -so PRACDATA.zip http://statgen.us/files/2020/01/PRACDATA.zip && \
+  unzip PRACDATA.zip && \
+  mv PRACDATA/simcasecon.* /home/jovyan/.work && \
+  rm -rf PRACDATA*

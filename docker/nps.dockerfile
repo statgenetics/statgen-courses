@@ -32,7 +32,7 @@ RUN curl -fsSL https://github.com/sgchun/nps/archive/1.1.0.tar.gz -o nps-1.1.0.t
 
 RUN mv nps-1.1.0 /home/jovyan/.work/nps
 
-RUN curl -s -o /usr/local/bin/pull-tutorial.sh https://raw.githubusercontent.com/statgenetics/statgen-courses/master/src/pull-tutorial.sh
+RUN curl -so /usr/local/bin/pull-tutorial.sh https://raw.githubusercontent.com/statgenetics/statgen-courses/master/src/pull-tutorial.sh
 RUN chmod a+x /usr/local/bin/pull-tutorial.sh
 
 RUN sed -i '2 i \

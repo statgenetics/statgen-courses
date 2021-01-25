@@ -18,8 +18,8 @@ RUN cd /tmp && \
   wget http://s3.amazonaws.com/plink1-assets/plink_linux_x86_64_20191024.zip && unzip plink_linux_x86_64_20191024.zip && \
   mv king plink /usr/local/bin && cd - && rm -rf /tmp/*
 
-# RUN curl -s -o /usr/local/bin/pull-tutorial.sh https://raw.githubusercontent.com/statgenetics/statgen-courses/master/src/pull-tutorial.sh
-RUN curl -s -o /usr/local/bin/pull-tutorial.sh https://raw.githubusercontent.com/statgenetics/statgen-courses/pull-tutorials/src/pull-tutorial.sh
+# RUN curl -so /usr/local/bin/pull-tutorial.sh https://raw.githubusercontent.com/statgenetics/statgen-courses/master/src/pull-tutorial.sh
+RUN curl -so /usr/local/bin/pull-tutorial.sh https://raw.githubusercontent.com/statgenetics/statgen-courses/pull-tutorials/src/pull-tutorial.sh
 RUN chmod a+x /usr/local/bin/pull-tutorial.sh
 
 # Add notebook startup hook
@@ -28,6 +28,7 @@ RUN mkdir -p /usr/local/bin/start-notebook.d
 RUN echo "#!/bin/bash\n/usr/local/bin/pull-tutorial.sh vat" > /usr/local/bin/start-notebook.d/get-updates.sh
 RUN chmod a+x /usr/local/bin/start-notebook.d/get-updates.sh
 
+chown -R jovyan.users /home/jovyan
 USER jovyan
 
 # Install data used
