@@ -25,8 +25,8 @@ RUN chmod a+x /usr/local/bin/start-notebook.d/get-updates.sh
 RUN curl -so /usr/local/bin/pull-tutorial.sh https://raw.githubusercontent.com/statgenetics/statgen-courses/master/src/pull-tutorial.sh
 RUN chmod a+x /usr/local/bin/pull-tutorial.sh
 
+RUN cp -r /home/shared/functional_annotation/* /home/jovyan/.work
+
 RUN chown jovyan.users /home/jovyan
 
 USER jovyan
-
-RUN cp -r /home/shared/functional_annotation/* /home/jovyan/.work

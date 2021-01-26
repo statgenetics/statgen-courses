@@ -26,11 +26,11 @@ RUN mkdir -p /usr/local/bin/start-notebook.d
 RUN echo "#!/bin/bash\n/usr/local/bin/pull-tutorial.sh epistasis &" > /usr/local/bin/start-notebook.d/get-updates.sh
 RUN chmod a+x /usr/local/bin/start-notebook.d/get-updates.sh
 
-RUN chown jovyan.users -R /home/jovyan
-
-USER jovyan
-
 RUN curl -so PRACDATA.zip http://statgen.us/files/2020/01/PRACDATA.zip && \
   unzip PRACDATA.zip && \
   mv PRACDATA/simcasecon.* /home/jovyan/.work && \
   rm -rf PRACDATA*
+
+RUN chown jovyan.users -R /home/jovyan
+
+USER jovyan

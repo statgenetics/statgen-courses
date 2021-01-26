@@ -23,10 +23,10 @@ RUN mkdir -p /usr/local/bin/start-notebook.d
 RUN echo "#!/bin/bash\n/usr/local/bin/pull-tutorial.sh pleiotropy &" > /usr/local/bin/start-notebook.d/get-updates.sh
 RUN chmod a+x /usr/local/bin/start-notebook.d/get-updates.sh
 
-RUN chown jovyan.users -R /home/jovyan
-
-USER jovyan
-
 RUN curl -fsSL http://statgen.us/files/2020/01/pleiotropy_final_datasets.zip -o pleiotropy.zip
 RUN unzip pleiotropy.zip && mv pleiotropy_final_datasets/*  /home/jovyan/.work
 RUN rm -rf pleiotropy*
+
+RUN chown jovyan.users -R /home/jovyan
+
+USER jovyan
