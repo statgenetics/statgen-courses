@@ -1,0 +1,277 @@
+#FASTLMM.pdf:
+
+ls -l
+
+
+plink --bfile quantfamdata --assoc --out plinkresults 
+
+R
+res1<-read.table("plinkresults.qassoc", header=T)
+head(res1) 
+source("qqmanHJCupdated.R") 
+
+png("mh1.png")
+manhattan(res1, pch=20, suggestiveline=F, genomewideline=F, ymin=2,
+cex.x.axis=0.65, colors=c("black","dodgerblue"), cex=0.5) 
+dev.off() 
+
+png("qq1.png")
+qq(res1$P)
+dev.off() 
+
+chi<-(qchisq(1-res1$P,1))
+lambda=median(chi)/0.456
+lambda 
+
+q()
+
+
+
+fastlmmc -bfile quantfamdata -pheno quantfamdata.fam -mpheno 4 -bfileSim quantfamdata -ML -out FLMMresults
+
+
+R
+res2<-read.table("FLMMresults", header=T) 
+head(res2) 
+
+chi<-(qchisq(1-res2$Pvalue,1))
+lambda=median(chi)/0.456
+lambda 
+
+new<-data.frame(res2$SNP, res2$Chromosome, res2$Position, res2$Pvalue)
+names(new)<-c("SNP", "CHR", "BP", "P")
+head(new) 
+
+png("qq2.png")
+qq(new$P)
+dev.off() 
+
+png("mh2.png")
+manhattan(new, pch=20, suggestiveline=F, genomewideline=F, ymin=2,
+cex.x.axis=0.65, colors=c("black","dodgerblue"), cex=0.5)
+dev.off() 
+
+q()
+
+#GCTA.pdf:
+
+R
+fam<-read.table("quantfamdata.fam", header=F)
+pheno=data.frame(fam[,1:2],fam[,6])
+write.table(pheno,file="phenos.txt",col.names=F,row.names=F,quote=F)
+q()
+
+gcta64 --mlma --bfile quantfamdata --pheno phenos.txt --out GCTAresults 
+
+R
+source("qqmanHJCupdated.R")
+
+res3<-read.table("GCTAresults.mlma", header=T)
+head(res3) 
+
+chi<-(qchisq(1-res3$p,1))
+lambda=median(chi)/0.456
+lambda 
+
+
+new3<-data.frame(res3$SNP, res3$Chr, res3$bp, res3$p)
+names(new3)<-c("SNP", "CHR", "BP", "P")
+head(new3) 
+
+png("qq3.png")
+qq(new3$P)
+dev.off() 
+
+png("mh3.png")
+manhattan(new3, pch=20, suggestiveline=F, genomewideline=F, ymin=2,
+cex.x.axis=0.65, colors=c("black","dodgerblue"), cex=0.5)
+dev.off() 
+
+res2<-read.table("FLMMresults", header=T)
+new2<-data.frame(res2$SNP, res2$Chromosome, res2$Position, res2$Pvalue)
+names(new2)<-c("SNP", "CHR", "BP", "P")
+merged=merge(new3,new2, by="SNP", sort=F) 
+
+head(res2)
+head(new2)
+head(new3)
+head(merged) 
+
+png("compareGCTAFLMM.png")
+plot(-log10(merged$P.x),-log10(merged$P.y))
+abline(0,1)
+dev.off() 
+q()
+
+
+gcta64 --bfile quantfamdata --autosome --make-grm-bin --out GCTAgrm 
+
+gcta64 --reml --grm-bin GCTAgrm --pheno phenos.txt --out GCTAherit 
+
+gcta64 --bfile quantfamdata --chr 1 --make-grm-bin --out GCTAgrmchr1 
+gcta64 --reml --grm-bin GCTAgrmchr1 --pheno phenos.txt \
+--out GCTAheritchr1
+
+gcta64 --bfile quantfamdata --chr 2 --make-grm-bin --out GCTAgrmchr2
+gcta64 --reml --grm-bin GCTAgrmchr2 --pheno phenos.txt \
+--out GCTAheritchr2 
+
+gcta64 --bfile quantfamdata --chr 6 --make-grm-bin --out GCTAgrmchr6 
+gcta64 --reml --grm-bin GCTAgrmchr6 --pheno phenos.txt --out GCTAheritchr6
+
+
+gcta64 --bfile quantfamdata --chr 12 --make-grm-bin --out GCTAgrmchr12
+gcta64 --reml --grm-bin GCTAgrmchr12 --pheno phenos.txt --out GCTAheritchr12
+
+
+gcta64 --bfile quantfamdata --chr 3 --make-grm-bin --out GCTAgrmchr3
+gcta64 --bfile quantfamdata --chr 4 --make-grm-bin --out GCTAgrmchr4
+gcta64 --bfile quantfamdata --chr 5 --make-grm-bin --out GCTAgrmchr5
+gcta64 --bfile quantfamdata --chr 7 --make-grm-bin --out GCTAgrmchr7
+gcta64 --bfile quantfamdata --chr 8 --make-grm-bin --out GCTAgrmchr8
+gcta64 --bfile quantfamdata --chr 9 --make-grm-bin --out GCTAgrmchr9
+gcta64 --bfile quantfamdata --chr 10 --make-grm-bin --out GCTAgrmchr10
+gcta64 --bfile quantfamdata --chr 11 --make-grm-bin --out GCTAgrmchr11
+gcta64 --bfile quantfamdata --chr 13 --make-grm-bin --out GCTAgrmchr13
+gcta64 --bfile quantfamdata --chr 14 --make-grm-bin --out GCTAgrmchr14
+gcta64 --bfile quantfamdata --chr 15 --make-grm-bin --out GCTAgrmchr15
+gcta64 --bfile quantfamdata --chr 16 --make-grm-bin --out GCTAgrmchr16
+gcta64 --bfile quantfamdata --chr 17 --make-grm-bin --out GCTAgrmchr17
+gcta64 --bfile quantfamdata --chr 18 --make-grm-bin --out GCTAgrmchr18
+gcta64 --bfile quantfamdata --chr 19 --make-grm-bin --out GCTAgrmchr19
+gcta64 --bfile quantfamdata --chr 20 --make-grm-bin --out GCTAgrmchr20
+gcta64 --bfile quantfamdata --chr 21 --make-grm-bin --out GCTAgrmchr21
+gcta64 --bfile quantfamdata --chr 22 --make-grm-bin --out GCTAgrmchr22 
+
+gcta64 --reml --mgrm-bin multipleGRMs.txt --pheno phenos.txt --out GCTAherit22GRMs 
+
+gcta64 --mgrm-bin multipleGRMsnot6.txt --make-grm --out GCTAgrmnot6 
+
+gcta64 --reml --mgrm-bin multipleGRMs6andnot6.txt --pheno phenos.txt \
+--out GCTAherit6andnot6 
+
+
+gcta64 --grm GCTAgrm --make-bK-sparse 0.05 --out GCTAsparsegrm 
+
+gcta64 --bfile quantfamdata --make-grm-part 3 1 --thread-num 5 \
+--out test
+gcta64 --bfile quantfamdata --make-grm-part 3 2 --thread-num 5 \
+--out test
+gcta64 --bfile quantfamdata --make-grm-part 3 3 --thread-num 5 \
+--out test 
+
+
+cat test.part_3_*.grm.id > test.grm.id
+cat test.part_3_*.grm.bin > test.grm.bin
+cat test.part_3_*.grm.N.bin > test.grm.N.bin 
+
+gcta64 --grm test --make-bK-sparse 0.05 --out newsparsegrm 
+
+head *.sp 
+
+gcta64 --grm-bin GCTAgrm --pca 5 --out pcs 
+
+gcta64 --bfile quantfamdata --grm-sparse GCTAsparsegrm \
+--fastGWA-mlm --pheno phenos.txt --qcovar pcs.eigenvec \
+--out sparse_assoc 
+
+gcta64 --bfile quantfamdata --grm-sparse newsparsegrm \
+--fastGWA-mlm --pheno phenos.txt --qcovar pcs.eigenvec \
+--out newsparse_assoc 
+
+gcta64 --bfile quantfamdata --grm-sparse GCTAsparsegrm \
+--fastGWA-mlm --pheno phenos.txt --out LMMsparse_assoc 
+
+gcta64 --bfile quantfamdata --grm-sparse newsparsegrm \
+--fastGWA-mlm --pheno phenos.txt --out LMMnewsparse_assoc 
+
+R
+res4<-read.table("sparse_assoc.fastGWA", header=T)
+res5<-read.table("newsparse_assoc.fastGWA", header=T)
+res6<-read.table("LMMsparse_assoc.fastGWA", header=T)
+res7<-read.table("LMMnewsparse_assoc.fastGWA", header=T) 
+
+head(res4)
+head(res5)
+head(res6) 
+head(res7)
+
+chi<-(qchisq(1-res4$P,1))
+lambda=median(chi)/0.456
+lambda
+chi<-(qchisq(1-res5$P,1))
+lambda=median(chi)/0.456
+lambda
+chi<-(qchisq(1-res6$P,1))
+lambda=median(chi)/0.456
+lambda
+chi<-(qchisq(1-res7$P,1))
+lambda=median(chi)/0.456
+lambda 
+
+source("qqmanHJCupdated.R") 
+
+
+new4<-data.frame(res4$SNP, res4$CHR, res4$POS, res4$P)
+names(new4)<-c("SNP", "CHR", "BP", "P") 
+
+png("qq4.png")
+qq(new4$P)
+dev.off() 
+
+png("mh4.png")
+manhattan(new4, pch=20, suggestiveline=F, genomewideline=F, ymin=2,
+cex.x.axis=0.65, colors=c("black","dodgerblue"), cex=0.5)
+dev.off() 
+
+new5<-data.frame(res5$SNP, res5$CHR, res5$POS, res5$P)
+names(new5)<-c("SNP", "CHR", "BP", "P") 
+
+png("qq5.png")
+qq(new5$P)
+dev.off() 
+
+png("mh5.png")
+manhattan(new5, pch=20, suggestiveline=F, genomewideline=F, ymin=2,
+cex.x.axis=0.65, colors=c("black","dodgerblue"), cex=0.5)
+dev.off() 
+
+new6<-data.frame(res6$SNP, res6$CHR, res6$POS, res6$P)
+names(new6)<-c("SNP", "CHR", "BP", "P")
+
+png("qq6.png")
+qq(new6$P)
+dev.off() 
+
+
+png("mh6.png")
+manhattan(new6, pch=20, suggestiveline=F, genomewideline=F, ymin=2,
+cex.x.axis=0.65, colors=c("black","dodgerblue"), cex=0.5)
+dev.off() 
+
+new7<-data.frame(res7$SNP, res7$CHR, res7$POS, res7$P)
+names(new7)<-c("SNP", "CHR", "BP", "P")
+
+png("qq7.png")
+qq(new7$P)
+dev.off() 
+
+png("mh7.png")
+manhattan(new7, pch=20, suggestiveline=F, genomewideline=F, ymin=2,
+cex.x.axis=0.65, colors=c("black","dodgerblue"), cex=0.5)
+dev.off()
+
+res3<-read.table("GCTAresults.mlma", header=T)
+res7<-read.table("LMMnewsparse_assoc.fastGWA", header=T)
+head(res3)
+head(res7) 
+
+png("compareGCTAfastGWA.png")
+plot(-log10(res3$p),-log10(res7$P))
+abline(0,1)
+dev.off() 
+
+q()
+
+
+
