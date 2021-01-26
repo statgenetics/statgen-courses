@@ -40,6 +40,16 @@ RUN cd /tmp && \
     cd - && \
     rm -rf /tmp/*
 
+RUN cd /tmp && \
+    curl -so BoltLMM.tar.gz https://storage.googleapis.com/broad-alkesgroup-public/BOLT-LMM/downloads/BOLT-LMM_v2.3.4.tar.gz && \
+    tar zxvf BoltLMM.tar.gz && \
+    mv BOLT-LMM_v2.3.4/bolt /usr/local/bin && \
+    chmod a+x /usr/local/bin/bolt && \
+    cd - && \
+    mv BOLT-LMM_v2.3.4/tables /home/jovyan && \
+    rm -rf /tmp/*
+
+
 RUN curl -so /usr/local/bin/pull-tutorial.sh https://raw.githubusercontent.com/statgenetics/statgen-courses/master/src/pull-tutorial.sh
 RUN chmod a+x /usr/local/bin/pull-tutorial.sh
 
