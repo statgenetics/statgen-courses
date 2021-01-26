@@ -65,7 +65,8 @@ docker_build: tag = f'{_tutorial}_{my_name}', expand = '$[ ]', workdir = '~/.cac
 
 [launch_3]
 ports = get_ports(len(tutorial))
-ip = get_output("hostname -I | awk '{print $1}'").strip()
+#ip = get_output("hostname -I | awk '{print $1}'").strip()
+ip = get_output("curl -so - http://icanhazip.com/").strip()
 #
 input: for_each = 'tutorial', concurrent = False
 bash: expand = True, workdir = '~/'
@@ -94,7 +95,8 @@ tutorial = tutorial[0]
 port = ip = None
 if tutorial == 'igv':
     port = get_ports(1)[0]
-    ip = get_output("hostname -I | awk '{print $1}'").strip()
+#    ip = get_output("hostname -I | awk '{print $1}'").strip()
+    ip = get_output("curl -so - http://icanhazip.com/").strip()
 extra_docker_args = ''
 if tutorial == 'gemini' and gemini_data_dir.is_dir():
     extra_docker_args = f'-v {gemini_data_dir:a}:/home/jovyan/annotation_db'
