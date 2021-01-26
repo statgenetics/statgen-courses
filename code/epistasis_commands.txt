@@ -4,8 +4,10 @@ plink --ped simcasecon.ped --map simcasecon.map --assoc
 
 more plink.assoc
 
-plink --ped simcasecon.ped --map simcasecon.map --model 
+plink --ped simcasecon.ped --map simcasecon.map --model
+ 
 head -1 plink.model 
+
 grep GENO plink.model
 
 plink --ped simcasecon.ped --map simcasecon.map --fast-epistasis 
