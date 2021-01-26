@@ -14,16 +14,19 @@ RUN conda install -c bioconda plink && \
 
 RUN cd /usr/local/bin && curl -fsSL https://genepi.qimr.edu.au/staff/manuelF/multivariate/plink.multivariate -o plink.multivariate && chmod a+x plink.multivariate 
 
-RUN curl -fsSL http://statgen.us/files/2020/01/pleiotropy_final_datasets.zip -o pleiotropy.zip
-RUN unzip pleiotropy.zip && mv pleiotropy_final_datasets/*  /home/jovyan/.work
-RUN rm -rf pleiotropy*
-RUN chown jovyan.users -R /home/jovyan
-
 RUN curl -so /usr/local/bin/pull-tutorial.sh https://raw.githubusercontent.com/statgenetics/statgen-courses/master/src/pull-tutorial.sh
 RUN chmod a+x /usr/local/bin/pull-tutorial.sh
 
-RUN sed -i '2 i \
-	pull-tutorial.sh pleiotropy & \
-	'  /usr/local/bin/start-notebook.sh
+# Add notebook startup hook
+# https://jupyter-docker-stacks.readthedocs.io/en/latest/using/common.html#startup-hooks
+RUN mkdir -p /usr/local/bin/start-notebook.d
+RUN echo "#!/bin/bash\n/usr/local/bin/pull-tutorial.sh pleiotropy &" > /usr/local/bin/start-notebook.d/get-updates.sh
+RUN chmod a+x /usr/local/bin/start-notebook.d/get-updates.sh
+
+RUN chown jovyan.users -R /home/jovyan
 
 USER jovyan
+
+RUN curl -fsSL http://statgen.us/files/2020/01/pleiotropy_final_datasets.zip -o pleiotropy.zip
+RUN unzip pleiotropy.zip && mv pleiotropy_final_datasets/*  /home/jovyan/.work
+RUN rm -rf pleiotropy*
