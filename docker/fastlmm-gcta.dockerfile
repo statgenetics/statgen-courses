@@ -45,6 +45,7 @@ RUN cd /tmp && \
     tar zxvf BoltLMM.tar.gz && \
     mv BOLT-LMM_v2.3.4/bolt /usr/local/bin && \
     chmod a+x /usr/local/bin/bolt && \
+    mv BOLT-LMM_v2.3.4/lib/* /usr/local/lib && \
     mv BOLT-LMM_v2.3.4/tables /home/jovyan && \
     cd - && \
     rm -rf /tmp/*
