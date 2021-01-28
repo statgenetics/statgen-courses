@@ -161,8 +161,8 @@ parameter: network_only = False
 import os
 fail_if(not os.geteuid() == 0, msg = 'This command is only meant for root user (eg, use ``sudo`` to run it)')
 bash:
-    # claim unused IP
-    docker network prune
+    # claim unused resources
+    docker system prune
 stop_if(network_only)
 bash:
     docker stop $(docker ps -a -q) || true
