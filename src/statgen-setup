@@ -162,7 +162,7 @@ import os
 fail_if(not os.geteuid() == 0, msg = 'This command is only meant for root user (eg, use ``sudo`` to run it)')
 bash:
     # claim unused resources
-    docker system prune
+    docker system prune -f
 stop_if(network_only)
 bash:
     docker stop $(docker ps -a -q) || true
