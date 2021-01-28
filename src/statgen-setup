@@ -156,8 +156,8 @@ bash: expand = True
   printf "New user created: {my_name}_{_index+1}:{my_name}_{_passwd}\n"
 
 [clean]
-# to only clean up network for unused IP and leave servers running
-parameter: network_only = False
+# to only prune unused resource (eg IP) and leave servers running
+parameter: prune_only = False
 import os
 fail_if(not os.geteuid() == 0, msg = 'This command is only meant for root user (eg, use ``sudo`` to run it)')
 bash:
