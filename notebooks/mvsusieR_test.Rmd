@@ -1,0 +1,203 @@
+---
+title: "Fine-Mapping with mvsusieR"
+author: "Jiayi Zhou"
+date: "04/30/2021"
+output: 
+  html_document:
+    toc: TRUE
+    toc_float: TRUE
+---
+<style type="text/css">
+
+h1.title {
+  text-align: center;
+}
+
+</style>
+```{r setup, include = FALSE}
+library(tidyverse)
+library(readxl)
+
+knitr::opts_chunk$set(
+  message = FALSE,
+  warning = FALSE,
+  fig.width = 10,
+  fig.asp = .6,
+  out.width = "90%"
+)
+
+theme_set(theme_minimal() + theme(legend.position = "bottom"))
+
+options(
+  ggplot2.continuous.colour = "viridis",
+  ggplot2.continuous.fill = "viridis"
+)
+
+scale_colour_discrete = scale_colour_viridis_d
+scale_fill_discrete = scale_fill_viridis_d
+```
+
+## Packages and Dataset Used
+
+Loaded the dataset, `N3finemapping`, and the `susieR` package
+```{r}
+library(mvsusieR)
+library(susieR)
+rm(list=ls())
+data(N3finemapping)
+attach(N3finemapping)
+```
+
+Familiarized with the dataset
+```{r}
+ls()
+names(N3finemapping)
+```
+
+```{r}
+dim(X)
+
+dim(Y)
+```
+Where X is the genotype matrix and Y is the phenotype matrix.
+The genotype matrix has 574 individuals and 1001 genetic variants.
+The phenotype matrix contains values for the 574 individuals for 2 traits.
+
+#### Two traits:
+If only focus on the first trait.
+```{r}
+y1 = Y[,1]
+b1 = true_coef[,1]
+```
+b1 is the true effect variable for phenotype y1. There are 1001 observations for b1.
+
+Among the 1001 observations (variants) recorded in b1, there are 3 "causal" variants for the y1 trait.Their locations in the data-set are the following:
+```{r}
+which(b1 != 0)
+```
+
+If only focus on the second trait. 
+```{r}
+y2 = Y[,2]
+b2 = true_coef[,2]
+```
+b2 is the true effect variable for phenotype y2. There are 1001 observations for b2.
+
+There are also 3 "causal" variants for this trait.Their locations in the data-set are the following:
+```{r}
+which(b2 != 0)
+```
+
+The effect sizes of the 6 effect variants are:
+```{r}
+#for b1
+b1[which(b1 != 0)]
+#for b2
+b2[which(b2 != 0)]
+```
+
+*Visualization of the effect sizes:*
+```{r}
+plot(b1, pch=16, ylab='effect size')
+plot(b2, pch=16, ylab='effect size')
+```
+
+## Univariate Regressions for each trait
+Association testing by fitting univariate simple regression for each variable separately. 
+```{r}
+sumstats1 <- univariate_regression(X, y1)
+names(sumstats1)
+sumstats2 <- univariate_regression(X, y2)
+names(sumstats2)
+```
+where `betahat` is the estimated effect size, and `sebetahat` is the associated standard error.
+
+*effect size visualization*: Compare the true effect variable (b) with the estimated effect variable (betahat) 
+```{r}
+#compare with the true
+plot(sumstats1$betahat, ylab='effect size',pch=20)+
+points(b1,col=2,pch=16,cex=0.8)
+
+plot(sumstats2$betahat, ylab='effect size',pch=20)+
+points(b2,col=2,pch=16,cex=0.8)
+```
+The estimated effects obtained via univariate regression are **very different** from the simulated true effects. Many **non-effect variables** show **large** effects (and z-scores, see below) due to inflation induced by linkage disequilibrium (LD) with the effect variables.
+
+"Over 95% of the variants in high LD (R2 > 0.8) are located outside of genes in the non-coding DNA...The causal variant (star) is not the strongest GWAS signal, but rather a variant in strong LD with the top effect located in an active enhancer region." -- Broekema et al.[Reference Link](https://doi.org/10.1098/rsob.190221)
+
+Z score and p-value calculation:
+```{r}
+# for phenotype 1:
+z_scores_1 <- sumstats1$betahat / sumstats1$sebetahat
+log10p_1 <- -log10(pchisq(z_scores_1^2,1,lower.tail=F))
+
+# for phenotype 2:
+z_scores_2 <- sumstats2$betahat / sumstats2$sebetahat
+log10p_2 <- -log10(pchisq(z_scores_2^2,1,lower.tail=F))
+```
+
+*visualization of z-scores distribution:*
+```{r}
+plot(sumstats1$betahat/sumstats1$sebetahat, ylab='z-scores for y1',pch=20)
+
+plot(sumstats2$betahat/sumstats2$sebetahat, ylab='z-scores for y2',pch=20)
+```
+
+*visualize the association test results:*
+```{r}
+susie_plot(z_scores_1,y="z",b=b1)
+
+susie_plot(z_scores_2,y="z",b=b2)
+```
+As shown on this plot, the "lead" SNP (the one with smallest p-value) is indeed one of the true effect variables.
+
+## Fine-mapping:
+If there are **multiple** true effects --> statistical fine-mapping via Bayesian Variable Selection
+We assume there are at most 10 causal variables (i.e., set L = 10)
+```{r}
+prior_covar = create_mash_prior(sample_data = list(X=X,Y=Y,residual_variance=cov(Y)), max_mixture_len=-1)
+
+fitted = mvsusie(X, Y, L=10, prior_variance=prior_covar)
+```
+
+95% Credible Sets:
+```{r}
+print(fitted$sets)
+```
+
+*Visualization: posterior inclusion probabilities*
+```{r}
+mvsusie_plot(m = fitted)
+
+susie_plot(fitted, y="PIP", b =  cbind(b1, b2), add_legend=T)
+```
+
+Comparing p-values and posterior inclusion probabilities (PIP) for the variables in CS$L3
+```{r}
+i  <- fitted$sets$cs$L3
+z3 <- cbind(i,log10p_1[i],log10p_2[i],fitted$pip[i])
+colnames(z3) <- c('position', '-log10 pvalue for y1','-log10 pvalue for y2' ,'PIP')
+knitr::kable(z3[order(z3[,2], decreasing = TRUE),])
+
+min(cor(X[,i]))
+```
+The 31 variants in the CS are highly correlated (at least 0.8569 in Pearson's correlation).
+
+
+## Fine-mapping with summary statistics via `mvsusie_rss`
+```{r}
+R = t(X) %*% X
+# same as R = cor(X)
+
+z = susieR:::calc_z(X,Y)
+res = mvsusie_rss(z,R,L=10, prior_variance = prior_covar)
+# prior_covar = 
+#create_mash_prior(sample_data = list(X=X,Y=Y,residual_variance=cov(Y)),max_mixture_len=-1)
+```
+
+*Visuliazation*:
+Comparing the PIP obtained with previous analysis
+```{r}
+plot(fitted$pip, res$pip, ylim=c(0,1))
+```
+
