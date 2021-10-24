@@ -1,0 +1,1917 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="ipynb_website:version" content="0.9.7" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<link rel="stylesheet" type="text/css" href="../css/jt.css">
+
+<link rel="stylesheet" type="text/css" href="../css/toc2.css">
+
+<link href="../site_libs/jqueryui-1.11.4/jquery-ui.css">
+<link rel="stylesheet" href="../site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="../site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+
+<link rel="stylesheet"
+      href="../site_libs/highlightjs/null.min.css"
+      type="text/css" />
+
+<script src="../site_libs/highlightjs/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+<script src="../js/doc_toc.js"></script>
+<script src="../js/docs.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script>
+    MathJax.Hub.Config({
+        extensions: ["tex2jax.js"],
+        jax: ["input/TeX", "output/HTML-CSS"],
+        tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true
+        },
+        "HTML-CSS": {
+            preferredFont: "TeX",
+            availableFonts: ["TeX"],
+            styles: {
+                scale: 110,
+                ".MathJax_Display": {
+                    "font-size": "110%",
+                }
+            }
+        }
+    });
+</script>
+<script>
+function filterDataFrame(id) {
+    var input = document.getElementById("search_" + id);
+    var filter = input.value.toUpperCase();
+    var table = document.getElementById("dataframe_" + id);
+    var tr = table.getElementsByTagName("tr");
+    // Loop through all table rows, and hide those who don't match the search query
+    for (var i = 1; i < tr.length; i++) {
+        for (var j = 0; j < tr[i].cells.length; ++j) {
+            var matched = false;
+            if (tr[i].cells[j].innerHTML.toUpperCase().indexOf(filter) != -1) {
+                tr[i].style.display = "";
+                matched = true
+                break;
+            }
+            if (!matched)
+                tr[i].style.display = "none";
+        }
+    }
+}
+function sortDataFrame(id, n, dtype) {
+    var table = document.getElementById("dataframe_" + id);
+    var tb = table.tBodies[0]; // use `<tbody>` to ignore `<thead>` and `<tfoot>` rows
+    var tr = Array.prototype.slice.call(tb.rows, 0); // put rows into array
+    if (dtype === 'numeric') {
+        var fn = function(a, b) { 
+            return parseFloat(a.cells[n].textContent) <= parseFloat(b.cells[n].textContent) ? -1 : 1;
+        }
+    } else {
+        var fn = function(a, b) {
+            var c = a.cells[n].textContent.trim().localeCompare(b.cells[n].textContent.trim()); 
+            return c > 0 ? 1 : (c < 0 ? -1 : 0) }
+    }
+    var isSorted = function(array, fn) {
+        if (array.length < 2)
+            return 1;
+        var direction = fn(array[0], array[1]); 
+        for (var i = 1; i < array.length - 1; ++i) {
+            var d = fn(array[i], array[i+1]);
+            if (d == 0)
+                continue;
+            else if (direction == 0)
+                direction = d;
+            else if (direction != d)
+                return 0;
+            }
+        return direction;
+    }
+    var sorted = isSorted(tr, fn);
+    if (sorted == 1 || sorted == -1) {
+        // if sorted already, reverse it
+        for(var i = tr.length - 1; i >= 0; --i)
+            tb.appendChild(tr[i]); // append each row in order
+    } else {
+        tr = tr.sort(fn);
+        for(var i = 0; i < tr.length; ++i)
+            tb.appendChild(tr[i]); // append each row in order
+    }
+}
+</script>
+
+<script>
+$( document ).ready(function(){
+            var cfg={'threshold':3,     // depth of toc (number of levels)
+             'number_sections': false,
+             'toc_cell': false,          // useless here
+             'toc_window_display': true, // display the toc window
+             "toc_section_display": "block", // display toc contents in the window
+             'sideBar':true,       // sidebar or floating window
+             'navigate_menu':false       // navigation menu (only in liveNotebook -- do not change)
+            }
+            var st={};                  // some variables used in the script
+            st.rendering_toc_cell = false;
+            st.config_loaded = false;
+            st.extension_initialized=false;
+            st.nbcontainer_marginleft = $('#notebook-container').css('margin-left')
+            st.nbcontainer_marginright = $('#notebook-container').css('margin-right')
+            st.nbcontainer_width = $('#notebook-container').css('width')
+            st.oldTocHeight = undefined
+            st.cell_toc = undefined;
+            st.toc_index=0;
+            // fire the main function with these parameters
+            table_of_contents(cfg, st);
+            var file=notebooksDict[$("h1:first").attr("id")];
+            $("#toc-level0 a").css("color","#126dce");
+            $('a[href="#'+$("h1:first").attr("id")+'"]').hide()
+            var docs=notebooksArray;
+            var docs_map=notebooksArrayMap;
+            var pos=notebooksArray.indexOf(file);
+            for (var a=pos;a>=0;a--){
+                  $('<li><a href="'+docs[a]+'.html"><font color="#073642"><b>'+docs_map[docs[a]].replace(/_/g," ")+'</b></font></a></li>').insertBefore("#toc-level0 li:eq(0)");
+            }
+            $('a[href="'+file+'.html'+'"]').css("color","#126dce");
+            for (var a=pos+1;a<docs.length;a++){
+                  $(".toc #toc-level0").append('<li><a href="'+docs[a]+'.html"><font color="#073642"><b>'+docs_map[docs[a]].replace(/_/g," ")+'</b></font></a></li>');
+            }
+            // $("#toc-header").hide(); // comment out because it prevents search bar from displaying
+    });
+</script>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+  // mark it active
+  menuAnchor.parent().addClass('active');
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+<div class="container-fluid main-container">
+<!-- tabsets -->
+<script src="../site_libs/navigation-1.1/tabsets.js"></script>
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+
+
+<title>Statistical Genetics Tutorials</title>
+
+<style type = "text/css">
+body {
+  font-family: "Droid Sans";
+  padding-top: 66px;
+  padding-bottom: 40px;
+}
+</style>
+</head>
+
+<body>
+<div tabindex="-1" id="notebook" class="border-box-sizing">
+<div class="container" id="notebook-container">
+
+<!-- code folding -->
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="../index.html">Statistical Genetics Tutorials</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+<li>
+  <a href="../index.html">Overview</a>
+</li>
+        
+<li>
+  <a href="../notebooks.html">Notebooks</a>
+</li>
+        
+      </ul>
+        
+<ul class="nav navbar-nav navbar-right">
+<li>
+   <a href="http://github.com/statgenetics/statgen-courses"> <span class="fa fa-github"></span> </a>
+</li>
+</ul>
+        
+      </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Polygenic-Risk-Score-Analysis-on-Height-GWAS-data">Polygenic Risk Score Analysis on Height GWAS data<a class="anchor-link" href="#Polygenic-Risk-Score-Analysis-on-Height-GWAS-data">&#182;</a></h1><p>Here we show an example of our <a href="https://github.com/cumc/bioworkflows/blob/master/ldpred/ldpred.ipynb">LDpred2 pipeline</a> for height PRS on <a href="https://drive.google.com/file/d/1x_G0Gxk9jFMY-PMqwtg6-vdEyUPp5p5u/view">an example public data-set</a> from github user <a href="https://github.com/choishingwan">@choishingwan</a>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Data-used">Data used<a class="anchor-link" href="#Data-used">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Reference-panel">Reference panel<a class="anchor-link" href="#Reference-panel">&#182;</a></h3><p>Obtained via <code>download_1000G()</code> in <code>bigsnpr</code>.</p>
+<p>We extracted unrelated European individuals (~500  samples) and ~1.7M SNPs in common with either HapMap3 or the UK Biobank. Classification of European population can be found at <a href="https://www.internationalgenome.org/category/population/">IGSR</a>. European individuals ID are from <a href="https://www.internationalgenome.org/data-portal/sample">IGSR data portal</a>.</p>
+<h3 id="GWAS-summary-statistics-data">GWAS summary statistics data<a class="anchor-link" href="#GWAS-summary-statistics-data">&#182;</a></h3><p><code>Height.QC.gz</code>, from public data-set provided by github user <a href="https://github.com/choishingwan">@choishingwan</a>, of height GWAS in European samples.</p>
+<h3 id="Target-test-data">Target test data<a class="anchor-link" href="#Target-test-data">&#182;</a></h3><p><code>EUR.height</code>, <code>EUR.cov</code>, and <code>EUR.eigenvec</code> contain phenotypes, covariates and genotype principle components of samples.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="PRS-Models-applied">PRS Models applied<a class="anchor-link" href="#PRS-Models-applied">&#182;</a></h2><p>Auto model runs the algorithm for 30 different $p$ (the proportion of causal variants) values range from 10e-4 to 0.9, and heritability $h^2$ from LD score regression as initial value.</p>
+<p>Grid model tries a grid of parameters $p$, ranges from 0 to 1 and three $h^2$ which are 0.7/1/1.4 times of initial $h^2$ estimated by LD score regression.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Data-preparation">Data preparation<a class="anchor-link" href="#Data-preparation">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Please download the <a href="https://drive.google.com/file/d/1x_G0Gxk9jFMY-PMqwtg6-vdEyUPp5p5u/view">GWAS data</a> and <a href="https://github.com/cumc/bioworkflows/blob/master/ldpred/ldpred.ipynb">pipeline script</a> to your computer. We have pre-downloaded and extracted the European genotypes from 1000 Genomes. We have preprocessed the GWAS data as follows, to fit in our pipeline.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[16]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">cd</span> <span class="o">~/</span><span class="n">Downloads</span><span class="o">/</span><span class="n">tutorial</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>/home/gw/Downloads/tutorial</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Summary-statistics-formatting">Summary statistics formatting<a class="anchor-link" href="#Summary-statistics-formatting">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">sumstats</span> <span class="o">&lt;-</span> <span class="n">bigreadr</span><span class="p">::</span><span class="n">fread2</span><span class="p">(</span><span class="s2">&quot;GWAS_data/Height.QC.gz&quot;</span><span class="p">)</span> 
+<span class="c1"># LDpred2 require the header to follow the exact naming</span>
+<span class="n">names</span><span class="p">(</span><span class="n">sumstats</span><span class="p">)</span> <span class="o">&lt;-</span>
+    <span class="n">c</span><span class="p">(</span><span class="s2">&quot;chr&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;pos&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;rsid&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;a1&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;a0&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;n_eff&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;beta_se&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;p&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;OR&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;INFO&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;MAF&quot;</span><span class="p">)</span>
+<span class="c1"># Transform the OR into log(OR)</span>
+<span class="n">sumstats</span><span class="err">$</span><span class="n">beta</span> <span class="o">&lt;-</span> <span class="n">log</span><span class="p">(</span><span class="n">sumstats</span><span class="err">$</span><span class="n">OR</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">saveRDS</span><span class="p">(</span><span class="n">sumstats</span><span class="p">,</span> <span class="s2">&quot;GWAS_data/Height.QC.rds&quot;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Phenotype-and-covariates-formatting">Phenotype and covariates formatting<a class="anchor-link" href="#Phenotype-and-covariates-formatting">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[35]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">options</span><span class="p">(</span><span class="n">stringsAsFactors</span><span class="o">=</span><span class="n">F</span><span class="p">)</span>
+<span class="n">fam</span> <span class="o">=</span> <span class="n">read</span><span class="o">.</span><span class="n">table</span><span class="p">(</span><span class="s2">&quot;GWAS_data/EUR.QC.fam&quot;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="n">F</span><span class="p">)</span>
+<span class="n">colnames</span><span class="p">(</span><span class="n">fam</span><span class="p">)</span> <span class="o">=</span> <span class="n">c</span><span class="p">(</span><span class="s2">&quot;FID&quot;</span><span class="p">,</span> <span class="s2">&quot;IID&quot;</span><span class="p">,</span> <span class="s2">&quot;PID&quot;</span><span class="p">,</span> <span class="s2">&quot;MID&quot;</span><span class="p">,</span> <span class="s2">&quot;S&quot;</span><span class="p">,</span> <span class="s2">&quot;D&quot;</span><span class="p">)</span>
+<span class="n">pheno</span> <span class="o">=</span> <span class="n">read</span><span class="o">.</span><span class="n">table</span><span class="p">(</span><span class="s2">&quot;GWAS_data/EUR.height&quot;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="n">T</span><span class="p">)</span>
+<span class="n">covar</span> <span class="o">=</span> <span class="n">read</span><span class="o">.</span><span class="n">table</span><span class="p">(</span><span class="s2">&quot;GWAS_data/EUR.cov&quot;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="n">T</span><span class="p">)</span>
+<span class="n">pcs</span> <span class="o">=</span> <span class="n">read</span><span class="o">.</span><span class="n">table</span><span class="p">(</span><span class="s2">&quot;GWAS_data/EUR.eigenvec&quot;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="n">F</span><span class="p">)</span>
+<span class="n">colnames</span><span class="p">(</span><span class="n">pcs</span><span class="p">)</span> <span class="o">=</span> <span class="n">c</span><span class="p">(</span><span class="s2">&quot;FID&quot;</span><span class="p">,</span> <span class="s2">&quot;IID&quot;</span><span class="p">,</span> <span class="s2">&quot;PC1&quot;</span><span class="p">,</span> <span class="s2">&quot;PC2&quot;</span><span class="p">,</span> <span class="s2">&quot;PC3&quot;</span><span class="p">,</span> <span class="s2">&quot;PC4&quot;</span><span class="p">,</span> <span class="s2">&quot;PC5&quot;</span><span class="p">,</span> <span class="s2">&quot;PC6&quot;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[36]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">require</span><span class="p">(</span><span class="n">dplyr</span><span class="p">)</span>
+<span class="n">pheno_out</span> <span class="o">=</span> <span class="n">left_join</span><span class="p">(</span><span class="n">fam</span><span class="p">,</span> <span class="n">pheno</span><span class="p">,</span> <span class="n">by</span> <span class="o">=</span> <span class="n">c</span><span class="p">(</span><span class="s2">&quot;FID&quot;</span><span class="p">,</span> <span class="s2">&quot;IID&quot;</span><span class="p">))</span>
+<span class="n">pheno_out</span> <span class="o">=</span> <span class="n">left_join</span><span class="p">(</span><span class="n">pheno_out</span><span class="p">,</span> <span class="n">covar</span><span class="p">,</span> <span class="n">by</span> <span class="o">=</span> <span class="n">c</span><span class="p">(</span><span class="s2">&quot;FID&quot;</span><span class="p">,</span> <span class="s2">&quot;IID&quot;</span><span class="p">))</span>
+<span class="n">pheno_out</span> <span class="o">=</span> <span class="n">left_join</span><span class="p">(</span><span class="n">pheno_out</span><span class="p">,</span> <span class="n">pcs</span><span class="p">,</span> <span class="n">by</span> <span class="o">=</span> <span class="n">c</span><span class="p">(</span><span class="s2">&quot;FID&quot;</span><span class="p">,</span> <span class="s2">&quot;IID&quot;</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[37]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">names</span><span class="p">(</span><span class="n">pheno_out</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+<div class="output_html rendered_html output_subarea ">
+<style>
+.list-inline {list-style: none; margin:0; padding: 0}
+.list-inline>li {display: inline-block}
+.list-inline>li:not(:last-child)::after {content: "\00b7"; padding: 0 .5ex}
+</style>
+<ol class=list-inline><li>'FID'</li><li>'IID'</li><li>'PID'</li><li>'MID'</li><li>'S'</li><li>'D'</li><li>'Height'</li><li>'Sex'</li><li>'PC1'</li><li>'PC2'</li><li>'PC3'</li><li>'PC4'</li><li>'PC5'</li><li>'PC6'</li></ol>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[44]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">write</span><span class="o">.</span><span class="n">table</span><span class="p">(</span><span class="n">pheno_out</span><span class="p">[,</span> <span class="s2">&quot;Height&quot;</span><span class="p">],</span> <span class="s2">&quot;GWAS_data/EUR.height.matched.txt&quot;</span><span class="p">,</span> <span class="n">col</span><span class="o">.</span><span class="n">names</span><span class="o">=</span><span class="s2">&quot;Height&quot;</span><span class="p">,</span><span class="n">row</span><span class="o">.</span><span class="n">names</span><span class="o">=</span><span class="n">F</span><span class="p">)</span>
+<span class="n">write</span><span class="o">.</span><span class="n">table</span><span class="p">(</span><span class="n">pheno_out</span><span class="p">[,</span> <span class="n">c</span><span class="p">(</span><span class="s2">&quot;Sex&quot;</span><span class="p">,</span><span class="s1">&#39;PC1&#39;</span><span class="p">,</span> <span class="s1">&#39;PC2&#39;</span><span class="p">,</span> <span class="s1">&#39;PC3&#39;</span><span class="p">,</span> <span class="s1">&#39;PC4&#39;</span><span class="p">,</span> <span class="s1">&#39;PC5&#39;</span><span class="p">,</span> <span class="s1">&#39;PC6&#39;</span><span class="p">)],</span> <span class="s2">&quot;GWAS_data/EUR.cov.matched.txt&quot;</span><span class="p">,</span> <span class="n">col</span><span class="o">.</span><span class="n">names</span><span class="o">=</span><span class="n">T</span><span class="p">,</span><span class="n">row</span><span class="o">.</span><span class="n">names</span><span class="o">=</span><span class="n">F</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The directory should have the following:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">tree</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre><span class="ansi-blue-intense-fg ansi-bold">.</span>
+├── <span class="ansi-blue-intense-fg ansi-bold">1000G.EUR</span>
+│   ├── 1000G.EUR.bed
+│   ├── 1000G.EUR.bim
+│   └── 1000G.EUR.fam
+├── 1000G.EUR...bed
+├── 1000G.EUR...bim
+├── 1000G.EUR...fam
+├── 1000G.EUR...log
+├── 1000G.EUR...stdout
+├── <span class="ansi-blue-intense-fg ansi-bold">GWAS_data</span>
+│   ├── EUR.cov
+│   ├── EUR.eigenvec
+│   ├── EUR.height
+│   ├── EUR.QC.bed
+│   ├── EUR.QC.bim
+│   ├── EUR.QC.fam
+│   ├── <span class="ansi-red-intense-fg ansi-bold">Height.QC.gz</span>
+│   └── Height.QC.rds
+└── ldpred.ipynb
+
+2 directories, 17 files
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Analysis-of-height-GWAS-data">Analysis of height GWAS data<a class="anchor-link" href="#Analysis-of-height-GWAS-data">&#182;</a></h2><p>We set the work directory to <code>height_results</code> folder (to be created by the workflow). This will also be used as part of the filenames in the outputs to identify this analysis.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">work_dir</span><span class="o">=</span><span class="s2">&quot;height_results&quot;</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Step-1:-QC-on-reference-panel">Step 1: QC on reference panel<a class="anchor-link" href="#Step-1:-QC-on-reference-panel">&#182;</a></h3><p>Here we assume the GWAS genotype data <code>EUR.*</code> has already been QC-ed. We perform here QC for reference panel,</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">sos</span> <span class="n">run</span> <span class="n">ldpred</span><span class="o">.</span><span class="n">ipynb</span> <span class="n">snp_qc</span> \
+    <span class="o">--</span><span class="n">cwd</span> <span class="err">$</span><span class="n">work_dir</span> \
+    <span class="o">--</span><span class="n">genoFiles</span> <span class="mi">1000</span><span class="n">G</span><span class="o">.</span><span class="n">EUR</span><span class="o">/</span><span class="mi">1000</span><span class="n">G</span><span class="o">.</span><span class="n">EUR</span><span class="o">.</span><span class="n">bed</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>INFO: Running <span class="ansi-green-fg">basic QC filters</span>: Filter SNPs and select individuals
+INFO: <span class="ansi-green-fg">basic QC filters</span> is <span class="ansi-green-fg">completed</span>.
+INFO: <span class="ansi-green-fg">basic QC filters</span> output:   <span class="ansi-green-fg">/home/gw/Downloads/tutorial/height_results/1000G.EUR.height_results.bed</span>
+INFO: Workflow snp_qc (ID=w015cfd3cc381496b) is executed successfully with 1 completed step.
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Step-2:-Intersect-SNPs-among-summary-stats,-reference-panel-and-target-data">Step 2: Intersect SNPs among summary stats, reference panel and target data<a class="anchor-link" href="#Step-2:-Intersect-SNPs-among-summary-stats,-reference-panel-and-target-data">&#182;</a></h3><p>SNPs shared between summary statistics, reference panels and target genotype data (for which PRS will be computed) are extracted.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">sos</span> <span class="n">run</span> <span class="n">ldpred</span><span class="o">.</span><span class="n">ipynb</span> <span class="n">snp_intersect</span> \
+    <span class="o">--</span><span class="n">cwd</span> <span class="err">$</span><span class="n">work_dir</span> \
+    <span class="o">--</span><span class="n">ss</span> <span class="n">GWAS_data</span><span class="o">/</span><span class="n">Height</span><span class="o">.</span><span class="n">QC</span><span class="o">.</span><span class="n">rds</span> \
+    <span class="o">--</span><span class="n">genoFiles</span> <span class="err">$</span><span class="n">work_dir</span><span class="o">/</span><span class="mi">1000</span><span class="n">G</span><span class="o">.</span><span class="n">EUR</span><span class="o">.</span><span class="err">$</span><span class="n">work_dir</span><span class="o">.</span><span class="n">bed</span> <span class="n">GWAS_data</span><span class="o">/</span><span class="n">EUR</span><span class="o">.</span><span class="n">QC</span><span class="o">.</span><span class="n">bed</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>INFO: Running <span class="ansi-green-fg">snp_intersect_1</span>: SNP intersect of summary stats and genotype data
+INFO: <span class="ansi-green-fg">snp_intersect_1</span> is <span class="ansi-green-fg">completed</span>.
+INFO: <span class="ansi-green-fg">snp_intersect_1</span> output:   <span class="ansi-green-fg">/home/gw/Downloads/tutorial/height_results/Height.QC.intersect.rds /home/gw/Downloads/tutorial/height_results/Height.QC.intersect.snplist</span>
+INFO: Running <span class="ansi-green-fg">snp_intersect_2</span>: 
+INFO: <span class="ansi-green-fg">snp_intersect_2</span> is <span class="ansi-green-fg">completed</span> (pending nested workflow).
+INFO: Running <span class="ansi-green-fg">preprocess_1</span>: Filter SNPs and select individuals
+INFO: <span class="ansi-green-fg">preprocess_1</span> (index=1) is <span class="ansi-green-fg">completed</span>.
+INFO: <span class="ansi-green-fg">preprocess_1</span> (index=0) is <span class="ansi-green-fg">completed</span>.
+INFO: <span class="ansi-green-fg">preprocess_1</span> output:   <span class="ansi-green-fg">/home/gw/Downloads/tutorial/height_results/1000G.EUR.height_results.snp_intersect.extracted.bed /home/gw/Downloads/tutorial/height_results/EUR.QC.snp_intersect.extracted.bed in 2 groups</span>
+INFO: Running <span class="ansi-green-fg">convert PLNIK to bigsnpr format with missing data mean imputed</span>: 
+INFO: <span class="ansi-green-fg">convert PLNIK to bigsnpr format with missing data mean imputed</span> (index=0) is <span class="ansi-green-fg">completed</span>.
+INFO: <span class="ansi-green-fg">convert PLNIK to bigsnpr format with missing data mean imputed</span> (index=1) is <span class="ansi-green-fg">completed</span>.
+INFO: <span class="ansi-green-fg">convert PLNIK to bigsnpr format with missing data mean imputed</span> output:   <span class="ansi-green-fg">/home/gw/Downloads/tutorial/height_results/1000G.EUR.height_results.snp_intersect.extracted.bk /home/gw/Downloads/tutorial/height_results/1000G.EUR.height_results.snp_intersect.extracted.rds... (4 items in 2 groups)</span>
+INFO: <span class="ansi-green-fg">snp_intersect_2</span> output:   <span class="ansi-green-fg">/home/gw/Downloads/tutorial/height_results/1000G.EUR.height_results.snp_intersect.extracted.bed /home/gw/Downloads/tutorial/height_results/1000G.EUR.height_results.snp_intersect.extracted.rds... (4 items)</span>
+INFO: Workflow snp_intersect (ID=w9482ac12438e4cc8) is executed successfully with 4 completed steps and 6 completed substeps.
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">cat</span> <span class="err">$</span><span class="n">work_dir</span><span class="o">/</span><span class="n">Height</span><span class="o">.</span><span class="n">QC</span><span class="o">.</span><span class="n">intersect</span><span class="o">.</span><span class="n">stdout</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[1] &#34;There are 400400 shared SNPs.&#34;
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Step-3:-Harmonize-alleles-for-shared-SNPs">Step 3: Harmonize alleles for shared SNPs<a class="anchor-link" href="#Step-3:-Harmonize-alleles-for-shared-SNPs">&#182;</a></h3><p>To handle major/minor allele, strand flips and consequently possible flips in sign for summary statistics.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">sos</span> <span class="n">run</span> <span class="n">ldpred</span><span class="o">.</span><span class="n">ipynb</span> <span class="n">snp_match</span> \
+    <span class="o">--</span><span class="n">cwd</span> <span class="err">$</span><span class="n">work_dir</span> \
+    <span class="o">--</span><span class="n">reference_geno</span> <span class="err">$</span><span class="n">work_dir</span><span class="o">/</span><span class="mi">1000</span><span class="n">G</span><span class="o">.</span><span class="n">EUR</span><span class="o">.</span><span class="err">$</span><span class="n">work_dir</span><span class="o">.</span><span class="n">snp_intersect</span><span class="o">.</span><span class="n">extracted</span><span class="o">.</span><span class="n">rds</span> \
+    <span class="o">--</span><span class="n">ss</span> <span class="n">GWAS_data</span><span class="o">/</span><span class="n">Height</span><span class="o">.</span><span class="n">QC</span><span class="o">.</span><span class="n">rds</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>INFO: Running <span class="ansi-green-fg">snp_match</span>: 
+INFO: <span class="ansi-green-fg">snp_match</span> is <span class="ansi-green-fg">completed</span>.
+INFO: <span class="ansi-green-fg">snp_match</span> output:   <span class="ansi-green-fg">/home/gw/Downloads/tutorial/height_results/Height.QC.snp_matched.rds /home/gw/Downloads/tutorial/height_results/Height.QC.snp_matched.snplist</span>
+INFO: Workflow snp_match (ID=waa8f5f3cb5665126) is executed successfully with 1 completed step.
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Step-4:-Summary-statistics-quality-control-(optional)">Step 4: Summary statistics quality control (optional)<a class="anchor-link" href="#Step-4:-Summary-statistics-quality-control-(optional)">&#182;</a></h3><p>Please refer to documentation in the pipeline notebook <a href="https://github.com/cumc/bioworkflows/blob/master/ldpred/ldpred.ipynb"><code>ldpred.ipynb</code></a> for an explanation of summary statistics QC.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">sos</span> <span class="n">run</span> <span class="n">ldpred</span><span class="o">.</span><span class="n">ipynb</span> <span class="n">sumstats_qc</span> \
+    <span class="o">--</span><span class="n">cwd</span> <span class="err">$</span><span class="n">work_dir</span> \
+    <span class="o">--</span><span class="n">reference_geno</span> <span class="err">$</span><span class="n">work_dir</span><span class="o">/</span><span class="mi">1000</span><span class="n">G</span><span class="o">.</span><span class="n">EUR</span><span class="o">.</span><span class="err">$</span><span class="n">work_dir</span><span class="o">.</span><span class="n">snp_intersect</span><span class="o">.</span><span class="n">extracted</span><span class="o">.</span><span class="n">rds</span> \
+    <span class="o">--</span><span class="n">ss</span> <span class="err">$</span><span class="n">work_dir</span><span class="o">/</span><span class="n">Height</span><span class="o">.</span><span class="n">QC</span><span class="o">.</span><span class="n">snp_matched</span><span class="o">.</span><span class="n">rds</span> \
+    <span class="o">--</span><span class="n">sdy</span> <span class="mi">1</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>INFO: Running <span class="ansi-green-fg">sumstats_qc</span>: 
+INFO: <span class="ansi-green-fg">sumstats_qc</span> is <span class="ansi-green-fg">completed</span>.
+INFO: <span class="ansi-green-fg">sumstats_qc</span> output:   <span class="ansi-green-fg">/home/gw/Downloads/tutorial/height_results/Height.QC.snp_matched.qc.png /home/gw/Downloads/tutorial/height_results/Height.QC.snp_matched.qc.snplist... (3 items)</span>
+INFO: Workflow sumstats_qc (ID=wdbbf3e7458e2f8a0) is executed successfully with 1 completed step.
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">preview</span> <span class="n">height_results</span><span class="o">/</span><span class="n">Height</span><span class="o">.</span><span class="n">QC</span><span class="o">.</span><span class="n">snp_matched</span><span class="o">.</span><span class="n">qc</span><span class="o">.</span><span class="n">png</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+<div class="output_html rendered_html output_subarea ">
+<div class="sos_hint">> height_results/Height.QC.snp_matched.qc.png (68.9 KiB):</div>
+</div>
+
+</div>
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAeAAAAHgCAIAAADytinCAAAgAElEQVR4nOydeXxV5bX+n/XufabkJCEDIUwJAZFBJhlEmUQqVau2qKhowavWVu+trfc63NtqtWodfg7l2ivSqi21ttJqtdg6VXAeEJE4AAIRAmFOQubxDHu/6/fH++5zInKcSg6BvN+PHz05w97v2Sc+Z2W9az2LmBkGg8Fg6H6IQ70Ag8FgMBwYI9AGg8HQTTECbTAYDN0UI9AGg8HQTTECbTAYDN0UI9AGg8HQTTECbTAYDN0UI9AGg8HQTTECbTAYDN0UI9AGg8HQTTECbTAYDN0UI9AGg8HQTTECbTAYDN0UI9AGg8HQTTECbTAYDN2UzxPoWCxWVVUFgJkfe+yxm2++ec2aNelamMFgMPR0Ugr0+++/X1JScuONNwJYuHDh/Pnz77333ilTpqxYsSKNyzMYDIaeC6WaqDJr1qyqqqqHH3546tSpQ4YMmTVr1kMPPTR37tza2trXX389zas0GAyGHkjKCLqsrOyqq66aOnVqZWXl1q1bL7vsMiKaM2fOunXr0rk+g8Fg6LGkFGifz6eC6+XLl4fD4fHjxwMQQkgp07c6g8Fg6MHYqR6YNm3aokWL8vPzFy5ceOqpp/p8vr179y5atGjUqFHpXJ/BYDD0WFLmoMvLy2fPnr1z586cnJw33nhjzJgxpaWlNTU1zzzzzKxZs9K8SoPBYOiBpBRoALFYbNOmTQMHDszNzQWwbNmyCRMmFBcXp3F5BoPB0HP5vDro119//c477xRCAFi1atXSpUu3bduWroUZDAZDTyelQL/88sunnXba22+/bVkWgLy8vJ07d86aNevZZ59N4/IMBoOh55IyxTFjxoxwOPz000/7/f7End/5znf27t27evXqdC3PYDAYei4pI+iPPvpo3rx5ndUZwPnnn79x48auX5XBYDAYUgt0cXHxZzPOW7duNZuEBoPBkB5SCvRFF1105513PvDAAw0NDQBaWlp++9vf3n777fPmzUvj8gwGg6HnkjIHzcxXX331okWLHMcJBoORSEQIcckllzz44INq29BgMBgMXcrn1UEDqKysXLVq1Y4dO/r27XvccccNGzYsbSszGAyGHs4XCLTBYDAYDhX7e3HcddddJSUl8+bNu+uuu1K95n/+53+6eFUGg8Fg+EwE3bt37xkzZjz11FN9+/ZN9Zq9e/d2/cIMBoOhp2NSHAaDwdBN+bxGlXg8vt+dra2tH3/8cRcvyWAwGAzA5wj0uHHj9uzZs9+dZWVlkydP7uIlGQwGgwH47CbhCy+8cMcdd6jbc+fODQaDnR81nYQGg8GQNvYX6JycnOHDhwN46623hgwZkpWV1fnRsWPHXnTRRelbncFgMPRgUm4SnnDCCcuWLSsqKkrzggwGg8Gg+IKJKvX19UVFRcy8dOnSzZs3n3HGGRMnTkzn+gwGg6HHknKT8P333y8pKbnxxhsBLFy4cP78+ffee++UKVNWrFiRxuUZDAZDzyVlBD1r1qyqqqqHH3546tSpQ4YMmTVr1kMPPTR37tza2trXX389zas0GAyGHkjKCLqsrOyqq66aOnVqZWXl1q1bL7vsMiKaM2fOunXr0rk+g8Fg6LGkFGifz6eC6+XLl4fD4fHjxwMQQkgp07c6g8Fg6MHsX2aXYNq0aYsWLcrPz1+4cOGpp57q8/n27t27aNGiUaNGpXN9BoPB0GNJmYMuLy+fPXv2zp07c3Jy3njjjTFjxpSWltbU1DzzzDOzZs1K8yoNBoOhB/IFZXabNm0aOHBgbm4ugGXLlk2YMMF0EhoMBkN6MG52BoPB0E0xhv0Gg8HQTTGG/QaDwdBNMSkOg8Fg6KYYw36DwWDophjDfoPBYOimGMN+g8Fg6KYYw36DwWDophjDfoPBYOimpMxBv/POO59V5w0bNpx00kldvCSDwWAwAJ9jltTa2nr99deXlZV1tq/bsWOHZVlpWZjBYDD0dFJG0Ndcc83ixYv79eu3c+fOtra2sWPH+ny+jo6OZcuWpXN9BoPB0GNJmYMeMGDApZdeeuuttz711FP333//a6+9xsynnHLKBRdccMkll3TRalauXNne3t5FBz8grusKIYgonSdNtZLu8NcJM0spu8NKpJRE1B0+GsdxLMvqDis55L8k/fv3HzFixCFcQE8jZYqjrq5OWT+PHDly48aNAIjoiiuuuP3227tOoF977bWzzjqriw5+QFpbWwOBgM/nS+dJD0hHR0coFDrUq0AsFovH45mZmYd6IYjFYrZtC5Hyj7y00dTUlJWV1R1Wcsh/SV588UUj0OkkpUCXlpauXbv2vPPOKy0tra2t3b17d//+/f1+f3l5edetJisrK80ff1NTUygU8vv96TzpAWlra+sOshiNRqPRaHZ29qFeCCKRiM/n6w6xfF1dXa9evbrDSg75L8lLL710CM/eA0kZFJxzzjn33HPP7bffHgwGJ0yYcP3117/33nv33XffkCFD0rk+g8Fg6LGkjKBvuOGG3bt3qxGxDzzwwIwZMx599NFgMPjkk0+mcXkGg8HQc0kp0MFgcMmSJer2pEmTampqysrKhg0b9jk2pAaDwWA4iHxZN7usrKyZM2dmZWUZNzuDwWBIDykj6HHjxlVWVpaUlHS+s6ys7PTTT29tbT3gSxobGx944IF169b179//iiuuGDp06H5PqKioePjhh7du3VpQUHDBBRdMnz79X38DBoPBcKRyMN3s7rvvvnA4vGjRorfeeuvmm2/+/e9/37k6wnXdW2+9ddq0aVdfffXatWt/+ctfFhcX7/cFYDAYDIYEB83Nrrq6+oMPPvjDH/7Qq1evOXPmrFixYuXKlTNnzkw8Yd++fQ0NDXPnzs3NzT355JOffPLJzZs3G4E2GAyGVOwv0FOmTJkyZQqA9evX33fffV/ezW7nzp1FRUW9evVSP44YMWL79u2dn9CnT58+ffo8//zzZ5111vr162tra9U3gcFgMBgOSMoc9DvvvBOLxaqqqoqKiph56dKlmzdvPuOMMyZOnHjA5zc0NHQOt7OyshoaGjo/gYiuu+6666677vHHHwdw6aWXDhgwQD20adOmXbt2weuS+Nff1ZdHShmPx7vDYEbXddP83g9IPB6XUnaHlTiOw8zdoX8PQCwW6w4rOeS/JJ2t0wxpIKVAv//++6effvoZZ5zx8MMPL1y48Nprr83MzLzjjjuee+652bNnf/b5yjmh8z2u63b+saGh4fbbb//Rj340bdq0ioqKe+65p7S0dOzYsQA+/PDDN954A0C/fv0ikcjBeWdfDmaOxWKO46TzpAfEdd3u8D0hpWTmNH8KqVbiOE53cMBg5mg02h1W4roxZgl8mZVIZhAd5C8VI9BpJqVAX3vttbm5uRdffDGAxYsXX3bZZQ899NDcuXNvu+22Awp0bm5u5+qO1tbW3Nzczk947733+vbte/LJJwM45phjTj755JdfflkJ9Lx58+bNmwfg/vvvz8nJOTjv7MthWr33w7R6f5a6urqsrKyuWAkz1+1pEJbI7ZMjXVnxwba1r2+Ix5wZ86b0GVhQXbnv3efL1ixf8+3LAqMmRwIZMelsRryWuJUg2SpgzrA4AhGAKJAIWBQht4Lsvo5rQ9YJO5d9sy00SAqSPUyQw5RP/mOBr/9GbDulYhi6gpSXu6ys7O677546dWplZeXWrVuXLl1KRHPmzLnqqqsO+PxBgwbt3bu3paVFJTrKy8vnzJnT+Qn7RanMvF+IbYh2xGp312fnhbPywod6LYaDT311oxN1tq7b/txDKzau3NzS0CKZ1Z9NzCoqJkAyaMkNSxnwBXHSnIZ/v2lv35I4GOhgYmIwEUkJwS2CmYhclyWRj8DMEnBjewAQg12I+GpmYgkHkogEE5FFIjMuelu+EcI/WfjGstWfxJf7Pq6owIYNXXiBDJ8hpUD7fD71q7N8+fJwODx+/HgAQohUf+MUFhaOHj36scceu/TSS99+++26ujq12fjuu+8WFhaWlpZOnDjxkUceefHFF6dPn15RUfHPf/7zyiuv/HqLbq5r6WiJ5PfPs32HPrw6WDTXtf7mqj/kFGS3N7fP+8lZRx1beqhXZDhoSCl/e90f//7r5bEOnUFWySwCATp1QmBAAoIABgRxRoab3cup+Cij78AmsiBAxFqdfTaUVDPYIvgAZghBLGFZIDADBHKlPpEthCAAcKULbva5zW58C0WelWSRNdANzBP+oRSY8jmCgIoKzJyJA/31bOg6Un4e06ZNW7RoUX5+/sKFC0899VSfz7d3795FixYpD9IDct111/3qV7+6+OKL+/bte8stt6ga6iVLlsyYMaO0tLSwsPDnP//5I4888rvf/S4/P/+iiy464YQTvsaKP15Zvuz/ng9mBpvrmn/6p6tC4eAXv+ZwYHPZ1v5D+wUz/Nw/d/vHO41AHzG4jvvnO59+6lfPShcAlHQSwGAGk74HDCKlugAAIvQriU4/vbFwYIwZggEl6Ep7OSnxSteJmEFEcABL+bwLJhCBhSDoSB0WEQgus2WRlCC40q0WzlvALpAF/9QDv4fKSsyciR/8AF6ZliE9pBTou+66a/bs2eedd15OTs4TTzwBYMqUKTU1Nc8880yql2RnZ99444373fnggw8mbh9zzDH33HPPv7JcZv7rvX8fPGYQgIysYMWHlaOmHSG1ekQENjswRxqRtugt59xTtvwjySpGVlqsVJgIkGABAjo/CgLI4n6DorXV/qGjI5YFIp0GkSAhmCUJrdLqtfpfDBbqyETghO4jsa8omQkkQAS4YItAZAEOKJfdupSbj4WFuOMOLFiA++/vwotl+AwpBXrYsGFbtmzZtGnTwIED1XbfwoULJ0yY8DmdhOmBOm1hd4eyh4PF0RMHr3jk9Zz8rPbmjulnH3+ol2M4OKz44+trln+kwl72lLSTRrMAedGwCofZ5+PMLDl8fFufQbHS4R2Wrb62WQXLAixZya96iVJ0Je6kv+gTkTkgiCV7/9cQhPcKBtSQGJYxWKWQ9fAfuIIWADIysGBB11whw+fxeXuyfr9/zJgxiR/TPOvkgBDR3GvOfPyuvwvbcuLOkZQHCOdm3vj41XV7G7LzwhnZGYd6OYZ/lfqqxrWvf/zK0jehsxOJ/ybyE5pEzCEsJsEzvt0w9bSmgr5OVl68V29HVcoxVAoDIKW4BAaIpGQQCb19CABq0xGSCGACsxZzIkhVo8ckiKUEg4TIReZlZBexKCD/5P3fg+uiG1TR9GQOv6KZSHvMF/LZtuW6rhs/oupAfAFf0aBCAPVVjUJQr8K0VhwaDhYsefULHzzwo9+2tkSi7VFVo0Gdkhuk5VpJKbyQVwDIyXMHDokd/80WAJYtQSorTcRwwRaIGWq7j4mZSQgt3MzE0A8l/8j0UiAEdlyQSo/AC6UJzA5lXgYSB0huVFTgzDPx4osYOLDrr5nhwBxmAs3Mz/5meenoYgDtzR1b124fc+LIg3NkyQf8LU0zzPzW3959++nVYMw494QTvj2xO/RHGL4S697ceP8Pf1u9Y58OaXV2QjWYkL5Pp4bZSz0TwJbNvoDcVRGsr/L1HhATRCBIBgCX2Ur+JnjZEpEUeCHA+hxeappB5MXaINuClDo/wpIgAPaRsMj9BPZnNnIqK3HyybjkEqPOh5ZD3736VWHJ6m85J+5YB6PMrmZ77c/PuvvW8xa+8eQq1znEIXnt7vqV/1jTb0hRv6OK3njyncaa5kO7HsNXZU9F1QM/XlKzfR8YDJU+VskGHfjCq9PwHiIAlg3LRjjbnfqtJiImm4kgdb0dEUFtCUpAJvMjnhQTM1iy2m+EznHr/Rlvq5Dgsi7p4GQw75f+2RzfvP972LoV06fj0ktx001deq0MX8hhFkET0YKfn/un254KhHwTvzl26PjB//oxH7r2j4PHlgghPnxlXeHA/OGT97exTifSlZYXyAshpOnlOUyItkfLVqxtrm/98x1P7d1andRQ74bOVCAhrzrdIYHiIbHcwnikTWTlOfXV9owzm3L7xCXYImJAxSPCq8ogASl1xoQAZkiXhFCF0ImjEwB1BBVss9T11ULvLhKLPNijhVVA9JkoJy8PN9+M732vKy+Y4UuRUqDnzJmzYMGCM844IxAIpHNBX8iQcYN+8uiVkbZoVn74X/evYWYSpI4TyAy0t3QcjDV+fQoHFkz45tiyFWuZefLp4/P65n7xawyHGmZ+9sEVH732caQ1UrWthnWOgb3YWauzerLe3fOaB/sPiv58ybaMLDeYIZ04WRZn57q6XVClm4nBkAxBpLIkInFoVk8EAMlkeTltJfyWF7FDH8fbK2QLIkwAoYmdzZT5mfKMXr2MOncTUgp0VVXV3Llze/Xqdd555y1YsGDq1KndJxkayAgEMg7O1wYRnbxgxpoXP8rIClZV1haPGHBQDvs5SCnXvrahvqoxkOE/9hujM7JCn1qPoBPPnzJ88lAi6jOod/e55oZUbN+wa82LH/7l7qcDQX/NjlqW0ssAw9sJVB0on9q6g1fAHMyQe7YFeg+I5veJk+XlkYlcCUFwJZOu0tBbjYkAXEom0geRzEJApZzBSrkJrH97XBfCgjoCYAkCuBlWP4SvJN9UJCJo9mqmDd2GlAK9atWqioqKP//5z0uXLn3ooYdKS0vnz58/f/78o48+Op3rSwOTThtXNKiwral94LB++f3yuvp0n6zZ+upf3srvlxdtj7pxd8a5+7dTCiH6Du7T1cswHBS2fLDtqYXP1u6pb2/qaN7XwlJXwHmJXwBCN54kdu5AgBQkLFtmZrvZuc5ff9P71kcqIQDWxc5gFkTwEtAsQQKSVYMg1EOqFloSBMEi0sqeOL2O2JmZhKXjdxIWiaB0WdjZ0p4s3Hrye+pcUYG5c/HPf6KP+d3rRnxeimDIkCE/+9nPNmzY8MEHH8ydO/eRRx4ZNmzY8ccf/8ADD9TW1qZtiV2NsMTQ8YPHnTQqDeoMoH5vQ3ZBNoBARuDVv7ydhjMauo5dn+zpU9o7GokL21I2NclebAAAw0WipE6FsGAiEcxwhx3bPmh4pKHW5w8gEHaESjKr8opEPoTUriCpKjoVjLuqSdyLyaXXrqXUWaqYnaAqowUprWcCsbSZs8nXH74ThN2PIy/pdamajbPOMurc3fjiHK7ruk1NTZFIRP3+VVdXX3PNNQMHDvzFL37R9cs7AiksLqivamRwW3P7N75rxuYe3mTmZDbVt9Ttrou2doBZJmvpvBAWFnuFdMqFw/Jh4knNw49t7zco1m9QtKAwfvYPqiwLkpX3EQDt06H+rVMVxBapxhMIL1vCzILAkqTKNCdCd/0TgQikHiUGw8ojKx8clfH17Gyi0LcAQkWFqdnotqRMccTj8VdeeeWpp556+umn9+3bd/TRR1988cXnnnvu2LFjGxoa7rzzzptuuunCCy8cMmRIOpd7BDBk3KDTv39y1bbqcG547MxjDvVyDF+HaHv0g5fXtbdEAhn+purm2l11qp2aYMHrslYarcvovHjXH5Dzr60++bz67RuDzz6azyxO/7faCSe2qqIMyWo/kRN7Dzr0BZSJJBFcSEvFVcTMJCVIQBBchgW4KtImqMOoM5PSakBaQ9nuTRQirodTjcBJABAO44YbcMUVh+JCGr6AlAJdWFjY2Ng4fPjwyy+//Nxzz+3c852bm/vzn//8nnvuqaioMAL9VSGikSccPfKEIy2V30PYt7N2R/med58pq9ywq2Fv476dtfGYo1IRSAS2ye7tRB5CZ5/7D44MHtEeDMpx01pGTGhjpoxsV1XcSeiSDAkSpJMYrJu4oZpWmGEJ0oV3TAydvpCSLCLJrGo0XQmLVEiuI2hiImLBVRzbTsETmQaTFScKAUCfPkaduy0pBfrHP/7x3LlzR48efcBHQ6HQrl27+piMlaEnsXvz3od/8qdYe2ztmxvhymg0LpQbho6XOVGewclkdLIuIpTpHj2uPZgpM7NcCYTCUj2mm1gZpAJh1ROoauNYVTRDINm3DWbhdb2wJ+u6X9Er8pCqg4UgmS0SYGYWZPUnYo5/ApGNzB+l78IZvi4HFuiOjo4pU6b069cv1cuEEP379++yVRkMhwaWvH3jrmh7tHjEgP2sxp2488yDKzaXbavdVecLWNFonKDUWduEAsSQXuUbd3atU/Vrg0ZEsvOcSJvVaReRXAlLQKraOlLWowyQzjgn/Or0+piha+mUBAtiEEsdUOsXW56xkuuSsPwgm0GgANtHsWwVmd+gnb1x2qV47jnkpWNj3PC1OfAmYSAQuPTSS5cvX57m1RgMh5Y3//busl89t+IPr905/1f7dS2te2PTh6+sq69uIKJYe1x1iUBv5kFpo9CinMhv6Pyv7eNwjlvQL1a1PVA8LCIESBCBmLSHBimrJCYpWTIBLFVdMnttJrpWj4TKRLMugpasyu88ddbV19oOWlgBQLDIpcBxlDkPzjYRmI49/TH7dJx2mlHn7s+BBVoIcdVVV/36178+tDPeDYa0IV351rLVv/6v37c0tAUzg70HFuwq35N4lCX/8ZbHWxpa3ajjOI7ultbGcOjUPoLOXYIAGGxbPH5m43X37zh9Qd0Vv9hdNCAG6C5A9jYT9VFIFchB/UdrMRhQ7qAsWe9FiuQuIiWzKHopLJml8hUlJt8oyvgPDpwGZzuRjZ0RmjUbl1xiajYOC1LmoLOzs6WUQ4cOnT17dlFRUeemalNgZzjyKH9vy5p/fpgRDjVUNYI5Ky/sDyVnvVeu31lf1bRvR53UvSRKmrX/hapd7tScojMeBLb9fPYP9s25rDavd5wssNupvkLnJsCcTIMkHBVZggSDdRchCZ210DEyqzZB8tz6dfZZVzyDSVhEuZwxX4TmAA63/hrWYACIPMX/9SP68dXpuaqGf5HPG3kFwLKsV155Zb+HjEAbDnecuFv+3pa2xrbiEQOKSgsBNO5rzsrLHD1jxNo3N+7dWnPudWdalqhYuz3eEYvK6LK7n2/c1+jz+2KRGLxU76enSSVvJ+z0LQuFA2LjprbuqfRnZLrBTAkraT8KAlkgqQNn6JmCgJrsrfRXhce6SwUQDCb2LOzU6CpmkoBy5peSiFgIYvKzlS98R0P0ZrcS8L5sivPoR5el6zIb/lVSCvS2bdvSuQ6DIZ2sembNB6+sD2UGlv/hte/fvaBPSe9+Q4pef2Jln5LCY04YXrFu26p/rFny06WuKzN7ZdiWBXA85rqu9BIbSKR82RsqCG9LMFFuRxYHQzIWJZbCH5RJLzsGgyCVkLMgFf+SKq0TlMw8KkcOCRZElDg1eX5JDJCeGCuszs55RFYJArM5thoIkH8ycw1LAjsi8A1QdtdfYMPB4au5wW3YsOGkk07qoqUYDOmBmV9+7M2cgix/yF9YXLDrk70ASkYOOP+/5xx17KDS0QNHHnf0xnc3S5fduNu8r6W+qqGuqsmJOm7cYW++XyIVkZBpz7KOiCAsZPZyBwyO1lX7YlExYlKbSJp6JlPGXhI7cR8TMat/OvVwK6sNLevQe4MApJdYIUmcyIiDiVlawwAwwsRN2LpLnL2JnNMp82IOnNq1F9dwUEkZQbe2tl5//fVlZWWqw1uxY8cOy8woMxzmqFhUuq6wrI6WSFZuprq/dHRx6ejidW9u3FW+y4m5n3oFIF3JXkUyPAdRBguVd9AFFyAgO88pGRpp2Oc7ZmJ78fCOUce3hjKlHi0oVdmGauFGIrchtVMzMXQWRJ2ViCWTAISAupFwHHVZF42oWFoVU7NkSbAoW6ABGAC5j3eV0uyTcckllHdcei+z4SCQMoK+5pprFi9e3K9fv507d7a1tY0dO9bn83V0dCxbtiyd6zMYuoIr7//egKP7bVu3Y/Lp4/cbPTx4dDHZtrCE6yZ8jnSMQtr1nj27i8SGIXmjUtiyueTojuJhkQkzmo85vnXO92oL+jiJ3T2lzvo7gtQ8V9Xnx7o/m/QTVAcKWNfVMau0MwjM2lLUy04LsKqbZgaERQIiTNYgso8StVNo9lWmZuPwJWUE/dxzz11//fW33nrrU089df/99//mN79h5lNOOWXt2rUTJkxI5xINhoNOQf+8kxecePKCEz/70GN3LHvx9684juPdwV5OWHcGqvpjfHq6oN7zs2Veb+fYaW0nnd1AxMJO5D3AIFJeSoJcl22LdNJYkk5TKHNRb4+RvE5E7dYPMJMr2RIk1C6i+oZQbd96Hao8xMf2YPZNoeA3ENuIH/0IV5uajcOVlBF0XV3dqFGjAIwcOXLjxo0AiOiKK65YtGhR+lZnMKQXJ+7+87crguGQyu968pp099SpYHgmSN6jAAnBgRAf/83mcdNbXAd5hU5hv5hIdP0BiSyHLYglWA0ZBEiopkGmhNU+SLrKZaOTK7+EJbQjR6IhBUSeJSmYQiQK2XcsIQTfaAAYMcKo82FNSoEuLS1du3atulFbW7t7924Afr+/vLw8faszGLqYWCT+9rLVt5xz7xtPrupojbQ2tjlxGWlq14mITk4a8Bw2ErUY8G4QYPt47LTWvD7xKac15eTF+xbHgiGpQlqXYVsg1iUZQkByUt4l6coNr5aZWELq9EZiiCFLQAi1D6g8+wGGBSQS2QQi+xgETrUC0ynnLrIK03QFDV1JyhTHOeecc/fdd4dCoRtuuGHChAnXX3/9lVdeed999xn7OsORwb5ddVve37Zt3fba3Q2lo4s3vfuJZYtYR6xkRP/yNRX41ACozvkGok91o7CwEMp0L/np3jWvZucXOtGIyMl3Lb9q2CYohzkGCFbnFkNvR1HoZ8HLbivvuqRdhzoOKRcOYqHT1KRGtahdRCJi+AURy2pUTaerL8Bf/4pQaP/3bDjcSCnQN9xww+7du9etWwfggQcemDFjxqOPPhoMBp988sk0Ls9g6BJaG9oWX7Wk/9C+let3Cp/I6Z0VzAxG2qKv/PnNXRXV7JlrdOoPTKQ1kh2DKpQXZXIAACAASURBVHw+5/KaUy+s84dw5sV1zBBePli1chORy8lXKoToFIQDgiFJKlnWlnTKYhQMqEGxuoIuWTGt2hGV/qslib4cOBe7GKf8Gy651KjzkUFKgQ4Gg0uWLFG3J02aVFNTU1ZWNmzYsL59+6ZrbYaDT0t964evro9F4sXD+w+dMPhQL+eQUb19X25RbiwaB1HFB5VFg/rs21Ebj8bL39vaWt+SmIfSaUyrCoP1lqD0rIsAHnFsO0C27eqhrszMlNy1Y8/D38NLU5Du6mZIr/lblYboujqCBAEQrGuvSeWy1XcAPBtSEZLUD7BE+FJUvESnL+XvDqUbr0vr1TR0GSkFej+ysrJmzpzZlSsxpIN3nyvbvmGXHbDfe+GDi245v9+Qnujo3dbULpmrt1Xv21lnB+yW+raX//RmMMP/4cvrWprbPZM43WqdyDJ7e4SAt3Vj+3nEhPYXn8j72cOVKrNsJcxGvRSFJ/CJvj9VAkIqaeK5iRIJpc4EwLZ0DloAUnpuz4DLxAS7c56EbOYIoUpknM2x11Af4h/M4B8dS85W+MywniOBlALtOM6f/vSn9evXq2rQzvzv//5vF6/K0CW4jrvyH+8NOqYYQE5hdt3uuh4o0B+/vWnZ/z3vD/oDGYF43GEwCbQ0tLTUg1lVrclE3ZqEFPo2e5LNAAUzZdHA2PGzm0lw4z6fZbNlMzEx6QlTOoEtIdUULBULE1jqdIl6Hmm1hsuwCDIRJgNSMoFcsE2kKp+F0EUeUsKyAApJ9guRCUgZ/YSsbIwfgvHFcKtB/s+9BobDhpQCffnlly9ZsiQcDg8aNCiN6zF0IZZtTf3OcdvW7/AFfY01zQUD8g/1itKN67hPLny2dHQxgI2rPjnq2MErn17tOpLd/f1CAZJwhS6UACWzFATCuGltzXVWR0T4ffLk8+pVTlmVRksJIUAE14VlQXAi28ys3fyVdpOu4FNhNSdLO1QmWqhCDZnMVrPUXeaWgCstFlkWHAKYJZxNyHqI238L8onAN9ka/KnqE8NhS0qB/tvf/nbRRRc9+OCDwWAw1XMMhx2TT58QzAxG2qNTvj2p7+AeFz4zQ0q5e0tVrCPqC/nduCNsKxaNJQo2PDEkQAoIL7+hvec8LyQ+94rqPdsDlZuCY05oGzaujUjnpolgWWBVZCEo2coC1S/ouYmqyJrAUs2lIpDy3VftLLB0qppsz8ZODaCVUk8/FOSyPZLdj7lSitu20JIfwz8OvnvBMYhso85HDCkFOhwOn3/++UadjzDCuZlTz+q5ngy2zxo0cuBby1YHMvx1e+qPOrbUiTmcqDYG0Knxz/sRgBe6Whh2bNu3L65ta7YGj2zPyHInfqPZErrrmpIOc6TKLJTpkSRpQSS2EAEwkXa0ITATkTYaJS8T4oXWyvb5U8MGvV5Dwc7Hou4kmvsbXnAS8q4GQBQEmf9hjyhSNqqcffbZTzzxRDqXYjCkgR2bdk86dVzpmGIhaPP72+LxeMJTLiGMSV86bYFEDCbiUy6o/7frqhyH4y5VbQ/2HxRTA6uQKMJIJjSU6ScTwSahLDc44Y9EAFh6zTCslZhd3UvOeo/SS4iwlxhRQTQITJm0q5FOW8SXXkY33wl3F/CpvSJ293Ljf8iGH3JkxX4PGQ4jUkbQ99xzz5AhQyZNmjRlyhS/37/fQ12/MIOhS5gx9/j1b5evefGjhuomltIbbqIq3Mjr3UtkMyhRiHHM8W31VXbJ0R3DxsmWNiu/IO7zqS1F7ZwhmbRNhm42SbSeQELFzKowWi2EEt0vzNpR2tLJlGTfN4FUWkOo/IaAIHJhWbCwJ5v/LYz/HsNtf2BABCYheAbgmU22/IKto4kER9+E1Yd8Y9J9oQ0Hg5QC/dOf/nTXrl0NDQ2tra37PWQE2nD4Mum0Y1c99357Uxu7yqOOE5tzXjcKd+rw1vqdnecMH9fe0mjv3eEffEwkv7djWSryhbdDSASw642wEmD2MhRMqplbuiwswNNcsC6kA5H0ijpUgCxIV9opyVbqLwSYhSRb+I9l2UjHt2DW9zm2lqz+BMjoO8I3CVY/QNvakfL+EBnELem+yoaDREqBXrp06YIFCx588MGQaUkyHIbEOmJ/vPXJ5X94tXRUMYhOuXjm5NPHZ2RnvLns3dcef9t1ZEKDO/Veq1wHcafjKO0OhmS0Q7BETr6bEZasuktUssLzN1IjulX4rLRYtWODwFJKV5AQKlBXeQz1TGYIMAlihvS6tpP20KzHfiutZauAQ5dbdm+WDWyPEXYRWj7wVh9n+HTGnAih78jImxCZ5O6BVdqll9rQdaQU6La2tnnz5hl1/trU7KjduWl3ODfzqGNLLdtMOUg3/1zy6rvPlWXlZVVu2Nm7f/7aNzZ8sqaiYEDeH295UjpuMsOrtwRVIV3njUFdguEP8shJLa1NvvIPM+ZfUzVwSJQlJLHQHndMqlpD+e57WWxhqRHcymwOQghiMINY+eoDTJJZEJFAIrFBIFZZEKE3GL18NDEIsOXO6b77X8XDD5Nt69UHvy07nmQZp4xzyeqdfP+BWSQKIZtgD1FhteFwJKVAT58+/W9/+9u3vvWtdK7Gdd1oNJrOM0op4/F4YszcwWLfzrrf/WRpn5KC9tbIhNljjj/zix200//eD0g8HpdSdoeVOI7DzJ3HyX8hTfua/3bf8x++tP6oCaUgBDIDzbUtrfVtdXsad5TvKSopaGlsa21uR9IFCYnyDe4UO1My74GZcxpmfqcxmOkGQzxoREQCIAhdygxLaBd9Un0olChqJhKexnPnvAmB4SppJmI1Btab0e3tGmp/Owa8nLUAZfIuxz57ifNvV7iui0T7mBxiue2gTHT8NcpHQ3Q2sRsOAA7gHLRPs/N8JUMaSCnQ06ZNu+WWW8rLy48//njb/tTT7rzzzi5ajRAizSO1iKgrTrpnc1XRoN6BjEAwM/jq0renzvniyjYi6g7jxFzX7T4rsSzrywi0lHLrR9sbqhrffvq98jVb6/fU791WLV1p2xSLOrGIw4T2pvat63YIS4CTjX6JNm6vtI4T9vyq3pkIF15V01BrDRoe9QUkCdYbf2qotjeHOzlURTITqelT5O08Qg/g9r4KCHbCh4kgmVUWmwjKk0N6pkieoQckS9oVsc7aGp9/Id1006c+G+cDskeAbLBryQ/g69qIijp/tRm6npQCvWTJkoEDB1ZVVT399NP7PdR1Ak1E+30ZdDVKjA76SbPzsqLtsVA45LoSwJc5vhAize/9gLiu6zhOd1iJ4ziWZX2Zr4q1r29Y8cfXcwqy3vn7mqxembZtxSOxQCgQaY/GIg6pemSAmF1Hwpsr6KUl4HWpqMyGfqjk6MiJ32kMhd2ONho+vl1YSTkXTFIyiISgxKwTACR0AkMdQsIrB4Ha34Oe/82QpLMiYM+gzivS0EG31NqtEiQMIcrb5UVHxX9ye8Z+H41DUtp6P9Ai6uIPzgh0mkn5cW7evDmd6zjCGDphcN2ehpf+9AYz//BXlxzq5Rzh7N5S1drY/vHK8tyinMbqRgbFo/FIe4ylUkXPWRnwVDYxJyXZQJjouga4V4H73/dvtywOZnBRSZQlIJi08yekipsTRvteOsJ14QmxzlMoBdfldACgjetUK4rUKWbSZXWqWpohhOf7IQhsMUjYRZjt8LcvYcre/837jqHIi0y54AYKfrurL7UhzRz6QOmIxLKtqWcd15N79tLJ7i179+2syy3Mqd/bkF2QE8zwb/molaX8dH+2Qm+tqTspqcxg78bIye1TZzcV9o9X7/K3NKJPCYSl7D69ti6dLlYTuFmqFyrZ9XxEPZs677nQ02G9vkD9BMdV3nUsAFfV3hFYklfxJ6QIA1GSHQARBQ7w5q1SZP+C3CqyiiB6deVlNhwCjJvdkUZTbfPuzVVZuZkDhvXrIX+QDjiqaPfmPRve/qS9pSM7L9xY20wkmFib23eyCf305UhsCZLnS0SjJrde/D9VfYqj4V7xUNiJRSzL0vb58Hq1JTMJQVBn6NRvIrXsqgq8RCUde/uDwluN9IRbqEkpTBAQAgwmIiI4HLAok3f1Fg/X820jyAKLgRxdicCcz759Er2MNB+pGDe7I4r6vQ33X/m73gPyOlojM86dMunUcYd6RQeHaEds46pP2praBx0zsP/Q/UdGDBpd8tEbG0EUzAo6jtvW0CZl0saZP1U2l6itI2hRTSQ3RF7v2MRZzaUjOshidoU/wLbPhSSmRNICDLJ0qOwdnEmoGgzBKt3hZS2gS+sEPMcNZT2nvzYlkeW5d6i1CRBgSYYVnEV7imjub3DRKewfBJFFLMl/PEwNRQ/DuNkdUVR+vLNocGEoMxjODT//8EtHjECvembNxyvLAxn+1/7y9vfvXlBYXKDub65rqVy/M9IeKR7e7/0Va+FyXW0jMXcymUnmN/b7a4IhPXc5nZgeN7010iaCmbKt2QpmOGAIwYmaPAm2VM5EOUbrkVNEgMqmqOBXhc5KviUAYpaq7VudKXEDlpLyRMpa/yOJLK6sEXOewqWX843XUWQ5R18hjiHjfES64uoaui/Gze6IIhDyxyNOKBPMzPIgF3cfKqSUrz+xctCoYgAFA/L2VFQpgW5paF34/d/0Kem98h9rSkcX9ynpvXFVOXQhMuDtwyXUOmGB1PngXpM38vvEhh3bPvXUJgJ6FTjQ9cvkZS0gQA6zEBJSCEKiHVwC5Amw3gz0phGq7IdOTqunAiRYMgTrLUdVp+dKkhKWABFL6zjrQ+L5JXzDZQRBoe8geCrgJyKgrYsvtqF7kVKglZtdmhtVDP8iwyYdVb1938p/rIlH45ffc9GhXs7BQQghXXYdadmirbE9pyA70hb98NX1G1aWN+9r9gV9ti22rdvhxuJ2wO9E41LZEwFe8NspPE0mPYg6WzkSRp/QdsxxbTm9HcuXtKRzJSyvKpoAW5CUIOiSOO2upDIXav+PSDX+KTMNoSNslaLWjeTqrsQ3g64J0RNVhABbdg7mHsUxQc03gjKQMZ/8k9N1sQ3dC+Nmd0Rh++1ZF06fOuc4f9DvDSU9Evjx4ss+fPXjN59854wrvjlo1MA3n1z18cryd/7+XktDW3tbpKMtKl3Z0dLBrgRY2VbAyz4nNJo63ZlQS/WQEDj1gnoA/gADcFztu995JqHa2SNBklk1EFJi2ja8Ydudaqp1qQarbhYGSM0t1KXRRGC4Uh2KCSQFWwTAljIm3DpytyD0HcDHHX8m3wh8tsDO0AMwbnZHIIGMA9VjHc7k9c2ddeG0WRdOUz+++pe3C4sLQjkZdtBuqW0RFh33rQlv/nUVSLitLpIbg+h82wuc0WlWNwGw/DxrTuOICW2WTz9LdXsQkSO1fWdyoAlgEbn8qVxJIkomneXgZBs3CIAjyRJgQHWGq+YUIghP2UnArpT4cwtuOpMC4yF6MdoIakE+yAhZRqB7IsbNznD4ceJ5Uzas+sSJOf6gv2hQ4eb3t733/AexSCwWiycTCUnZTNrUoZM6CwEh2B+UfUpis86uZ8DyuQQ1+FXJMduqV1A19QHaqVmHyczePBSp3Z+hZnBLqFGwqkSESA1+hcpNQxnwM0FKbdIhBLAjTufu4QvypMgj/0wii2Qr3O3MTP5pxE0cWQ0KE0YCmYfsuhvSjnGzMxx+HHfasT6/LQirnn1/w8pPsnIzq7bXevqnA9lOTSjJGomEPUYgCJ9f+vzIyo2PnNg6YkJ7RlgC5LKuVpYSALmuykGrgmUws1DJDQAASwiCKylZC6K6VwQp2yNBeqdRqhJn6O5yZlikwnJIBu+MW+fs4XnZfE1/Cp6B+HqOrwFH4TuG/FOYMrn1l7AGARHh1gDnHYIrbjhEpHSiUW526VyKwfAlaWtuj0VidXsaR049mhmO44LZs4JLxM3Uaf4UkExrgAjBDHfqtxp/srjyx3ftmnvFvlBYSom4y8SQzACE2kYkZh0qA4AlSErPVAlEBLdTm7hCdXuTt3sIguREn6F2VNJ+/Hr6CsQb7fKCLFyTJ/3fEsSIv09WEdkliK8le4DgaogCIkGUYbuvM8fSdZkNh57u5WZnMHwh7z5b9tjtT9bvaWxtbs/Mzoi0R6LtEXyqY5AY0hsqmOwhTGzghbPcK36x64TZLQQOhiUEICHIS1MwpISl9/p0pZw+tzI8Ii/bwWR5sTq8Ug/lowSvYhrEKtMsVaCtXEh13Z0eBC4vzAYrx/5dbuP1wtcPVm+orUV3l4x+iPjH8A1lymGOE31qx95wZNO93OwMhgPSUNO45p9rC/rlDjtuyD3fW9zRHHHjrivdWEcsEPRF2iKdzY4Y6PynoS439oyQSCC/KF46LBLIcG1b29lBgJWHnEpoqI4SYmLqNP4KEmyRFwZ7nd8JxyVlfgSv+0XqhkJtjeRKz80uUT1CIMBhsskCSUnFgtvJV8KyEbG1sLJF8Dvcej/ZQ9ku4fgGkXFehM71peeKG7oHxs3O0N2p2VF77Uk3N9U1x6NuXlFOW2NbPOYo3XRiTizqeCNNAG8zUGejPeP7hMQKC5lZ7uRvNod7SekQW4m8NACtvIKE55VBrEc5EHTugqTObuiCEFf3E3q6q/YMmZlhCXIZllJqAWERu8TEuoy60hHPtsofD6TQXBBJBCj6IpENuLAHU+BEBGYDMY78kyDI6sew4ZvIMj9tl93QHTBudobuzouPvNra2JoRDrW57ft21bGbHOqqsg+SO7cI8mfcRAngcI7jC3B7mwhluaFM17KlL6AK3JKinjimzhErN1GQBCyvDlqqFm11IiYBkZjMrRLgXoJDJ7IZnm0SkPgeod1x6/w9cl42QVoZ34ZvtMXNoJgbWUH2cCIf+UZD9GKOE7cCUWZB3ACrT/ouuqF7kFKgc3NzUz3U0NDQNYsxdBWxSLz8vS3R9ujgMSV5fVN+st2Qmh21bQ2tYDhxV/WvC9ty444nzsnUBuvukGQJBwESUoCCmXLy7ObK8uCkUR0nn9PQpySWV+ioNIbSdpYAMSnvfMCVEMITfWLB5GqDOli6WIQsz2lJeNlq5UEK6OyF8qJW3yVSDf9W1Xk749bZe+T5Wbi6D4u+cDezyCOrP8LXkn8GcRNZJbCHAyDycfZtiL0vSMI3H5RpWr17GikF+rbbbuv8Y0NDwwsvvLB69eo77rij61dlOMi8+dSqje9u9gfs5x566T8f/EFOQfftepCudF3p89uu477++Kr3l38EINIeZRlxHNf22zKmZpWAvJo5kbCo03cq0ZaAEKCSodG+g6KxDrHguupx05qDQVZJYVZdfp0C70QQLXTttEozE/Qpko2FiZZEAuKSbeEtQFXRqZlXLMECQptyuFJLOT3fJudl0zW9IXqxPUzGt6HjFcr6b1iFIjB1v6tBIg/Bk7vwchu6NykF+oc//OF+9/zsZz+78MILf/3rX19zzTVfaZSn4dASbY++88ya4uH9AeT3z9tbUd1tBXrTu5sfv+tpsmjm+dPqq+ufvOfZQIZ/8JiSvKJevfvn7a6obqhpgnZQToqyrqpLxtReugEcypTfv3mP3y+PGtOekS11YYfnl09Eaow2gy0ilxnsuTirfj8kj9hJwL3UiVTNgaStSNViVLAMkBDsjXORzNq7jgiX5xJlsT0GwifsIcwSaOOWW5lCIvN78B0hBoSGg8JX09mLL75427ZttbW1XbQaQ1fgC/riUT25vKM1Es4NH+oVHZhoR+zxe/5ROqZk0DHFLzz88sZVnwQzA9n5WSv/saZ2d3152daG6iavTzCxDZiMf6FTxJQoqyBCVq5TvdOfne9kZEsVccuEawaDE+0j3uhsS4CJhSAhSAJglsQApNSJZqXMrDWeAbbUT154LYQ+mpT68EyqLDoghCCRwSJXij7gJul2MEvienZ2wB5M9lDZ+jCzk85rbujmfDWBXrt2bTgcLiws/OKnGroNQogf3L1g29odW9dWzpo3tf/QokO9ogMT64j5g7qKzPIRS5SOKtm6dkcsEgNRPBb38hEqWBXaQF8Xaei9QdVEDQBgy0Z7i7V1QzCvd1wFtdoHA8zepp+X5fD0miFIl2ronAZDSggCMwuQhBbnRKJZ7f0xQUqdM1E93Hq8FYNdUGUcjzRA5LnWeNgTwDHIduE7SvgGcXwr2SNBYQAkbMAItCFJyhTHr371q/3u2bRp02OPPTZ9+vQuXpLh4NN/aN+bl113qFfxBYRzM4877diPXl2/65O9G1dv8fktf8AXae0AIF3ZqVWbRNI7VAfQiWoN9pQz3EvmFcSZMf3Mpux8x7PFgGQIKFPQRMMhyButrQ8DuCwtEpJhgbwqaWIBksrHWTdz69nbysdOsHQIthZuAoSAy7D2OHTeHp6XLTN+bFGQ2xcLq5C5ibiFreEi72FuuhqyFohR8AyQcWA3JEkp0DfffPN+9wghJk+evHjx4q5dkaGnQkQnnjelobppzfKPhk0cvGPDLstvh8LBtpYOKdmzOuq0p6dfJ1UlnPAqNwCUjujIzHKLh0ZOuaD+6LHtaoyrqpbzLJgBECvJlZDMQkDNMQSTIJYkVA8Lk05eCIIawS1YN79AbR56yW+WRBaI9aBu1RFOO+N0zm45Lxf/fYzIOB/cgMjjEHkkhjIgSIJClPO/cCtBQXbrKPIMwyb/CWbMoAGfI9Cmls6Qit2b925btyOYGThm6vBQ+KtFfMzc3twRCPlt/6d+99pbOta9sbG9pcN1nFA4aNmWEMSSHcdFstX6U63b0MO5EzNTCAAJDobk6Mmt9TW+jCy336CYZSkBZaG99ZPqrsaaqA4Ub2ORtPkGtMUo63BYmR+RhLb6J4KEynt4bYdqSQxLqOw2u0y+J1p4XjauLhRZPwEJUD4yr+CO5wgO3HpYQwCAgrCHs7MVHX9hayBzDByl0IHmw6ID7Bpv6J7D5zWqxGKx+vr6oqIiZl66dOnmzZvPOOOMiRMnpm1xhm5I7e763//sz/2G9o13xJtqW77x3a+Q8opH4y/87tW3/rYKwOW/vGjI2EGJh1Y9U7b5g22BkG/T6s2hcGjP5qpoJB5rbIMQnQqcdVTaOZpODLIi4mCGdB24EoEM9gfl9DObcvIcpeid7TLUz1pQVTmcPiJLVsUX2oLD8zvS2ejE9qP+lpAgIlfqbwsSOqMNfS6yiXBtPiMIkSkjb4vAKQDINxqUR1YYohjU6X9AWQORB4DIz9GXKHQmtBm1R+wdX+RP7PgpeBoCs5N/QhiOXFJuEr7//vslJSU33ngjgIULF86fP//ee++dMmXKihUr0rg8Q7ejurImr1+ubVuhrODKv78Xj8a//Gvff2ndk7/8R6Qt2trY+r+XP6ju7GiNvPaXt39z7R8+fmvj1o92gFGzo6alqU1KCYaMu50rNdTeIBKOcgAgVILBF5SBDC4qjp00p6GgKHrOFfuGH9vOXiCsDiK1eQZkIt2sKjMYyoqDCK4k6bLe31MnUgoNUsXVYLBklqS7yAlEysQDBBIiaZ7EIMk2iVzAT9Fl7Gzn6BvcfDs6HuPYuv0uDln94O4DGBwRwVP2V2du446/sBgMq1RGXmFn55e/7IbDl5QR9LXXXpubm3vxxRcDWLx48WWXXfbQQw/NnTv3tttumz17dvoWaOhm5PTOaW1oC+dkuo7rxB1f4Ivde+IxZ+1rHzfua/7g5XWBDJ8vYPsC9p4te5sbWgLBwIevrP941aZYJF7x4fbMXjUt9a22345H45As4fVRA4n8cmKYVKdmbg4EZVFJrLB/9JwrakdPbhMWCwtSavNPQE/aVoOmIEEk9d6fbsBmqbw1GDYBgpInALnszY4FCxCRNrRTayOAmUSifBpAZRxrIpibBQoSR1m2ETokMhBfK2IvwR4CgGPvCd9I2EOTl8kqRub34W4hysBnhhAyx8Fasgk28BW+Fw2HLykFuqys7O677546dWplZeXWrVuXLl1KRHPmzLnqqqvSuT5Dd2PA0X1Pu3TW3371/PRzJn/7P079Mi/56NX1q54ta2/u+ODldc31rdH2eCgcDIVD9//H76TjFo8cULurXhCFsgIdzR2uw248yt7uHIDOzSLJ3j7vdjBTDh0dGXlc26RvNA0eEcnMclWpG3mztrVhkrebJ5ktaKX2UtpMUJ6jrByOyLPjUOe2CDGHfXYitZKIyJXoK3M7b9B3ZUycvYcvymYSJAqIayVLoiwiG7I+YV1KRJ3ncinINwK+EQe+iJSD4Deo/XV2A+QfT1bxV/nQDIcrKQXa5/OphNry5cvD4fD48eOh5itLmb7VGbolo2eMHD1j5Jd/flNtS2ZO5oevrO83pCivb6Rub0NmdkavPtkMHjii//o3N7a1dMQ6ogBJ12UpocSLKZFl9o5EiZScusv28U8Xba+t8Y0/sSW/MO4LeQlnVYMBT8XVCCtmAlk6YtZOz/Cs95U7KOlhgywlgbwNQMDv8wqwEz3hrBtSdB21+t9id9w6d6/8bjb+M5dhCW5gexIhwiAWgyi2mjLOReRZhk3+48ke/OWvIREheJoTL/WFbLZKQcZ2tEfweYb9ixYtys/PX7hw4amnnurz+fbu3bto0aJRo0alc32GI4CcgqyW+mYA0Y5o8YgBpWMHrfnnB1s+bAA4mBkcO3NUxUeVUjLA8ZhLglhyp4pkdUPliTmxSahi4tJjOiIxUTws0ndgTGWnieBlMpS1p04gu9ILWgkCkEyJHT0CKXmlhIu+KsZQNRsAoHtYJMO2KNEp7n1x6NprQUxLmviCLP7PPIIAx6V0Id+j4Cyy+5NsRuA8CpzI9kjiKKx++2eZvxghRQnsTLM52HNIKdB33XXX7NmzzzvvvJycnCeeeALAlClTampqnnnmmTQuz3AkMPz4o1sb2524XP/WxrIVa31Bu263KuKkjrbohnc/iXXEhSWkq92UkSyySFofaVHWDYQgwB/k3v2cISM7+hbHSEBNytbPlyxEwUHpfAAAIABJREFUQkIZIEuoyFc1YSuN1x2IpE3rOtnRMQA4buIgOlq2hVZqACBIVRzN6sUEEN9UoJZLkESCSRAiCBxHoohFHvlGASDLNOIaviwpBXrYsGFbtmzZtGnTwIEDlfXowoULJ0yYUFxskl+Gr0Dl+h1/+PkTLOW+nfXxSDynIMuyRQ32ecKIjpYO13H9fr8Tj+vh2cmQOaHSKnlLno8o5xU637qo7ugx7Vl5jh2QBJJSZ4FV87b0nJNU24hkUllmz/rOs5wDS31oAquBVJACgtklEroZ3ItZk3Nj1ThvuKp1RZ3Oq7UmAclELHWiWzYgdMFXCntZNhI3Q/QBBQ7WB2E4HPm8Omi/3z9mzJjEj2eddVbXr8dwpPHIjY+Xji3es6XajceFLbLzs2r31JFX2QZQVk5GLOa0NbUnDOGQ1ObOZcXaiDncK37mRQ3TzqgvGhDP6uUCAJOrgmKG1CUWXhJCQmkudTImJQHpEgkVL5MgSMmC4KrUhs5Ek+1pPVRITsTELElK/U3BzIKIK+PYGMVp4aShHfyCHKmPns804KslJeIfo/0hpjDcesq507QU9mSMa6ihiyEQyB/0MVFun17Rjmi/IX37Di7y+S0QkaDm+jYwOpthwEtrdD6K9yMXDYgVDYxmZMlwL1fXIAOWAAldJg3PzEi9REo9QttLMWufZ8nkyS9IGyQlMiLMYKnqpnURCUkwJAkBIbQJiBDE2+PW2bu5PCZYTZglFkECsTWQKMSUz2ARGP+VLhi3LWYxGKIP2yUcX/v1rrrhyMAItKFrOfOKb656rqx89Zb2prZARnDCyWO/8d3poexQMBwKhPwApCvbmttYkm6zRsItThcad6qAhhCwfYh0UMW6THV81v8wJZoFCYKIpc4vC9KSqg4kmYhYCNiq7k4DMAvP2hmsu1uU7Ksh3GqIrNcqyETgnXHr3N08P5v+Ky+ZkpEOiRx2W9h3LNujKPsuWAO+6kVLNCzqRLmhp2JmEhq6itbG1pcefWPlP95rqm72Be1oxCkqyZ/13elP3//C3q018Vjcjbks1dwRRUKXvVrhRNGx5zznD8jMLLetxR57QpsTIzvAKjMtpdfUxwRmCSLh7S0yXJcti9QIKl3/wd4ZdAZan86VLJAMwJU6qyBbPZ+8UhJI0P818AXZuDpPeo00Ko3NlGf1fgTuHha59DXUOfwjbl0MkQnZwPYVRqF7MkagDV3Fozf/de1rG3ZXVDlRJyM7FMjwr37hw/LVW6t37OtobvcyCmpfjaHdnAFvoiCAToVs7PODiH0BOWJi+7RvNbW3CAhiZkFqiAmpQFoyk97cU+79DDVyClCF1fBGBSqpFSJZy8EMKIM7aL861qb+zEyWVm71TCIC/79CFtoTWj3oIpN840ToHIh8iPyvqa32cGTfDm4iUUjk/9c+BMPhzRcIdHl5+erVq5uamq688srq6uo+fcxcYcMXE4vEPnptw0t/fLPv4MKcgqz6vfWu48aj8eKRA7au3d7eGiEiltJzoWOvPEP3gHgJaG1nZNk8eERk4NDIhJktIya0BULc2mQNGhHx+SQASRCs+re9FkHdZqJr4Fz25rqqCFok5VjnJNiLrL1nkhoOyyAl1hJCsHK8UzuKACBIzRtUaW0JAoUtxCXiFNi/UfurQiILyPoXD2I4Akgp0I7jfO9733v00UfVj1deeeX06dOPO+643/3ud4GAKf0xHBjXcde8+NGffvFkdl44HolVbd9X0LdXU43V0RaxfZlFxb03vbtZui4ze/5CKp7lRN81aRNRFbwSwAV94xnZ7qkXNIye0kKCCVTQN646A5lIqOmuDGLSs1114wgAuMy26jdhCJDrpUpUoK1y3qplUM0S1CG216DCWorVpiHDAm9zxI44TszQBR4SLCyyC4lyXbZF+D+t4HSWNYi+Q75BEH0PyadgOGJIKdC33377448/vnjx4kmTJk2aNAnATTfd9O///u9HHXXUZ738FY2NjQ888MD/Z++7A6Sq7u/P5743fXa2suwuLLvr0osgoiKCGMWIqImiNMUaNTFFY4uJiTXGEv1afmgM0Wg09hZbYoesoYgKAgKKoNRdlrK9THnz7uf3x73vzbCygAiLZc4fOjv75r07hc989txzzufjjz/u0aPHz372sz59+nQ4QEr58MMPz5kzh4gmT548fvxuJTlk8C3C8rkrX5zxn3UrNjJLb9Aba2mvbo/3GX5A+ZCeDZtbsrtnl/bvsWbpemnrVDhyCGCk0c2uM0VV7TMu3TTyuOZIXlJxvKrfthkCYNuJgib3JG5fDAEYOvKCHG5bR22kK/FUrCg7g1GEcGUgKZcKGGyQWGuJU6vlWdk4Mug4GgVRgD1HgevNrOvI6AZrCTf8nESI0Y6sW8iXmUCUwZ6jUxXHP/7xj9/85jcXXXRRcbHuAqZPn37JJZc89thjnT3k7rvv9vl8995775gxY66//vpEItHhgAcffHD16tU333zzT37yk5kzZ65evXqvPIcMvjn49P1VTVubg2G/nZStjW2l/XsUlxcOGtM/Ky9iGOKjt5d6fR5yeQ3A4TFSdZqdws1At5J45eDooEOjgaB0A/EFaTkdgUjoQCMdRgcnMxQQLlGiNg7VFZVCjliyokLAnJowy3psCgBiJqnjmfRvsc4Sk2rkGRFcnOucn5gDCP5CBMaJrD+Q0Q0Ax16D0ROiG1MvSsze5SvG3M6ybS+9/Bl819Bpgd66dWu6S0Vh2LBhtbW1Ozx+8+bNH3300fnnn19QUHDyySfn5OTMmzcv/YB4PP7222///Oc/Ly4uPuKII6ZOnVpXV/f1n0AG3yiEc0JtTdGWxtZELCGT9pqPN+QW5VSvrFnz8YbPP1rbUt9WV1NvJ7VaQ+qyLB3XigSku0MYyZGn/KTuDzPXhXMs08ckYEvV5qY5uHVuEZGAzaz39KSjBnG2HZ0gZ5d9JiEY5CqatZVQTfq2JUvJpIdZ6TMxs/Hnep6Whcvz1DVtBihEnlIys9mohKFH8brybdZxeDtFYh43/Zabr+b4rPSw/wwyUOi0QA8ZMuSdd97pcGdVVdWAATuOQ9ywYUNRUVFOjnY9DRgwYN26dekHfPrpp6FQqLS0VP04ZcqUww77unspGexHWHGrcUuTnbTT7xx50giv30xEEwAYZNv2srkrJ1zww4rBpb0G9MjKC7c2tgPMTr1UHK+j4hCAAASBhOAjf1SflW/lFVvZeUk1RMo0CAQVp+iI71KRHQYRCIYBlzNx7IpMUFI+LZ9TO362E/rBag64isAjMgxSpLN7vJTETPLOQr40T0miVeISkJCyXsYXouU2tmsAwK4mkU32arY3CrmRfON28gKybOLoM2T2JrMSsdcgN339NyWD7xg65aCvuuqqU0891efzHX300QA+++yz55577r777nvwwQd3eHxDQ0NWVmrfOSsrq8NUw8bGxkgk8te//vV///ufx+MZP378lClT1F+jd99998svvwxgzJgxXd9Wt7S0dPEVdwhmjsVi+3sVGrt8F7as2/bYtc/7Qr5oa/TCu6ZH8vVbv+y9T02/qXXFYABWLHHPz2fWVTckrSQAm1mACEInXsCZBehS0sRCsM/PoSyZaDdkUu/RueZwZd3WmgyHxtY9dSqZVAdosASBpJJnEDG7Ag8dmac00URONIhkIpL6Qiphw4m386YMM872ZJIlJeI2KM9qWGpBhOV1SVQIjDLlF23mJXZLP6DTV1KgPmCzpCgAAY42bJG7St7Y7x8Sy8oMCuhSdFqgTz755Iceeuh3v/vdPffcA6Bfv37hcPiWW24577zzdni8lLKD68m2t+ut2tra1qxZM3LkyAceeKCmpub6668vKCgYN24cgKlTpx533HEAXn/99ezs7K//rHYfra2tPp/P49n/6brRaDQQCOzvVSCRSFiWFQqFdn7YouXLKoeVW/HkumUbbpty77Fnja0YUvb8na8uentpQWl+imEGAdi8Zit0uiel6eqEitVnSKnqJ8DgcJY0TY62ifrNnqNObjS9LNlJqnPEFdKVwDnpSELAtmEIpV927dkp34vOTlJWFibFVKs2Xs2KVRF3EKR4EsMAA1hnYZtNI/zMOsfDliBiIlI5HIRmr9cgsr2+IkkQ7TkebIHcwCwi9LgMDXSpDwDMTNYcij1DBBn8DYsykfgBWe8zDHhGmr7+u5S97vcPiWlmnBNdip293Gefffa0adNWrly5du3awsLCgQMHpvfIHZCbm9va2ur+2NraqjLwXGRlZeXl5U2bNg1A7969jzjiiAULFqgCXVRUVFRUBODtt9/u4k8AERmG8U342AkhvgnLsG07mUzucCVtTe0sOZwbAiCEMExj4yc11Z/Xss3/eXBWfU09ACm5ds3WNJ+JY8RjV/nmxmwwQ0BvD+q5VIIQzLJHHtu0elnQStKCd8Kl/WIp7x9pbZxkMgSDyQYLx91nGGqHkCXDECydMVaOOUU3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C/RDDz1UWlpaW1v74osvdvhVpkB/wxHOCZ33p2lvPPTfFfM+85uBeFtMy46lS1BQIpZo2tZSu25rJDe0raYODuHgxtEplQRDktIcgwmCiAMh2f+gtvOvqfEGuLQiziJtP1A59wAnrkO34uz6DglMkDaESJHcUrotvjaZqMcqQZyUICV41rprsm0W7h9+Gy1jSg1Pj8gpEcPZ0FRP1FVdC51DygQLHEfyY+kbg+RyGD5IG8FfCBGC6APPdlWYiOA5iDwHAUBrJg9676Otre3DDz/85S9/GYlEfve736k7Z8yYMX/+/DvvvPPSSy9V99x5552XX375Nddcc//996t7otHoOeeco+js3//+94WFhfPmzZsyZcqTTz5JRNddd92gQYOqqqosy/J4PNdff/26dev+/ve/n3feeQCklD//+c9nzpz56KOPnnfeeccff3w4HH7xxRdvvPFGdfJt27ZVVVUdf/zx3bp12+V6mPnXv/51LBb797//fdxxxwGor68fN27cmjVr+vTZ8Zf6+++/f9ZZZ+Xn599666278yqp7uWbghkzZvzqV7/qyis2NTUFAoEOOsL9gra2tlBobxqI//vU3I/nfJqIxgyf+fnCtTmFkQWvLWY93RUgxQtTODfY3tguVfomp2Qb6iDXyQ2AwX4/k4HTfralpCLee3B7r77xdPpDTxFUUKO2XTkdHD8hCMTSJjJYB5ayM1CWt2vUnVko0EnRTJLZIJd+hrCZjtogTw3zpXlSQm8zqgs7AwEEOSd3EjqY/DB6G6HzWURgFJO5a4FXXV1dTk6O8Q2YqLLXPyRfFXv2L3SHMjuF4uLit956y2UASkpK8vLyli1b5h7AzH379m1ubt68eTOAc8899x//+Mcnn3yiRqcCmDx58rPPPrtw4UK3C1bHbNu2LRwOh8Phgw46KH07rrGxsbS0dMCAAerOadOmPfXUU59//vkBBxwA4MEHH7zggguefvrpyZMn73I977333uGHHz59+vR//vOf7gH/+c9/TjjhhJEjR355KNWHH354zDHHmKb5zjvvuH807By7IEG2bdu2dOnSjRs3lpSUDB06VH2rZPDNR7Q19vmStR+9vTQRs5i5ral9zfINUkrtBhQC0OOeWutbkR4zlHYSLVhWrTGkQVRSETv/mk3BiCwpi4WyJDMLQ/v3oNVvmsNg1QQ7J1BRdvoe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3Lhx27dv//vf/37DDTe09agNP2RiFqokJyfPnz//h/TzV1VVdd9993322WcFBQW//OUvu3XrBuCaa64ZPnz45MmTn3322Weffbbp+UOGDLnxxhvbaLDxoPkJaXrmSRKgcRRzcvDgwT//+c8bN27Mysq69NJLL7jggrYesuGHzJEDdDgcDgQCzz///JgxY+I/JoPBYDCgmRX0ZZddduDAgZdeeslk2QwGg6FNiJmDHjhw4F133XXqqadeeOGFOTk5TeVHd9xxR1zGZjAYDCc1MVfQzVjnbN269biNx2AwGAyamAHaYDAYDG1LTB30Edm4ceO55557nIZyNGzYsKG0tPSUU04JBAIdO3acMmXKF1984b763nvvvfLKK637jh988AERfc9e5kd/k+/5drm5uXfddVeLp0VN1FFe9f05tjdqOtru3bvfeuutrT2ulunYseO8efPU1838K47y8bXV/DfD8fjdMXx/Yuagg8FgWVnZ2rVrpZTuwa+//roNbRk++eSTIUOGlJSU/PrXv87Ly9u+fftjjz12xhlnrFmz5tRTTwXwxBNPbNq06aKLLmqrEbY5w4cP79y5c4unRU3UUV71/Tm2N0q0x/r9p6ut5v/oh2RIEGIG6Dlz5ixatOiSSy5ZvXp1dnb24MGDN27cWFdX9/rrr8dzfE254447cnNz33nnnaSkJHXk6quv7tWr19y5c//2t78d2z1bvXxZShkKhdwRxpnnnnsuDlcd86Qd8Y1OuAryY5vkVrzhCTdjhmOHY9ChQ4dbb72VmZcvX37OOecws5TyggsuWLx4caxLjjenn3567969ow4+9thjd955JzOfffbZ7j/qX//6FzPX1dXdeuutvXr1SkpKKioquuaaa6qrq9VV3bp1u/vuuy+77DIhRHJy8rnnnrtx40b1Un19/axZs0455ZS8vLzS0tKXXnoJwKZNm5q/YZcuXR5++OG77767sLDw1VdfbeYmUTR/5ooVKwYPHpyamlpcXHzbbbeFw2FmvvTSS7t169b0JqNGjTrttNOYOT8/X81GM6M9fKKaXsXM9913X79+/VJTU/v163ffffe5x5uZtM2bN48dOzY3Nzc9Pf288877+OOPj/gEm75RM3drStRou3Xrdsstt9x///2nnXZaamrqiBEj/v3vf7snH3G6omhm9pp5vkVFRbfddtvh/4pj+Gk5HvMfRTOP44hTdPiQDAlCzAAdCAT++te/MvPGjRvz8vLUweeee+6MM86I09AO45prrgFw3XXXrVu37vBXd+3aNXHixAEDBmzbtq2hoYGZp06d6vP5ysrKli5desstt1iWdf3116uTu3XrlpOTc955561cufLee+9t165dv3791Etjxozxer0333zz008//dOf/lS5A6tfuWZu2KVLl6FDhw4dOvSZZ57Zt29fMzeJopkzn3zySSHE9OnTly1bNnfuXL/ff8UVVzDzX//6VwDr169Xd9i/f7/X67377rv527/qsUZ7+EQ1vermm28WQtxwww3Lli371a9+RURlZWXNT1ooFOrUqdNpp5320EMPPfLIIyUlJQUFBerOUUQF6FiPoJnH2q1bt6KiovPPP/+FF1548MEH8/Pz+/fvr86MNV1RNDN7zTzfWAH6GH5aWn3+o2jmccSaosOHZEgQYgbokpKSuXPnMnNdXZ0QYufOncz84osvpqSkxG903+bQoUNTpkxRhTN5eXkTJkx4+OGH9+3b554wbdq0oUOHut9OnDjxD3/4g/vt+PHjBw8erL7u1q1bx44d6+vr1be33HILETU0NKxevRrAY489po5LKYcOHer+yjVzwy5duhQVFakbNn+TpjRzZigUKiws/M///E/35Iceeki9FAwGk5OTf/e736njixcvtiyrvLycv/2r3sxooybKvWrv3r2BQOCWW25xX7rpppuSkpK++eabZibt008/BbBs2TJ1/J133pk2bdquXbv4MKIC9BHvdvhVTUcbddW9994rhLBtu5npirpbM7PXzIwdMUAf809L685/1D8w1uNofoqihmRIEGKqOMaNG3fPPffcfvvtgUCgf//+ZWVla9asWbBgQdeuXb9rFqW1SE9Pf+KJJ/bt2/fKK69MnTr1yy+/nDFjRqdOnWIloJcuXTp37tz6+vpNmzb97//+7+rVq5tueI4cOdItklSZEynl6tWrPR7PlClT1HEimjp16lHe8MILL1Q3bP4mTWnmzM2bN1dUVJx//vnlDmeeeSaADz/8UPW0XbFihTpz2bJlF1xwweEOfM2P9oh8+umn9fX1V1xxhXvk8ssvr6urW7duXTOT1rFjx4yMjFtvvXXhwoXbt28fMmTIwoULj8ZF+oh3a/GqUaNGuVfl5eVJKZm5memKuryZ2fuuM/Z9flqO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"
+>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Step-5:-Calculate-LD-matrix-and-fit-LDSC-model">Step 5: Calculate LD matrix and fit LDSC model<a class="anchor-link" href="#Step-5:-Calculate-LD-matrix-and-fit-LDSC-model">&#182;</a></h3><p>As an illustration, hereafter all analysis are performed on both summary statistics before and after QC in Step 4.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">sos</span> <span class="n">run</span> <span class="n">ldpred</span><span class="o">.</span><span class="n">ipynb</span> <span class="n">ldsc</span> \
+    <span class="o">--</span><span class="n">cwd</span> <span class="err">$</span><span class="n">work_dir</span> \
+    <span class="o">--</span><span class="n">ss</span> <span class="err">$</span><span class="n">work_dir</span><span class="o">/</span><span class="n">Height</span><span class="o">.</span><span class="n">QC</span><span class="o">.</span><span class="n">snp_matched</span><span class="o">.</span><span class="n">rds</span> \
+    <span class="o">--</span><span class="n">reference</span><span class="o">-</span><span class="n">geno</span> <span class="err">$</span><span class="n">work_dir</span><span class="o">/</span><span class="mi">1000</span><span class="n">G</span><span class="o">.</span><span class="n">EUR</span><span class="o">.</span><span class="err">$</span><span class="n">work_dir</span><span class="o">.</span><span class="n">snp_intersect</span><span class="o">.</span><span class="n">extracted</span><span class="o">.</span><span class="n">rds</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>INFO: Running <span class="ansi-green-fg">ldsc</span>: 
+INFO: <span class="ansi-green-fg">ldsc</span> is <span class="ansi-green-fg">completed</span>.
+INFO: <span class="ansi-green-fg">ldsc</span> output:   <span class="ansi-green-fg">/home/gw/Downloads/tutorial/height_results/Height.QC.snp_matched.ld.rds</span>
+INFO: Workflow ldsc (ID=we9a3f5af1a3a1a9c) is executed successfully with 1 completed step.
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">sos</span> <span class="n">run</span> <span class="n">ldpred</span><span class="o">.</span><span class="n">ipynb</span> <span class="n">ldsc</span> \
+    <span class="o">--</span><span class="n">cwd</span> <span class="err">$</span><span class="n">work_dir</span> \
+    <span class="o">--</span><span class="n">ss</span> <span class="err">$</span><span class="n">work_dir</span><span class="o">/</span><span class="n">Height</span><span class="o">.</span><span class="n">QC</span><span class="o">.</span><span class="n">snp_matched</span><span class="o">.</span><span class="n">qc</span><span class="o">.</span><span class="n">rds</span> \
+    <span class="o">--</span><span class="n">reference</span><span class="o">-</span><span class="n">geno</span> <span class="err">$</span><span class="n">work_dir</span><span class="o">/</span><span class="mi">1000</span><span class="n">G</span><span class="o">.</span><span class="n">EUR</span><span class="o">.</span><span class="err">$</span><span class="n">work_dir</span><span class="o">.</span><span class="n">snp_intersect</span><span class="o">.</span><span class="n">extracted</span><span class="o">.</span><span class="n">rds</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>INFO: Running <span class="ansi-green-fg">ldsc</span>: 
+INFO: <span class="ansi-green-fg">ldsc</span> is <span class="ansi-green-fg">completed</span>.
+INFO: <span class="ansi-green-fg">ldsc</span> output:   <span class="ansi-green-fg">/home/gw/Downloads/tutorial/height_results/Height.QC.snp_matched.qc.ld.rds</span>
+INFO: Workflow ldsc (ID=wbacc9e382c830fa4) is executed successfully with 1 completed step.
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Step-6:-Estimate-posterior-effect-sizes-and-PRS">Step 6: Estimate posterior effect sizes and PRS<a class="anchor-link" href="#Step-6:-Estimate-posterior-effect-sizes-and-PRS">&#182;</a></h3><p>For QC-ed data, we perform 3 PRS models implemented in <code>ldpred2</code>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[20]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">sos</span> <span class="n">run</span> <span class="n">ldpred</span><span class="o">.</span><span class="n">ipynb</span> <span class="n">inf_prs</span> \
+    <span class="o">--</span><span class="n">cwd</span> <span class="err">$</span><span class="n">work_dir</span> \
+    <span class="o">--</span><span class="n">ss</span> <span class="err">$</span><span class="n">work_dir</span><span class="o">/</span><span class="n">Height</span><span class="o">.</span><span class="n">QC</span><span class="o">.</span><span class="n">snp_matched</span><span class="o">.</span><span class="n">qc</span><span class="o">.</span><span class="n">rds</span> \
+    <span class="o">--</span><span class="n">target</span><span class="o">-</span><span class="n">geno</span> <span class="err">$</span><span class="n">work_dir</span><span class="o">/</span><span class="n">EUR</span><span class="o">.</span><span class="n">QC</span><span class="o">.</span><span class="n">snp_intersect</span><span class="o">.</span><span class="n">extracted</span><span class="o">.</span><span class="n">rds</span> \
+    <span class="o">--</span><span class="n">ldsc</span> <span class="err">$</span><span class="n">work_dir</span><span class="o">/</span><span class="n">Height</span><span class="o">.</span><span class="n">QC</span><span class="o">.</span><span class="n">snp_matched</span><span class="o">.</span><span class="n">qc</span><span class="o">.</span><span class="n">ld</span><span class="o">.</span><span class="n">rds</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>INFO: Running <span class="ansi-green-fg">inf_prs</span>: 
+INFO: <span class="ansi-green-fg">inf_prs</span> is <span class="ansi-green-fg">completed</span> (pending nested workflow).
+INFO: Running <span class="ansi-green-fg">prs_core</span>: 
+INFO: <span class="ansi-green-fg">prs_core</span> is <span class="ansi-green-fg">completed</span>.
+INFO: <span class="ansi-green-fg">prs_core</span> output:   <span class="ansi-green-fg">/home/gw/Downloads/tutorial/height_results/Height.QC.snp_matched.qc.inf_prs.rds</span>
+INFO: <span class="ansi-green-fg">inf_prs</span> output:   <span class="ansi-green-fg">/home/gw/Downloads/tutorial/height_results/Height.QC.snp_matched.qc.inf_prs.rds</span>
+INFO: Workflow inf_prs (ID=w3fac9d56baf0b108) is executed successfully with 2 completed steps.
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[21]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">cat</span> <span class="err">$</span><span class="n">work_dir</span><span class="o">/</span><span class="n">Height</span><span class="o">.</span><span class="n">QC</span><span class="o">.</span><span class="n">snp_matched</span><span class="o">.</span><span class="n">qc</span><span class="o">.</span><span class="n">inf_prs</span><span class="o">.</span><span class="n">stdout</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[1] &#34;378890 SNPs are used for PRS calculations&#34;
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">sos</span> <span class="n">run</span> <span class="n">ldpred</span><span class="o">.</span><span class="n">ipynb</span> <span class="n">auto_prs</span> \
+    <span class="o">--</span><span class="n">cwd</span> <span class="err">$</span><span class="n">work_dir</span> \
+    <span class="o">--</span><span class="n">ss</span> <span class="err">$</span><span class="n">work_dir</span><span class="o">/</span><span class="n">Height</span><span class="o">.</span><span class="n">QC</span><span class="o">.</span><span class="n">snp_matched</span><span class="o">.</span><span class="n">qc</span><span class="o">.</span><span class="n">rds</span> \
+    <span class="o">--</span><span class="n">target</span><span class="o">-</span><span class="n">geno</span> <span class="err">$</span><span class="n">work_dir</span><span class="o">/</span><span class="n">EUR</span><span class="o">.</span><span class="n">QC</span><span class="o">.</span><span class="n">snp_intersect</span><span class="o">.</span><span class="n">extracted</span><span class="o">.</span><span class="n">rds</span> \
+    <span class="o">--</span><span class="n">ldsc</span> <span class="err">$</span><span class="n">work_dir</span><span class="o">/</span><span class="n">Height</span><span class="o">.</span><span class="n">QC</span><span class="o">.</span><span class="n">snp_matched</span><span class="o">.</span><span class="n">qc</span><span class="o">.</span><span class="n">ld</span><span class="o">.</span><span class="n">rds</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>INFO: Running <span class="ansi-green-fg">auto_prs</span>: 
+INFO: <span class="ansi-green-fg">auto_prs</span> is <span class="ansi-green-fg">completed</span> (pending nested workflow).
+INFO: Running <span class="ansi-green-fg">prs_core</span>: 
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">sos</span> <span class="n">run</span> <span class="n">ldpred</span><span class="o">.</span><span class="n">ipynb</span> <span class="n">grid_prs</span> \
+    <span class="o">--</span><span class="n">cwd</span> <span class="err">$</span><span class="n">work_dir</span> \
+    <span class="o">--</span><span class="n">ss</span> <span class="err">$</span><span class="n">work_dir</span><span class="o">/</span><span class="n">Height</span><span class="o">.</span><span class="n">QC</span><span class="o">.</span><span class="n">snp_matched</span><span class="o">.</span><span class="n">qc</span><span class="o">.</span><span class="n">rds</span> \
+    <span class="o">--</span><span class="n">target</span><span class="o">-</span><span class="n">geno</span> <span class="err">$</span><span class="n">work_dir</span><span class="o">/</span><span class="n">EUR</span><span class="o">.</span><span class="n">QC</span><span class="o">.</span><span class="n">snp_intersect</span><span class="o">.</span><span class="n">extracted</span><span class="o">.</span><span class="n">rds</span> \
+    <span class="o">--</span><span class="n">ldsc</span> <span class="err">$</span><span class="n">work_dir</span><span class="o">/</span><span class="n">Height</span><span class="o">.</span><span class="n">QC</span><span class="o">.</span><span class="n">snp_matched</span><span class="o">.</span><span class="n">qc</span><span class="o">.</span><span class="n">ld</span><span class="o">.</span><span class="n">rds</span> \
+    <span class="o">--</span><span class="n">phenoFile</span> <span class="n">GWAS_data</span><span class="o">/</span><span class="n">EUR</span><span class="o">.</span><span class="n">height</span><span class="o">.</span><span class="n">matched</span><span class="o">.</span><span class="n">txt</span> \
+    <span class="o">--</span><span class="n">covFile</span> <span class="n">GWAS_data</span><span class="o">/</span><span class="n">EUR</span><span class="o">.</span><span class="n">cov</span><span class="o">.</span><span class="n">matched</span><span class="o">.</span><span class="n">txt</span> \
+    <span class="o">--</span><span class="n">response</span> <span class="n">continuous</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>For original data,</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">sos</span> <span class="n">run</span> <span class="n">ldpred</span><span class="o">.</span><span class="n">ipynb</span> <span class="n">inf_prs</span> \
+    <span class="o">--</span><span class="n">cwd</span> <span class="err">$</span><span class="n">work_dir</span> \
+    <span class="o">--</span><span class="n">ss</span> <span class="err">$</span><span class="n">work_dir</span><span class="o">/</span><span class="n">Height</span><span class="o">.</span><span class="n">QC</span><span class="o">.</span><span class="n">snp_matched</span><span class="o">.</span><span class="n">rds</span> \
+    <span class="o">--</span><span class="n">target</span><span class="o">-</span><span class="n">geno</span> <span class="err">$</span><span class="n">work_dir</span><span class="o">/</span><span class="n">EUR</span><span class="o">.</span><span class="n">QC</span><span class="o">.</span><span class="n">snp_intersect</span><span class="o">.</span><span class="n">extracted</span><span class="o">.</span><span class="n">rds</span> \
+    <span class="o">--</span><span class="n">ldsc</span> <span class="err">$</span><span class="n">work_dir</span><span class="o">/</span><span class="n">Height</span><span class="o">.</span><span class="n">QC</span><span class="o">.</span><span class="n">snp_matched</span><span class="o">.</span><span class="n">ld</span><span class="o">.</span><span class="n">rds</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">cat</span> <span class="err">$</span><span class="n">work_dir</span><span class="o">/</span><span class="n">Height</span><span class="o">.</span><span class="n">QC</span><span class="o">.</span><span class="n">snp_matched</span><span class="o">.</span><span class="n">inf_prs</span><span class="o">.</span><span class="n">stdout</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">sos</span> <span class="n">run</span> <span class="n">ldpred</span><span class="o">.</span><span class="n">ipynb</span> <span class="n">auto_prs</span> \
+    <span class="o">--</span><span class="n">cwd</span> <span class="err">$</span><span class="n">work_dir</span> \
+    <span class="o">--</span><span class="n">ss</span> <span class="err">$</span><span class="n">work_dir</span><span class="o">/</span><span class="n">Height</span><span class="o">.</span><span class="n">QC</span><span class="o">.</span><span class="n">snp_matched</span><span class="o">.</span><span class="n">rds</span> \
+    <span class="o">--</span><span class="n">target</span><span class="o">-</span><span class="n">geno</span> <span class="err">$</span><span class="n">work_dir</span><span class="o">/</span><span class="n">EUR</span><span class="o">.</span><span class="n">QC</span><span class="o">.</span><span class="n">snp_intersect</span><span class="o">.</span><span class="n">extracted</span><span class="o">.</span><span class="n">rds</span> \
+    <span class="o">--</span><span class="n">ldsc</span> <span class="err">$</span><span class="n">work_dir</span><span class="o">/</span><span class="n">Height</span><span class="o">.</span><span class="n">QC</span><span class="o">.</span><span class="n">snp_matched</span><span class="o">.</span><span class="n">ld</span><span class="o">.</span><span class="n">rds</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">sos</span> <span class="n">run</span> <span class="n">ldpred</span><span class="o">.</span><span class="n">ipynb</span> <span class="n">grid_prs</span> \
+    <span class="o">--</span><span class="n">cwd</span> <span class="err">$</span><span class="n">work_dir</span> \
+    <span class="o">--</span><span class="n">ss</span> <span class="err">$</span><span class="n">work_dir</span><span class="o">/</span><span class="n">Height</span><span class="o">.</span><span class="n">QC</span><span class="o">.</span><span class="n">snp_matched</span><span class="o">.</span><span class="n">rds</span> \
+    <span class="o">--</span><span class="n">target</span><span class="o">-</span><span class="n">geno</span> <span class="err">$</span><span class="n">work_dir</span><span class="o">/</span><span class="n">EUR</span><span class="o">.</span><span class="n">QC</span><span class="o">.</span><span class="n">snp_intersect</span><span class="o">.</span><span class="n">extracted</span><span class="o">.</span><span class="n">rds</span> \
+    <span class="o">--</span><span class="n">ldsc</span> <span class="err">$</span><span class="n">work_dir</span><span class="o">/</span><span class="n">Height</span><span class="o">.</span><span class="n">QC</span><span class="o">.</span><span class="n">snp_matched</span><span class="o">.</span><span class="n">ld</span><span class="o">.</span><span class="n">rds</span> \
+    <span class="o">--</span><span class="n">phenoFile</span> <span class="n">GWAS_data</span><span class="o">/</span><span class="n">EUR</span><span class="o">.</span><span class="n">height</span><span class="o">.</span><span class="n">matched</span><span class="o">.</span><span class="n">txt</span> \
+    <span class="o">--</span><span class="n">covFile</span> <span class="n">GWAS_data</span><span class="o">/</span><span class="n">EUR</span><span class="o">.</span><span class="n">cov</span><span class="o">.</span><span class="n">matched</span><span class="o">.</span><span class="n">txt</span> \
+    <span class="o">--</span><span class="n">response</span> <span class="n">continuous</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>For <code>grid</code> model, in practice we should use another subset of individuals to train the model, independent from the subset to make PRS predictions. Here we use the same target genotype data only to illustrate the workflow.</strong></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Step-7:-predict-phenotypes">Step 7: predict phenotypes<a class="anchor-link" href="#Step-7:-predict-phenotypes">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Baseline model: Trait ~ Sex + PCs</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">sos</span> <span class="n">run</span> <span class="n">ldpred</span><span class="o">.</span><span class="n">ipynb</span> <span class="n">pred_eval</span> \
+    <span class="o">--</span><span class="n">cwd</span> <span class="err">$</span><span class="n">work_dir</span> \
+    <span class="o">--</span><span class="n">phenoFile</span> <span class="n">GWAS_data</span><span class="o">/</span><span class="n">EUR</span><span class="o">.</span><span class="n">height</span><span class="o">.</span><span class="n">matched</span><span class="o">.</span><span class="n">txt</span> \
+    <span class="o">--</span><span class="n">covFile</span> <span class="n">GWAS_data</span><span class="o">/</span><span class="n">EUR</span><span class="o">.</span><span class="n">cov</span><span class="o">.</span><span class="n">matched</span><span class="o">.</span><span class="n">txt</span> \
+    <span class="o">--</span><span class="n">response</span> <span class="n">continuous</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>INFO: Running <span class="ansi-green-fg">pred_eval</span>: 
+INFO: <span class="ansi-green-fg">pred_eval</span> is <span class="ansi-green-fg">completed</span>.
+INFO: <span class="ansi-green-fg">pred_eval</span> output:   <span class="ansi-green-fg">/home/gw/tmp/18-May-2021/mvp_gwas/UKB.hdl.baseline.rds</span>
+INFO: Workflow pred_eval (ID=w2415704657bde76b) is executed successfully with 1 completed step.
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">res</span> <span class="o">=</span> <span class="n">readRDS</span><span class="p">(</span><span class="s2">&quot;height_results/UKB.hdl.baseline.rds&quot;</span><span class="p">)</span>
+<span class="n">summary</span><span class="p">(</span><span class="n">res</span><span class="err">$</span><span class="n">fitted</span><span class="p">)</span>
+<span class="n">res</span><span class="err">$</span><span class="n">summary</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+
+<div class="output_text output_subarea ">
+<pre>
+Call:
+lm(formula = ., data = dat[train.ind, ])
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-2.7973 -0.6148 -0.0072  0.5943  3.2185 
+
+Coefficients:
+             Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) -0.083025   0.177526  -0.468   0.6401    
+AGE          0.007225   0.003028   2.386   0.0171 *  
+SEX         -0.857958   0.046395 -18.492   &lt;2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.9257 on 1597 degrees of freedom
+Multiple R-squared:  0.177,	Adjusted R-squared:  0.176 
+F-statistic: 171.7 on 2 and 1597 DF,  p-value: &lt; 2.2e-16
+</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+<div class="output_html rendered_html output_subarea ">
+<table>
+<caption>A tibble: 1 × 3</caption>
+<thead>
+	<tr><th scope=col>model</th><th scope=col>R2</th><th scope=col>MSE</th></tr>
+	<tr><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>model</td><td>0.17597</td><td>0.95412</td></tr>
+</tbody>
+</table>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Inf/grid/auto model: Traits ~ Sex + Age + PRS</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[38]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">sos</span> <span class="n">run</span> <span class="n">ldpred</span><span class="o">.</span><span class="n">ipynb</span> <span class="n">pred_eval</span> \
+    <span class="o">--</span><span class="n">cwd</span> <span class="err">$</span><span class="n">work_dir</span> \
+    <span class="o">--</span><span class="n">prs</span> <span class="err">$</span><span class="n">work_dir</span><span class="o">/</span><span class="n">gwas_hdl</span><span class="o">.</span><span class="n">snp_matched</span><span class="o">.</span><span class="n">qc</span><span class="o">.</span><span class="n">inf_prs</span><span class="o">.</span><span class="n">rds</span> \
+    <span class="o">--</span><span class="n">phenoFile</span> <span class="n">GWAS_data</span><span class="o">/</span><span class="n">EUR</span><span class="o">.</span><span class="n">height</span><span class="o">.</span><span class="n">matched</span><span class="o">.</span><span class="n">txt</span> \
+    <span class="o">--</span><span class="n">covFile</span> <span class="n">GWAS_data</span><span class="o">/</span><span class="n">EUR</span><span class="o">.</span><span class="n">cov</span><span class="o">.</span><span class="n">matched</span><span class="o">.</span><span class="n">txt</span> \
+    <span class="o">--</span><span class="n">response</span> <span class="n">continuous</span>
+
+<span class="n">sos</span> <span class="n">run</span> <span class="n">ldpred</span><span class="o">.</span><span class="n">ipynb</span> <span class="n">pred_eval</span> \
+    <span class="o">--</span><span class="n">cwd</span> <span class="err">$</span><span class="n">work_dir</span> \
+    <span class="o">--</span><span class="n">prs</span> <span class="err">$</span><span class="n">work_dir</span><span class="o">/</span><span class="n">gwas_hdl</span><span class="o">.</span><span class="n">snp_matched</span><span class="o">.</span><span class="n">inf_prs</span><span class="o">.</span><span class="n">rds</span> \
+    <span class="o">--</span><span class="n">phenoFile</span> <span class="n">GWAS_data</span><span class="o">/</span><span class="n">EUR</span><span class="o">.</span><span class="n">height</span><span class="o">.</span><span class="n">matched</span><span class="o">.</span><span class="n">txt</span> \
+    <span class="o">--</span><span class="n">covFile</span> <span class="n">GWAS_data</span><span class="o">/</span><span class="n">EUR</span><span class="o">.</span><span class="n">cov</span><span class="o">.</span><span class="n">matched</span><span class="o">.</span><span class="n">txt</span> \
+    <span class="o">--</span><span class="n">response</span> <span class="n">continuous</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>INFO: Running <span class="ansi-green-fg">pred_eval</span>: 
+INFO: <span class="ansi-green-fg">pred_eval</span> (index=0) is <span class="ansi-green-fg">ignored</span> due to saved signature
+INFO: <span class="ansi-green-fg">pred_eval</span> output:   <span class="ansi-green-fg">/home/gw/tmp/18-May-2021/mvp_gwas/UKB.hdl.gwas_hdl.snp_matched.qc.inf_prs.rds</span>
+INFO: Workflow pred_eval (ID=we0f848b067c83826) is ignored with 1 ignored step.
+INFO: Running <span class="ansi-green-fg">pred_eval</span>: 
+INFO: <span class="ansi-green-fg">pred_eval</span> is <span class="ansi-green-fg">completed</span>.
+INFO: <span class="ansi-green-fg">pred_eval</span> output:   <span class="ansi-green-fg">/home/gw/tmp/18-May-2021/mvp_gwas/UKB.hdl.gwas_hdl.snp_matched.inf_prs.rds</span>
+INFO: Workflow pred_eval (ID=wbb35457749543c1e) is executed successfully with 1 completed step.
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[39]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">res</span> <span class="o">=</span> <span class="n">readRDS</span><span class="p">(</span><span class="s2">&quot;mvp_gwas/UKB.hdl.gwas_hdl.snp_matched.qc.inf_prs.rds&quot;</span><span class="p">)</span>
+<span class="n">summary</span><span class="p">(</span><span class="n">res</span><span class="err">$</span><span class="n">fitted</span><span class="p">)</span>
+<span class="n">res</span><span class="err">$</span><span class="n">summary</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+
+<div class="output_text output_subarea ">
+<pre>
+Call:
+lm(formula = ., data = dat[train.ind, ])
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-2.9274 -0.5944  0.0028  0.5898  3.5610 
+
+Coefficients:
+             Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) -0.515490   0.182145  -2.830  0.00471 ** 
+AGE          0.006138   0.002972   2.065  0.03907 *  
+SEX         -0.857887   0.045493 -18.858  &lt; 2e-16 ***
+PRS         -0.664444   0.082400  -8.064 1.44e-15 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.9076 on 1596 degrees of freedom
+Multiple R-squared:  0.2092,	Adjusted R-squared:  0.2077 
+F-statistic: 140.8 on 3 and 1596 DF,  p-value: &lt; 2.2e-16
+</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+<div class="output_html rendered_html output_subarea ">
+<table>
+<caption>A tibble: 1 × 3</caption>
+<thead>
+	<tr><th scope=col>model</th><th scope=col>R2</th><th scope=col>MSE</th></tr>
+	<tr><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>model.inf_prs</td><td>0.20773</td><td>0.91876</td></tr>
+</tbody>
+</table>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[40]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">res</span> <span class="o">=</span> <span class="n">readRDS</span><span class="p">(</span><span class="s2">&quot;mvp_gwas/UKB.hdl.gwas_hdl.snp_matched.inf_prs.rds&quot;</span><span class="p">)</span>
+<span class="n">summary</span><span class="p">(</span><span class="n">res</span><span class="err">$</span><span class="n">fitted</span><span class="p">)</span>
+<span class="n">res</span><span class="err">$</span><span class="n">summary</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+
+<div class="output_text output_subarea ">
+<pre>
+Call:
+lm(formula = ., data = dat[train.ind, ])
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-2.9751 -0.5807 -0.0083  0.5798  3.7434 
+
+Coefficients:
+             Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) -0.433701   0.173408  -2.501   0.0125 *  
+AGE          0.006043   0.002913   2.074   0.0382 *  
+SEX         -0.857926   0.044609 -19.232   &lt;2e-16 ***
+PRS         -0.787219   0.068654 -11.466   &lt;2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.89 on 1596 degrees of freedom
+Multiple R-squared:  0.2396,	Adjusted R-squared:  0.2382 
+F-statistic: 167.7 on 3 and 1596 DF,  p-value: &lt; 2.2e-16
+</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+<div class="output_html rendered_html output_subarea ">
+<table>
+<caption>A tibble: 1 × 3</caption>
+<thead>
+	<tr><th scope=col>model</th><th scope=col>R2</th><th scope=col>MSE</th></tr>
+	<tr><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>model.inf_prs</td><td>0.23821</td><td>0.89215</td></tr>
+</tbody>
+</table>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[41]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">sos</span> <span class="n">run</span> <span class="n">ldpred</span><span class="o">.</span><span class="n">ipynb</span> <span class="n">pred_eval</span> \
+    <span class="o">--</span><span class="n">cwd</span> <span class="err">$</span><span class="n">work_dir</span> \
+    <span class="o">--</span><span class="n">prs</span> <span class="err">$</span><span class="n">work_dir</span><span class="o">/</span><span class="n">gwas_hdl</span><span class="o">.</span><span class="n">snp_matched</span><span class="o">.</span><span class="n">qc</span><span class="o">.</span><span class="n">grid_prs</span><span class="o">.</span><span class="n">rds</span> \
+    <span class="o">--</span><span class="n">phenoFile</span> <span class="n">GWAS_data</span><span class="o">/</span><span class="n">EUR</span><span class="o">.</span><span class="n">height</span><span class="o">.</span><span class="n">matched</span><span class="o">.</span><span class="n">txt</span> \
+    <span class="o">--</span><span class="n">covFile</span> <span class="n">GWAS_data</span><span class="o">/</span><span class="n">EUR</span><span class="o">.</span><span class="n">cov</span><span class="o">.</span><span class="n">matched</span><span class="o">.</span><span class="n">txt</span> \
+    <span class="o">--</span><span class="n">response</span> <span class="n">continuous</span>
+
+<span class="n">sos</span> <span class="n">run</span> <span class="n">ldpred</span><span class="o">.</span><span class="n">ipynb</span> <span class="n">pred_eval</span> \
+    <span class="o">--</span><span class="n">cwd</span> <span class="err">$</span><span class="n">work_dir</span> \
+    <span class="o">--</span><span class="n">prs</span> <span class="err">$</span><span class="n">work_dir</span><span class="o">/</span><span class="n">gwas_hdl</span><span class="o">.</span><span class="n">snp_matched</span><span class="o">.</span><span class="n">grid_prs</span><span class="o">.</span><span class="n">rds</span> \
+    <span class="o">--</span><span class="n">phenoFile</span> <span class="n">GWAS_data</span><span class="o">/</span><span class="n">EUR</span><span class="o">.</span><span class="n">height</span><span class="o">.</span><span class="n">matched</span><span class="o">.</span><span class="n">txt</span> \
+    <span class="o">--</span><span class="n">covFile</span> <span class="n">GWAS_data</span><span class="o">/</span><span class="n">EUR</span><span class="o">.</span><span class="n">cov</span><span class="o">.</span><span class="n">matched</span><span class="o">.</span><span class="n">txt</span> \
+    <span class="o">--</span><span class="n">response</span> <span class="n">continuous</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>INFO: Running <span class="ansi-green-fg">pred_eval</span>: 
+INFO: <span class="ansi-green-fg">pred_eval</span> is <span class="ansi-green-fg">completed</span>.
+INFO: <span class="ansi-green-fg">pred_eval</span> output:   <span class="ansi-green-fg">/home/gw/tmp/18-May-2021/mvp_gwas/UKB.hdl.gwas_hdl.snp_matched.qc.grid_prs.rds</span>
+INFO: Workflow pred_eval (ID=w572e9a7b247e7f40) is executed successfully with 1 completed step.
+INFO: Running <span class="ansi-green-fg">pred_eval</span>: 
+INFO: <span class="ansi-green-fg">pred_eval</span> is <span class="ansi-green-fg">completed</span>.
+INFO: <span class="ansi-green-fg">pred_eval</span> output:   <span class="ansi-green-fg">/home/gw/tmp/18-May-2021/mvp_gwas/UKB.hdl.gwas_hdl.snp_matched.grid_prs.rds</span>
+INFO: Workflow pred_eval (ID=w91862006b36b43f9) is executed successfully with 1 completed step.
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[42]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">res</span> <span class="o">=</span> <span class="n">readRDS</span><span class="p">(</span><span class="s2">&quot;mvp_gwas/UKB.hdl.gwas_hdl.snp_matched.qc.grid_prs.rds&quot;</span><span class="p">)</span>
+<span class="n">summary</span><span class="p">(</span><span class="n">res</span><span class="err">$</span><span class="n">fitted</span><span class="p">)</span>
+<span class="n">res</span><span class="err">$</span><span class="n">summary</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+
+<div class="output_text output_subarea ">
+<pre>
+Call:
+lm(formula = ., data = dat[train.ind, ])
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-2.9274 -0.6107 -0.0004  0.5825  3.7149 
+
+Coefficients:
+             Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) -0.316030   0.172306  -1.834   0.0668 .  
+AGE          0.006228   0.002919   2.134   0.0330 *  
+SEX         -0.852849   0.044702 -19.079   &lt;2e-16 ***
+PRS         -0.802795   0.071950 -11.158   &lt;2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.8918 on 1596 degrees of freedom
+Multiple R-squared:  0.2366,	Adjusted R-squared:  0.2351 
+F-statistic: 164.8 on 3 and 1596 DF,  p-value: &lt; 2.2e-16
+</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+<div class="output_html rendered_html output_subarea ">
+<table>
+<caption>A tibble: 1 × 3</caption>
+<thead>
+	<tr><th scope=col>model</th><th scope=col>R2</th><th scope=col>MSE</th></tr>
+	<tr><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>model.grid_prs</td><td>0.23512</td><td>0.89653</td></tr>
+</tbody>
+</table>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[43]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">res</span> <span class="o">=</span> <span class="n">readRDS</span><span class="p">(</span><span class="s2">&quot;mvp_gwas/UKB.hdl.gwas_hdl.snp_matched.grid_prs.rds&quot;</span><span class="p">)</span>
+<span class="n">summary</span><span class="p">(</span><span class="n">res</span><span class="err">$</span><span class="n">fitted</span><span class="p">)</span>
+<span class="n">res</span><span class="err">$</span><span class="n">summary</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+
+<div class="output_text output_subarea ">
+<pre>
+Call:
+lm(formula = ., data = dat[train.ind, ])
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-3.0014 -0.5953 -0.0181  0.5609  3.8511 
+
+Coefficients:
+             Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) -0.367020   0.169185  -2.169   0.0302 *  
+AGE          0.006092   0.002865   2.126   0.0337 *  
+SEX         -0.847968   0.043891 -19.320   &lt;2e-16 ***
+PRS         -1.046833   0.076154 -13.746   &lt;2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.8756 on 1596 degrees of freedom
+Multiple R-squared:  0.2641,	Adjusted R-squared:  0.2627 
+F-statistic: 190.9 on 3 and 1596 DF,  p-value: &lt; 2.2e-16
+</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+<div class="output_html rendered_html output_subarea ">
+<table>
+<caption>A tibble: 1 × 3</caption>
+<thead>
+	<tr><th scope=col>model</th><th scope=col>R2</th><th scope=col>MSE</th></tr>
+	<tr><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>model.grid_prs</td><td>0.26274</td><td>0.86741</td></tr>
+</tbody>
+</table>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[44]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">sos</span> <span class="n">run</span> <span class="n">ldpred</span><span class="o">.</span><span class="n">ipynb</span> <span class="n">pred_eval</span> \
+    <span class="o">--</span><span class="n">cwd</span> <span class="err">$</span><span class="n">work_dir</span> \
+    <span class="o">--</span><span class="n">prs</span> <span class="err">$</span><span class="n">work_dir</span><span class="o">/</span><span class="n">gwas_hdl</span><span class="o">.</span><span class="n">snp_matched</span><span class="o">.</span><span class="n">qc</span><span class="o">.</span><span class="n">auto_prs</span><span class="o">.</span><span class="n">rds</span> \
+    <span class="o">--</span><span class="n">phenoFile</span> <span class="n">GWAS_data</span><span class="o">/</span><span class="n">EUR</span><span class="o">.</span><span class="n">height</span><span class="o">.</span><span class="n">matched</span><span class="o">.</span><span class="n">txt</span> \
+    <span class="o">--</span><span class="n">covFile</span> <span class="n">GWAS_data</span><span class="o">/</span><span class="n">EUR</span><span class="o">.</span><span class="n">cov</span><span class="o">.</span><span class="n">matched</span><span class="o">.</span><span class="n">txt</span> \
+    <span class="o">--</span><span class="n">response</span> <span class="n">continuous</span>
+
+<span class="n">sos</span> <span class="n">run</span> <span class="n">ldpred</span><span class="o">.</span><span class="n">ipynb</span> <span class="n">pred_eval</span> \
+    <span class="o">--</span><span class="n">cwd</span> <span class="err">$</span><span class="n">work_dir</span> \
+    <span class="o">--</span><span class="n">prs</span> <span class="err">$</span><span class="n">work_dir</span><span class="o">/</span><span class="n">gwas_hdl</span><span class="o">.</span><span class="n">snp_matched</span><span class="o">.</span><span class="n">auto_prs</span><span class="o">.</span><span class="n">rds</span> \
+    <span class="o">--</span><span class="n">phenoFile</span> <span class="n">GWAS_data</span><span class="o">/</span><span class="n">EUR</span><span class="o">.</span><span class="n">height</span><span class="o">.</span><span class="n">matched</span><span class="o">.</span><span class="n">txt</span> \
+    <span class="o">--</span><span class="n">covFile</span> <span class="n">GWAS_data</span><span class="o">/</span><span class="n">EUR</span><span class="o">.</span><span class="n">cov</span><span class="o">.</span><span class="n">matched</span><span class="o">.</span><span class="n">txt</span> \
+    <span class="o">--</span><span class="n">response</span> <span class="n">continuous</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>INFO: Running <span class="ansi-green-fg">pred_eval</span>: 
+INFO: <span class="ansi-green-fg">pred_eval</span> is <span class="ansi-green-fg">completed</span>.
+INFO: <span class="ansi-green-fg">pred_eval</span> output:   <span class="ansi-green-fg">/home/gw/tmp/18-May-2021/mvp_gwas/UKB.hdl.gwas_hdl.snp_matched.qc.auto_prs.rds</span>
+INFO: Workflow pred_eval (ID=w9bf9aef80a3a5b7d) is executed successfully with 1 completed step.
+INFO: Running <span class="ansi-green-fg">pred_eval</span>: 
+INFO: <span class="ansi-green-fg">pred_eval</span> is <span class="ansi-green-fg">completed</span>.
+INFO: <span class="ansi-green-fg">pred_eval</span> output:   <span class="ansi-green-fg">/home/gw/tmp/18-May-2021/mvp_gwas/UKB.hdl.gwas_hdl.snp_matched.auto_prs.rds</span>
+INFO: Workflow pred_eval (ID=w099507f42af13c80) is executed successfully with 1 completed step.
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[45]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">res</span> <span class="o">=</span> <span class="n">readRDS</span><span class="p">(</span><span class="s2">&quot;mvp_gwas/UKB.hdl.gwas_hdl.snp_matched.qc.auto_prs.rds&quot;</span><span class="p">)</span>
+<span class="n">summary</span><span class="p">(</span><span class="n">res</span><span class="err">$</span><span class="n">fitted</span><span class="p">)</span>
+<span class="n">res</span><span class="err">$</span><span class="n">summary</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+
+<div class="output_text output_subarea ">
+<pre>
+Call:
+lm(formula = ., data = dat[train.ind, ])
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-2.9925 -0.6067  0.0001  0.5854  3.5452 
+
+Coefficients:
+             Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) -0.491939   0.180478  -2.726  0.00649 ** 
+AGE          0.006317   0.002966   2.130  0.03336 *  
+SEX         -0.853595   0.045421 -18.793  &lt; 2e-16 ***
+PRS         -1.333720   0.158835  -8.397  &lt; 2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.9061 on 1596 degrees of freedom
+Multiple R-squared:  0.2118,	Adjusted R-squared:  0.2103 
+F-statistic:   143 on 3 and 1596 DF,  p-value: &lt; 2.2e-16
+</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+<div class="output_html rendered_html output_subarea ">
+<table>
+<caption>A tibble: 1 × 3</caption>
+<thead>
+	<tr><th scope=col>model</th><th scope=col>R2</th><th scope=col>MSE</th></tr>
+	<tr><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>model.auto_prs</td><td>0.21034</td><td>0.91589</td></tr>
+</tbody>
+</table>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[46]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">res</span> <span class="o">=</span> <span class="n">readRDS</span><span class="p">(</span><span class="s2">&quot;mvp_gwas/UKB.hdl.gwas_hdl.snp_matched.auto_prs.rds&quot;</span><span class="p">)</span>
+<span class="n">summary</span><span class="p">(</span><span class="n">res</span><span class="err">$</span><span class="n">fitted</span><span class="p">)</span>
+<span class="n">res</span><span class="err">$</span><span class="n">summary</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+
+<div class="output_text output_subarea ">
+<pre>
+Call:
+lm(formula = ., data = dat[train.ind, ])
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-3.0331 -0.5738 -0.0088  0.5593  3.7989 
+
+Coefficients:
+             Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) -0.405491   0.172225  -2.354   0.0187 *  
+AGE          0.006289   0.002903   2.167   0.0304 *  
+SEX         -0.851866   0.044459 -19.161   &lt;2e-16 ***
+PRS         -1.332495   0.111293 -11.973   &lt;2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.887 on 1596 degrees of freedom
+Multiple R-squared:  0.2448,	Adjusted R-squared:  0.2434 
+F-statistic: 172.5 on 3 and 1596 DF,  p-value: &lt; 2.2e-16
+</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+<div class="output_html rendered_html output_subarea ">
+<table>
+<caption>A tibble: 1 × 3</caption>
+<thead>
+	<tr><th scope=col>model</th><th scope=col>R2</th><th scope=col>MSE</th></tr>
+	<tr><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>model.auto_prs</td><td>0.24341</td><td>0.88515</td></tr>
+</tbody>
+</table>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Results-summary">Results summary<a class="anchor-link" href="#Results-summary">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Following table shows adjusted R squared of HDL prediction model for original betas and posterior betas. QC is quality control in step 4.</p>
+<p>Compared to baseline model, higher r-squared in ldpred model implies PRS explains part of the variation of HDL in train dataset (n=1600).</p>
+<p>Posterior betas have greater R squared compared to originial betas which implies PRS derived from posterior betas can explain much variance of HDL compared to PRS derived from original betas.</p>
+<p>Among Inf, Grid and Auto, phynotype model with PRS derived using Grid model has the largest R squared which implies that Ldpred-grid model can find a hyper-parameter combination in prior distribution so that the PRS derived based on this prior distribution can explain much variance of HDL.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<table>
+<thead><tr>
+<th style="text-align:center">QC?</th>
+<th style="text-align:center"># of SNPs</th>
+<th style="text-align:center">Baseline</th>
+<th style="text-align:center">Inf</th>
+<th style="text-align:center">Grid</th>
+<th style="text-align:center">Auto</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Yes</td>
+<td style="text-align:center">232,552</td>
+<td style="text-align:center">0.176</td>
+<td style="text-align:center">0.20773</td>
+<td style="text-align:center">0.23512</td>
+<td style="text-align:center">0.21034</td>
+</tr>
+<tr>
+<td style="text-align:center">No</td>
+<td style="text-align:center">384,249</td>
+<td style="text-align:center">0.176</td>
+<td style="text-align:center">0.23821</td>
+<td style="text-align:center">0.26274</td>
+<td style="text-align:center">0.24341</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<hr>
+&copy 2019 Center for Statistical Genetics, Department of Neurology, Columbia University
+<p><small>Exported from <a href="http://github.com/statgenetics/statgen-courses/blob//notebooks/ldpred2_example.ipynb"><code>notebooks/ldpred2_example.ipynb</code></a> committed by Gao Wang on Mon Feb 8 02:45:33 2021 <a href="http://github.com/statgenetics/statgen-courses/commit/">revision 0, </a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+</div>
+</div>
+</body>
+</html>
