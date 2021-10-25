@@ -42,8 +42,10 @@ Please contact Gao Wang for the password to that account and use `docker login` 
 
 ### Incorporate JupyterLab setup script
 
-It is possible to additionally customize the docker image when started from JuptyerLab environment, to download the latest version of tutorial material and deploy data in the JupyterLab server launched from the docker image.
-To configure please study [this example](https://github.com/statgenetics/statgen-courses/blob/129abb2b172afb3a68c8cb042e1664c2ae0c80ae/docker/ldpred2.dockerfile#L17) (which is self-explanary and I'll not elaborate it here).
+It is possible to additionally customize the docker image when started from JuptyerLab environment, to download the latest version of tutorial notes and deploy *small* data in the JupyterLab server launched from the docker image.
+To configure please study [this example](https://github.com/statgenetics/statgen-courses/blob/fbaed85b40ac62607b72d6933616ee69267f974e/docker/finemap.dockerfile#L12) (which is self-explanary and I'll not elaborate it here).
+
+
 
 
 ## Setup course JupyterHub server on your computer

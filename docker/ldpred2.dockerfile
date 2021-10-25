@@ -14,18 +14,9 @@ RUN cd /tmp && wget http://s3.amazonaws.com/plink1-assets/plink_linux_x86_64_202
     unzip plink_linux_x86_64_20201019.zip && \
     mv plink prettify /usr/local/bin && rm -rf /tmp/*
 
-RUN mkdir -p /home/jovyan/.work
-
 RUN curl -so /usr/local/bin/pull-tutorial.sh https://raw.githubusercontent.com/statgenetics/statgen-courses/master/src/pull-tutorial.sh
 RUN chmod a+x /usr/local/bin/pull-tutorial.sh
 
-# Add notebook startup hook
-# https://jupyter-docker-stacks.readthedocs.io/en/latest/using/common.html#startup-hooks
-# This hook will configure the jupyter environment by copying the data and downloading latest version of tutorials
-RUN mkdir -p /usr/local/bin/start-notebook.d
-RUN echo "#!/bin/bash\n/usr/local/bin/pull-tutorial.sh ldpred2" > /usr/local/bin/start-notebook.d/get-updates.sh
-RUN chmod a+x /usr/local/bin/start-notebook.d/get-updates.sh
-RUN chown jovyan.users -R /home/jovyan
 USER jovyan
 
 # Download data to docker image
