@@ -1,0 +1,2 @@
+https://raw.githubusercontent.com/cumc/bioworkflows/master/ldpred/ldpred.ipynb
+https://raw.githubusercontent.com/cumc/bioworkflows/master/ldpred/ldpred2_example.ipynb

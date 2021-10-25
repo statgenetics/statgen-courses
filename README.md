@@ -40,6 +40,11 @@ You can use option `--tag` to add version tag to a build, eg, `--tag 1.0.0`.
 If you run into this error `denied: requested access to the resource is denied` please make sure you have push access to dockerhub account `statisticalgenetics`.
 Please contact Gao Wang for the password to that account and use `docker login` command to login from your terminal. Then try build again.
 
+### Incorporate JupyterLab setup script
+
+It is possible to additionally customize the docker image when started from JuptyerLab environment, to download the latest version of tutorial material and deploy data in the JupyterLab server launched from the docker image.
+To configure please study [this example](https://github.com/statgenetics/statgen-courses/blob/88658be655f4ff0794dd801ad2e2249d7912d22a/docker/finemap.dockerfile#L15) (which is self-explanary and I'll not elaborate it here).
+
 
 ## Setup course JupyterHub server on your computer
 
