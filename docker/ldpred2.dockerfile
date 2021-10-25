@@ -7,13 +7,13 @@ ENV LANG C.UTF-8
 
 USER root
 
-RUN Rscript -e 'p = c("data.table", "bigsnpr"); install.packages(p, repos="https://cloud.r-project.org")'
+RUN Rscript -e 'for (pkg in c("data.table", "tidyverse", "bigsnpr", "bigsparser", "ggplot2", "gplots")) if (!(pkg %in% rownames(installed.packages()))) install.packages(pkg, repos="https://cloud.r-project.org")'
 
-RUN wget http://s3.amazonaws.com/plink1-assets/plink_linux_x86_64_20201019.zip && \
+RUN cd /tmp && wget http://s3.amazonaws.com/plink1-assets/plink_linux_x86_64_20201019.zip && \
     unzip plink_linux_x86_64_20201019.zip && \
-    mv plink prettify /usr/local/bin
+    mv plink prettify /usr/local/bin && rm -rf /tmp/*
 
 USER jovyan
 RUN mkdir -p /home/jovyan/.work
-RUN cd /home/jovyan/.work && wget https://raw.githubusercontent.com/cumc/bioworkflows/master/ldpred/ldpred.ipynb
 RUN cd /home/jovyan/.work && curl -fsSL http://statgen.us/files/2021/01/ldpred2.tar.gz -o ldpred2.tar.gz && tar -xzvf ldpred2.tar.gz && rm -rf *.tar.gz
+RUN cd /home/jovyan/.work && wget https://raw.githubusercontent.com/cumc/bioworkflows/master/ldpred/ldpred.ipynb && wget https://raw.githubusercontent.com/cumc/bioworkflows/master/ldpred/ldpred2_example.ipynb
