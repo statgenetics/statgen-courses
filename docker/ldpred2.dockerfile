@@ -16,4 +16,4 @@ RUN wget http://s3.amazonaws.com/plink1-assets/plink_linux_x86_64_20201019.zip &
 USER jovyan
 RUN mkdir -p /home/jovyan/.work
 RUN cd /home/jovyan/.work && wget https://raw.githubusercontent.com/cumc/bioworkflows/master/ldpred/ldpred.ipynb
-RUN cd /home/jovyan/.work && curl -fsSL http://statgen.us/files/2021/01/ldpred_data.tar.gz -o ldpred_data.tar.gz && tar -xzvf ldpred_data.tar.gz && rm -rf *.tar.gz
+RUN cd /home/jovyan/.work && curl -fsSL http://statgen.us/files/2021/01/ldpred2.tar.gz -o ldpred2.tar.gz && tar -xzvf ldpred2.tar.gz && rm -rf *.tar.gz
