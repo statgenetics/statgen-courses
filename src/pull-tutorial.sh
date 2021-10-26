@@ -45,7 +45,7 @@ function prep_user() {
   fi
   chown -R ${USER}.users /home/${USER}
   if [ -d /home/${USER}/.work ] ; then
-    rsync -auzP /home/${USER}/.work/* /home/${USER}/work/
+    mv -v /home/${USER}/.work/* /home/${USER}/work/
     rm -rf /home/${USER}/.work
   fi
 }

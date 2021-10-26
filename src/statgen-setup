@@ -82,7 +82,7 @@ bash: expand = True, workdir = '~/'
     docker network inspect {_tutorial}_{my_name} &>/dev/null || docker network create {_tutorial}_{my_name}
     docker run --rm -it -d -v /var/run/docker.sock:/var/run/docker.sock --net {_tutorial}_{my_name} --name {_tutorial}_{my_name} -p{ports[_index]}:8000 {_tutorial}_{my_name}
     # Create a shortcut to access from browser
-    (mkdir -p /var/www/html/{my_name}/{_tutorial} && echo '<meta http-equiv="Refresh" content="0; url=http://{ip}:{ports[_index]}" />' 2> /dev/null 1> /var/www/html/{my_name}/{_tutorial}/index.html && printf '\nDone! Users can now access {_tutorial} tutorial at http://{ip}/{my_name}/{_tutorial}\n\n') || true
+    (mkdir -p /var/www/html/{my_name}/{_tutorial} && echo '<meta http-equiv="Refresh" content="0; url=http://{ip}:{ports[_index]}" />' 2> /dev/null 1> /var/www/html/{my_name}/{_tutorial}/index.html && printf '\nDone! Users can now access {_tutorial} tutorial at http://{ip}/{my_name}/{_tutorial}\n\n') || printf '\nDone! Users can now access {_tutorial} tutorial at http://{ip}:{ports[_index]} (remote) or http://0.0.0.0:{ports[_index]} (local)\n\n' 
 
 [login]
 # use --restart to false restart the container
