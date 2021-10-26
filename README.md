@@ -45,7 +45,8 @@ Please contact Gao Wang for the password to that account and use `docker login` 
 It is possible to additionally customize the docker image when started from JuptyerLab environment, to download the latest version of tutorial notes and deploy *small* data in the JupyterLab server launched from the docker image.
 To configure please study [this example](https://github.com/statgenetics/statgen-courses/blob/fbaed85b40ac62607b72d6933616ee69267f974e/docker/finemap.dockerfile#L12) (which is self-explanary and I'll not elaborate it here).
 
-
+If your tutorial comes with a large data-set it is not suggested that a setup script is used. Instead, you can still install the `pull-tutorial.sh` script and instruct users to type a line of command `get-data` from
+JupyterLab terminal when they first logged in to the server. See [this example](https://github.com/statgenetics/statgen-courses/blob/f72874d33367b12362ce234b07967a2c0fdc6185/docker/ldpred2.dockerfile#L17) for details.
 
 
 ## Setup course JupyterHub server on your computer
