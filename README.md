@@ -7,7 +7,7 @@
 
 ## Prepare your computer to manage the tutorials
 
-Software you need to install on your computer are `SoS` (simply type `pip install sos` to install, or, check out [here for alternative installation methods](https://vatlab.github.io/sos-docs/running.html) if you have troubles with that command) and [`docker`](http://statgen.us/lab-wiki/orientation/jupyter-setup.html#install-docker).
+Software you need to install on your computer are `SoS` (simply type `pip install sos` to install, or, check out [here for alternative installation methods](https://vatlab.github.io/sos-docs/running.html#Local-installation) if you have troubles with that command) and [`docker`](http://statgen.us/lab-wiki/orientation/jupyter-setup.html#install-docker).
 Additionally to run the course material on your computer (not on cloud VM) you have to put `src/statgen-setup` script to your `PATH` and change it to executable, 
 eg, `chmod +x ~/bin/statgen-setup` if you put it under `~/bin` which is part of your `PATH`. To verify your setup, type:
 
@@ -67,6 +67,9 @@ CONTAINER ID        IMAGE               COMMAND                  CREATED        
 ```
 
 The `0.0.0.0:8847` is the address to the server (your port number may vary). To view it, simply paste that address to your browser. 
+
+The server may take a while to start, depending on if it runs a setup script that could take a bit of time. Files used for the tutorials should have been deployed once the server is ready.
+If not (and you see empty file list on the left panel of the JupyterLab interface), users should be instructed to manually transfer files to proper folders for use with JupyterLab. [More details are documented here](https://github.com/statgenetics/statgen-courses/wiki/How-to-launch-course-tutorials).
 
 ## Setup a cloud VM
 

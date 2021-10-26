@@ -14,7 +14,7 @@ RUN cd /tmp && wget http://s3.amazonaws.com/plink1-assets/plink_linux_x86_64_202
     unzip plink_linux_x86_64_20201019.zip && \
     mv plink prettify /usr/local/bin && rm -rf /tmp/*
 
-RUN curl -so /opt/pull-tutorial.sh https://raw.githubusercontent.com/statgenetics/statgen-courses/master/src/pull-tutorial.sh
+RUN curl -sSo /opt/pull-tutorial.sh https://raw.githubusercontent.com/statgenetics/statgen-courses/master/src/pull-tutorial.sh
 RUN chmod a+x /opt/pull-tutorial.sh
 # Users will be asked to type in "get-data" command in bash when they run the tutorial the first time.
 RUN echo "#!/bin/bash\n/opt/pull-tutorial.sh ldpred2" > /usr/local/bin/get-data
