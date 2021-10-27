@@ -14,7 +14,7 @@ RUN echo "deb [trusted=yes] http://statgen.us/deb ./" | tee -a /etc/apt/sources.
 
 # Install companion tools PLINK and KING
 RUN cd /tmp && \
-  curl -so - wget http://people.virginia.edu/~wc9c/KING/executables/Linux-king224.tar.gz | tar zx && \
+  curl -so - wget https://www.kingrelatedness.com/executables/Linux-king224.tar.gz | tar zx && \
   wget http://s3.amazonaws.com/plink1-assets/plink_linux_x86_64_20191024.zip && unzip plink_linux_x86_64_20191024.zip && \
   mv king plink /usr/local/bin && cd - && rm -rf /tmp/*
 
