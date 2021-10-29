@@ -43,7 +43,6 @@ function prep_user() {
     echo cd /home/${USER}/work >> /home/${USER}/.bashrc
     touch /home/${USER}/.firstrun
   fi
-  chown -R ${USER}.users /home/${USER}
   if [ -d /home/${USER}/.work ] ; then
     echo "Copying data to local folder ..."
     mv -v /home/${USER}/.work/* /home/${USER}/work/
