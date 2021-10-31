@@ -27,13 +27,15 @@ RUN Rscript -e 'p = c("data.table", "ggplot2", "ggrepel", "dplyr", "qqman"); ins
 RUN cd /tmp && wget https://github.com/rgcgithub/regenie/releases/download/v2.2.4/regenie_v2.2.4.gz_x86_64_Linux.zip && \
     unzip regenie_v2.2.4.gz_x86_64_Linux.zip && chmod a+x regenie_v2.2.4.gz_x86_64_Linux && mv regenie_v2.2.4.gz_x86_64_Linux regenie && \
     cp regenie /usr/local/bin && \
-    rm regenie_v2.2.4.gz_x86_64_Linux.*
+    rm regenie_v2.2.4.gz_x86_64_Linux.* 
 
 RUN curl -sSo /opt/pull-tutorial.sh https://raw.githubusercontent.com/statgenetics/statgen-courses/master/src/pull-tutorial.sh
 RUN chmod a+x /opt/pull-tutorial.sh
 # Users will be asked to type in "get-data" command in bash when they run the tutorial the first time.
 RUN echo "#!/bin/bash\n/opt/pull-tutorial.sh regenie" > /usr/local/bin/get-data
 RUN chmod a+x /usr/local/bin/get-data
+
+RUN chown jovyan.users -R /home/jovyan
 
 USER jovyan
 
