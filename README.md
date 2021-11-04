@@ -1,3 +1,21 @@
+# For users
+
+## Tutorial notebooks
+
+Some tutorials are available as IPython Notebooks and can be viewed at: 
+
+https://statgenetics.github.io/statgen-courses/notebooks.html
+
+## Available tutorials
+
+Available tutorials (via `--tutorial` option of `statgen-setup` script) are those with
+[docker images available as listed here](https://hub.docker.com/u/statisticalgenetics/). 
+
+## How to launch course tutorials
+
+https://github.com/statgenetics/statgen-courses/wiki/How-to-launch-course-tutorials
+
+
 # For developers
 
 - `docker` folder contains files for docker images to run the statgen course tutorials.
@@ -134,20 +152,3 @@ The conversion is just a start point. Manual polishment is still needed after th
 Specifically, it will be important to separate codes from text to different Notebook cells,
 and assign to each cell the approperate kernel if using SoS multi-language Notebook. Command output should also be
 removed from the text because they will be generated automatically and formatted better, after executing the notebook.
-
-# For users
-
-## Tutorial notebooks
-
-Some tutorials are available as IPython Notebooks and can be viewed at: 
-
-https://statgenetics.github.io/statgen-courses/notebooks.html
-
-## Available tutorials
-
-Available tutorials (via `--tutorial` option of `statgen-setup` script) are those with
-[docker images prepared](https://hub.docker.com/u/statisticalgenetics/). 
-
-## How to launch course tutorials
-
-https://github.com/statgenetics/statgen-courses/wiki/How-to-launch-course-tutorials
