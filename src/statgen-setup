@@ -29,7 +29,7 @@ def get_ports(num):
 parameter: root_dir = path('./')
 # version tag, default to `latest`
 parameter: tag = 'latest'
-input: for_each = 'tutorial', concurrent = False
+input: None, for_each = 'tutorial', concurrent = False
 bash: expand = True, workdir = root_dir
     git pull
     docker build --build-arg DUMMY=`date +%s` -t statisticalgenetics/{_tutorial}:{tag} -f docker/{_tutorial}.dockerfile docker && \
@@ -133,7 +133,7 @@ bash: expand = '$[ ]', workdir = '~/'
 [update]
 # version tag, default to `latest`
 parameter: tag = 'latest'
-input: for_each = 'tutorial', concurrent = False
+input: None, for_each = 'tutorial', concurrent = False
 bash: expand = True
     docker pull statisticalgenetics/{_tutorial}:{tag}
 
@@ -141,7 +141,7 @@ bash: expand = True
 fail_if(len(my_name) == 0 or my_name == getpass.getuser(), msg = 'Please assign a username prefix, via ``--my-name`` option.')
 parameter: num_users = 1
 passwd = [random.randint(10000, 99999) for i in range(num_users)]
-input: for_each = 'passwd', concurrent = False
+input: None, for_each = 'passwd', concurrent = False
 bash: expand = True
   set -e
   if [ `id -u {my_name}_{_index+1} 2>/dev/null || echo -1` -ge 0 ]; then
