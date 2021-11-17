@@ -49,7 +49,7 @@ fail_if(len(my_name) == 0, msg = 'Please assign yourself a username, via ``--my-
 fail_if(not all((a.isalnum() or a == '_') and not a.isspace() for a in my_name), msg = 'Please use only alphanumeric letters and no space for ``--my-name`` input.')
 import os
 home = os.path.expanduser("~").replace('/', '\\/')
-input: for_each = 'tutorial', concurrent = False
+input: None, for_each = 'tutorial', concurrent = False
 docker_build: tag = f'{_tutorial}_{my_name}', expand = '$[ ]', workdir = '~/.cache'
     FROM gaow/base-notebook:$[version]
     USER root
@@ -68,7 +68,7 @@ ports = get_ports(len(tutorial))
 #ip = get_output("hostname -I | awk '{print $1}'").strip()
 ip = get_output("curl -so - http://checkip.amazonaws.com/").strip()
 #
-input: for_each = 'tutorial', concurrent = False
+input: None, for_each = 'tutorial', concurrent = False
 bash: expand = True, workdir = '~/'
     set -e
     # Get the relevant image
