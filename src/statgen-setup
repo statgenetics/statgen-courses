@@ -78,7 +78,7 @@ bash: expand = True, workdir = '~/'
     # docker container stop $(docker container ls -q --filter ancestor=statisticalgenetics/{_tutorial}) &> /dev/null || true
     docker container stop $(docker container ls -q --filter name={_tutorial}_{my_name}) &> /dev/null || true
     # Create a user folder for notebook instance and set the permission
-    mkdir -p $HOME/{_tutorial}_{my_name}
+    mkdir -p $HOME/{_tutorial}_{my_name} && (chmod g=u $HOME/${_tutorial}_${my_name} || true)
     # Start jupyterhub
     docker network inspect {_tutorial}_{my_name} &>/dev/null || docker network create {_tutorial}_{my_name}
     docker run --rm -it -d -v /var/run/docker.sock:/var/run/docker.sock --net {_tutorial}_{my_name} --name {_tutorial}_{my_name} -p{ports[_index]}:8000 {_tutorial}_{my_name}
