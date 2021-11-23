@@ -64,7 +64,7 @@ docker_build: tag = f'{_tutorial}_{my_name}', expand = '$[ ]', workdir = '~/.cac
     CMD ["jupyterhub"]
 
 [launch_3]
-parameter: unify_link = False
+parameter: unify_link = True
 ports = get_ports(len(tutorial))
 #ip = get_output("hostname -I | awk '{print $1}'").strip()
 ip = get_output("curl -so - http://checkip.amazonaws.com/").strip()
