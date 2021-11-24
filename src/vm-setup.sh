@@ -31,3 +31,19 @@ statgen-setup update --tutorial vat pseq igv popgen regression annovar mlink sli
 ## This will download large data-set; please comment it out if you do not need it for the tutorial
 ## By default we don't need this step for our current version of gemini tutorial.
 ## statgen-setup annotation_db --gemini-data-dir /opt/annotation_db && chown root.users -R /opt/annotation_db && chmod g=u -R /opt/annotation_db
+
+
+
+# Ensure that /var/www/html (root of webserver) is writable to users.
+# They will need to create folders for exercises.
+if [ -d /var/www/html ] ; then
+        chmod a+rwX /var/www/html
+fi
+
+# FOR DEBIAN 11
+# By default the ufw (Uncomplicated FireWall) system in debian
+# disallows port 80.  We need to allow that traffic through.
+path=${which ufw)
+if [ "$?" -eq "0" ] && [ -x "$path" ] ; then
+        ufw allow 80
+fi
