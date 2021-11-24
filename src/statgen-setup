@@ -79,8 +79,9 @@ bash: expand = True, workdir = '~/'
     docker container stop $(docker container ls -q --filter name={_tutorial}_{my_name}) &> /dev/null || true
     # Create a user folder for notebook instance and set the permission
     mkdir -p $HOME/{_tutorial}_{my_name} && (chmod g=u $HOME/{_tutorial}_{my_name} || true)
-    # Start jupyterhub
-    docker network inspect {_tutorial}_{my_name} &>/dev/null || docker network create {_tutorial}_{my_name}
+    # Start jupyterhub, using a network with unused private address on the machine, see https://github.com/docker/for-linux/issues/418
+    # According to Carl Broadbent @cbroad this is the largest pool we can get
+    docker network inspect {_tutorial}_{my_name} &>/dev/null || docker network create {_tutorial}_{my_name} --subnet 10.0.0.0/8
     docker run --rm -it -d -v /var/run/docker.sock:/var/run/docker.sock --net {_tutorial}_{my_name} --name {_tutorial}_{my_name} -p{ports[_index]}:8000 {_tutorial}_{my_name}
     # Create a shortcut to access from browser
     ({"true" if unify_link else "false"} && mkdir -p /var/www/html/{my_name}/{_tutorial} && echo '<meta http-equiv="Refresh" content="0; url=http://{ip}:{ports[_index]}" />' 2> /dev/null 1> /var/www/html/{my_name}/{_tutorial}/index.html && printf '\nDone! Users can now access {_tutorial} tutorial at http://{ip}/{my_name}/{_tutorial}\n\n') || printf '\nDone! Users can now access {_tutorial} tutorial at http://{ip}:{ports[_index]} (remote) or http://0.0.0.0:{ports[_index]} (local)\n\n' 
