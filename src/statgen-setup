@@ -166,7 +166,7 @@ fail_if(not os.geteuid() == 0, msg = 'This command is only meant for root user (
 bash:
     # claim unused resources
     docker system prune -f
-stop_if(network_only)
+stop_if(prune_only)
 bash:
     docker stop $(docker ps -a -q) || true
     docker rm $(docker ps -a -q) || true
