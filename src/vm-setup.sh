@@ -41,7 +41,7 @@ fi
 
 # By default the ufw (Uncomplicated FireWall) system in Debian 11
 # disallows port 80.  We need to allow that traffic through.
-path=${which ufw)
+path=$(which ufw)
 if [ "$?" -eq "0" ] && [ -x "$path" ] ; then
         ufw allow 80
 fi
