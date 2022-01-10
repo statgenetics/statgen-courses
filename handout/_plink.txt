@@ -1,2 +1,2 @@
-https://raw.githubusercontent.com/statgenetics/statgen-courses/master/handout/PLINK_data_QC.pdf
-https://raw.githubusercontent.com/statgenetics/statgen-courses/master/handout/PLINK_Substructure.pdf
+https://raw.githubusercontent.com/statgenetics/statgen-courses/master/notebooks/PLINK_Data_QC.ipynb
+https://raw.githubusercontent.com/statgenetics/statgen-courses/master/notebooks/PLINK_Substructure.ipynb
