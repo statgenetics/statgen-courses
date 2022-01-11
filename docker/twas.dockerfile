@@ -1,4 +1,4 @@
-FROM gaow/base-notebook
+FROM gaow/base-notebook:1.0.0
 
 MAINTAINER Guangyou Li <llxxhz55555@gmail.com>
 
@@ -31,7 +31,7 @@ RUN wget -O /tmp/MR-JTI.zip "https://www.dropbox.com/sh/i9elg3m4wav4o5g/AAABdxZb
     chown root.root -R /opt/MR_JTI && \
     find /opt/MR_JTI -type d -exec chmod 775 {} \; && \
     find /opt/MR_JTI -type f -exec chmod 664 {} \; && \
-    echo -e '#!/bin/bash\n/opt/miniconda2/bin/python /opt/MR_JTI/MetaXcan/software/MetaXcan.py $@' > /usr/local/bin/MetaXcan.py && \
+    echo "#!/bin/bash\n/opt/miniconda2/bin/python /opt/MR_JTI/MetaXcan/software/MetaXcan.py $@" > /usr/local/bin/MetaXcan.py && \
     chmod +x /usr/local/bin/MetaXcan.py && \
     mkdir -p /home/jovyan/.work/ && \
     mv /tmp/MR-JTI/data /home/jovyan/.work/ && \
@@ -42,10 +42,10 @@ RUN curl -sSo /opt/pull-tutorial.sh https://raw.githubusercontent.com/statgeneti
 RUN chmod a+x /opt/pull-tutorial.sh
 # https://jupyter-docker-stacks.readthedocs.io/en/latest/using/common.html#startup-hooks
 RUN mkdir -p /usr/local/bin/start-notebook.d
-RUN echo -e '#!/bin/bash\n/usr/local/bin/pull-tutorial.sh twas &' > /usr/local/bin/start-notebook.d/get-updates.sh
+RUN echo "#!/bin/bash\n/usr/local/bin/pull-tutorial.sh twas &" > /usr/local/bin/start-notebook.d/get-updates.sh
 RUN chmod a+x /usr/local/bin/start-notebook.d/get-updates.sh
 # Users can type in "get-data" command in bash when they run the tutorial the first time.
-RUN echo -e '#!/bin/bash\n/opt/pull-tutorial.sh twas' > /usr/local/bin/get-data
+RUN echo "#!/bin/bash\n/opt/pull-tutorial.sh twas" > /usr/local/bin/get-data
 RUN chmod a+x /usr/local/bin/get-data
 
 RUN chown jovyan.users -R /home/jovyan

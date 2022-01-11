@@ -23,10 +23,10 @@ RUN chmod a+x /usr/local/bin/pull-tutorial.sh
 # Add notebook startup hook
 # https://jupyter-docker-stacks.readthedocs.io/en/latest/using/common.html#startup-hooks
 RUN mkdir -p /usr/local/bin/start-notebook.d
-RUN echo -e '#!/bin/bash\n/usr/local/bin/pull-tutorial.sh epistasis &' > /usr/local/bin/start-notebook.d/get-updates.sh
+RUN echo "#!/bin/bash\n/usr/local/bin/pull-tutorial.sh epistasis &" > /usr/local/bin/start-notebook.d/get-updates.sh
 RUN chmod a+x /usr/local/bin/start-notebook.d/get-updates.sh
 # Users can type in "get-data" command in bash when they run the tutorial the first time, to download the data.
-RUN echo -e '#!/bin/bash\n/opt/pull-tutorial.sh epistasis' > /usr/local/bin/get-data
+RUN echo "#!/bin/bash\n/opt/pull-tutorial.sh epistasis" > /usr/local/bin/get-data
 RUN chmod a+x /usr/local/bin/get-data
 
 RUN curl -so PRACDATA.zip https://statgen.us/files/2020/01/PRACDATA.zip && \
