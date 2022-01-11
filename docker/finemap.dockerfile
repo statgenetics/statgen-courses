@@ -1,4 +1,4 @@
-FROM gaow/base-notebook
+FROM gaow/base-notebook:1.0.0
 
 LABEL maintainer="Diana Cornejo <dmc2245@cumc.columbia.edu>"
    
