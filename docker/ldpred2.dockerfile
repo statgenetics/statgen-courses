@@ -16,6 +16,11 @@ RUN cd /tmp && wget http://s3.amazonaws.com/plink1-assets/plink_linux_x86_64_202
 
 RUN curl -sSo /opt/pull-tutorial.sh https://raw.githubusercontent.com/statgenetics/statgen-courses/master/src/pull-tutorial.sh
 RUN chmod a+x /opt/pull-tutorial.sh
+# Add notebook startup hook
+# https://jupyter-docker-stacks.readthedocs.io/en/latest/using/common.html#startup-hooks
+RUN mkdir -p /usr/local/bin/start-notebook.d
+RUN echo -e '#!/bin/bash\n/usr/local/bin/pull-tutorial.sh README' > /usr/local/bin/start-notebook.d/get-updates.sh
+RUN chmod a+x /usr/local/bin/start-notebook.d/get-updates.sh
 # Users can type in "get-data" command in bash when they run the tutorial the first time, to download the data.
 RUN echo -e '#!/bin/bash\n/opt/pull-tutorial.sh ldpred2' > /usr/local/bin/get-data
 RUN chmod a+x /usr/local/bin/get-data
