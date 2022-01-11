@@ -34,7 +34,7 @@ RUN wget -O /tmp/MR-JTI.zip "https://www.dropbox.com/sh/i9elg3m4wav4o5g/AAABdxZb
     echo -e '#!/bin/bash\n/opt/miniconda2/bin/python /opt/MR_JTI/MetaXcan/software/MetaXcan.py $@' > /usr/local/bin/MetaXcan.py && \
     chmod +x /usr/local/bin/MetaXcan.py && \
     mkdir -p /home/jovyan/.work/ && \
-    mv /tmp/MR-JTI/data/* /home/jovyan/.work/ && \
+    mv /tmp/MR-JTI/data /home/jovyan/.work/ && \
     rm -rf /tmp/*
 
 # JupyterLab setup 
