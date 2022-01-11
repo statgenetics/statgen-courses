@@ -16,7 +16,7 @@ c.JupyterHub.hub_connect_ip = 'CONTAINER_NAME'
 c.DockerSpawner.image = 'IMAGE_NAME'
 
 # tell the user containers to connect to our docker network
-c.DockerSpawner.network_name = 'CONTAINER_NAME'
+c.DockerSpawner.network_name = 'NETWORK_NAME'
 
 # delete containers when the stop
 c.DockerSpawner.remove = True

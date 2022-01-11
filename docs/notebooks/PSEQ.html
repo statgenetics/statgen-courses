@@ -320,13 +320,75 @@ machine with a high-speed internet connection.</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">pseq</span> <span class="n">help</span>
 </pre></div>
 
     </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+usage:	pseq {project-file|VCF|-|.} {command} {--options}
+
+	Command groups
+	---------------------------------------------------------
+	input			Data input
+	output			Variant data output
+	project			Project functions
+	stats			Variant summary statistics
+	tests			Genotype-phenotype association tests
+	qc			Quality control metrics and tests
+	views			Viewing variant and other data
+	annot			Annotation functions
+	varop			Variant database operations
+	locop			Locus database operations
+	seqop			Sequence database operations
+	refop			Reference database operations
+	indop			Individual database operations
+	ibd			IBD analysis
+	net			Network-based analysis
+	prot			Protein domain/feature annotation
+	misc			Misc.
+
+	Mask groups
+	---------------------------------------------------------
+	annotation		Masks based on LOCDB transcript annotation (under revision)
+	case-control		Individual masks based on a disease phenotype from INDDB
+	files			Include/exclude variants based on presence in one or more files
+	filters			Masks based on the FILTER and QUAL fields
+	frequency		Masks based on variant allele frequency
+	genotype		Per-genotype masks and behaviours
+	locus-groups		Interval-based masks involving LOCDB
+	locus-set-groups	Masks based on sets of loci from a LOCDB
+	misc-masks		Various other masks
+	phenotype		Individual masks based on phenotypes from INDDB
+	ref-variants		Masks based on REFDB variants
+	regions			Interval-based masks specified on the command line
+	samples			Include/exclude individuals/files
+	skip			Options to skip reading certain things (improves speed)
+	vmeta			Masks based on a variant&#39;s meta-information (INFO field)
+
+pseq help all
+pseq help {group}
+pseq help {command}
+
+</pre>
+</div>
+</div>
+
 </div>
 </div>
 
@@ -341,7 +403,7 @@ machine with a high-speed internet connection.</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[13]:</div>
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">pseq</span> <span class="n">help</span> <span class="nb">all</span>
@@ -407,9 +469,14 @@ Commands
 	clusters		.
 
 	cnv-denovo		filter for de-novo CNV mutations
-	  --allowDeNovoWithoutDiscoveryInChild { flag }	Try to call de novo CNV in child even in cases where that CNV is not marked as having been discovered in that child
-	  --minNQ { int }	Minimum NQ score for ruling out a CNV (e.g., in parent)
-	  --minSQ { int }	Minimum SQ score for calling a CNV (e.g., in child)
+	  --allowDeNovoWithoutDiscoveryInChild { flag }	Try to call de novo CNV in child even in instances where that CNV is not marked as having been discovered in that child
+	  --allowTransmissionWithoutDiscoveryInParent { flag }	Assess transmission from parents even in instances where that CNV is not marked as having been discovered in that parent
+	  --minChildNQ { int }	Minimum NQ score for ruling out a CNV (in children); applied on top of minNQ
+	  --minChildSQ { int }	Minimum SQ score for calling a CNV (in children); applied on top of minSQ
+	  --minNQ { int }	Minimum NQ score for ruling out a CNV (in BOTH children and parents); applied on top of minChildNQ and minParNQ
+	  --minParNQ { int }	Minimum NQ score for ruling out a CNV (in parents); applied on top of minNQ
+	  --minParSQ { int }	Minimum SQ score for calling a CNV (in parents); applied on top of minSQ
+	  --minSQ { int }	Minimum SQ score for calling a CNV (in BOTH children and parents); applied on top of minChildSQ and minParSQ
 
 	commands		list commands/groups
 
@@ -641,6 +708,8 @@ Commands
 	  --file { str-list }	generic input file(s)
 	  --group { str-list }	generic group label(s)
 
+	loc-transcribe		mRNA sequence of loci
+
 	loc-translate		AA sequence of loci
 
 	loc-update-name-table	update LOCDB name table
@@ -722,9 +791,16 @@ Commands
 	net-nodes		display node labels, same order as Laplacian or adjacency matrix
 	  --netdb { str }	network database location
 
-	net-stats		misc. network stats
+	net-similarity-matrix	calcualte similarity matrix from network
+	  --exclude-from-net { str-list }	exclude gene list from the network
+	  --gamma	.
+	  --netdb { str }	network database location
+
+	net-stats		network connectivity tests
 	  --allow-cseed-cseed-or-seed-seed-in-cross { flag }	in the cross-comparisons, allow cseed-cseed or seed-seed interactions, in addition to strictly defined seed-cseed links (i.e., for mutually exclusive genes)
 	  --background { str-list }	background gene list
+	  --bin-on-neighb-degree { flag }	sub-bin on degree distribution of neighboring nodes
+	  --bin-on-neighb-degree-statistic { str }	How should neighboring node degree distributions be summarized for binning to achieve matched permutation? Valid options are: sum, median
 	  --count-within-locus-edges { flag }	Do not exclude from statistics edges between genes within the same (c)seed locus
 	  --cross-locus-edges { str }	How should multiple edges spanning a pair of loci be handled? Valid options are: sum, max, mean
 	  --cseeds { str-list }	comparator seed genes (or from @file)
@@ -768,6 +844,7 @@ Commands
 	  --protdb { str }	protein domain/feature database
 
 	prot-view		view entries from a PROTDB
+	  --domain { str-list }	protein domain group from PROTDB
 	  --group { str-list }	generic group label(s)
 	  --name { str-list }	generic name(s) variable
 	  --protdb { str }	protein domain/feature database
@@ -1103,10 +1180,10 @@ pseq help {command}
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">cd</span> <span class="o">~/</span><span class="n">pseq</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">cd</span> <span class="o">~/</span><span class="n">work</span>
 <span class="c1"># to change directory to pseq folder</span>
 </pre></div>
 
@@ -1114,27 +1191,10 @@ pseq help {command}
 </div>
 </div>
 
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>/home/jovyan/pseq</pre>
-</div>
-</div>
-
-</div>
-</div>
-
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">pseq</span> <span class="n">myproj</span> <span class="n">new</span><span class="o">-</span><span class="n">project</span> <span class="o">--</span><span class="n">resources</span> <span class="n">hg19</span>
@@ -1154,18 +1214,8 @@ pseq help {command}
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>pseq error : VARDB [ /home/jovyan/pseq/myproj_out/vardb ] already exists, delete file first
+<pre>Creating new project specification file [ myproj.pseq ]
 </pre>
-</div>
-</div>
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_text output_error">
-<pre></pre>
 </div>
 </div>
 
@@ -1210,12 +1260,12 @@ create these databases is located at:</p>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>loading : /home/jovyan/pseq/CEU.exon.2010_03.genotypes.hg19.vcf.gz ( 90 individuals )
+<pre>loading : /home/jovyan/work/CEU.exon.2010_03.genotypes.hg19.vcf.gz ( 90 individuals )
 parsed 3000 rows        
-loading : /home/jovyan/pseq/YRI.exon.2010_03.genotypes.hg19.vcf.gz ( 112 individuals )
+loading : /home/jovyan/work/YRI.exon.2010_03.genotypes.hg19.vcf.gz ( 112 individuals )
 parsed 5000 rows        
-/home/jovyan/pseq/CEU.exon.2010_03.genotypes.hg19.vcf.gz : inserted 3489 variants
-/home/jovyan/pseq/YRI.exon.2010_03.genotypes.hg19.vcf.gz : inserted 5175 variants
+/home/jovyan/work/CEU.exon.2010_03.genotypes.hg19.vcf.gz : inserted 3489 variants
+/home/jovyan/work/YRI.exon.2010_03.genotypes.hg19.vcf.gz : inserted 5175 variants
 </pre>
 </div>
 </div>
@@ -1437,17 +1487,17 @@ Group : refseq (81714 entries) n/a
 ---File-index summary---
 
 Core project specification index : myproj.pseq
-Core OUTPUT file : /home/jovyan/pseq/myproj_out/
-Core RESOURCES file : /home/jovyan/pseq/hg19/
-Core LOCDB file : /home/jovyan/pseq/hg19/locdb
-Core INDDB file : /home/jovyan/pseq/myproj_out/inddb
-Core VARDB file : /home/jovyan/pseq/myproj_out/vardb
-Core LOG file : /home/jovyan/pseq/myproj_out/log.txt
-Core SEQDB file : /home/jovyan/pseq/hg19/seqdb
-Core REFDB file : /home/jovyan/pseq/hg19/refdb
-Added VCF : /home/jovyan/pseq/CEU.exon.2010_03.genotypes.hg19.vcf.gz
-Added VCF : /home/jovyan/pseq/YRI.exon.2010_03.genotypes.hg19.vcf.gz
-Added PHE : /home/jovyan/pseq/phenotype.phe
+Core OUTPUT file : /home/jovyan/work/myproj_out/
+Core RESOURCES file : /home/jovyan/work/hg19/
+Core LOCDB file : /home/jovyan/work/hg19/locdb
+Core INDDB file : /home/jovyan/work/myproj_out/inddb
+Core VARDB file : /home/jovyan/work/myproj_out/vardb
+Core LOG file : /home/jovyan/work/myproj_out/log.txt
+Core SEQDB file : /home/jovyan/work/hg19/seqdb
+Core REFDB file : /home/jovyan/work/hg19/refdb
+Added VCF : /home/jovyan/work/CEU.exon.2010_03.genotypes.hg19.vcf.gz
+Added VCF : /home/jovyan/work/YRI.exon.2010_03.genotypes.hg19.vcf.gz
+Added PHE : /home/jovyan/work/phenotype.phe
 
 ---Meta-information summary---
 
@@ -1520,7 +1570,7 @@ File tag : 2 (5175 variants, 112 individuals)
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[15]:</div>
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">pseq</span> <span class="n">myproj</span> <span class="n">ind</span><span class="o">-</span><span class="n">summary</span>
@@ -1557,7 +1607,7 @@ Phenotype : SEX (Integer) &#34;SEX&#34;
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">pseq</span> <span class="n">myproj</span> <span class="n">loc</span><span class="o">-</span><span class="n">summary</span>
@@ -1591,7 +1641,7 @@ Group : refseq (81714 entries) n/a
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[18]:</div>
+<div class="prompt input_prompt">In&nbsp;[14]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">pseq</span> <span class="n">myproj</span> <span class="n">ref</span><span class="o">-</span><span class="n">summary</span>
@@ -1625,7 +1675,7 @@ Group : refseq (81714 entries) n/a
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[19]:</div>
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">pseq</span> <span class="n">myproj</span> <span class="n">seq</span><span class="o">-</span><span class="n">summary</span>
@@ -1638,7 +1688,7 @@ Group : refseq (81714 entries) n/a
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[20]:</div>
+<div class="prompt input_prompt">In&nbsp;[16]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">pseq</span> <span class="n">myproj</span> <span class="nb">file</span><span class="o">-</span><span class="n">summary</span>
@@ -1661,17 +1711,17 @@ Group : refseq (81714 entries) n/a
 <pre>---File-index summary---
 
 Core project specification index : myproj.pseq
-Core OUTPUT file : /home/jovyan/pseq/myproj_out/
-Core RESOURCES file : /home/jovyan/pseq/hg19/
-Core LOCDB file : /home/jovyan/pseq/hg19/locdb
-Core INDDB file : /home/jovyan/pseq/myproj_out/inddb
-Core VARDB file : /home/jovyan/pseq/myproj_out/vardb
-Core LOG file : /home/jovyan/pseq/myproj_out/log.txt
-Core SEQDB file : /home/jovyan/pseq/hg19/seqdb
-Core REFDB file : /home/jovyan/pseq/hg19/refdb
-Added VCF : /home/jovyan/pseq/CEU.exon.2010_03.genotypes.hg19.vcf.gz
-Added VCF : /home/jovyan/pseq/YRI.exon.2010_03.genotypes.hg19.vcf.gz
-Added PHE : /home/jovyan/pseq/phenotype.phe
+Core OUTPUT file : /home/jovyan/work/myproj_out/
+Core RESOURCES file : /home/jovyan/work/hg19/
+Core LOCDB file : /home/jovyan/work/hg19/locdb
+Core INDDB file : /home/jovyan/work/myproj_out/inddb
+Core VARDB file : /home/jovyan/work/myproj_out/vardb
+Core LOG file : /home/jovyan/work/myproj_out/log.txt
+Core SEQDB file : /home/jovyan/work/hg19/seqdb
+Core REFDB file : /home/jovyan/work/hg19/refdb
+Added VCF : /home/jovyan/work/CEU.exon.2010_03.genotypes.hg19.vcf.gz
+Added VCF : /home/jovyan/work/YRI.exon.2010_03.genotypes.hg19.vcf.gz
+Added PHE : /home/jovyan/work/phenotype.phe
 
 </pre>
 </div>
@@ -1683,7 +1733,7 @@ Added PHE : /home/jovyan/pseq/phenotype.phe
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[21]:</div>
+<div class="prompt input_prompt">In&nbsp;[17]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">pseq</span> <span class="n">myproj</span> <span class="n">meta</span><span class="o">-</span><span class="n">summary</span>
@@ -1741,7 +1791,7 @@ sites and the YRI sample 5175 variant sites. .</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[22]:</div>
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">pseq</span> <span class="n">myproj</span> <span class="n">v</span><span class="o">-</span><span class="n">stats</span>
@@ -1804,7 +1854,7 @@ v-stats command outputs can be found at
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[23]:</div>
+<div class="prompt input_prompt">In&nbsp;[19]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">pseq</span> <span class="n">myproj</span> <span class="n">i</span><span class="o">-</span><span class="n">stats</span> <span class="o">|</span> <span class="n">head</span>
@@ -1868,7 +1918,7 @@ VCF file) can be changed to more identifiable names using the commands:</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[24]:</div>
+<div class="prompt input_prompt">In&nbsp;[20]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">pseq</span> <span class="n">myproj</span> <span class="n">tag</span><span class="o">-</span><span class="nb">file</span> <span class="o">--</span><span class="nb">id</span> <span class="mi">1</span> <span class="o">--</span><span class="kp">name</span> <span class="n">CEU</span>
@@ -1881,7 +1931,7 @@ VCF file) can be changed to more identifiable names using the commands:</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[25]:</div>
+<div class="prompt input_prompt">In&nbsp;[21]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">pseq</span> <span class="n">myproj</span> <span class="n">tag</span><span class="o">-</span><span class="nb">file</span> <span class="o">--</span><span class="nb">id</span> <span class="mi">2</span> <span class="o">--</span><span class="kp">name</span> <span class="n">YRI</span>
@@ -1902,7 +1952,7 @@ VCF file) can be changed to more identifiable names using the commands:</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[26]:</div>
+<div class="prompt input_prompt">In&nbsp;[22]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">pseq</span> <span class="n">myproj</span> <span class="n">var</span><span class="o">-</span><span class="n">summary</span>
@@ -1951,7 +2001,7 @@ command:</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[27]:</div>
+<div class="prompt input_prompt">In&nbsp;[23]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">pseq</span> <span class="n">myproj</span> <span class="n">v</span><span class="o">-</span><span class="n">freq</span> <span class="o">|</span> <span class="n">head</span>
@@ -2003,7 +2053,7 @@ the “file” option:</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[28]:</div>
+<div class="prompt input_prompt">In&nbsp;[24]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">pseq</span> <span class="n">myproj</span> <span class="n">v</span><span class="o">-</span><span class="n">freq</span> <span class="o">--</span><span class="n">mask</span> <span class="nb">file</span><span class="o">=</span><span class="n">CEU</span> <span class="o">|</span> <span class="n">head</span>
@@ -2057,7 +2107,7 @@ command can be found at</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[29]:</div>
+<div class="prompt input_prompt">In&nbsp;[25]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">pseq</span> <span class="n">myproj</span> <span class="n">v</span><span class="o">-</span><span class="n">view</span> <span class="o">--</span><span class="n">mask</span> <span class="nb">any</span><span class="o">.</span><span class="n">filter</span><span class="o">.</span><span class="n">ex</span> <span class="o">|</span> <span class="n">head</span>
@@ -2097,7 +2147,7 @@ chr1:1120431	rs1320571	G/A	.	2	PASS
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[30]:</div>
+<div class="prompt input_prompt">In&nbsp;[26]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">pseq</span> <span class="n">myproj</span> <span class="n">v</span><span class="o">-</span><span class="n">view</span> <span class="o">--</span><span class="n">mask</span> <span class="nb">any</span><span class="o">.</span><span class="n">filter</span><span class="o">.</span><span class="n">ex</span> <span class="o">|</span> <span class="n">wc</span> <span class="o">-</span><span class="n">l</span>
@@ -2143,7 +2193,7 @@ found at <em><a href="https://atgu.mgh.harvard.edu/plinkseq/masks.shtml\#filter"
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[31]:</div>
+<div class="prompt input_prompt">In&nbsp;[27]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">pseq</span> <span class="n">myproj</span> <span class="n">v</span><span class="o">-</span><span class="n">view</span> <span class="o">--</span><span class="n">mask</span> <span class="nb">any</span><span class="o">.</span><span class="n">filter</span> <span class="o">|</span> <span class="n">wc</span> <span class="o">-</span><span class="n">l</span>
@@ -2183,10 +2233,23 @@ quality filters:</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[32]:</div>
+<div class="prompt input_prompt">In&nbsp;[28]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">pseq</span> <span class="n">myproj</span> <span class="n">var</span><span class="o">-</span><span class="nb">set</span> <span class="o">--</span><span class="n">group</span> <span class="k">pass</span> <span class="o">--</span><span class="n">mask</span> <span class="nb">any</span><span class="o">.</span><span class="n">filter</span><span class="o">.</span><span class="n">ex</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[29]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">pseq</span> <span class="n">myproj</span> <span class="n">var</span><span class="o">-</span><span class="n">summary</span>
 </pre></div>
 
     </div>
@@ -2202,11 +2265,15 @@ quality filters:</p>
     <div class="prompt"></div>
 
 
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>File contains parsing errors: 
-	[line  2]: pseq myproj var-set --group pass --mask any.filter.ex
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>---Variant DB summary---
 
-Invalid statements: SyntaxError(&#39;invalid syntax&#39;, (&#39;&lt;string&gt;&#39;, 1, 11, &#39;pseq myproj var-set --group pass --mask any.filter.ex\n&#39;))
+6987 unique variants
+File tag : CEU (3489 variants, 90 individuals)
+File tag : YRI (5175 variants, 112 individuals)
+
+Set pass containing 8663 variants
+
 </pre>
 </div>
 </div>
@@ -2218,12 +2285,6 @@ Invalid statements: SyntaxError(&#39;invalid syntax&#39;, (&#39;&lt;string&gt;&#
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>pseq myproj var-summary</p>
-<p>---Variant DB summary---</p>
-<p>6987 unique variants</p>
-<p>File tag : CEU (3489 variants, 90 individuals)</p>
-<p>File tag : YRI (5175 variants, 112 individuals)</p>
-<p>Set pass containing 8663 variants</p>
 <p>The “var-set” option tells <strong>pseq</strong> that we will be creating a new set
 of variants, the input following the “--group” flag gives the name of
 the new variant set, and the input following the “--mask” flag gives the
@@ -2233,31 +2294,131 @@ variant set.</p>
 variant sites and we want to remove variants that did not meet this
 threshold. Note that ‘DP’, which denotes total read depth of a variant
 site, is contained in the INFO field of vcf file.</p>
-<p>pseq myproj var-set --group pass_DP15 --mask include="DP&gt;14"
-var=pass</p>
-<p>pseq myproj var-summary</p>
-<p>---Variant DB summary---</p>
-<p>6987 unique variants</p>
-<p>File tag : CEU (3489 variants, 90 individuals)</p>
-<p>File tag : YRI (5175 variants, 112 individuals)</p>
-<p>Set pass containing 8663 variants</p>
-<p>Set pass_DP15 containing 8662 variants</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[30]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">pseq</span> <span class="n">myproj</span> <span class="n">var</span><span class="o">-</span><span class="nb">set</span> <span class="o">--</span><span class="n">group</span> <span class="n">pass_DP15</span> <span class="o">--</span><span class="n">mask</span> <span class="n">include</span><span class="o">=</span><span class="s2">&quot;DP&gt;14&quot;</span> <span class="n">var</span><span class="o">=</span><span class="k">pass</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[31]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">pseq</span> <span class="n">myproj</span> <span class="n">var</span><span class="o">-</span><span class="n">summary</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>---Variant DB summary---
+
+6987 unique variants
+File tag : CEU (3489 variants, 90 individuals)
+File tag : YRI (5175 variants, 112 individuals)
+
+Set pass containing 8663 variants
+Set pass_DP15 containing 8662 variants
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p>Only one variant site is removed. The “var=allpass” option allows us to
 use a previously defined variant set as a reference for additional
 filtering of a previously filtered variant set. By using various
 “--mask” commands you can filter out variants that are not useful for
 your particular study.</p>
 <p><strong>Filter data by genotype read depth 10</strong></p>
-<p>pseq myproj var-set --group pass_DP15_DPgeno10 --mask geno=DP:ge:11
-var=pass_DP15</p>
-<p>pseq myproj var-summary</p>
-<p>---Variant DB summary---</p>
-<p>6987 unique variants</p>
-<p>File tag : CEU (3489 variants, 90 individuals)</p>
-<p>File tag : YRI (5175 variants, 112 individuals)</p>
-<p>Set pass containing 8663 variants</p>
-<p>Set pass_DP15 containing 8662 variants</p>
-<p>Set pass_DP15_DPgeno10 containing 8662 variants</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[32]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">pseq</span> <span class="n">myproj</span> <span class="n">var</span><span class="o">-</span><span class="nb">set</span> <span class="o">--</span><span class="n">group</span> <span class="n">pass_DP15_DPgeno10</span> <span class="o">--</span><span class="n">mask</span> <span class="n">geno</span><span class="o">=</span><span class="n">DP</span><span class="p">:</span><span class="n">ge</span><span class="p">:</span><span class="mi">11</span> <span class="n">var</span><span class="o">=</span><span class="n">pass_DP15</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[33]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">pseq</span> <span class="n">myproj</span> <span class="n">var</span><span class="o">-</span><span class="n">summary</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>---Variant DB summary---
+
+6987 unique variants
+File tag : CEU (3489 variants, 90 individuals)
+File tag : YRI (5175 variants, 112 individuals)
+
+Set pass containing 8663 variants
+Set pass_DP15 containing 8662 variants
+Set pass_DP15_DPgeno10 containing 8662 variants
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p>This command sets all genotypes with a sequencing depth (DP) &lt; 11 to
 null using the option “geno=DP:ge:11”. In the vcf file, genotype level
 DP information is contained in the genotype columns, present under each
@@ -2268,20 +2429,133 @@ genotype level information is denoted by FORMAT column in the vcf file.</p>
 for the CEU population only. The “file=YRI” tag can be used to perform
 the same tests on the YRI data.</em></p>
 <p><strong>Select CEU variant sites</strong></p>
-<p>pseq myproj var-set --group pass_DP15_DPgeno10_CEU --mask file=CEU
-var=pass_DP15_DPgeno10</p>
-<p>pseq myproj var-summary</p>
-<p>---Variant DB summary---</p>
-<p>…</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[34]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">pseq</span> <span class="n">myproj</span> <span class="n">var</span><span class="o">-</span><span class="nb">set</span> <span class="o">--</span><span class="n">group</span> <span class="n">pass_DP15_DPgeno10_CEU</span> <span class="o">--</span><span class="n">mask</span> <span class="nb">file</span><span class="o">=</span><span class="n">CEU</span> <span class="n">var</span><span class="o">=</span><span class="n">pass_DP15_DPgeno10</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[35]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">pseq</span> <span class="n">myproj</span> <span class="n">var</span><span class="o">-</span><span class="n">summary</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>---Variant DB summary---
+
+6987 unique variants
+File tag : CEU (3489 variants, 90 individuals)
+File tag : YRI (5175 variants, 112 individuals)
+
+Set pass containing 8663 variants
+Set pass_DP15 containing 8662 variants
+Set pass_DP15_DPgeno10 containing 8662 variants
+Set pass_DP15_DPgeno10_CEU containing 3488 variants
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p>Set pass_DP15_DPgeno10_CEU containing 3488 variants</p>
 <p>There are 3488 variant sites that can be found in CEU population dataset
 after QC.</p>
 <p><strong>Exclude variant sites with HWE p-value &lt; 5.7e-7</strong></p>
-<p>pseq myproj var-set --group pass_DP15_DPgeno10_CEU_HWE --mask
-hwe=5.7e-7:1 var=pass_DP15_DPgeno10_CEU</p>
-<p>pseq myproj var-summary</p>
-<p>---Variant DB summary---</p>
-<p>…</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[36]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">pseq</span> <span class="n">myproj</span> <span class="n">var</span><span class="o">-</span><span class="nb">set</span> <span class="o">--</span><span class="n">group</span> <span class="n">pass_DP15_DPgeno10_CEU_HWE</span> <span class="o">--</span><span class="n">mask</span> <span class="n">hwe</span><span class="o">=</span><span class="mf">5.7e-7</span><span class="p">:</span><span class="mi">1</span> <span class="n">var</span><span class="o">=</span><span class="n">pass_DP15_DPgeno10_CEU</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[37]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">pseq</span> <span class="n">myproj</span> <span class="n">var</span><span class="o">-</span><span class="n">summary</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>---Variant DB summary---
+
+6987 unique variants
+File tag : CEU (3489 variants, 90 individuals)
+File tag : YRI (5175 variants, 112 individuals)
+
+Set pass containing 8663 variants
+Set pass_DP15 containing 8662 variants
+Set pass_DP15_DPgeno10 containing 8662 variants
+Set pass_DP15_DPgeno10_CEU containing 3488 variants
+Set pass_DP15_DPgeno10_CEU_HWE containing 3479 variants
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p>Set pass_DP15_DPgeno10_CEU containing 3479 variants</p>
 <p>There are 3479 variant sites that are in HWE (Hardy-Weinberg
 equilibrium) in CEU population. Details about tests for deviation from
@@ -2294,20 +2568,138 @@ more details see reference
 <p>We wish to analyze variant sites with different allele frequencies. In
 order to obtain the different data sets the following commands are used.</p>
 <p>To extract variant sites with MAF ≥ 0.05:</p>
-<p>pseq myproj var-set --group pass_DP15_DPgeno10_CEU_HWE_MAFgt05
---mask maf=0.05:0.5 var=pass_DP15_DPgeno10_CEU_HWE</p>
-<p>pseq myproj var-summary</p>
-<p>---Variant DB summary---</p>
-<p>…</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[38]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">pseq</span> <span class="n">myproj</span> <span class="n">var</span><span class="o">-</span><span class="nb">set</span> <span class="o">--</span><span class="n">group</span> <span class="n">pass_DP15_DPgeno10_CEU_HWE_MAFgt05</span> <span class="o">--</span><span class="n">mask</span> <span class="n">maf</span><span class="o">=</span><span class="mf">0.05</span><span class="p">:</span><span class="mf">0.5</span> <span class="n">var</span><span class="o">=</span><span class="n">pass_DP15_DPgeno10_CEU_HWE</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[39]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">pseq</span> <span class="n">myproj</span> <span class="n">var</span><span class="o">-</span><span class="n">summary</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>---Variant DB summary---
+
+6987 unique variants
+File tag : CEU (3489 variants, 90 individuals)
+File tag : YRI (5175 variants, 112 individuals)
+
+Set pass containing 8663 variants
+Set pass_DP15 containing 8662 variants
+Set pass_DP15_DPgeno10 containing 8662 variants
+Set pass_DP15_DPgeno10_CEU containing 3488 variants
+Set pass_DP15_DPgeno10_CEU_HWE containing 3479 variants
+Set pass_DP15_DPgeno10_CEU_HWE_MAFgt05 containing 1429 variants
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p>Set pass_DP15_DPgeno10_CEU_HWE_MAFgt05 containing 1429 variants</p>
 <p>There are 1429 variant sites in the CEU data set that pass QC with a MAF
 ≥ 0.05. These variant sites are saved to the variant table;
 pass_DP15_DPgeno10_CEU_HWE_MAFgt05.</p>
 <p>To extract variant sites with MAF ≤ 0.01:</p>
-<p>pseq myproj var-set --group pass_DP15_DPgeno10_CEU_HWE_MAFlt01
---mask "mac=1 maf=0.01" var=pass_DP15_DPgeno10_CEU_HWE</p>
-<p>pseq myproj var-summary</p>
-<p>---Variant DB summary---</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[40]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">pseq</span> <span class="n">myproj</span> <span class="n">var</span><span class="o">-</span><span class="nb">set</span> <span class="o">--</span><span class="n">group</span> <span class="n">pass_DP15_DPgeno10_CEU_HWE_MAFlt01</span> <span class="o">--</span><span class="n">mask</span> <span class="s2">&quot;mac=1 maf=0.01&quot;</span> <span class="n">var</span><span class="o">=</span><span class="n">pass_DP15_DPgeno10_CEU_HWE</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[41]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">pseq</span> <span class="n">myproj</span> <span class="n">var</span><span class="o">-</span><span class="n">summary</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>---Variant DB summary---
+
+6987 unique variants
+File tag : CEU (3489 variants, 90 individuals)
+File tag : YRI (5175 variants, 112 individuals)
+
+Set pass containing 8663 variants
+Set pass_DP15 containing 8662 variants
+Set pass_DP15_DPgeno10 containing 8662 variants
+Set pass_DP15_DPgeno10_CEU containing 3488 variants
+Set pass_DP15_DPgeno10_CEU_HWE containing 3479 variants
+Set pass_DP15_DPgeno10_CEU_HWE_MAFgt05 containing 1429 variants
+Set pass_DP15_DPgeno10_CEU_HWE_MAFlt01 containing 1083 variants
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p>Set pass_DP15_DPgeno10_CEU_HWE_MAFlt01 containing 1083 variants</p>
 <p>There are 1083 variant sites in the CEU dataset which pass QC with a MAF
 ≤ 0.01. The variant sites are saved to the variant table;
@@ -2324,39 +2716,122 @@ trait or dichotomous disease trait).</p>
 controlling for sex and a group of variants, contained in variant table
 pass_DP15_DPgeno10_CEU_HWE_MAFgt05, filtered using each of the
 previous filtering conditions:</p>
-<p>pseq myproj glm --phenotype BMI --covar SEX --mask
-var=pass_DP15_DPgeno10_CEU_HWE_MAFgt05 &gt; SNV_CEU.result</p>
-<p>head SNV_CEU.result</p>
-<p>VAR REF ALT N F BETA SE STAT P</p>
-<p>chr1:3548136 T C 73 0.876712 -1.53374 1.85033 -0.828897 0.40998</p>
-<p>chr1:3548832 G C 89 0.0730337 1.13049 2.26738 0.49859 0.619341</p>
-<p>chr1:6524501 T C 86 0.0697674 0.433904 2.49357 0.174009 0.862282</p>
-<p>chr1:6524688 T C 88 0.0511364 -1.86795 2.70494 -0.690568 0.491718</p>
-<p>chr1:11710561 T G 47 0.117021 -0.347495 1.92692 -0.180337 0.857716</p>
-<p>chr1:17914057 G A 86 0.0755814 -1.59486 2.34734 -0.679432 0.498754</p>
-<p>chr1:17914122 G A 85 0.0823529 2.61561 2.1748 1.20269 0.232558</p>
-<p>chr1:17961345 C T 68 0.110294 2.99054 2.00047 1.49492 0.139775</p>
-<p>chr1:17981184 A C 80 0.15 -1.83108 1.63531 -1.11972 0.266315</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[42]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">pseq</span> <span class="n">myproj</span> <span class="n">glm</span> <span class="o">--</span><span class="n">phenotype</span> <span class="n">BMI</span> <span class="o">--</span><span class="n">covar</span> <span class="n">SEX</span> <span class="o">--</span><span class="n">mask</span> <span class="n">var</span><span class="o">=</span><span class="n">pass_DP15_DPgeno10_CEU_HWE_MAFgt05</span><span class="o">&gt;</span> <span class="n">SNV_CEU</span><span class="o">.</span><span class="n">result</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[43]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">head</span> <span class="n">SNV_CEU</span><span class="o">.</span><span class="n">result</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>VAR	REF	ALT	N	F	BETA	SE	STAT	P
+chr1:3548136	T	C	73	0.876712	-1.53374	1.85033	-0.828897	0.40998
+chr1:3548832	G	C	89	0.0730337	1.13049	2.26738	0.49859	0.619341
+chr1:6524501	T	C	86	0.0697674	0.433904	2.49357	0.174009	0.862282
+chr1:6524688	T	C	88	0.0511364	-1.86795	2.70494	-0.690568	0.491718
+chr1:11710561	T	G	47	0.117021	-0.347495	1.92692	-0.180337	0.857716
+chr1:17914057	G	A	86	0.0755814	-1.59486	2.34734	-0.679432	0.498754
+chr1:17914122	G	A	85	0.0823529	2.61561	2.1748	1.20269	0.232558
+chr1:17961345	C	T	68	0.110294	2.99054	2.00047	1.49492	0.139775
+chr1:17981184	A	C	80	0.15	-1.83108	1.63531	-1.11972	0.266315
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p>The output statistics are VAR – variant identifier; REF – reference
 allele; ALT – alternate allele(s); N – number of individuals included in
 analysis; F – frequency of the alternate allele(s); BETA – regression
 coefficient; SE – standard error of estimate; STAT – test statistic; P –
 asymptotic p-value. More details about linear and logistic regression
 models can be found at
-<em><a href="https://atgu.mgh.harvard.edu/plinkseq/assoc.shtml\#glm">https://atgu.mgh.harvard.edu/plinkseq/assoc.shtml\#glm</a></em></p>
+<em><a href="https://atgu.mgh.harvard.edu/plinkseq/assoc.shtml#glm">https://atgu.mgh.harvard.edu/plinkseq/assoc.shtml#glm</a></em></p>
 <p>To view the results sorted by p-value:</p>
-<p>cat SNV_CEU.result | awk '{if(FNR==1) print \$0; if(NR&amp;gt;1) print \$0
-| "sort -k9"}' | grep -v "NA\s\+NA\s\+NA" | head</p>
-<p>VAR REF ALT N F BETA SE STAT P</p>
-<p>chr11:108383676 A G 90 0.138889 6.36308 1.60942 3.95365 0.000156342</p>
-<p>chr19:16008388 A C 53 0.122642 6.88317 1.73915 3.95778 0.000239339</p>
-<p>chr19:16006413 G A 80 0.1 6.31788 1.78167 3.54604 0.000669193</p>
-<p>chr14:39901157 C A 36 0.0555556 10.8531 3.12283 3.47542 0.00144933</p>
-<p>chr16:57735900 G C 80 0.29375 -4.18114 1.43663 -2.91039 0.004718</p>
-<p>chr2:49189921 C T 90 0.588889 -3.345 1.17772 -2.84025 0.0056123</p>
-<p>chr7:156742501 C G 9 0.277778 -12.1592 2.89402 -4.20149 0.00567644</p>
-<p>chr2:49191041 C T 89 0.58427 -3.36254 1.19515 -2.81348 0.00607226</p>
-<p>chr15:25926204 C G 83 0.0783133 5.79532 2.13611 2.71302 0.00816109</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[44]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">cat</span> <span class="n">SNV_CEU</span><span class="o">.</span><span class="n">result</span> <span class="o">|</span> <span class="n">awk</span> <span class="s1">&#39;{if(FNR==1) print $0; if(NR&gt;1) print $0 | &quot;sort -k9&quot;}&#39;</span> <span class="o">|</span> <span class="n">grep</span> <span class="o">-</span><span class="n">v</span> <span class="s2">&quot;NA\s\+NA\s\+NA&quot;</span> <span class="o">|</span> <span class="n">head</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>VAR	REF	ALT	N	F	BETA	SE	STAT	P
+chr11:108383676	A	G	90	0.138889	6.36308	1.60942	3.95365	0.000156342
+chr19:16008388	A	C	53	0.122642	6.88317	1.73915	3.95778	0.000239339
+chr19:16006413	G	A	80	0.1	6.31788	1.78167	3.54604	0.000669193
+chr14:39901157	C	A	36	0.0555556	10.8531	3.12283	3.47542	0.00144933
+chr16:57735900	G	C	80	0.29375	-4.18114	1.43663	-2.91039	0.004718
+chr2:49189921	C	T	90	0.588889	-3.345	1.17772	-2.84025	0.0056123
+chr7:156742501	C	G	9	0.277778	-12.1592	2.89402	-4.20149	0.00567644
+chr2:49191041	C	T	89	0.58427	-3.36254	1.19515	-2.81348	0.00607226
+chr15:25926204	C	G	83	0.0783133	5.79532	2.13611	2.71302	0.00816109
+grep: write error: Broken pipe
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Analysis of rare variants (MAF <em>&lt;</em>0.01)</strong></p>
 <p>PSEQ has a collection of gene-based tests, <em>see
 <a href="https://atgu.mgh.harvard.edu/plinkseq/assoc.shtml#genic">https://atgu.mgh.harvard.edu/plinkseq/assoc.shtml#genic</a></em> for details.</p>
@@ -2365,8 +2840,54 @@ quantitative traits so the SKAT test will be used in the following rare
 variant burden analysis (if we choose to use other tests, e.g. WSS –
 frequency-weighted test, VT – variable threshold test, etc., the
 following error will be returned.</em></p>
-<p>pseq myproj assoc --tests fw vt --phenotype BMI</p>
-<p>pseq error : only SKAT/SKAT-O can handle quantitative traits</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[45]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">pseq</span> <span class="n">myproj</span> <span class="n">assoc</span> <span class="o">--</span><span class="n">tests</span> <span class="n">fw</span> <span class="n">vt</span> <span class="o">--</span><span class="n">phenotype</span> <span class="n">BMI</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>pseq error : only SKAT/SKAT-O can handle quantitative traits
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_text output_error">
+<pre></pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p>To perform SKAT, where rare variants aggregated across a gene region, a
 group-by mask is required. Here we use loc.group=refseq, where refseq
 denotes NCBI Reference Sequence Database. More details about grouping
@@ -2381,11 +2902,54 @@ possible using PSEQ to specify the name of the variant table, instead
 all of the QC parameters must be included in the command line in
 addition to the association test parameters.</p>
 <p>Running the SKAT test using the variant table results in an error:</p>
-<p>pseq myproj assoc --tests skat --phenotype BMI --covar SEX --mask
-var=pass_DP15_DPgeno10_CEU_HWE_MAFlt01 loc.group=refseq &gt;
-SKAT_CEU.result</p>
-<p>pseq error : you cannot specify other includes in the mask with
-loc.group</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[46]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">pseq</span> <span class="n">myproj</span> <span class="n">assoc</span> <span class="o">--</span><span class="n">tests</span> <span class="n">skat</span> <span class="o">--</span><span class="n">phenotype</span> <span class="n">BMI</span> <span class="o">--</span><span class="n">covar</span> <span class="n">SEX</span> <span class="o">--</span><span class="n">mask</span> <span class="n">var</span><span class="o">=</span><span class="n">pass_DP15_DPgeno10_CEU_HWE_MAFlt01</span> <span class="n">loc</span><span class="o">.</span><span class="n">group</span><span class="o">=</span><span class="n">refseq</span> <span class="o">&gt;</span> <span class="n">SKAT_CEU</span><span class="o">.</span><span class="n">result</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>pseq error : you cannot specify other includes in the mask with loc.group
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_text output_error">
+<pre></pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p>Additional details can be found at
 <a href="https://atgu.mgh.harvard.edu/plinkseq/whatisnew.shtml">https://atgu.mgh.harvard.edu/plinkseq/whatisnew.shtml</a>),</p>
 <p>Although we use the most recent version pseq-0.10 in this exercise (for
@@ -2393,30 +2957,76 @@ which there is no updated documentation), the error still remains
 unresolved. Therefore, we have to redo cleaning on original data by
 re-specifying each filtering condition and run SKAT using one command as
 below:</p>
-<p>pseq myproj assoc --tests skat --phenotype BMI --covar SEX --mask
-include="DP&gt;14" geno=DP:ge:11 file=CEU hwe=5.7e-7:1 "mac=1 maf=0.01"
-loc.group=refseq &gt; SKAT_CEU.result</p>
-<p>head -20 SKAT_CEU.result</p>
-<p>LOCUS POS ALIAS NVAR TEST P I DESC</p>
-<p>NM_000055 chr3:165548187 G/A W=1 0:0</p>
-<p>NM_000055 chr3:165548187..165548187 BCHE 1 SKAT 0.237374 . .</p>
-<p>NM_000112 chr5:149359938 C/G W=1 0:0</p>
-<p>NM_000112 chr5:149360143 T/C W=1 0:0</p>
-<p>NM_000112 chr5:149360212 A/G W=1 0:0</p>
-<p>NM_000112 chr5:149360215 T/C W=1 0:0</p>
-<p>NM_000112 chr5:149361245 G/A W=1 0:0</p>
-<p>NM_000112 chr5:149359938..149361245 SLC26A2 5 SKAT 0.293096 . .</p>
-<p>NM_000119 chr15:43498537 C/T W=1 0:0</p>
-<p>NM_000119 chr15:43499436 G/A W=1 0:0</p>
-<p>NM_000119 chr15:43500478 C/T W=1 0:0</p>
-<p>NM_000119 chr15:43498537..43500478 EPB42 3 SKAT 0.422114 . .</p>
-<p>NM_000122 chr2:128016983 C/T W=1 0:0</p>
-<p>NM_000122 chr2:128038204 T/C W=1 0:0</p>
-<p>NM_000122 chr2:128016983..128038204 ERCC3 2 SKAT 0.386466 . .</p>
-<p>NM_000124 chr10:50732644 G/C W=1 0:0</p>
-<p>NM_000124 chr10:50738781 T/C W=1 0:0</p>
-<p>NM_000124 chr10:50740844 G/A W=1 0:0</p>
-<p>NM_000124 chr10:50740861 C/T W=1 0:0</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[47]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">pseq</span> <span class="n">myproj</span> <span class="n">assoc</span> <span class="o">--</span><span class="n">tests</span> <span class="n">skat</span> <span class="o">--</span><span class="n">phenotype</span> <span class="n">BMI</span> <span class="o">--</span><span class="n">covar</span> <span class="n">SEX</span> <span class="o">--</span><span class="n">mask</span> <span class="n">include</span><span class="o">=</span><span class="s2">&quot;DP&gt;14&quot;</span> <span class="n">geno</span><span class="o">=</span><span class="n">DP</span><span class="p">:</span><span class="n">ge</span><span class="p">:</span><span class="mi">11</span> <span class="nb">file</span><span class="o">=</span><span class="n">CEU</span> <span class="n">hwe</span><span class="o">=</span><span class="mf">5.7e-7</span><span class="p">:</span><span class="mi">1</span> <span class="s2">&quot;mac=1 maf=0.01&quot;</span> <span class="n">loc</span><span class="o">.</span><span class="n">group</span><span class="o">=</span><span class="n">refseq</span> <span class="o">&gt;</span> <span class="n">SKAT_CEU</span><span class="o">.</span><span class="n">result</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[48]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">head</span> <span class="o">-</span><span class="mi">20</span> <span class="n">SKAT_CEU</span><span class="o">.</span><span class="n">result</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>LOCUS	POS	ALIAS	NVAR	TEST	P	I	DESC
+NM_000055	chr3:165548187	G/A	W=1	0:0
+NM_000055	chr3:165548187..165548187	BCHE	1	SKAT	0.237374	.	.
+NM_000112	chr5:149359938	C/G	W=1	0:0
+NM_000112	chr5:149360143	T/C	W=1	0:0
+NM_000112	chr5:149360212	A/G	W=1	0:0
+NM_000112	chr5:149360215	T/C	W=1	0:0
+NM_000112	chr5:149361245	G/A	W=1	0:0
+NM_000112	chr5:149359938..149361245	SLC26A2	5	SKAT	0.293096	.	.
+NM_000119	chr15:43498537	C/T	W=1	0:0
+NM_000119	chr15:43499436	G/A	W=1	0:0
+NM_000119	chr15:43500478	C/T	W=1	0:0
+NM_000119	chr15:43498537..43500478	EPB42	3	SKAT	0.422114	.	.
+NM_000122	chr2:128016983	C/T	W=1	0:0
+NM_000122	chr2:128038204	T/C	W=1	0:0
+NM_000122	chr2:128016983..128038204	ERCC3	2	SKAT	0.386466	.	.
+NM_000124	chr10:50732644	G/C	W=1	0:0
+NM_000124	chr10:50738781	T/C	W=1	0:0
+NM_000124	chr10:50740844	G/A	W=1	0:0
+NM_000124	chr10:50740861	C/T	W=1	0:0
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p>For each gene region the list of the variants within the gene are
 listed, followed by gene-based association results. The I field is only
 available for case control data and provides the smallest possible
@@ -2427,28 +3037,80 @@ are analyzing quantitative trait data these fields are blank. Detailed
 explanation about each output field can be found at
 <a href="https://atgu.mgh.harvard.edu/plinkseq/assoc.shtml#genic">https://atgu.mgh.harvard.edu/plinkseq/assoc.shtml#genic</a></p>
 <p>To view the smallest p-values for each SKAT test:</p>
-<p>cat SKAT_CEU.result | grep SKAT | grep -v "P=NA" | sort -k6 | head -15</p>
-<p>NM_024837 chr15:50152449..50264848 ATP8B4 5 SKAT 0.00405073 . .</p>
-<p>NM_001055 chr16:28617413..28617413 SULT1A1 1 SKAT 0.00418122 . .</p>
-<p>NM_177529 chr16:28617413..28617413 . 1 SKAT 0.00418122 . .</p>
-<p>NM_177530 chr16:28617413..28617413 . 1 SKAT 0.00418122 . .</p>
-<p>NM_177534 chr16:28617413..28617413 . 1 SKAT 0.00418122 . .</p>
-<p>NM_177536 chr16:28617413..28617413 . 1 SKAT 0.00418122 . .</p>
-<p>NM_001137559 chr12:121746337..121764935 ANAPC5 3 SKAT 0.00621198 . .</p>
-<p>NM_016237 chr12:121746337..121764935 . 3 SKAT 0.00621198 . .</p>
-<p>NM_006371 chr3:33174163..33174163 CRTAP 1 SKAT 0.00748816 . .</p>
-<p>NM_006944 chr2:234959642..234967570 SPP2 3 SKAT 0.00753125 . .</p>
-<p>NM_018328 chr2:149221327..149241000 MBD5 4 SKAT 0.00755692 . .</p>
-<p>NM_000782 chr20:52779338..52779338 CYP24A1 1 SKAT 0.00794735 . .</p>
-<p>NM_001128915 chr20:52779338..52779338 . 1 SKAT 0.00794735 . .</p>
-<p>NM_001018088 chr15:62204043..62302757 . 3 SKAT 0.0221564 . .</p>
-<p>NM_017684 chr15:62204043..62302757 VPS13C 3 SKAT 0.0221564 . .</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[49]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">cat</span> <span class="n">SKAT_CEU</span><span class="o">.</span><span class="n">result</span> <span class="o">|</span> <span class="n">grep</span> <span class="n">SKAT</span> <span class="o">|</span> <span class="n">grep</span> <span class="o">-</span><span class="n">v</span> <span class="s2">&quot;P=NA&quot;</span> <span class="o">|</span> <span class="n">sort</span> <span class="o">-</span><span class="n">k6</span> <span class="o">|</span> <span class="n">head</span> <span class="o">-</span><span class="mi">15</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>NM_024837	chr15:50152449..50264848	ATP8B4	5	SKAT	0.00405073	.	.
+NM_001055	chr16:28617413..28617413	SULT1A1	1	SKAT	0.00418122	.	.
+NM_177529	chr16:28617413..28617413	.	1	SKAT	0.00418122	.	.
+NM_177530	chr16:28617413..28617413	.	1	SKAT	0.00418122	.	.
+NM_177534	chr16:28617413..28617413	.	1	SKAT	0.00418122	.	.
+NM_177536	chr16:28617413..28617413	.	1	SKAT	0.00418122	.	.
+NM_001137559	chr12:121746337..121764935	ANAPC5	3	SKAT	0.00621198	.	.
+NM_016237	chr12:121746337..121764935	.	3	SKAT	0.00621198	.	.
+NM_006371	chr3:33174163..33174163	CRTAP	1	SKAT	0.00748816	.	.
+NM_006944	chr2:234959642..234967570	SPP2	3	SKAT	0.00753125	.	.
+NM_018328	chr2:149221327..149241000	MBD5	4	SKAT	0.00755692	.	.
+NM_000782	chr20:52779338..52779338	CYP24A1	1	SKAT	0.00794735	.	.
+NM_001128915	chr20:52779338..52779338	.	1	SKAT	0.00794735	.	.
+NM_001018088	chr15:62204043..62302757	.	3	SKAT	0.0221564	.	.
+NM_017684	chr15:62204043..62302757	VPS13C	3	SKAT	0.0221564	.	.
+sort: write failed: &#39;standard output&#39;: Broken pipe
+sort: write error
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p>Note that each test has been performed on each alternative transcript
 (NM_*) of each gene, e.g. transcripts NM_001055, NM_177529,
 NM_177530, NM_177534 and NM_177536 all belong to gene SULT1A1.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Task</strong></p>
 <p>Repeat the above analysis but using the data from the Yoruba (YRI)
 population and answer the following questions.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Question 1</strong>
 List the four smallest p-values for the single variant tests for the
 common variants i.e. MAF <em>&gt;</em>0.05:</p>
@@ -2507,22 +3169,9 @@ SKAT aggregate burden test</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
 <hr>
 &copy 2019 Center for Statistical Genetics, Department of Neurology, Columbia University
-<p><small>Exported from <a href="http://github.com/statgenetics/statgen-courses/blob/96f7de1d820922a2ce80fd63c9420a8cf305cf88/notebooks/PSEQ.ipynb"><code>notebooks/PSEQ.ipynb</code></a> committed by Gao Wang on Wed Oct 9 19:58:02 2019 <a href="http://github.com/statgenetics/statgen-courses/commit/96f7de1d820922a2ce80fd63c9420a8cf305cf88">revision 3, 96f7de1</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/statgenetics/statgen-courses/blob/05bdc1dadd0cd14106d34170d0726c700586157f/notebooks/PSEQ.ipynb"><code>notebooks/PSEQ.ipynb</code></a> committed by Gao Wang on Tue Jan 26 14:09:43 2021 <a href="http://github.com/statgenetics/statgen-courses/commit/05bdc1dadd0cd14106d34170d0726c700586157f">revision 6, 05bdc1d</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>

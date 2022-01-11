@@ -1,3 +1,3 @@
-var notebooksArray = ['PSEQ', 'VAT']
-var notebooksDict = {'Association-Analysis-of-Sequence-Data-using-PLINK-SEQ-(PSEQ)-1': 'PSEQ', 'Association-Analysis-of-Sequence-Data-using-Variant-Association-Tools-(VAT)-for-Complex-Traits-1': 'VAT'}
-var notebooksArrayMap = {'PSEQ': 'Association Analysis of ... K/SEQ (PSEQ)', 'VAT': 'Association Analysis of ... mplex Traits'}
+var notebooksArray = ['PSEQ', 'VAT', 'finemapping', 'finemapping_answers']
+var notebooksDict = {'MR-JTI-workflow-1': 'MR_JTI', 'Association-Analysis-of-Sequence-Data-using-PLINK-SEQ-(PSEQ)-1': 'PSEQ', 'Overview-1': 'finemapping', 'rm(list-ls())-1': 'finemapping_answers', 'Polygenic-Risk-Score-Analysis-on-Height-GWAS-data-1': 'ldpred2_example'}
+var notebooksArrayMap = {'MR_JTI': 'MR-JTI workflow', 'PSEQ': 'Association Analysis of ... K/SEQ (PSEQ)', 'VAT': 'Overview', 'finemapping': 'Overview', 'finemapping_answers': 'rm(list=ls())', 'ldpred2_example': 'Polygenic Risk Score An ... ht GWAS data'}

@@ -1,3 +1,21 @@
+# For users
+
+## Tutorial notebooks
+
+Some tutorials are available as IPython Notebooks and can be viewed at: 
+
+https://statgenetics.github.io/statgen-courses/notebooks.html
+
+## Available tutorials
+
+Available tutorials (via `--tutorial` option of `statgen-setup` script) are those with
+[docker images available as listed here](https://hub.docker.com/u/statisticalgenetics/). 
+
+## How to launch course tutorials
+
+https://github.com/statgenetics/statgen-courses/wiki/How-to-launch-course-tutorials
+
+
 # For developers
 
 - `docker` folder contains files for docker images to run the statgen course tutorials.
@@ -7,7 +25,7 @@
 
 ## Prepare your computer to manage the tutorials
 
-Software you need to install on your computer are `SoS` (simply type `pip install sos` to install, or, check out [here for alternative installation methods](https://vatlab.github.io/sos-docs/running.html) if you have troubles with that command) and [`docker`](http://statgen.us/lab-wiki/orientation/jupyter-setup.html#install-docker).
+Software you need to install on your computer are `SoS` (simply type `pip install sos` to install, or, check out [here for alternative installation methods](https://vatlab.github.io/sos-docs/running.html#Local-installation) if you have troubles with that command) and [`docker`](http://statgen.us/lab-wiki/orientation/jupyter-setup.html#install-docker).
 Additionally to run the course material on your computer (not on cloud VM) you have to put `src/statgen-setup` script to your `PATH` and change it to executable, 
 eg, `chmod +x ~/bin/statgen-setup` if you put it under `~/bin` which is part of your `PATH`. To verify your setup, type:
 
@@ -40,6 +58,14 @@ You can use option `--tag` to add version tag to a build, eg, `--tag 1.0.0`.
 If you run into this error `denied: requested access to the resource is denied` please make sure you have push access to dockerhub account `statisticalgenetics`.
 Please contact Gao Wang for the password to that account and use `docker login` command to login from your terminal. Then try build again.
 
+### Incorporate JupyterLab setup script
+
+It is possible to additionally customize the docker image when started from JuptyerLab environment, to download the latest version of tutorial notes and deploy *small* data in the JupyterLab server launched from the docker image.
+To configure please study [this example](https://github.com/statgenetics/statgen-courses/blob/fbaed85b40ac62607b72d6933616ee69267f974e/docker/finemap.dockerfile#L12) (which is self-explanary and I'll not elaborate it here).
+
+If your tutorial comes with a large data-set it is not suggested that a setup script is used. Instead, you can still install the `pull-tutorial.sh` script and instruct users to type a line of command `get-data` from
+JupyterLab terminal when they first logged in to the server. See [this example](https://github.com/statgenetics/statgen-courses/blob/f72874d33367b12362ce234b07967a2c0fdc6185/docker/ldpred2.dockerfile#L17) for details.
+
 
 ## Setup course JupyterHub server on your computer
 
@@ -59,6 +85,9 @@ CONTAINER ID        IMAGE               COMMAND                  CREATED        
 ```
 
 The `0.0.0.0:8847` is the address to the server (your port number may vary). To view it, simply paste that address to your browser. 
+
+The server may take a while to start, depending on if it runs a setup script that could take a bit of time. Files used for the tutorials should have been deployed once the server is ready.
+If not (and you see empty file list on the left panel of the JupyterLab interface), users should be instructed to manually transfer files to proper folders for use with JupyterLab. [More details are documented here](https://github.com/statgenetics/statgen-courses/wiki/How-to-launch-course-tutorials).
 
 ## Setup a cloud VM
 
@@ -123,20 +152,3 @@ The conversion is just a start point. Manual polishment is still needed after th
 Specifically, it will be important to separate codes from text to different Notebook cells,
 and assign to each cell the approperate kernel if using SoS multi-language Notebook. Command output should also be
 removed from the text because they will be generated automatically and formatted better, after executing the notebook.
-
-# For users
-
-## Tutorial notebooks
-
-Some tutorials are available as IPython Notebooks and can be viewed at: 
-
-https://statgenetics.github.io/statgen-courses/notebooks.html
-
-## Available tutorials
-
-Available tutorials (via `--tutorial` option of `statgen-setup` script) are those with
-[docker images prepared](https://hub.docker.com/u/statisticalgenetics/). 
-
-## How to launch course tutorials
-
-https://github.com/statgenetics/statgen-courses/wiki/How-to-launch-course-tutorials

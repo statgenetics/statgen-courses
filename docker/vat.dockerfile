@@ -14,7 +14,7 @@ RUN echo "deb [trusted=yes] http://statgen.us/deb ./" | tee -a /etc/apt/sources.
 
 # Install companion tools PLINK and KING
 RUN cd /tmp && \
-  curl -so - wget http://people.virginia.edu/~wc9c/KING/executables/Linux-king224.tar.gz | tar zx && \
+  curl -so - wget https://www.kingrelatedness.com/executables/Linux-king224.tar.gz | tar zx && \
   wget http://s3.amazonaws.com/plink1-assets/plink_linux_x86_64_20191024.zip && unzip plink_linux_x86_64_20191024.zip && \
   mv king plink /usr/local/bin && cd - && rm -rf /tmp/*
 
@@ -24,8 +24,11 @@ RUN chmod a+x /usr/local/bin/pull-tutorial.sh
 # Add notebook startup hook
 # https://jupyter-docker-stacks.readthedocs.io/en/latest/using/common.html#startup-hooks
 RUN mkdir -p /usr/local/bin/start-notebook.d
-RUN echo "#!/bin/bash\n/usr/local/bin/pull-tutorial.sh vat &" > /usr/local/bin/start-notebook.d/get-updates.sh
+RUN echo -e '#!/bin/bash\n/usr/local/bin/pull-tutorial.sh vat &' > /usr/local/bin/start-notebook.d/get-updates.sh
 RUN chmod a+x /usr/local/bin/start-notebook.d/get-updates.sh
+# Users can type in "get-data" command in bash when they run the tutorial the first time.
+RUN echo -e '#!/bin/bash\n/opt/pull-tutorial.sh vat' > /usr/local/bin/get-data
+RUN chmod a+x /usr/local/bin/get-data
 
 RUN chown -R jovyan.users /home/jovyan
 USER jovyan

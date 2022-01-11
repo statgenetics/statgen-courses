@@ -1,13 +1,14 @@
 #!/bin/bash
-# This script can be executed as is under `root`, to setup a new Debian 10 VM purchased
+# Last tested Nov, 2021
+# This script can be executed as is under `root`, to setup a new Debian 11 VM purchased
 # from a cloud server provider. This script is all you need to setup computing environment
 # to run course tutorials. If you are using it in a different context (i.e., on a machine
-# not a brand new VM with Debian 10 OS) please read comments for each command and decide what to do.
+# not a brand new VM with Debian 11 OS) please read comments for each command and decide what to do.
 set -e
-# setup web server (assuming Debian OS)
+# setup web server (assuming Debian 11 OS)
 ## Note: you can skip this step if 1) you already have some webserver running, or 2) you don't need to run the tutorial via Jupyter Hub
 apt-get update && apt-get install -y nginx
-# install setfacl command tool (assuming Debian OS)
+# install setfacl command tool (assuming Debian 11 OS)
 ## Note: you can skip this step if 1) you already have setfacl command tool installed or 2) you don't need to run the tutorial via Jupyter Hub
 apt-get install acl
 # setup docker
@@ -31,3 +32,16 @@ statgen-setup update --tutorial vat pseq igv popgen regression annovar mlink sli
 ## This will download large data-set; please comment it out if you do not need it for the tutorial
 ## By default we don't need this step for our current version of gemini tutorial.
 ## statgen-setup annotation_db --gemini-data-dir /opt/annotation_db && chown root.users -R /opt/annotation_db && chmod g=u -R /opt/annotation_db
+
+# Ensure that /var/www/html (root of webserver) is writable to users.
+# They will need to create folders for exercises.
+if [ -d /var/www/html ] ; then
+        chmod a+rwX /var/www/html
+fi
+
+# By default the ufw (Uncomplicated FireWall) system in Debian 11
+# disallows port 80.  We need to allow that traffic through.
+path=$(which ufw)
+if [ "$?" -eq "0" ] && [ -x "$path" ] ; then
+        ufw allow 80
+fi

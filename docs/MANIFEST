@@ -3,5 +3,9 @@ docs/index.tpl
 docs/js/docs.js
 docs/notebooks.html
 docs/notebooks.tpl
+docs/notebooks/MR_JTI.html
 docs/notebooks/PSEQ.html
 docs/notebooks/VAT.html
+docs/notebooks/finemapping.html
+docs/notebooks/finemapping_answers.html
+docs/notebooks/ldpred2_example.html
