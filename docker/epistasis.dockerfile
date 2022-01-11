@@ -29,7 +29,7 @@ RUN chmod a+x /usr/local/bin/start-notebook.d/get-updates.sh
 RUN echo -e '#!/bin/bash\n/opt/pull-tutorial.sh epistasis' > /usr/local/bin/get-data
 RUN chmod a+x /usr/local/bin/get-data
 
-RUN curl -so PRACDATA.zip http://statgen.us/files/2020/01/PRACDATA.zip && \
+RUN curl -so PRACDATA.zip https://statgen.us/files/2020/01/PRACDATA.zip && \
   unzip PRACDATA.zip && \
   mv PRACDATA/simcasecon.* /home/jovyan/.work && \
   rm -rf PRACDATA*

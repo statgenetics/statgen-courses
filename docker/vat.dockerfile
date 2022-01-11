@@ -7,7 +7,7 @@ USER root
 RUN mkdir /home/jovyan/.work
 
 # Install annovar package
-RUN echo "deb [trusted=yes] http://statgen.us/deb ./" | tee -a /etc/apt/sources.list.d/statgen.list && \
+RUN echo "deb [trusted=yes] https://statgen.us/deb ./" | tee -a /etc/apt/sources.list.d/statgen.list && \
     apt-get --allow-insecure-repositories update && \
     apt-get install -y annovar && \
     apt-get clean
@@ -39,8 +39,8 @@ USER jovyan
 # a snapshot of it with the data used in the tutorial we ensure reproducibility.
 # The bundled version of data is obtained Oct 2019 using command:
 # ./annotate_variation.pl -downdb -buildver hg19 -webfrom annovar refGene humandb
-RUN curl -so - http://statgen.us/files/vat-cache.tar.bz2 | tar jx
-RUN ( cd $HOME/.work && curl -so - http://statgen.us/files/vat-data.tar.bz2 | tar jx )
+RUN curl -so - https://statgen.us/files/vat-cache.tar.bz2 | tar jx
+RUN ( cd $HOME/.work && curl -so - https://statgen.us/files/vat-data.tar.bz2 | tar jx )
 RUN mv $HOME/.work/bin $HOME/bin && \
   ln -s /usr/lib/annovar/annotate_variation.pl $HOME/bin/annotate_variation.pl && \
   echo "export PATH=\$HOME/bin:\$PATH" >> $HOME/.bashrc

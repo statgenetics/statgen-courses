@@ -29,4 +29,4 @@ USER jovyan
 
 # Download data to docker image
 RUN mkdir -p /home/jovyan/.work
-RUN cd /home/jovyan/.work && curl -fsSL http://statgen.us/files/2021/01/ldpred2.tar.gz -o ldpred2.tar.gz && tar -xzvf ldpred2.tar.gz && rm -rf *.tar.gz
+RUN cd /home/jovyan/.work && curl -fsSL https://statgen.us/files/2021/01/ldpred2.tar.gz -o ldpred2.tar.gz && tar -xzvf ldpred2.tar.gz && rm -rf *.tar.gz

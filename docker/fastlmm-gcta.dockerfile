@@ -18,7 +18,7 @@ RUN mkdir -p /tmp/plink1.90 && cd /tmp/plink1.90 && \
 
 
 RUN cd /tmp && \
-    curl -so - http://statgen.us/files/gcta-1.93.2beta.tar.xz | tar Jx && \
+    curl -so - https://statgen.us/files/gcta-1.93.2beta.tar.xz | tar Jx && \
     mv gcta-1.93.2beta/gcta64 /usr/local/bin && \
     chmod a+x /usr/local/bin/gcta64 && \
     rm -rf gcta-1.93.2beta
@@ -47,7 +47,7 @@ RUN chown jovyan.users -R /home/jovyan
 
 USER jovyan
 
-RUN curl -so PRACDATA.zip http://statgen.us/files/2020/01/PRACDATA.zip && \
+RUN curl -so PRACDATA.zip https://statgen.us/files/2020/01/PRACDATA.zip && \
     unzip PRACDATA.zip && \
     (cd PRACDATA && rm -rf sim* cassi plink gcta64 fastlmmc ) && \ 
     mv PRACDATA/* /home/jovyan/.work && \

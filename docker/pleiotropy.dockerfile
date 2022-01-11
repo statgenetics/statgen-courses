@@ -26,7 +26,7 @@ RUN chmod a+x /usr/local/bin/start-notebook.d/get-updates.sh
 RUN echo -e '#!/bin/bash\n/opt/pull-tutorial.sh pleiotropy' > /usr/local/bin/get-data
 RUN chmod a+x /usr/local/bin/get-data
 
-RUN curl -fsSL http://statgen.us/files/2020/01/pleiotropy_final_datasets.zip -o pleiotropy.zip
+RUN curl -fsSL https://statgen.us/files/2020/01/pleiotropy_final_datasets.zip -o pleiotropy.zip
 RUN unzip pleiotropy.zip && mv pleiotropy_final_datasets/*  /home/jovyan/.work
 RUN rm -rf pleiotropy*
 

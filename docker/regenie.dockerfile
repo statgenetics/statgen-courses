@@ -46,4 +46,4 @@ USER jovyan
 
 # Download data to docker image
 RUN mkdir -p /home/jovyan/.work
-RUN cd /home/jovyan/.work && curl -fsSL http://statgen.us/files/2021/11/mwe_regenie.tar.gz -o mwe_regenie.tar.gz && tar -xzvf mwe_regenie.tar.gz && rm -rf *.tar.gz
+RUN cd /home/jovyan/.work && curl -fsSL https://statgen.us/files/2021/11/mwe_regenie.tar.gz -o mwe_regenie.tar.gz && tar -xzvf mwe_regenie.tar.gz && rm -rf *.tar.gz

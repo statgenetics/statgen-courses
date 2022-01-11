@@ -7,7 +7,7 @@ USER root
 ## Install dependency tools fastlink from Debian package repo, currently version 4.1P
 ## And LINKAGE program from our own repo; overwriting packages in LINKAGE with those in FASTLINK when possible
 
-RUN echo "deb [trusted=yes] http://statgen.us/deb ./" | tee -a /etc/apt/sources.list.d/statgen.list && \
+RUN echo "deb [trusted=yes] https://statgen.us/deb ./" | tee -a /etc/apt/sources.list.d/statgen.list && \
     apt-get update && \
     apt-get install -y linkage && \
     apt-get -o Dpkg::Options::="--force-overwrite" install -y fastlink fastlink-doc && \
@@ -16,5 +16,5 @@ RUN echo "deb [trusted=yes] http://statgen.us/deb ./" | tee -a /etc/apt/sources.
 # Download scripts and tutorial files
 USER jovyan
 ARG DUMMY=unknown
-RUN curl -fsSL http://statgen.us/files/peds-a.pre -o peds-a.pre
+RUN curl -fsSL https://statgen.us/files/peds-a.pre -o peds-a.pre
 RUN DUMMY=${DUMMY} curl -fsSL https://raw.githubusercontent.com/statgenetics/statgen-courses/master/handout/MLINK.pdf -o MLINK.pdf 

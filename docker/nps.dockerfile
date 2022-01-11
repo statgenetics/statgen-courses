@@ -26,7 +26,7 @@ RUN curl -fsSL https://github.com/sgchun/nps/archive/1.1.0.tar.gz -o nps-1.1.0.t
     cd nps-1.1.0/ && \
     make && \
     cd testdata/ && \
-    curl -fsSL http://statgen.us/files/NPS.Test1.tar.gz -o NPS.Test1.tar.gz && \
+    curl -fsSL https://statgen.us/files/NPS.Test1.tar.gz -o NPS.Test1.tar.gz && \
     tar xvzf NPS.Test1.tar.gz && \
     rm -rf NPS.Test1.tar.gz
 

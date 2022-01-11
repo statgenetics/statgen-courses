@@ -8,7 +8,7 @@ USER root
 
 RUN mkdir -p /home/jovyan/.work
 
-RUN echo "deb [trusted=yes] http://statgen.us/deb ./" | tee -a /etc/apt/sources.list.d/statgen.list && \
+RUN echo "deb [trusted=yes] https://statgen.us/deb ./" | tee -a /etc/apt/sources.list.d/statgen.list && \
     apt-get --allow-insecure-repositories update && \
     apt-get install -y annotation-tutorial && \
     apt-get clean

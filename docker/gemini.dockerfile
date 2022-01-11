@@ -24,7 +24,7 @@ RUN sed -i '2 i \
 
 USER jovyan
 
-RUN ( cd $HOME/work && curl -fsSL http://statgen.us/files/gemini-tutorial-data.tar.bz2 -o gemini.tar.bz2 && tar jxvf gemini.tar.bz2 && rm -f gemini.tar.bz2 )
+RUN ( cd $HOME/work && curl -fsSL https://statgen.us/files/gemini-tutorial-data.tar.bz2 -o gemini.tar.bz2 && tar jxvf gemini.tar.bz2 && rm -f gemini.tar.bz2 )
 
 RUN echo "source activate py2" >> $HOME/.bashrc
 

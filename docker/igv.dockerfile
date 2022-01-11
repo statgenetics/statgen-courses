@@ -12,7 +12,7 @@ RUN apt-get update && \
 ## Download data for the exercise
 ## Data should be installed to `/usr/local/src/igv-webapp/dist` to be accessible
 
-RUN curl -fsSL http://statgen.us/files/igv_exercise.zip -o igv_exercise.zip && \
+RUN curl -fsSL https://statgen.us/files/igv_exercise.zip -o igv_exercise.zip && \
     unzip igv_exercise.zip && \
     mv igv/*.* /usr/local/src/igv-webapp/dist && \
     rm -rf igv_exercise.zip igv && ln -s /usr/local/src/igv-webapp/dist igv-dist
