@@ -1,0 +1,1 @@
+https://raw.githubusercontent.com/cumc/bioworkflows/master/GWAS/LD_Clumping.ipynb
