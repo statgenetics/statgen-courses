@@ -29,15 +29,15 @@ RUN cd /tmp && wget https://github.com/rgcgithub/regenie/releases/download/v2.2.
     cp regenie /usr/local/bin && \
     rm regenie_v2.2.4.gz_x86_64_Linux.* 
 
-RUN curl -sSo /opt/pull-tutorial.sh https://raw.githubusercontent.com/statgenetics/statgen-courses/master/src/pull-tutorial.sh
-RUN chmod a+x /opt/pull-tutorial.sh
+RUN curl -sSo /usr/local/bin/pull-tutorial.sh https://raw.githubusercontent.com/statgenetics/statgen-courses/master/src/pull-tutorial.sh
+RUN chmod a+x /usr/local/bin/pull-tutorial.sh
 # Add notebook startup hook
 # https://jupyter-docker-stacks.readthedocs.io/en/latest/using/common.html#startup-hooks
 RUN mkdir -p /usr/local/bin/start-notebook.d
 RUN echo "#!/bin/bash\n/usr/local/bin/pull-tutorial.sh README" > /usr/local/bin/start-notebook.d/get-updates.sh
 RUN chmod a+x /usr/local/bin/start-notebook.d/get-updates.sh
 # Users can type in "get-data" command in bash when they run the tutorial the first time, to download the data.
-RUN echo "#!/bin/bash\n/opt/pull-tutorial.sh regenie" > /usr/local/bin/get-data
+RUN echo "#!/bin/bash\n/usr/local/bin/pull-tutorial.sh regenie" > /usr/local/bin/get-data
 RUN chmod a+x /usr/local/bin/get-data
 
 RUN chown jovyan.users -R /home/jovyan

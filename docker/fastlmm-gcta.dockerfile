@@ -40,7 +40,7 @@ RUN mkdir -p /usr/local/bin/start-notebook.d
 RUN echo "#!/bin/bash\n/usr/local/bin/pull-tutorial.sh fastlmm-gcta &" > /usr/local/bin/start-notebook.d/get-updates.sh
 RUN chmod a+x /usr/local/bin/start-notebook.d/get-updates.sh
 # Users can type in "get-data" command in bash when they run the tutorial the first time, to download the data.
-RUN echo "#!/bin/bash\n/opt/pull-tutorial.sh fastlmm-gcta" > /usr/local/bin/get-data
+RUN echo "#!/bin/bash\n/usr/local/bin/pull-tutorial.sh fastlmm-gcta" > /usr/local/bin/get-data
 RUN chmod a+x /usr/local/bin/get-data
 
 RUN chown jovyan.users -R /home/jovyan
