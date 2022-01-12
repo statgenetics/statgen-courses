@@ -12,7 +12,9 @@ RUN mkdir /home/jovyan/.work
 RUN conda install -c bioconda plink && \
     R -e 'install.packages("mediation", repos="http://cran.r-project.org")'
 
-RUN cd /usr/local/bin && curl -fsSL https://genepi.qimr.edu.au/staff/manuelF/multivariate/plink.multivariate.zip -o plink.multivariate && chmod a+x plink.multivariate 
+# This URL has security measures preventing us from scripting this.  As a result, I've made a copy on statgen.us.
+#RUN cd /usr/local/bin && curl -fsSL https://genepi.qimr.edu.au/staff/manuelF/multivariate/plink.multivariate.zip -o plink.multivariate.zip && unzip plink.multivariate.zip && rm plink.multivariate.zip && chmod a+x plink.multivariate 
+RUN cd /usr/local/bin && curl -fsSL https://statgen.us/files/software/plink.multivariate/plink.multivariate.zip -o plink.multivariate.zip && unzip plink.multivariate.zip && rm plink.multivariate.zip && chmod a+x plink.multivariate 
 
 RUN curl -so /usr/local/bin/pull-tutorial.sh https://raw.githubusercontent.com/statgenetics/statgen-courses/master/src/pull-tutorial.sh
 RUN chmod a+x /usr/local/bin/pull-tutorial.sh
