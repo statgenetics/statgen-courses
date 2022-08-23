@@ -17,3 +17,5 @@ RUN chmod a+x /usr/local/bin/get-data
 RUN chown jovyan.users -R /home/jovyan
 
 USER jovyan
+
+RUN for f in multtest GWAS_part1 GWAS_part2 intro.plink.R regression; do ( cd $HOME/.work && curl -so - https://statgen.us/files/$f.tar.gz | tar zx ); done
