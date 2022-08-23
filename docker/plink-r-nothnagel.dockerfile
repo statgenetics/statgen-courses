@@ -14,8 +14,6 @@ RUN chmod a+x /usr/local/bin/pull-tutorial.sh
 RUN echo "#!/bin/bash\n/usr/local/bin/pull-tutorial.sh plink-r-nothnagel" > /usr/local/bin/get-data
 RUN chmod a+x /usr/local/bin/get-data
 
-RUN chown jovyan.users -R /home/jovyan
-
 USER jovyan
-
+RUN mkdir -p $HOME/.work
 RUN for f in multtest GWAS_part1 GWAS_part2 intro.plink.R regression; do ( cd $HOME/.work && curl -so - https://statgen.us/files/$f.tar.gz | tar zx ); done
