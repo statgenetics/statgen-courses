@@ -7,7 +7,10 @@ USER root
 RUN mkdir /home/jovyan/.work
 
 RUN sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9 
-
+# Problem using letsencrypt for staten.us and a solution
+# https://stackoverflow.com/questions/69401972/refresh-lets-encrypt-root-ca-in-docker-container
+RUN sed -i 's/mozilla\/DST_Root_CA_X3.crt/!mozilla\/DST_Root_CA_X3.crt/g' /etc/ca-certificates.conf
+RUN update-ca-certificates
 # Install annovar package
 RUN echo "deb [trusted=yes] https://statgen.us/deb ./" | tee -a /etc/apt/sources.list.d/statgen.list && \
     apt-get --allow-insecure-repositories update && \

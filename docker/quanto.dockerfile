@@ -4,6 +4,9 @@ MAINTAINER Gao Wang <gw2411@columbia.edu>
 
 USER root
 # Commands below will install wine 32 bit on Debian Linux then download Quanto installer
+
+RUN sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9 
+
 RUN dpkg --add-architecture i386 && \
     apt-get update && \
     apt-get install -y wine32 curl && \
