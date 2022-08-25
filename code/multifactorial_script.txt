@@ -1,0 +1,152 @@
+############################################################################
+### PLINK ##################################################################
+############################################################################
+
+# I. Logistic regression on a single SNP under an allelic model
+plink --ped dbp.cc.ped --map dbp.map --map3 --out logreg.add  --logistic --noweb
+cat logreg.add.assoc.logistic
+
+plink --ped dbp.cc.ped --map dbp.map --map3 --out logreg.add.ci  --logistic  --ci 0.95  --noweb
+cat logreg.add.ci.assoc.logistic
+
+# II. Adjustment for the effects of covariates and of other SNPs
+plink --ped dbp.cc.ped --map dbp.map --map3 --out logreg.age.add  --logistic  --covar dbp.age.pheno  --noweb
+cat logreg.age.add.assoc.logistic
+
+plink --ped dbp.cc.ped --map dbp.map --map3 --out logreg.sex.add  --logistic --sex  --noweb
+cat logreg.sex.add.assoc.logistic
+
+plink --ped dbp.cc.ped --map dbp.map --map3 --out logreg.sexage.add  --logistic --sex  --covar dbp.age.pheno  --noweb
+cat logreg.sexage.add.assoc.logistic
+
+plink --ped dbp.cc.ped --map dbp.map --map3 --out logreg.snp1112.add  --logistic  --condition rs1112  --noweb
+cat logreg.snp1112.add.assoc.logistic
+
+plink --ped dbp.cc.ped --map dbp.map --map3 --out logreg.snp1117.add  --logistic  --condition rs1117
+cat logreg.snp1117.add.assoc.logistic
+
+# III. Analysis of quantitative instead of dichotomized trait
+plink --ped dbp.qt.ped --map dbp.map --map3 --out linreg.sex.add  --linear   --sex  --noweb
+cat linreg.sex.add.assoc.linear
+
+# IV. Gene-environment (GxE) and gene-gene (GxG) interaction
+plink --ped dbp.cc.ped --map dbp.map --map3 --out logreg.sex.inter.add  --logistic  --sex  --interaction  --noweb
+cat logreg.sex.inter.add.assoc.logistic
+
+plink --ped dbp.cc.ped --map dbp.map --map3 --out logreg.snp1112.inter.add  --logistic  --condition rs1112  --interaction  --noweb
+cat logreg.snp1112.inter.add.assoc.logistic
+
+
+
+############################################################################
+### R ######################################################################
+############################################################################
+
+
+# --- Data set import --- #
+
+load ("dbp.R")
+  ls ()
+  dbp[1:5,]
+
+  summary(dbp)
+
+
+# --- I. Logistic regression on a single SNP genotype --- #
+
+# Regression + Wald test #
+result.snp12 = glm (affection ~ rs1112, family=binomial("logit"), data=dbp)
+print ( result.snp12 )
+print ( class (result.snp12) )
+print ( summary(result.snp12) )
+
+# LRT #
+dev.geno = anova (result.snp12, test="Chi")
+  lrt.pvalue = pchisq(dev.geno[dim(dev.geno)[1],"Deviance"], df=2, ncp=0, FALSE) 
+  print ( lrt.pvalue )
+
+# OR + CI #
+print ( summary(result.snp12)$coefficients )
+snp.beta = summary(result.snp12)$coefficients[2:3,1]
+  print ( snp.beta )
+  print ( exp(snp.beta) )
+ci = confint (result.snp12)
+  print (ci) 
+  print ( exp(ci) )
+
+# Allelic model #
+snp.data = dbp[,c("affection", "rs1112")]
+  summary(snp.data)
+snp.data[,"rs1112"] <- as.numeric(snp.data[,"rs1112"]) - 1
+  summary(snp.data)
+
+# Results for allelic model (allele 2) #
+result.all = glm (affection ~ rs1112, family=binomial("logit"), data=snp.data)
+dev.all    = anova (result.all, test="Chi")
+summary(result.all)   
+print(dev.all) 
+
+
+# --- Excerpt  --- #
+snp.data = dbp[,c("affection", "trait","sex", "age", "rs1112", "rs1117")]
+  summary(snp.data)
+
+# Allelic model #
+snp.data[,"rs1112"] <- as.numeric(snp.data[,"rs1112"]) - 1
+snp.data[,"rs1117"] <- as.numeric(snp.data[,"rs1117"]) - 1
+
+
+# --- II. Adjustment for the effects of covariates and of other SNPs --- #
+
+# Covariates #
+result.adj = glm (affection ~ sex + rs1112      , family=binomial("logit"), data=snp.data)
+  summary(result.adj)
+result.adj = glm (affection ~ age + rs1112      , family=binomial("logit"), data=snp.data)
+  summary(result.adj)
+result.adj = glm (affection ~ sex + age + rs1112, family=binomial("logit"), data=snp.data)
+  summary(result.adj)
+
+
+# Effect of SNP2 given SNP 1 # 
+result.adj = glm (affection ~ rs1117 + rs1112, family=binomial("logit"), data=snp.data)
+  summary(result.adj)
+  anova (result.adj, test="Chi")
+result.adj = glm (affection ~ rs1112 + rs1117, family=binomial("logit"), data=snp.data)
+  summary(result.adj)
+  anova (result.adj, test="Chi")
+
+
+# --- III. Analysis of quantitative instead of dichotomized trait --- #
+
+# Consideration of QT instead of binary affection status (dichotomized QT) #
+result.adj = lm (trait ~ rs1112      , data=snp.data)
+  summary(result.adj)
+result.adj = lm (trait ~ sex + rs1112, data=snp.data)
+  summary(result.adj)
+
+
+# --- IV. Gene-environment (GxE) and gene-gene (GxG) interaction --- #
+
+# GxE #
+result.inter = glm (affection ~ sex * rs1112, family=binomial("logit"), data=snp.data)
+  summary(result.inter)
+result.inter = glm (affection ~ age * rs1112, family=binomial("logit"), data=snp.data)
+  summary(result.inter)
+
+# GxG #
+result.inter = glm (affection ~ rs1112 * rs1117, family=binomial("logit"), data=snp.data)
+  summary(result.inter)
+
+
+# --- V. Model selection --- #
+
+result.reg = glm (affection ~ sex + age + rs1112 + rs1117, family=binomial("logit"), data=snp.data)
+  summary(result.reg)
+
+modelchoice.result <- step (result.reg)
+  summary(modelchoice.result)
+
+
+############################################################################
+### END OF SCRIPT ##########################################################
+############################################################################
