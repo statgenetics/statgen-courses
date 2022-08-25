@@ -7,6 +7,8 @@ USER root
 ## Install dependency tools fastlink from Debian package repo, currently version 4.1P
 ## And LINKAGE program from our own repo; overwriting packages in LINKAGE with those in FASTLINK when possible
 
+RUN sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9 
+
 RUN echo "deb [trusted=yes] https://statgen.us/deb ./" | tee -a /etc/apt/sources.list.d/statgen.list && \
     apt-get update && \
     apt-get install -y linkage && \

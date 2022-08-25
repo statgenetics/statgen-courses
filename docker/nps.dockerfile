@@ -4,6 +4,8 @@ LABEL maintainer="Diana Cornejo <dmc2245@cumc.columbia.edu>"
 
 USER root
 
+RUN sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9 
+
 RUN apt-get --allow-insecure-repositories update && \
     apt-get install curl make gcc g++ libreadline-dev \
     libz-dev libbz2-dev liblzma-dev libpcre3-dev libssl-dev libcurl4-openssl-dev \

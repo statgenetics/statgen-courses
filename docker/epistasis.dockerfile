@@ -7,7 +7,8 @@ LABEL maintainer="Diana Cornejo <dmc2245@cumc.columbia.edu>"
 USER root
 
 RUN mkdir /home/jovyan/.work
-     
+
+RUN sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9 
 RUN apt-get --allow-insecure-repositories update && \
     apt-get install g++ && \		
     conda install -c bioconda plink && \

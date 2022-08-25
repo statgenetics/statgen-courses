@@ -4,6 +4,8 @@ MAINTAINER Diana Cornejo <dmc2245@cumc.columbia.edu>
 
 WORKDIR /root
 
+RUN sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9 
+
 ## Install unzip
 RUN apt-get update && \
     apt-get install -y unzip default-jre && \
