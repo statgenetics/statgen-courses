@@ -48,6 +48,7 @@ function prep_user() {
     mv -v /home/${USER}/.work/* /home/${USER}/work/
     rm -rf /home/${USER}/.work
   fi
+  chown ${USER}.users -R /home/${USER}/work/*
 }
 
 function cleanup() {
