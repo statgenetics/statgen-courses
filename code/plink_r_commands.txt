@@ -301,11 +301,12 @@ plink  --bfile dbp  --assoc  --mperm 100000  --out multperm100000
 
 # R commands #
 
-if (!requireNamespace("BiocManager", quietly = TRUE))
-    install.packages("BiocManager")
-BiocManager::install()
-
-BiocManager::install("multtest")
+## Code below installs the library "multtest". 
+## They are only necessary if your system does not have multtest R package installled already
+# if (!requireNamespace("BiocManager", quietly = TRUE))
+#    install.packages("BiocManager")
+# BiocManager::install()
+# BiocManager::install("multtest")
 
 library (multtest)
 
