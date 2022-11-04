@@ -10,7 +10,8 @@ USER root
 RUN mkdir /home/jovyan/.work
 
 RUN conda install -c bioconda plink && \
-    R -e 'install.packages("mediation", repos="http://cran.r-project.org")'
+    R --slave -e 'install.packages("mediation", repos="http://cran.r-project.org")' && \
+    R --slave -e "devtools::install_github('anastasia-lucas/hudson')"
 
 # This URL has security measures preventing us from scripting this.  As a result, I've made a copy on statgen.us.
 #RUN cd /usr/local/bin && curl -fsSL https://genepi.qimr.edu.au/staff/manuelF/multivariate/plink.multivariate.zip -o plink.multivariate.zip && unzip plink.multivariate.zip && rm plink.multivariate.zip && chmod a+x plink.multivariate 
@@ -28,8 +29,8 @@ RUN chmod a+x /usr/local/bin/start-notebook.d/get-updates.sh
 RUN echo "#!/bin/bash\n/usr/local/bin/pull-tutorial.sh pleiotropy" > /usr/local/bin/get-data
 RUN chmod a+x /usr/local/bin/get-data
 
-RUN curl -fsSL https://statgen.us/files/2020/01/pleiotropy_final_datasets.zip -o pleiotropy.zip
-RUN unzip pleiotropy.zip && mv pleiotropy_final_datasets/*  /home/jovyan/.work
+RUN curl -fsSL https://statgen.us/files/2022/11/pleiotropy.zip -o pleiotropy.zip
+RUN unzip pleiotropy.zip && mv pleiotropy/*  /home/jovyan/.work
 RUN rm -rf pleiotropy*
 
 RUN chown jovyan.users -R /home/jovyan
