@@ -11,6 +11,10 @@ parameter: mac_chip = False
 my_name = my_name.lower()
 parameter: version = '1.0.0'
 import socket, random
+import os
+if os.uname().machine == 'arm64' and not mac_chip:
+    print("Mac CPU chip detected.")
+    mac_chip = True
 
 def is_port_in_use(port):
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
