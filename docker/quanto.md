@@ -24,7 +24,12 @@ wine /tmp/quanto_installer.exe
 ```
 and follow instructions. By default program will be installed to `/root/.wine/drive_c/Program Files/Quanto/Quanto.exe`
 
-Then exit the docker container,
+Then run
+
+```
+sed  -i "1s/-e //" /usr/local/bin/quanto
+```
+to fix a syntax error in the script, then exit the docker container,
 ```
 exit
 ```
