@@ -59,6 +59,13 @@ Notice that I can also, in principle, tarball the installed `quanto` and save it
 
 The trickiness is to run GUI based application in Docker. It is different for different OS.
 
+
+First of all, in your terminal, pull the image:
+
+```
+docker pull statisticalgenetics/quanto
+```
+
 ### On Linux
 
 ```
