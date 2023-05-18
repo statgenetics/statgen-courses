@@ -56,7 +56,7 @@ fail_if(not all((a.isalnum() or a == '_') and not a.isspace() for a in my_name),
 import os
 home = os.path.expanduser("~").replace('/', '\\/')
 input: None, for_each = 'tutorial', concurrent = False
-docker_build: tag = f'{_tutorial}_{my_name}', expand = '$[ ]', workdir = '~/.cache'
+docker_build: tag = f'{_tutorial}_{my_name}', platform='linux/arm64', expand = '$[ ]', workdir = '~/.cache'
     FROM gaow/base-notebook:$[version]
     USER root
     RUN mkdir -p /srv/jupyterhub/
