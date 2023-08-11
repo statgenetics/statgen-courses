@@ -1,0 +1,32 @@
+package:
+  name: cassi
+  version: 2.51
+
+source:
+  url: https://www.staff.ncl.ac.uk/richard.howey/cassi/cassi-v2.51-code.zip
+  sha256: 7a0e6354d22126b68846d5b12c7e56a724915226db37f8cd57ebad3ad1bd79c6 # You can compute this by downloading the ZIP and using `sha256sum` command
+
+build:
+  number: 0
+  skip: True  # [win]
+
+requirements:
+  build:
+    - {{ compiler('cxx') }}
+    - make
+  host:
+    - unzip
+
+test:
+  commands:
+    - cassi --version  # Or any other basic command to check if the binary works
+
+about:
+  home: https://www.staff.ncl.ac.uk/richard.howey/cassi/
+  license: MIT
+  license_file: LICENCE
+  summary: cassi
+
+extra:
+  recipe-maintainers:
+    - jiacheng007
