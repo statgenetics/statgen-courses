@@ -18,7 +18,7 @@ import os
 if os.uname().machine == 'arm64' and not mac_chip:
     print("Mac CPU chip detected.")
     mac_chip = True
-
+mac_chip = False
 def is_port_in_use(port):
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         return s.connect_ex(('localhost', port)) == 0
@@ -64,7 +64,7 @@ script: interpreter=f'docker build . --tag {_tutorial}_{my_name} {"--platform li
     COPY jupyterhub_config.py /srv/jupyterhub/jupyterhub_config.py
     COPY cull_idle_servers.py /srv/jupyterhub/cull_idle_servers.py
     # modify the script to create a unique instance
-    RUN sed -i "s/CONTAINER_NAME/$[_tutorial]_$[my_name]/g; s/NETWORK_NAME/$[my_name]/g; s/IMAGE_NAME/statisticalgenetics\/$[_tutorial]:$[_tag]/g; s/HOST_DIR/$[home]\/$[_tutorial]_$[my_name]/g" /srv/jupyterhub/jupyterhub_config.py
+    RUN sed -i "s/CONTAINER_NAME/$[_tutorial]_$[my_name]/g; s/NETWORK_NAME/$[my_name]/g; s/IMAGE_NAME/statisticalgenetics\/$[_tutorial]:$[tag]/g; s/HOST_DIR/$[home]\/$[_tutorial]_$[my_name]/g" /srv/jupyterhub/jupyterhub_config.py
     EXPOSE 8000
     WORKDIR /srv/jupyterhub/
     LABEL org.jupyter.service="jupyterhub"
@@ -80,7 +80,7 @@ input: None, for_each = 'tutorial', concurrent = False
 bash: expand = True, workdir = '~/'
     set -e
     # Get the relevant image
-    docker pull statisticalgenetics/{_tutorial}:${_tag}
+    docker pull statisticalgenetics/{_tutorial}:{tag}
     # Stop currently running servers to start from scratch if they are the same name; but don't stop any running instances (line below commented out)
     # docker container stop $(docker container ls -q --filter ancestor=statisticalgenetics/{_tutorial}) &> /dev/null || true
     docker container stop $(docker container ls -q --filter name={_tutorial}_{my_name}) &> /dev/null || true

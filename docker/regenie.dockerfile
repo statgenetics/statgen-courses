@@ -24,10 +24,10 @@ RUN cd /tmp && wget http://s3.amazonaws.com/plink1-assets/plink_linux_x86_64_202
 RUN Rscript -e 'p = c("data.table", "ggplot2", "ggrepel", "dplyr", "qqman"); install.packages(p, repos="https://cloud.r-project.org")'
 
 #Download and install regenie
-RUN cd /tmp && wget https://github.com/rgcgithub/regenie/releases/download/v2.2.4/regenie_v2.2.4.gz_x86_64_Linux.zip && \
-    unzip regenie_v2.2.4.gz_x86_64_Linux.zip && chmod a+x regenie_v2.2.4.gz_x86_64_Linux && mv regenie_v2.2.4.gz_x86_64_Linux regenie && \
+RUN cd /tmp && wget https://github.com/rgcgithub/regenie/releases/download/v3.2.9/regenie_v3.2.9.gz_x86_64_Linux.zip  && \
+    unzip regenie_v3.2.9.gz_x86_64_Linux.zip && chmod a+x regenie_v3.2.9.gz_x86_64_Linux && mv regenie_v3.2.9.gz_x86_64_Linux regenie && \
     cp regenie /usr/local/bin && \
-    rm regenie_v2.2.4.gz_x86_64_Linux.* 
+    rm regenie_v3.2.9.gz_x86_64_Linux.* 
 
 RUN curl -sSo /usr/local/bin/pull-tutorial.sh https://raw.githubusercontent.com/statgenetics/statgen-courses/master/src/pull-tutorial.sh
 RUN chmod a+x /usr/local/bin/pull-tutorial.sh
