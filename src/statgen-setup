@@ -9,7 +9,10 @@ import getpass
 parameter: my_name = getpass.getuser()
 parameter: mac_chip = False
 my_name = my_name.lower()
+# base notebook version
 parameter: version = '1.0.0'
+# tutorial tag
+parameter: tag = 'latest'
 import socket, random
 import os
 if os.uname().machine == 'arm64' and not mac_chip:
@@ -33,8 +36,6 @@ def get_ports(num):
 
 [build]
 parameter: root_dir = path('./')
-# version tag, default to `latest`
-parameter: tag = 'latest'
 input: None, for_each = 'tutorial', concurrent = False
 bash: expand = True, workdir = root_dir
     git pull
@@ -56,14 +57,14 @@ fail_if(not all((a.isalnum() or a == '_') and not a.isspace() for a in my_name),
 import os
 home = os.path.expanduser("~").replace('/', '\\/')
 input: None, for_each = 'tutorial', concurrent = False
-docker_build: tag = f'{_tutorial}_{my_name}', platform='linux/arm64', expand = '$[ ]', workdir = '~/.cache'
+script: interpreter=f'docker build . --tag {_tutorial}_{my_name} {"--platform linux/arm64" if mac_chip else ""} -f', expand = '$[ ]', workdir = '~/.cache'
     FROM gaow/base-notebook:$[version]
     USER root
     RUN mkdir -p /srv/jupyterhub/
     COPY jupyterhub_config.py /srv/jupyterhub/jupyterhub_config.py
     COPY cull_idle_servers.py /srv/jupyterhub/cull_idle_servers.py
     # modify the script to create a unique instance
-    RUN sed -i "s/CONTAINER_NAME/$[_tutorial]_$[my_name]/g; s/NETWORK_NAME/$[my_name]/g; s/IMAGE_NAME/statisticalgenetics\/$[_tutorial]/g; s/HOST_DIR/$[home]\/$[_tutorial]_$[my_name]/g" /srv/jupyterhub/jupyterhub_config.py
+    RUN sed -i "s/CONTAINER_NAME/$[_tutorial]_$[my_name]/g; s/NETWORK_NAME/$[my_name]/g; s/IMAGE_NAME/statisticalgenetics\/$[_tutorial]:$[tag]/g; s/HOST_DIR/$[home]\/$[_tutorial]_$[my_name]/g" /srv/jupyterhub/jupyterhub_config.py
     EXPOSE 8000
     WORKDIR /srv/jupyterhub/
     LABEL org.jupyter.service="jupyterhub"
@@ -79,7 +80,7 @@ input: None, for_each = 'tutorial', concurrent = False
 bash: expand = True, workdir = '~/'
     set -e
     # Get the relevant image
-    docker pull statisticalgenetics/{_tutorial}
+    docker pull statisticalgenetics/{_tutorial}:{tag}
     # Stop currently running servers to start from scratch if they are the same name; but don't stop any running instances (line below commented out)
     # docker container stop $(docker container ls -q --filter ancestor=statisticalgenetics/{_tutorial}) &> /dev/null || true
     docker container stop $(docker container ls -q --filter name={_tutorial}_{my_name}) &> /dev/null || true
@@ -117,7 +118,7 @@ bash: expand = '$[ ]', workdir = '~/'
         # Stop currently running instances to start from scratch
         docker stop sandbox_$[tutorial]_$[my_name] &> /dev/null || true
         # Run it in the background, `-d` option, force it to run under amd64
-        docker run -d  $["--platform linux/amd64" if mac_chip else ""] --rm --security-opt label:disable -t --name sandbox_$[tutorial]_$[my_name] -h $[tutorial] -p $[port]:8080 statisticalgenetics/$[tutorial] > /dev/null
+        docker run -d  $["--platform linux/amd64" if mac_chip else ""] --rm --security-opt label:disable -t --name sandbox_$[tutorial]_$[my_name] -h $[tutorial] -p $[port]:8080 statisticalgenetics/$[tutorial]:$[tag] > /dev/null
         printf '\nPlease access the IGV server at http://$[ip]:$[port]'
         printf '\nor, if you run this server locally (on your computer), at http://0.0.0.0:$[port]\n\n'
     else
@@ -134,7 +135,7 @@ bash: expand = '$[ ]', workdir = '~/'
         $cmd 2> /dev/null
         } || {
         # Run it in the background, `-d` option, force it to run under amd64
-        docker run -d $["--platform linux/amd64" if mac_chip else ""] --rm --security-opt label:disable -v $HOME/$[tutorial]_$[my_name]:/home/jovyan/work -v /tmp:/tmp $[extra_docker_args] -t --name sandbox_$[tutorial]_$[my_name] -e NB_UID=$UID --user root -h $[tutorial] statisticalgenetics/$[tutorial] > /dev/null
+        docker run -d $["--platform linux/amd64" if mac_chip else ""] --rm --security-opt label:disable -v $HOME/$[tutorial]_$[my_name]:/home/jovyan/work -v /tmp:/tmp $[extra_docker_args] -t --name sandbox_$[tutorial]_$[my_name] -e NB_UID=$UID --user root -h $[tutorial] statisticalgenetics/$[tutorial]:$[tag] > /dev/null
         # Then login
         echo "Started a new container at `date`"
         $cmd
@@ -142,8 +143,6 @@ bash: expand = '$[ ]', workdir = '~/'
     fi
 
 [update]
-# version tag, default to `latest`
-parameter: tag = 'latest'
 input: None, for_each = 'tutorial', concurrent = False
 bash: expand = True
     docker pull statisticalgenetics/{_tutorial}:{tag}
