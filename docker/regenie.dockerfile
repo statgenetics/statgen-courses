@@ -34,11 +34,11 @@ RUN chmod a+x /usr/local/bin/pull-tutorial.sh
 # Add notebook startup hook
 # https://jupyter-docker-stacks.readthedocs.io/en/latest/using/common.html#startup-hooks
 RUN mkdir -p /usr/local/bin/start-notebook.d
+# For large files, you can put README as a placeholder instead of `regenie` to skip pre-loading any files to it
 RUN echo "#!/bin/bash\n/usr/local/bin/pull-tutorial.sh regenie" > /usr/local/bin/start-notebook.d/get-updates.sh
 RUN chmod a+x /usr/local/bin/start-notebook.d/get-updates.sh
 # Users can type in "get-data" command in bash when they run the tutorial the first time, to download the data.
-RUN echo "#!/bin/bash\n/usr/local/bin/pull-tutorial.sh regenie" > /usr/local/bin/get-data
-RUN chmod a+x /usr/local/bin/get-data
+RUN cp /usr/local/bin/start-notebook.d/get-updates.sh /usr/local/bin/get-data
 
 RUN chown jovyan.users -R /home/jovyan
 
