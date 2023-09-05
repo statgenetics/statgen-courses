@@ -39,7 +39,7 @@ parameter: root_dir = path('./')
 input: None, for_each = 'tutorial', concurrent = False
 bash: expand = True, workdir = root_dir
     git pull
-    docker build {"--platform linux/arm64" if mac_chip else ""} --build-arg DUMMY=`date +%s` -t statisticalgenetics/{_tutorial}:{tag} -f docker/{_tutorial}.dockerfile docker && \
+    docker build {"--platform linux/amd64" if mac_chip else ""} --build-arg DUMMY=`date +%s` -t statisticalgenetics/{_tutorial}:{tag} -f docker/{_tutorial}.dockerfile docker && \
     (docker push statisticalgenetics/{_tutorial}:{tag} || true)
 
 [launch_1]
@@ -57,7 +57,7 @@ fail_if(not all((a.isalnum() or a == '_') and not a.isspace() for a in my_name),
 import os
 home = os.path.expanduser("~").replace('/', '\\/')
 input: None, for_each = 'tutorial', concurrent = False
-script: interpreter=f'docker build . --tag {_tutorial}_{my_name} {"--platform linux/arm64" if mac_chip else ""} -f', expand = '$[ ]', workdir = '~/.cache'
+script: interpreter=f'docker build . --tag {_tutorial}_{my_name} {"--platform linux/amd64" if mac_chip else ""} -f', expand = '$[ ]', workdir = '~/.cache'
     FROM gaow/base-notebook:$[version]
     USER root
     RUN mkdir -p /srv/jupyterhub/
@@ -89,7 +89,7 @@ bash: expand = True, workdir = '~/'
     # We create a network for per student user, and add different tutorials to it.
     docker network inspect {my_name} &>/dev/null || docker network create {my_name}
 
-    docker run --rm -it -d {"--platform linux/arm64" if mac_chip else ""} -v /var/run/docker.sock:/var/run/docker.sock --net {my_name} --name {_tutorial}_{my_name} -p{ports[_index]}:8000 {_tutorial}_{my_name}
+    docker run --rm -it -d {"--platform linux/amd64" if mac_chip else ""} -v /var/run/docker.sock:/var/run/docker.sock --net {my_name} --name {_tutorial}_{my_name} -p{ports[_index]}:8000 {_tutorial}_{my_name}
     # Create a shortcut to access from browser
     ({"true" if unify_link else "false"} && mkdir -p /var/www/html/{my_name}/{_tutorial} && echo '<meta http-equiv="Refresh" content="0; url=http://{ip}:{ports[_index]}" />' 2> /dev/null 1> /var/www/html/{my_name}/{_tutorial}/index.html && printf '\nDone! Users can now access {_tutorial} tutorial at http://{ip}/{my_name}/{_tutorial}\n\n') || printf '\nDone! Users with proper web service set up can now access {_tutorial} tutorial at http://{ip}:{ports[_index]} (remote) or http://0.0.0.0:{ports[_index]} (local). Alternatively you can find the instance in your Docker Desktop GUI and run it from there.\n\n' 
 
@@ -135,7 +135,7 @@ bash: expand = '$[ ]', workdir = '~/'
         $cmd 2> /dev/null
         } || {
         # Run it in the background, `-d` option, force it to run under amd64
-        docker run -d $["--platform linux/amd64" if mac_chip else ""] --rm --security-opt label:disable -v $HOME/$[tutorial]_$[my_name]:/home/jovyan/work -v /tmp:/tmp $[extra_docker_args] -t --name sandbox_$[tutorial]_$[my_name] -e NB_UID=$UID --user root -h $[tutorial] statisticalgenetics/$[tutorial]:$[tag] > /dev/null
+        docker run -d $["--platform linux/a64" if mac_chip else ""] --rm --security-opt label:disable -v $HOME/$[tutorial]_$[my_name]:/home/jovyan/work -v /tmp:/tmp $[extra_docker_args] -t --name sandbox_$[tutorial]_$[my_name] -e NB_UID=$UID --user root -h $[tutorial] statisticalgenetics/$[tutorial]:$[tag] > /dev/null
         # Then login
         echo "Started a new container at `date`"
         $cmd
