@@ -1,11 +1,6 @@
-FROM gaow/sos-notebook
+FROM gaow/sos-notebook:3.1.1
 
 LABEL Diana Cornejo <dmc2245@cumc.columbia.edu>
-
-ENV LC_ALL C.UTF-8
-ENV LANG C.UTF-8
-
-USER root
 
 # PLINK and Regenie
 RUN mamba install -c bioconda plink plink2 regenie=3.2.9 -y
@@ -21,10 +16,6 @@ RUN echo "#!/bin/bash\n/usr/local/bin/pull-tutorial.sh regenie" > /usr/local/bin
 RUN chmod a+x /usr/local/bin/start-notebook.d/get-updates.sh
 # Users can type in "get-data" command in bash when they run the tutorial the first time, to download the data.
 RUN cp /usr/local/bin/start-notebook.d/get-updates.sh /usr/local/bin/get-data
-
-RUN chown jovyan.users -R /home/jovyan
-
-USER jovyan
 
 # Download data to docker image
 RUN mkdir -p /home/jovyan/.work
