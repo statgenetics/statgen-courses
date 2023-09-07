@@ -45,7 +45,7 @@ function prep_user() {
   fi
   if [ -d /home/${USER}/.work ] ; then
     echo "Copying data to local folder ..."
-    cp -a /home/${USER}/.work/* /home/${USER}/work/ && rm -rf /home/${USER}/.work
+    cp -av /home/${USER}/.work/* /home/${USER}/work/ && rm -rf /home/${USER}/.work
   fi
   chown ${USER}.users -R /home/${USER}/work/*
 }
