@@ -136,7 +136,7 @@ bash: expand = '$[ ]', workdir = '~/'
         $cmd 2> /dev/null
         } || {
         # Run it in the background, `-d` option, force it to run under amd64
-        docker run -d $["--platform linux/a64" if mac_chip else ""] --rm --security-opt label:disable -v $HOME/$[tutorial]_$[my_name]:/home/jovyan/work -v /tmp:/tmp $[extra_docker_args] -t --name sandbox_$[tutorial]_$[my_name] -e NB_UID=1000 --user root -h $[tutorial] statisticalgenetics/$[tutorial]:$[tag] &> /dev/null 
+        docker run -d $["--platform linux/amd64" if mac_chip else ""] --rm --security-opt label:disable -v $HOME/$[tutorial]_$[my_name]:/home/jovyan/work -v /tmp:/tmp $[extra_docker_args] -t --name sandbox_$[tutorial]_$[my_name] -e NB_UID=1000 --user root -h $[tutorial] statisticalgenetics/$[tutorial]:$[tag] &> /dev/null 
         # Then login
         echo "Started a new container at `date`"
         $cmd
