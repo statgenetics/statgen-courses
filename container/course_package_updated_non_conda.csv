@@ -1,0 +1,21 @@
+Package,Homepage,Language,Version,Channel,Evironment,Link,Notes
+MR-JTI.zip,,,,,twas,https://www.dropbox.com/sh/i9elg3m4wav4o5g/AAABdxZbVyBclbfa_1KKVftDa?dl=0,"Not available in conda, downloaded via dropbox"
+annovar,,,,,vat,,"Not available in conda, exercise can be removed"
+king,,,,,vat,,"Not available in conda, exercise can be removed"
+annotation-tutorial,,,,,annovar,https://www.dropbox.com/sh/i9elg3m4wav4o5g/AAABdxZbVyBclbfa_1KKVftDa?dl=0,Not available in conda
+cassi,,,,,epistasis,,Not available in conda
+igv_exercise,,,,,igv,https://statgen.us/files/igv_exercise.zip,"Not available in conda, exercise can be removed"
+linkage,,,,,mlink,,"Not available in conda, exercise can be removed"
+fastlink,,,,,mlink,,"Not available in conda, exercise can be removed"
+fastlink-doc,,,,,mlink,,"Not available in conda, exercise can be removed"
+libcurl4-openssl-dev,,,,,nps,,Not available in conda
+default-jre,,,,,"nps, igv, saige",,Not available in conda
+libcairo2-dev,,,,,"nps, saige",,Not available in conda
+nps-1.1.0,,,,,nps,https://github.com/sgchun/nps/archive/1.1.0.tar.gz,Not available in conda
+hudson,,,,,pleiotropy,https://github.com/anastasia-lucas/hudson,Not available in conda
+plink-tutorial,,,,,plink,,Not available in conda; `apt-get install -y plink-tutorial`
+Popgen,,,,,popgen,,Downloading scripts in R and course handouts
+wine32,,,,,quanto,,"Not available in conda, windows only, , exercise can be removed"
+quanto1_2_4,,,,,quanto,,"Not available in conda, windows only,, exercise can be removed"
+regression-tutorial,,,,,regression,,Not available in conda
+fastlink,,,,,slink,,"Not available in conda, , exercise can be removed"
