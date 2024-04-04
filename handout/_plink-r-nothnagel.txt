@@ -1,0 +1,5 @@
+https://raw.githubusercontent.com/statgenetics/statgen-courses/master/code/GWAS_PartI_commands.txt
+https://raw.githubusercontent.com/statgenetics/statgen-courses/master/code/GWAS_PartII_commands.txt
+https://raw.githubusercontent.com/statgenetics/statgen-courses/master/code/genepi_popgen.q
+https://raw.githubusercontent.com/statgenetics/statgen-courses/master/code/multifactorial_script.txt
+https://raw.githubusercontent.com/statgenetics/statgen-courses/master/code/plink_r_commands.txt

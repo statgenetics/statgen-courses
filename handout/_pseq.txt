@@ -1,0 +1,2 @@
+https://raw.githubusercontent.com/statgenetics/statgen-courses/master/handout/PSEQ.pdf
+https://raw.githubusercontent.com/statgenetics/statgen-courses/master/notebooks/PSEQ.ipynb
