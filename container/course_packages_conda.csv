@@ -51,6 +51,7 @@ polyfun,https://github.com/omerwe/polyfun,Python,1,dnachun,finemap,https://anaco
 r-flashier,https://github.com/willwerscheid/flashier,R,1.0.21,dnachun,,https://anaconda.org/dnachun/r-flashier,
 r-mashr,https://github.com/stephenslab/mashr,R,0.2.73,dnachun,,https://anaconda.org/dnachun/r-mashr,
 r-plink2r,https://github.com/gabraham/plink2R,R,1.1,dnachun,,https://anaconda.org/dnachun/r-plink2r,
+r-hudson,https://github.com/anastasia-lucas/hudson,R,1.0.0,dnachun,,https://anaconda.org/dnachun/r-hudson,
 r-rfast,https://cran.r-project.org/web/packages/Rfast/index.html,R,2.0.8,conda-forge,,https://anaconda.org/conda-forge/r-rfast,
 ensembl-vep,https://github.com/Ensembl/ensembl-vep,Perl,110.1,dnachun,annovar,https://anaconda.org/bioconda/ensembl-vep,
 bedtools,https://github.com/arq5x/bedtools2,C/C++,2.31.0,bioconda,,https://anaconda.org/bioconda/bedtools,
