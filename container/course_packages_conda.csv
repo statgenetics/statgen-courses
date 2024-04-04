@@ -10,7 +10,7 @@ r-bigsnpr,https://privefl.github.io/bigsnpr/,R,,conda-forge,,https://anaconda.or
 r-bigsparser,https://github.com/privefl/bigsparser,R,,conda-forge,,https://anaconda.org/conda-forge/r-bigsparser,
 r-ggplot2,"http://ggplot2.tidyverse.org, https://github.com/tidyverse/ggplot2",R,,conda-forge,,https://anaconda.org/conda-forge/r-ggplot2,
 r-gplots,https://CRAN.R-project.org/package=gplots,R,,conda-forge,,https://anaconda.org/conda-forge/r-gplots,
-r-mediation,https://CRAN.R-project.org/package=RMediation,R,,conda-forge,,https://anaconda.org/conda-forge/r-rmediation,
+r-mediation,https://CRAN.R-project.org/package=RMediation,R,,conda-forge,,https://anaconda.org/conda-forge/r-mediation,
 r-biocmanager,https://CRAN.R-project.org/package=BiocManager,R,,cona-forge,,https://anaconda.org/conda-forge/r-biocmanager,
 bioconductor-multtest,https://bioconductor.org/packages/3.18/bioc/html/multtest.html,R,,bioconda,,https://anaconda.org/bioconda/bioconductor-multtest,
 plinkseq,https://atgu.mgh.harvard.edu/plinkseq/,C/C++,,hcc,pseq,https://anaconda.org/hcc/plinkseq,
