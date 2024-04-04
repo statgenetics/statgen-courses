@@ -1,2 +1,0 @@
-https://raw.githubusercontent.com/statgenetics/statgen-courses/master/handout/FASTLMM.pdf
-https://raw.githubusercontent.com/statgenetics/statgen-courses/master/handout/GCTA.pdf

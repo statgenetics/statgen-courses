@@ -1,1 +1,0 @@
-https://raw.githubusercontent.com/statgenetics/statgen-courses/master/notebooks/statgen_equations.ipynb
