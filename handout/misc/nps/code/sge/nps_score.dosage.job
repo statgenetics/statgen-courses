@@ -1,0 +1,52 @@
+#! /bin/bash 
+
+
+moddir=$1
+valdir=$2
+valtag=$3
+winshift=$4
+
+chrom=$SGE_TASK_ID
+
+###
+# ADD CODES TO LOAD MODULES HERE
+#
+# Load R module if necessary. 
+# 
+# If you loaded a GCC module to compile grs, you also need to load 
+# the GCC module here. 
+# 
+# Broad institute: 
+# source /broad/software/scripts/useuse
+# use GCC-5.2
+# use OpenblasR
+
+###
+
+# work dir
+if [ ! -d "$moddir" ]; then
+    echo "ERROR: NPS data directory does not exist: $moddir"
+    exit 1
+fi
+
+traintag=`Rscript -e "args <- readRDS(\"$moddir/args.RDS\"); cat(\":NPS:\", args[[\"traintag\"]], sep='');" | grep -F ':NPS:' | sed 's/^:NPS://' `
+
+modtag="$traintag.win_${winshift}"
+
+prefix="$valdir/chrom${chrom}.${valtag}"
+
+if [ ! -s "$prefix.dosage.gz" ]; then
+    echo "ERROR: $prefix.dosage.gz is missing or empty"
+    exit 1
+fi
+
+M=`zcat < $prefix.dosage.gz | tail -n +2 | wc -l | sed 's/^[ \t]*//' `
+N=`zcat < $prefix.dosage.gz | head -n 1 | tr " " "\n" | tail -n +7 | wc -l | sed 's/^[ \t]*//' `
+
+echo "chr$chrom N=$N M=$M"
+
+zcat < $prefix.dosage.gz | ./grs $N $M $moddir/$modtag.adjbetahat_tail.chrom$chrom.txt > $moddir/$modtag.predY_tail.$valtag.chrom$chrom.sscore
+
+zcat < $prefix.dosage.gz | ./grs $N $M $moddir/$modtag.adjbetahat_pg.chrom$chrom.txt > $moddir/$modtag.predY_pg.$valtag.chrom$chrom.sscore
+
+

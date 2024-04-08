@@ -1,0 +1,9 @@
+###
+# ADD CODES TO LOAD R MODULE HERE
+#
+# Broad institute: 
+# source /broad/software/scripts/useuse
+# use OpenblasR
+###
+
+Rscript npsR/nps_gwassig.R $1 $SGE_TASK_ID > $1/log/nps_gwassig.Rout.$SGE_TASK_ID

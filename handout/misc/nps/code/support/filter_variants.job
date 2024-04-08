@@ -1,0 +1,10 @@
+#! /bin/bash 
+
+CHROM=$SGE_TASK_ID
+WORK_DIR=$1
+COHORT_NAME=$2
+
+zgrep -v -w -F -f $WORK_DIR/$COHORT_NAME.UKBB_rejected_SNPIDs $WORK_DIR/chrom$CHROM.$COHORT_NAME.QC1.dosage.gz | gzip -c > $WORK_DIR/chrom$CHROM.$COHORT_NAME.QC2.dosage.gz
+
+grep -v -w -F -f $WORK_DIR/$COHORT_NAME.UKBB_rejected_SNPIDs $WORK_DIR/chrom$CHROM.ukb_mfi.txt > $WORK_DIR/chrom${CHROM}.ukb_mfi.QC2.txt
+

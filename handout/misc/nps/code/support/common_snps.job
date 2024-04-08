@@ -1,0 +1,25 @@
+#! /bin/bash 
+
+#####
+# Load bgenix module here
+
+# (Broad institute)
+# source /broad/software/scripts/useuse
+# use GCC-5.2
+# use .bgen-1.0
+#####
+
+CHROM=$SGE_TASK_ID
+UKBB_GENOPATH_BASE=$1
+UKBB_ANNOPATH_BASE=$2
+WORK_DIR=$3
+
+UKBB_GENOPATH=`echo $UKBB_GENOPATH_BASE | sed "s/\#/$CHROM/"`
+UKBB_ANNOPATH=`echo $UKBB_ANNOPATH_BASE | sed "s/\#/$CHROM/"`
+
+# MAF >= 0.05 and INFO >= 0.4 and not indel
+cat $UKBB_ANNOPATH | awk '{ if (($6 >= 0.05) && ($8 >= 0.4) && (length($4) == 1) && (length($5) == 1)) { print $2 } }' | sort -u > $WORK_DIR/chrom${CHROM}.rsids.incl
+
+bgenix -g $UKBB_GENOPATH -incl-rsids $WORK_DIR/chrom${CHROM}.rsids.incl > $WORK_DIR/chrom$CHROM.bgen
+
+cat $UKBB_ANNOPATH | grep -w -F -f $WORK_DIR/chrom$CHROM.rsids.incl > $WORK_DIR/chrom$CHROM.ukb_mfi.txt
