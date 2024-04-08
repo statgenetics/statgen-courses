@@ -1,0 +1,93 @@
+#! /bin/bash 
+
+###
+# ADD CODES TO LOAD MODULES HERE
+#
+# Broad institute: 
+# source /broad/software/scripts/useuse
+# use OpenblasR
+# use GCC-5.2
+#
+# erisone.partners.org
+# module add plink/2.0a
+# module add R-mkl/3.3.2
+###
+
+# QCTOOL=qctool
+QCTOOL=~/qctool/qctool
+
+moddir=$1
+valdir=$2
+valtag=$3
+
+chrom=$SGE_TASK_ID
+chromstr=$(printf '%02d' "$chrom")
+
+# work dir
+if [ ! -d "$moddir" ]; then
+    echo "ERROR: NPS data directory does not exist: $moddir"
+    exit 1
+fi
+
+
+if [ $# -gt 3 ]; then
+    winshifts=( $@ )
+    winshifts=("${winshifts[@]:3}")
+else
+    
+    # auto-detect window shifts
+    echo -n "Detecting window shifts..."
+
+    numwinshifts=`find $moddir -name "win_*.*.*.Q.RDS" -exec basename '{}' \; | grep -o "^win_[0-9]*" | sort -u | sed 's/win_//' | wc -l`
+
+    if [ $numwinshifts -eq 0 ]; then
+	echo " ERROR: autodetect failed"
+	exit 1
+    else
+	echo -n ": $numwinshifts shifts detected"
+    fi
+
+    winshifts=`find $moddir -name "win_*.*.*.Q.RDS" -exec basename '{}' \; | grep -o "^win_[0-9]*" | sort -u | sed 's/win_//'`
+
+    echo -n " ("
+    echo -n $winshifts
+    echo ")"
+fi
+
+traindir=`Rscript -e "args <- readRDS(\"$moddir/args.RDS\"); cat(\":NPS:\", args[[\"traindir\"]], sep='');" | grep -F ':NPS:' | sed 's/^:NPS://' `
+
+traintag=`Rscript -e "args <- readRDS(\"$moddir/args.RDS\"); cat(\":NPS:\", args[[\"traintag\"]], sep='');" | grep -F ':NPS:' | sed 's/^:NPS://' `
+
+for winshift in $winshifts
+do
+    echo "----- Shifted by $winshift -----"
+
+    modtag="$traintag.win_${winshift}"
+    prefix="$valdir/chrom${chrom}.${valtag}"
+    input="-g $prefix.bgen -s $prefix.sample"
+    
+    echo "SNPID rsid chromosome position alleleA alleleB risk_score_identifier additive_beta heterozygote_beta" > $moddir/$modtag.adjbetahat_pg_qctool.chrom$chrom.txt
+    
+    tail -n +2 $traindir/chrom$chrom.$traintag.snpinfo | paste - $moddir/$modtag.adjbetahat_pg.chrom$chrom.txt | awk '{print $2 " " $3 " " $1 " " $4 " " $5 " " $6 " NPS " $7 " 0"}' >> $moddir/$modtag.adjbetahat_pg_qctool.chrom$chrom.txt
+	    
+    $QCTOOL $input -compare-variants-by position,alleles -risk-score $moddir/$modtag.adjbetahat_pg_qctool.chrom$chrom.txt -osample $moddir/$modtag.predY_pg.$valtag.chrom$chrom.qctoolout
+
+    echo "SNPID rsid chromosome position alleleA alleleB risk_score_identifier additive_beta heterozygote_beta" > $moddir/$modtag.adjbetahat_tail_qctool.chrom$chrom.txt
+    
+    tail -n +2 $traindir/chrom$chrom.$traintag.snpinfo | paste - $moddir/$modtag.adjbetahat_tail.chrom$chrom.txt | awk '{ if ($7 != "0") { print $2 " " $3 " " $1 " " $4 " " $5 " " $6 " NPS " $7 " 0"} }' >> $moddir/$modtag.adjbetahat_tail_qctool.chrom$chrom.txt
+
+    ntail=`cat $moddir/$modtag.adjbetahat_tail_qctool.chrom$chrom.txt | wc -l`
+
+    if [ $ntail -gt 1 ]
+    then
+    
+	$QCTOOL $input -compare-variants-by position,alleles -risk-score $moddir/$modtag.adjbetahat_tail_qctool.chrom$chrom.txt -osample $moddir/$modtag.predY_tail.$valtag.chrom$chrom.qctoolout
+
+    else
+	# empty file 
+	:> $moddir/$modtag.predY_tail.$valtag.chrom$chrom.qctoolout
+    fi
+
+done
+
+echo "Done"
