@@ -6,6 +6,7 @@ channels:
   - nodefaults
 dependencies:
   - bioconductor-pcatools
+  - bioconductor-qvalue
   - r-abind
   - r-base=4.3
   - r-bigsnpr

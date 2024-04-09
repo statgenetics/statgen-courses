@@ -2,7 +2,7 @@ FROM ghcr.io/prefix-dev/pixi:latest
 USER root
 # For security reasons, SSL certificates and timezone database must be installed by host package manager
 RUN apt-get update
-RUN apt-get -y install ca-certificates tzdata
+RUN apt-get -y install ca-certificates tzdata curl
 
 # Copy over configs and environments
 COPY r_libs.yml /tmp
