@@ -22,3 +22,4 @@ dependencies:
   - r-rgl
   - r-rmtstat
   - r-tidyverse
+  - r-hudson
