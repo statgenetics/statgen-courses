@@ -2,9 +2,6 @@
 # r-rgl needs libGL.so.1 provided by the system package manager
 apt-get -y install libgl1 libgomp1
 
-# install ANNOVAR
-# FIXME: see my comments here:  https://github.com/statgenetics/statgen-courses/discussions/44#discussioncomment-9053645
-
 # install plink.multivariate
 curl -o /root/.pixi/bin/plink.multivariate https://github.com/statgenetics/statgen-courses/raw/master/handout/misc/plink.multivariate && chmod +x /root/.pixi/bin/plink.multivariate
 
