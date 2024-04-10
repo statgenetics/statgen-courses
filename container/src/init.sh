@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
 
-# r-rgl needs libGL.so.1 provided by the system package manager
-apt-get -y install libgl1 libgomp1
-
 # Only show PYTHONPATH and R_LIBS to specific executables
 sed -i '2i export PYTHONPATH="/root/micromamba/envs/python_libs/lib/python3.12/site-packages"' /root/.pixi/bin/python
 sed -i '2i export PYTHONPATH="/root/micromamba/envs/python_libs/lib/python3.12/site-packages"' /root/.pixi/bin/python3
@@ -15,5 +12,8 @@ echo '.libPaths("~/micromamba/envs/r_libs/lib/R/library")' >> /root/.Rprofile
 ln -sf /root/.pixi/bin/r /root/.pixi/bin/R
 ln -sf /root/.pixi/bin/rscript /root/.pixi/bin/Rscript
 
-# pixi global mistakenly points the samtools wrapper to samtools.pl, so we need to revert this change
-#sed -i "s/samtools.pl/samtools/" /root/.pixi/bin/samtools
+# Register Juypter kernels
+RUN find /root/micromamba/envs/python_libs/share/jupyter/kernels/ -maxdepth 1 -mindepth 1 -type d | \
+    xargs -I % jupyter-kernelspec install %
+RUN find /root/micromamba/envs/r_libs/share/jupyter/kernels/ -maxdepth 1 -mindepth 1 -type d | \
+    xargs -I % jupyter-kernelspec install %
