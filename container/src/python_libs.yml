@@ -59,3 +59,7 @@ dependencies:
   - widgetsnbextension
   - xlrd
   - python=3.12
+  - sos-bash
+  - sos-notebook
+  - sos-python
+  - sos-r
