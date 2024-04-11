@@ -10,6 +10,8 @@ COPY global_packages /tmp
 COPY init.sh /tmp
 COPY fixes.sh /tmp
 
+RUN mkdir -p /root/.jupyter
+
 RUN mkdir -p /root/.config/pixi && \
     echo 'default_channels = ["dnachun", "conda-forge", "bioconda"]' > /root/.config/pixi/config.toml
 
@@ -39,6 +41,7 @@ RUN bash /tmp/fixes.sh
 # Clean up
 RUN rm -rf /tmp/*
 
+COPY jupyter_notebook_config.py /root/.jupyter
 COPY entrypoint.sh /root/entrypoint.sh
 RUN chmod +x /root/entrypoint.sh
 CMD ["/root/entrypoint.sh"]
