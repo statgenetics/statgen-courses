@@ -13,7 +13,7 @@ ln -sf /root/.pixi/bin/r /root/.pixi/bin/R
 ln -sf /root/.pixi/bin/rscript /root/.pixi/bin/Rscript
 
 # Register Juypter kernels
-RUN find /root/micromamba/envs/python_libs/share/jupyter/kernels/ -maxdepth 1 -mindepth 1 -type d | \
+find /root/micromamba/envs/python_libs/share/jupyter/kernels/ -maxdepth 1 -mindepth 1 -type d | \
     xargs -I % jupyter-kernelspec install %
-RUN find /root/micromamba/envs/r_libs/share/jupyter/kernels/ -maxdepth 1 -mindepth 1 -type d | \
+find /root/micromamba/envs/r_libs/share/jupyter/kernels/ -maxdepth 1 -mindepth 1 -type d | \
     xargs -I % jupyter-kernelspec install %
