@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -e
+
 # Only show PYTHONPATH and R_LIBS to specific executables
 sed -i '2i export PYTHONPATH="/root/micromamba/envs/python_libs/lib/python3.12/site-packages"' /root/.pixi/bin/python
 sed -i '2i export PYTHONPATH="/root/micromamba/envs/python_libs/lib/python3.12/site-packages"' /root/.pixi/bin/python3
@@ -13,7 +15,7 @@ ln -sf /root/.pixi/bin/r /root/.pixi/bin/R
 ln -sf /root/.pixi/bin/rscript /root/.pixi/bin/Rscript
 
 # Register Juypter kernels
-RUN find /root/micromamba/envs/python_libs/share/jupyter/kernels/ -maxdepth 1 -mindepth 1 -type d | \
+find /root/micromamba/envs/python_libs/share/jupyter/kernels/ -maxdepth 1 -mindepth 1 -type d | \
     xargs -I % jupyter-kernelspec install %
-RUN find /root/micromamba/envs/r_libs/share/jupyter/kernels/ -maxdepth 1 -mindepth 1 -type d | \
+find /root/micromamba/envs/r_libs/share/jupyter/kernels/ -maxdepth 1 -mindepth 1 -type d | \
     xargs -I % jupyter-kernelspec install %

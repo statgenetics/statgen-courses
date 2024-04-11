@@ -2,17 +2,17 @@ plink --file GWAS
 
 plink --file GWAS --exclude plink.nof --recode --out GWAS_clean
 
-plink –-file GWAS_clean –-mind 0.10 –-recode –-out GWAS_clean_mind
+plink --file GWAS_clean --mind 0.10 --recode --out GWAS_clean_mind
 
-plink –-file GWAS_clean_mind –-maf 0.01 –-mind 0.02 –-geno 0.05 –-recode –-out GWAS_clean2
+plink --file GWAS_clean_mind --maf 0.01 --mind 0.02 --geno 0.05 --recode --out GWAS_clean2
 
-plink –-file GWAS_clean2 –-genome –-out duplicates
+plink --file GWAS_clean2 --genome --out duplicates
 
 
 #### in R
 
 setwd("to_your_working_directory/")
-dups = read.table(“duplicates.genome”, header = T)
+dups = read.table("duplicates.genome", header = T)
 
 problem_pairs = dups[which(dups$PI_HAT > 0.4),]
 problem_pairs
@@ -28,9 +28,9 @@ q()
 
 plink --file GWAS_clean2 --remove IBS_excluded.txt --recode --out GWAS_clean3
 
-plink –-file GWAS_clean3 –-exclude HWE_out.txt –-check-sex –-out GWAS_sex_checking
+plink --file GWAS_clean3 --exclude HWE_out.txt --check-sex --out GWAS_sex_checking
 
-plink –-file GWAS_clean3 –-het
+plink --file GWAS_clean3 --het
 
 
 
@@ -50,11 +50,11 @@ q()
 
 ######
 
-plink –-file GWAS_clean3 –-pheno pheno.txt –-pheno-name Aff –-hardy 
+plink --file GWAS_clean3 --pheno pheno.txt --pheno-name Aff --hardy 
 
 ##### in R
 
-hardy = read.table(“plink.hwe”, header = T)
+hardy = read.table("plink.hwe", header = T)
 names(hardy)
 hwe_prob = hardy[which(hardy$P < 0.0000009),]
 hwe_prob
@@ -62,9 +62,9 @@ hwe_prob
 q()
 ##########
 
-plink –-file GWAS_clean3 –-exclude HWE_out.txt –-recode –-out GWAS_clean4
+plink --file GWAS_clean3 --exclude HWE_out.txt --recode --out GWAS_clean4
 
-plink –-file GWAS_clean4 –-exclude HWE_out.txt –-check-sex –-out GWAS_sex_checking
+plink --file GWAS_clean4 --exclude HWE_out.txt --check-sex --out GWAS_sex_checking
 
 
 ######## in R
@@ -76,7 +76,7 @@ sex_problem
 q()
 ##############
 
-plink –-file GWAS_clean4 –-genome –-mds-plot 10
+plink --file GWAS_clean4 --genome --mds-plot 10
 
 #### in R
 
@@ -93,11 +93,11 @@ q()
 
 ######
 
-plink –-file GWAS_clean4 –-pheno pheno.txt –-pheno-name Aff –-logistic --adjust –-out unadj
+plink --file GWAS_clean4 --pheno pheno.txt --pheno-name Aff --logistic --adjust --out unadj
 
-plink –-file GWAS_clean4 –-pheno pheno.txt –-pheno-name Aff –-covar plink.mds –-covar-name C1 –-logistic –-adjust –-out C1
+plink --file GWAS_clean4 --pheno pheno.txt --pheno-name Aff --covar plink.mds --covar-name C1 --logistic --adjust --out C1
 
-plink –-file GWAS_clean4 –-pheno pheno.txt –-pheno-name Aff –-covar plink.mds –-covar-name C1-C2 –-logistic –-adjust –-out C1-C2
+plink --file GWAS_clean4 --pheno pheno.txt --pheno-name Aff --covar plink.mds --covar-name C1-C2 --logistic --adjust --out C1-C2
 
 #### in R
 
