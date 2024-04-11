@@ -51,4 +51,3 @@ ensembl-vep,https://github.com/Ensembl/ensembl-vep,Perl,110.1,dnachun,annovar,ht
 bedtools,https://github.com/arq5x/bedtools2,C/C++,2.31.0,bioconda,,https://anaconda.org/bioconda/bedtools,
 tensorqtl,https://github.com/broadinstitute/tensorqtl,Python,1.0.8,dnachun,,https://anaconda.org/dnachun/tensorqtl,
 bioconductor-qvalue,https://www.bioconductor.org/packages/release/bioc/html/qvalue.html,R,,bioconda,,https://anaconda.org/bioconda/bioconductor-qvalue,
-qvalue,https://pypi.org/project/qvalue/,Python,0.1.3,bioconda,,https://anaconda.org/dnachun/qvalue,
