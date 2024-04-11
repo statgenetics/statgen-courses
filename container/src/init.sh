@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -e
+
 # Only show PYTHONPATH and R_LIBS to specific executables
 sed -i '2i export PYTHONPATH="/root/micromamba/envs/python_libs/lib/python3.12/site-packages"' /root/.pixi/bin/python
 sed -i '2i export PYTHONPATH="/root/micromamba/envs/python_libs/lib/python3.12/site-packages"' /root/.pixi/bin/python3
