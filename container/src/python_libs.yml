@@ -27,7 +27,6 @@ dependencies:
   - jupyter_contrib_nbextensions
   - jupyter-lsp
   - jupyterlab-lsp
-  - jupyterhub
   - markdown
   - markdown-kernel
   - matplotlib
