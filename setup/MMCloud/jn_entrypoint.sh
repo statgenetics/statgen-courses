@@ -32,5 +32,8 @@ AWS_ACCESS_KEY_ID=$BUCKET_ACCESS_KEY AWS_SECRET_ACCESS_KEY=$BUCKET_SECRET_KEY aw
 
 # Sync the annovar software
 AWS_ACCESS_KEY_ID=$BUCKET_ACCESS_KEY AWS_SECRET_ACCESS_KEY=$BUCKET_SECRET_KEY aws s3 sync s3://opcenter-bucket-ada686a0-ccdb-11ee-b922-02ebafc2e5cf/statgen_course/annovar_software /root/statgen-courses/annovar_software
-cp /root/statgen-courses/annovar_software/table_annovar.pl /usr/local/bin
-chmod +x /usr/local/bin/table_annovar.pl
+cp /root/statgen-courses/annovar_software/*.pl /usr/local/bin
+chmod +x /usr/local/bin/*.pl
+
+# Fix plink.multivariate
+mv /root/statgen-courses/handout/misc/plink.multivariate /usr/local/bin
