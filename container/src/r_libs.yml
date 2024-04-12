@@ -25,3 +25,8 @@ dependencies:
   - r-tidyverse
   - r-hudson
   - r-corrplot
+  - r-gplots
+  - r-bitops
+  - r-gtools
+  - r-catools
+
