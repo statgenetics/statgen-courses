@@ -6,6 +6,7 @@ apt-get -y install libgl1 libgomp1
 curl -o /root/.pixi/bin/plink.multivariate https://github.com/statgenetics/statgen-courses/raw/master/handout/misc/plink.multivariate && chmod +x /root/.pixi/bin/plink.multivariate
 
 # temporary fix for https://github.com/vatlab/jupyterlab-sos/issues/72
+eval "$(micromamba shell hook --shell bash)"
 micromamba activate python_libs
 pip install jupyterlab-sos --force-reinstall
 
