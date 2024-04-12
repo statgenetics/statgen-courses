@@ -10,6 +10,7 @@ cd /root/
 git clone https://github.com/statgenetics/statgen-courses.git
 
 # Download external resources
+mkdir -p $repo_dir/annovar_software
 mkdir -p $repo_dir/handout/ldpred2
 curl -o "$repo_dir/handout/ldpred2/ldpred.ipynb" https://raw.githubusercontent.com/cumc/bioworkflows/master/ldpred/ldpred.ipynb
 curl -o "$repo_dir/handout/ldpred2/ldpred2_example.ipynb" https://raw.githubusercontent.com/cumc/bioworkflows/master/ldpred/ldpred2_example.ipynb
@@ -26,6 +27,13 @@ curl -o "$repo_dir/handout/ngs_qc_annotation/pipelines/PCA.ipynb" https://raw.gi
 curl -o "$repo_dir/handout/ngs_qc_annotation/pipelines/annovar.ipynb" https://raw.githubusercontent.com/cumc/bioworkflows/master/variant-annotation/annovar.ipynb
 
 # Sync the handout directory
-AWS_ACCESS_KEY_ID=$BUCKET_ACCESS_KEY AWS_SECRET_ACCESS_KEY=$BUCKET_SECRET_KEY aws s3 sync s3://opcenter-bucket-ada686a0-ccdb-11ee-b922-02ebafc2e5cf/statgen_course /root/statgen-courses/handout
+AWS_ACCESS_KEY_ID=$BUCKET_ACCESS_KEY AWS_SECRET_ACCESS_KEY=$BUCKET_SECRET_KEY aws s3 sync s3://opcenter-bucket-ada686a0-ccdb-11ee-b922-02ebafc2e5cf/statgen_course /root/statgen-courses/handout --exclude "annovar_software/*"
+
 
 # Sync the annovar software
+AWS_ACCESS_KEY_ID=$BUCKET_ACCESS_KEY AWS_SECRET_ACCESS_KEY=$BUCKET_SECRET_KEY aws s3 sync s3://opcenter-bucket-ada686a0-ccdb-11ee-b922-02ebafc2e5cf/statgen_course/annovar_software /root/statgen-courses/annovar_software
+cp /root/statgen-courses/annovar_software/*.pl /usr/local/bin
+chmod +x /usr/local/bin/*.pl
+
+# Fix plink.multivariate
+mv /root/statgen-courses/handout/misc/plink.multivariate /usr/local/bin

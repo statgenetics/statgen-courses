@@ -1,7 +1,7 @@
 FROM ghcr.io/prefix-dev/pixi:latest
 USER root
 # For security reasons, SSL certificates and timezone database must be installed by host package manager
-RUN apt-get update && apt-get -y install ca-certificates tzdata curl
+RUN apt-get update && apt-get -y install ca-certificates tzdata curl unzip
 
 # Copy over configs and environments
 COPY r_libs.yml /tmp
@@ -9,6 +9,8 @@ COPY python_libs.yml /tmp
 COPY global_packages /tmp
 COPY init.sh /tmp
 COPY fixes.sh /tmp
+
+RUN mkdir -p /root/.jupyter
 
 RUN mkdir -p /root/.config/pixi && \
     echo 'default_channels = ["dnachun", "conda-forge", "bioconda"]' > /root/.config/pixi/config.toml
@@ -39,6 +41,7 @@ RUN bash /tmp/fixes.sh
 # Clean up
 RUN rm -rf /tmp/*
 
+COPY jupyter_notebook_config.py /root/.jupyter
 COPY entrypoint.sh /root/entrypoint.sh
 RUN chmod +x /root/entrypoint.sh
 CMD ["/root/entrypoint.sh"]
