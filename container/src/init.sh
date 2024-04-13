@@ -22,3 +22,8 @@ find /root/micromamba/envs/python_libs/share/jupyter/kernels/ -maxdepth 1 -minde
     xargs -I % jupyter-kernelspec install %
 find /root/micromamba/envs/r_libs/share/jupyter/kernels/ -maxdepth 1 -mindepth 1 -type d | \
     xargs -I % jupyter-kernelspec install %
+
+# Jupyter configurations
+mkdir -p $HOME/.jupyter
+curl -o $HOME/.jupyter/jupyter_lab_config.py https://raw.githubusercontent.com/gaow/misc/master/bash/pixi/jupyter_lab_config.py
+curl -o $HOME/.jupyter/jupyter_server_config.py https://raw.githubusercontent.com/gaow/misc/master/bash/pixi/jupyter_server_config.py
