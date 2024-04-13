@@ -42,6 +42,7 @@ RUN bash /tmp/fixes.sh
 RUN rm -rf /tmp/*
 
 COPY jupyter_lab_config.py /root/.jupyter
+COPY jupyter_server_config.py /root/.jupyter
 COPY entrypoint.sh /root/entrypoint.sh
 RUN chmod +x /root/entrypoint.sh
 CMD ["/root/entrypoint.sh"]
