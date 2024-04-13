@@ -728,7 +728,7 @@ c.LabServerApp.extra_labextensions_path = ["/root/micromamba/envs/python_libs/sh
 
 ## Whether to allow the user to run the server as root.
 #  Default: False
-c.ServerApp.allow_root = False
+c.ServerApp.allow_root = True
 
 ## Allow unauthenticated access to endpoints without authentication rule.
 #  
