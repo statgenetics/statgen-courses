@@ -5,4 +5,4 @@ chmod +x /root/jn_entrypoint.sh
 bash /root/jn_entrypoint.sh
 
 cd /root/statgen-courses/
-jupyter-lab --config /root/.jupyter/jupyter_notebook_config.py
+jupyter-lab

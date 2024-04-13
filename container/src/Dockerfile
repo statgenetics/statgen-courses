@@ -41,7 +41,7 @@ RUN bash /tmp/fixes.sh
 # Clean up
 RUN rm -rf /tmp/*
 
-COPY jupyter_notebook_config.py /root/.jupyter
+COPY jupyter_lab_config.py /root/.jupyter
 COPY entrypoint.sh /root/entrypoint.sh
 RUN chmod +x /root/entrypoint.sh
 CMD ["/root/entrypoint.sh"]
