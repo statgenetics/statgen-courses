@@ -266,7 +266,7 @@ c = get_config()  #noqa
 
 ## Extra paths to look for federated JupyterLab extensions
 #  Default: []
-c.LabServerApp.extra_labextensions_path = ["/root/micromamba/envs/test/share/jupyter/labextensions"]
+c.LabServerApp.extra_labextensions_path = ["/root/micromamba/envs/python_libs/share/jupyter/labextensions"]
 
 ## Generate default config file.
 #  See also: JupyterApp.generate_config
