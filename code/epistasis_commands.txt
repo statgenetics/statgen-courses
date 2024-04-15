@@ -1,0 +1,35 @@
+#Epistasis_PLINK_CASSI.pdf:
+
+plink --ped simcasecon.ped --map simcasecon.map --assoc
+
+more plink.assoc
+
+plink --ped simcasecon.ped --map simcasecon.map --model
+ 
+head -1 plink.model 
+
+grep GENO plink.model
+
+plink --ped simcasecon.ped --map simcasecon.map --fast-epistasis 
+
+plink --ped simcasecon.ped --map simcasecon.map --fast-epistasis --case-only 
+
+plink --ped simcasecon.ped --map simcasecon.map --epistasis 
+
+plink --ped simcasecon.ped --map simcasecon.map --make-bed --out simbinary 
+
+cassi -lr -i simbinary.bed 
+
+R
+results<-read.table("cassi.out", header=T)
+results
+q()
+
+
+cassi -je -o cassiJE.out -i simbinary.bed 
+
+
+R
+resultsJE<-read.table("cassiJE.out", header=T) 
+resultsJE
+q()

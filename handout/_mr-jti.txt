@@ -1,1 +1,0 @@
-https://raw.githubusercontent.com/statgenetics/statgen-courses/master/notebooks/MR_JTI.ipynb

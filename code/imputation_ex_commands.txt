@@ -1,0 +1,51 @@
+plink --file chr22_imputation_ex
+
+plink --file chr22_imputation_ex --maf 0.01 --mind 0.02 --geno 0.05 --hwe 0.001 --out qc_check
+
+plink --file chr22_imputation_ex --maf 0.01 --min 0.02 --geno 0.05 --hwe 0.001 --recode --out chr22_clean1
+
+plink --file chr22_clean1 --maf 0.01 --mind 0.02 --geno 0.05 --hwe 0.001 --out qc_check_2
+
+plink --file chr22_clean1 --filter-cases --hwe 0.001 --recode --out chr22_cases_clean
+
+plink --file chr22_clean1 --filter-controls --recode --out chr22_controls_clean
+
+plink --file chr22_controls_clean --merge chr22_cases_clean.ped chr22_cases_clean.map --hwe 0.001 --recode --out chr22_all_clean
+
+plink --file chr22_all_clean --logistic --out chr22_all_clean_geno
+
+# start up R
+R
+
+# now in R
+"mydata = read.table(""chr22_all_clean_geno.assoc.logistic"", header=T)"
+
+names(mydata)
+
+"plot(mydata$BP, -log10(mydata$P))"
+
+"smallp = mydata[which(mydata$P < 1E-6),]"
+smallp
+
+"smallp = smallp[order(smallp$BP),]"
+smallp
+q()
+
+#not in R anymore
+
+plink –-dosage chr22_HIHII_dose_mach4plink.txt.gz Zin –-fam chr22_imputation_ex.fam –-map chr22_imputed_snps_positions.map --out chr22_HIHII_dosage
+
+R
+
+# now in R
+"dosage = read.table(""chr22_HIHII_dosage.assoc.dosage"", header= T)"
+names(dosage)
+
+"plot(dosage$BP, -log10(dosage$P))"
+
+"dosagep = dosage[which(dosage$P < 1E-6),]"
+"dosagep = dosagep[order(dosagep$BP),]"
+dosagep
+
+"interest = dosage[which(dosage$SNP=='rs7372328'),]"
+interest

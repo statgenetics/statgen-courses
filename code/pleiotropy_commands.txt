@@ -1,0 +1,88 @@
+# in Bash
+
+plink\
+ --bfile pleiotropy_exercise\
+ --pheno pleiotropy_exercise_phenotypes.txt\
+ --pheno-name Trait1\
+ --sex\
+ --linear\
+ --out Trait1
+
+grep 'TEST' Trait1.assoc.linear > Trait1_snp.assoc.linear
+grep 'ADD' Trait1.assoc.linear >> Trait1_snp.assoc.linear
+grep 'TEST' Trait2.assoc.linear > Trait2_snp.assoc.linear
+grep 'ADD' Trait2.assoc.linear >> Trait2_snp.assoc.linear
+
+# in R
+
+# devtools::install_github('anastasia-lucas/hudson')
+
+library(hudson)
+dat1<-read.table("Trait1_snp.assoc.linear",header=T)
+dat2<-read.table("Trait2_snp.assoc.linear",header=T)
+names(dat1_snps)<-c("CHR", "SNP", "POS", "A1", "TEST", "NMISS", "BETA", "STAT", "pvalue")
+names(dat2_snps)<-(names(dat1_snps)
+gmirror(top=dat1_snps, bottom=dat2_snps, tline=5e-08, bline=5e-08,
++ toptitle="Trait11", bottomtitle = "Trait2",
++ highlight_p = c(0.00000005,0.00000005), highlighter="green",
++ file = 'pleiotropy_hudson', res = 300, type = 'pdf')
+
+Trait1 <- read.table(“Trait1_snp.assoc.linear”, header = T)
+Trait2 <- read.table(“Trait2_snp.assoc.linear”, header = T)
+SigTrait1 <- subset(Trait1, P<0.00000005)
+SigTrait2 <- subset(Trait2, P<0.00000005)
+intersect(SigTrait1$SNP, SigTrait2$SNP)
+
+# in Bash
+
+plink\
+ --bfile pleiotropy_exercise\
+ --clump Trait1_snp.assoc.linear,Trait2_snp.assoc.linear\
+ --clump-kb 250\
+ --clump-p1 5e-8\
+ --clump-p2 5e-8\
+ --clump-r2 0.2\
+ --clump-replicate\
+ --clump-verbose\
+ --out Trait1_Trait2_clump
+
+plink.multivariate\
+ --noweb\
+ --bfile pleiotropy_exercise\
+ --mult-pheno pleiotropy_exercise_phenotypes.txt\
+ --sex\
+ --mqfam\
+ --out Trait1_Trait2
+
+# in R 
+
+Trait1<-read.table("Trait1_snp.assoc.linear", header=T)
+Trait2<-read.table("Trait2_snp.assoc.linear", header=T)
+multi<-read.table("Trait1_Trait2.mqfam.total", header=T)
+sigMulti<-subset(multi, P<0.00000005)
+suggTrait1<-subset(Trait1, P<0.000005)
+suggTrait2<-subset(Trait2, P<0.000005)
+Reduce(intersect, list(suggTrait1$SNP, suggTrait2$SNP, sigMulti$SNP))
+
+# in Bash
+
+plink\
+ --bfile pleiotropy_exercise\
+ --clump Trait1_snp.assoc.linear,Trait2_snp.assoc.linear\
+ --clump-p1 0.000005\
+ --clump-p2 0.000005\
+ --clump-r2 0.2\
+ --clump-replicate\
+ --clump-verbose\
+ --out Trait1_Trait2_clump_suggestive
+
+# in R 
+
+library(mediation)
+genotypes <- read.table("snps_for_mediation.raw", header=T)
+phenotypes<-read.table("pleiotropy_exercise_phenotypes.txt", header=T)
+combined<-merge(genotypes,phenotypes)
+med.fit<-lm(Trait1~rs125_0, data=combined)
+out.fit<-lm(Trait2~Trait1+rs125_0, data=combined)
+med.out<-mediate(med.fit,out.fit,treat="rs125_0", mediator="Trait1", boot=TRUE, boot.ci.type="bca", sims=1000)
+summary(med.out)

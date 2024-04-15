@@ -1,1 +1,1 @@
-https://raw.githubusercontent.com/statgenetics/statgen-courses/master/notebooks/multivariate_prediction.ipynb
+https://raw.githubusercontent.com/statgenetics/statgen-courses/master/notebooks/MR_JTI.ipynb

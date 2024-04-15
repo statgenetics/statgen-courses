@@ -1,5 +1,0 @@
-###
-# ADD CODES TO LOAD R MODULE HERE
-###
-
-Rscript npsR/nps_decor.R $1 $LSB_JOBINDEX $2 > $1/log/nps_decor.Rout.$2.$LSB_JOBINDEX

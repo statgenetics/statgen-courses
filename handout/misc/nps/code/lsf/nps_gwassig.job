@@ -1,5 +1,0 @@
-###
-# ADD CODES TO LOAD R MODULE HERE
-###
-
-Rscript npsR/nps_gwassig.R $1 $LSB_JOBINDEX > $1/log/nps_gwassig.Rout.$LSB_JOBINDEX

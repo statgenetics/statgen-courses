@@ -1,0 +1,331 @@
+
+
+# === PLINK & R intro ================================================================ ###
+
+# PLINK intro #
+
+plink  --ped dbp.cc.ped  --map dbp.map  --missing
+
+plink  --ped dbp.cc.ped  --map dbp.map  --mind 0.10  --geno 0.05 \
+       --recode  --out cleaned
+plink  --ped cleaned.ped  --map cleaned.map  --freq  --out cleaned
+plink  --ped cleaned.ped  --map cleaned.map  --hardy  --out cleaned
+
+plink  --ped cleaned.ped  --map cleaned.map  --out cleaned.R  --recode  \
+       --tab
+
+plink  --ped dbp.cc.ped  --map dbp.map  --make-bed  --out dbp
+plink  --ped dbp.qt.ped  --map dbp.map  --make-bed  --out dbp.qt
+
+
+
+# R intro #
+
+# I: Data Types #
+
+city       = c("Oslo", "Bergen", "Munich", "Berlin", "Rome", "Milan")
+population = c(0.58, 0.25, 1.3, 3.4, 2.7, 1.3)
+country    = factor( c("Norway" , "Norway", "Germany",
+                       "Germany", "Italy", "Italy"   ))
+capital    = c(TRUE, FALSE, FALSE, TRUE, TRUE, FALSE)
+updated    = 2009
+
+city
+population
+country
+capital
+
+c(city, city)
+c(population, updated)
+
+summary (city)
+summary (population)
+summary (country)
+summary (capital)
+
+is.numeric(city)
+is.character(city)
+is.factor(city)
+
+class (city)
+class (population)
+class (country)
+class (capital)
+
+length(city)
+
+
+# II: Names & Indexes #
+
+names(population) = city
+population
+
+city [3]
+city [2:4]
+city[c(1,5:6)]
+population[3]
+
+population["Oslo"]
+population[c("Berlin","Rome")]
+
+population
+capital
+population[capital]
+
+population>=1.0
+population[population>=1.0]
+
+
+# III: Data frames  #
+
+cities = data.frame (city=city, pop=population, 
+                     country=country, capital=capital, stringsAsFactors=F)
+cities
+length(cities)
+dim(cities)
+is.data.frame(cities)
+is.list(cities)
+
+colnames(cities)
+rownames(cities)
+
+cities$city
+cities[,1]
+cities[2,]
+cities[2,3]
+cities$pop[3]
+cities[capital,]
+cities[cities$pop>=1.0,]
+
+
+# IV: Export & Import #
+
+ls()
+
+save(cities, city, country, file="myobjects.R")
+
+write.table(cities, file="cities.txt")
+
+sink (“cities.output.txt”)
+print (cities)
+sink ()
+
+dir()
+
+rm(list=ls())
+ls()
+
+new.table = read.table ("cities.txt")
+ls()
+new.table
+
+load ("myobjects.R")
+ls()
+cities
+new.table
+
+q()
+
+# ==================================================================================== ###
+
+
+
+# === Regression I =================================================================== ###
+
+# PLINK commands #
+
+plink  --bfile dbp  --logistic  --out logreg.add
+
+plink  --bfile dbp  --logistic  --ci 0.95  --out logreg.add.ci
+
+plink  --bfile dbp  --logistic  --covar dbp.age.pheno  --out logreg.age.add
+
+plink  --bfile dbp  --logistic  --sex  --out logreg.sex.add
+      
+plink  --bfile dbp  --logistic  --sex  --covar dbp.age.pheno  \
+       --out logreg.sexage.add
+
+plink  --bfile dbp  --logistic  --condition rs1112  \
+       --out logreg.snp1112.add
+      
+plink  --bfile dbp  --logistic  --condition rs1117  \
+       --out logreg.snp1117.add
+      
+plink  --bfile dbp.qt  --linear  --sex  --out linreg.sex.add 
+      
+
+# R commands #
+
+load("dbp.R")
+ls()
+dbp[1:5,]
+summary(dbp)
+
+# I. Logistic regression on a single SNP genotype #
+
+result.snp12 = glm (affection ~ rs1112, family=binomial("logit"), data=dbp)
+print (result.snp12)
+
+print ( class  (result.snp12) )
+print ( summary(result.snp12) )
+
+dev.geno = anova (result.snp12, test="Chi")
+lrt.pvalue = pchisq(dev.geno[dim(dev.geno)[1],"Deviance"], 
+             df=2, ncp=0, FALSE) 
+print ( lrt.pvalue )
+
+print ( summary(result.snp12)$coefficients )
+snp.beta = summary(result.snp12)$coefficients[2:3,1]
+print ( snp.beta )
+print ( exp(snp.beta) )
+
+ci = confint (result.snp12)
+print (ci) 
+print ( exp(ci) )
+
+snp.data = dbp[,c("affection", "rs1112")]
+summary(snp.data)
+
+snp.data[,"rs1112"] <- as.numeric(snp.data[,"rs1112"]) - 1
+summary(snp.data)
+
+result.all = glm (affection ~ rs1112, family=binomial("logit"), 
+                  data=snp.data)
+dev.all    = anova (result.all, test="Chi")
+summary(result.all)   
+print(dev.all) 
+
+# II. Adjustment for the effects of covariates and of other SNPs #
+
+snp.data = dbp[,c("affection", "trait","sex", "age", "rs1112", "rs1117")]
+summary(snp.data)
+
+snp.data[,"rs1112"] <- as.numeric(snp.data[,"rs1112"]) - 1
+snp.data[,"rs1117"] <- as.numeric(snp.data[,"rs1117"]) - 1
+
+result.adj = glm (affection ~ sex + rs1112      , family=binomial("logit"), 
+                  data=snp.data)
+summary(result.adj)
+
+result.adj = glm (affection ~ age + rs1112      , family=binomial("logit"), 
+                  data=snp.data)
+summary(result.adj)
+
+result.adj = glm (affection ~ sex + age + rs1112, family=binomial("logit"), 
+                  data=snp.data)
+summary(result.adj)
+
+result.adj = glm (affection ~ rs1117 + rs1112, family=binomial("logit"), 
+                  data=snp.data)
+summary(result.adj)
+anova (result.adj, test="Chi")
+
+result.adj = glm (affection ~ rs1112 + rs1117, family=binomial("logit"), 
+                  data=snp.data)
+summary(result.adj)
+anova (result.adj, test="Chi")
+
+# III. Analysis of quantitative instead of dichotomized trait #
+
+result.adj = lm (trait ~ rs1112      , data=snp.data)
+summary(result.adj)
+
+result.adj = lm (trait ~ sex + rs1112, data=snp.data)
+summary(result.adj)
+
+# Quitting #
+
+q()
+
+
+
+
+# ==================================================================================== ###
+
+
+
+
+# === Regression II ================================================================== ###
+
+# PLINK commands #
+
+plink  --bfile dbp  --logistic sex interaction  --out logreg.sex.inter.add
+
+plink  --bfile dbp  --logistic interaction  --condition rs1112  \
+       --out logreg.snp1112.inter.add
+
+
+# R commands #
+
+load("dbp.R")
+ls()
+dbp[1:5,]
+summary(dbp)
+
+# IV. Gene-environment (GxE) and gene-gene (GxG) interaction #
+
+result.inter = glm (affection ~ sex * rs1112, family=binomial("logit"), 
+                    data=snp.data)
+summary(result.inter)
+
+result.inter = glm (affection ~ age * rs1112, family=binomial("logit"), 
+                    data=snp.data)
+summary(result.inter)
+
+result.inter = glm (affection ~ rs1112 * rs1117, family=binomial("logit"), 
+                    data=snp.data)
+summary(result.inter)
+
+result.reg = glm (affection ~ sex + age + rs1112 + rs1117, 
+                  family=binomial("logit"), data=snp.data)
+summary(result.reg)
+
+modelchoice.result <- step (result.reg)
+summary(modelchoice.result)
+
+
+# ==================================================================================== ###
+
+
+
+
+# === Multiple testing =============================================================== ###
+
+# PLINK commands #
+
+plink  --bfile dbp  --assoc  --adjust  --out multtest
+
+plink  --bfile dbp  --assoc  --mperm   5000  --out multperm5000
+plink  --bfile dbp  --assoc  --mperm 100000  --out multperm100000
+
+
+# R commands #
+
+## Code below installs the library "multtest". 
+## They are only necessary if your system does not have multtest R package installled already
+# if (!requireNamespace("BiocManager", quietly = TRUE))
+#    install.packages("BiocManager")
+# BiocManager::install()
+# BiocManager::install("multtest")
+
+library (multtest)
+
+
+load("p.values.R")
+ls()
+p.values
+
+adj.p.values = mt.rawp2adjp(p.values,c("Bonferroni","Holm","SidakSS","BH"))
+adj.p.values
+
+rownames(adj.p.values$adjp) = names(p.values[adj.p.values$index])
+
+adj.p.values$adjp
+
+
+
+# ==================================================================================== ###
+
+
+
+### END OF FILE ##############################################
