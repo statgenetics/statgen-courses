@@ -98,6 +98,7 @@ bash: expand = True, workdir = '~/'
     if [ $(command -v wslview) ] ; then wslview http://{ip}:{ports[_index]} ; fi
 
 [serve]
+port = 8888 
 bash: expand = True, workdir = '~/'
     set -e
     # Get the relevant image
@@ -106,7 +107,7 @@ bash: expand = True, workdir = '~/'
     docker container stop $(docker container ls -q --filter name=statgen_course_{my_name}) &> /dev/null || true
     # Create a user folder for notebook instance and set the permission
     mkdir -p $HOME/statgen_course_{my_name} && (chmod g=u $HOME/statgen_course_{my_name} || true)
-    docker run --rm -it {"--platform linux/amd64" if mac_chip else ""} -v /tmp:/tmp -v $HOME/statgen_course_{my_name}:/home/jovyan/handson-tutorial --name statgen_course_{my_name}  -e NB_UID=1000 yiweizh/rockefeller-jupyter
+    docker run --rm -it {"--platform linux/amd64" if mac_chip else ""} -p 8888:8888 -v /tmp:/tmp -v $HOME/statgen_course_{my_name}:/home/jovyan/handson-tutorial --name statgen_course_{my_name} -e NB_UID=1000 yiweizh/rockefeller-jupyter
 
 [login]
 # use --restart to false restart the container
