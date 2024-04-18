@@ -1,5 +1,3 @@
-**Caution: this document is obsolete as of April 2024. the updated instructions for users can be found at https://github.com/statgenetics/statgen-courses/wiki, and for developers at: https://github.com/cumc/handson-tutorials/tree/main/setup/docker**
-
 # For users
 
 ## Available tutorials
@@ -9,10 +7,13 @@ Available tutorials (via `--tutorial` option of `statgen-setup` script) are thos
 
 ## How to launch course tutorials
 
-https://github.com/statgenetics/statgen-courses/wiki/How-to-launch-course-tutorials
+https://github.com/statgenetics/statgen-courses/wiki
 
 
 # For developers
+
+**Caution: Instructions for developers is obsolete as of April 2024, but kept here for backward compatiblity suport. The updated instructions can be found at https://github.com/cumc/handson-tutorials/blob/main/setup/docker/README.md**
+
 
 - `docker` folder contains files for docker images to run the statgen course tutorials.
 - `handout` folder contains some handouts.
