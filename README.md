@@ -1,14 +1,16 @@
 # For users
 
-## Available tutorials
-
-Available tutorials (via `--tutorial` option of `statgen-setup` script) are those with
-[docker images available as listed here](https://hub.docker.com/u/statisticalgenetics/). 
 
 ## How to launch course tutorials
 
 https://github.com/statgenetics/statgen-courses/wiki
 
+## Available tutorials
+
+**Caution: docker images listed below are obsolete as of April 2024, but kept here for backward compatiblity suport. The updated setup is a single image found at https://github.com/cumc/handson-tutorials/tree/main/setup/docker**
+
+Available tutorials (via `--tutorial` option of `statgen-setup` script) are those with
+[docker images available as listed here](https://hub.docker.com/u/statisticalgenetics/). 
 
 # For developers
 
