@@ -1,11 +1,5 @@
 # For users
 
-## Tutorial notebooks
-
-Some tutorials are available as IPython Notebooks and can be viewed at: 
-
-https://statgenetics.github.io/statgen-courses/notebooks.html
-
 ## Available tutorials
 
 Available tutorials (via `--tutorial` option of `statgen-setup` script) are those with
