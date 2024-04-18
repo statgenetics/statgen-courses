@@ -1,1 +1,1 @@
-https://raw.githubusercontent.com/statgenetics/statgen-courses/master/notebooks/statgen_equations.ipynb
+https://raw.githubusercontent.com/cumc/handson-tutorials/main/contents/statgen_basic/statgen_equations.ipynb

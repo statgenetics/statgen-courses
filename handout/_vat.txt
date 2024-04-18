@@ -1,1 +1,1 @@
-https://raw.githubusercontent.com/statgenetics/statgen-courses/master/notebooks/VAT.ipynb
+https://raw.githubusercontent.com/cumc/handson-tutorials/main/contents/archive/vat/VAT.ipynb
