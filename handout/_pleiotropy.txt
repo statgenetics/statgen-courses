@@ -1,2 +1,2 @@
 https://raw.githubusercontent.com/statgenetics/statgen-courses/master/handout/Pleiotropy.docx
-https://raw.githubusercontent.com/statgenetics/statgen-courses/master/code/pleiotropy_commands.txt
+https://raw.githubusercontent.com/cumc/handson-tutorials/main/contents/pleiotropy/pleiotropy_commands.txt

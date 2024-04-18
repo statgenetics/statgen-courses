@@ -1,2 +1,2 @@
 https://raw.githubusercontent.com/statgenetics/statgen-courses/master/handout/FunctionalAnnotation.pdf
-https://raw.githubusercontent.com/statgenetics/statgen-courses/master/code/annovar_commands.txt
+https://raw.githubusercontent.com/cumc/handson-tutorials/main/contents/archive/annovar/annovar_commands.txt

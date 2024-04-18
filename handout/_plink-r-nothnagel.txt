@@ -1,5 +1,5 @@
-https://raw.githubusercontent.com/statgenetics/statgen-courses/master/code/GWAS_PartI_commands.txt
-https://raw.githubusercontent.com/statgenetics/statgen-courses/master/code/GWAS_PartII_commands.txt
-https://raw.githubusercontent.com/statgenetics/statgen-courses/master/code/genepi_popgen.q
-https://raw.githubusercontent.com/statgenetics/statgen-courses/master/code/multifactorial_script.txt
-https://raw.githubusercontent.com/statgenetics/statgen-courses/master/code/plink_r_commands.txt
+https://raw.githubusercontent.com/cumc/handson-tutorials/main/contents/archive/gwas_basic/GWAS_PartI_commands.txt
+https://raw.githubusercontent.com/cumc/handson-tutorials/main/contents/archive/gwas_basic/GWAS_PartII_commands.txt
+https://raw.githubusercontent.com/cumc/handson-tutorials/main/contents/popgen_nothnagel/genepi_popgen.q
+https://raw.githubusercontent.com/cumc/handson-tutorials/main/contents/regression_nothnagel/multifactorial_script.txt
+https://raw.githubusercontent.com/cumc/handson-tutorials/main/contents/basic_plink_r_nothnagel/plink_r_commands.txt
