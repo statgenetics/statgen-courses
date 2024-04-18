@@ -1,3 +1,5 @@
+**Caution: this document is obsolete as of April 2024. the updated instructions for users can be found at https://github.com/statgenetics/statgen-courses/wiki, and for developers at: https://github.com/cumc/handson-tutorials/tree/main/setup/docker**
+
 # For users
 
 ## Available tutorials
@@ -13,7 +15,6 @@ https://github.com/statgenetics/statgen-courses/wiki/How-to-launch-course-tutori
 # For developers
 
 - `docker` folder contains files for docker images to run the statgen course tutorials.
-- `notebooks` folder contains tutorial notebooks.
 - `handout` folder contains some handouts.
 - `src` folder contains utility scripts eg, tools to setup the Jupyter server online.
 
