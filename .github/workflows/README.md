@@ -48,3 +48,7 @@ Make sure to replace `<username>` and `<repository>` with your actual GitHub use
 3. The yaml action file claude generated does not work. However I know that [hugo works](https://gohugo.io/hosting-and-deployment/hosting-on-github/) so I adopted it to this context eventually getting this file that works:
 
 https://github.com/statgenetics/statgen-courses/blob/master/.github/workflows/generate-redirects.yml
+
+## Track status of the build
+
+https://github.com/statgenetics/statgen-courses/actions
