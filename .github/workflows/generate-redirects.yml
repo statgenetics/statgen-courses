@@ -49,7 +49,7 @@ jobs:
             <meta http-equiv="Expires" content="0" />
         </head>
         <body>
-          <p>Redirecting to <a href="$url">$url</a>...</p>
+          <p>Connecting to JupyterLab server ...</p>
         </body>
         </html>
         EOL
