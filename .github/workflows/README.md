@@ -4,7 +4,9 @@ i want to write a bash script that takes a CSV file of two columns , first coluu
 
 for example,
 
+```
 Gao Wang, http://192.168.86.86:8888
+```
 
 will generate me an HTML file called gao_wang/index.html that i can host on some website but once i get to this page it redirects me to http://192.168.86.86:8888
 
