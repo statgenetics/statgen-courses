@@ -17,8 +17,7 @@ jobs:
 
     - name: Generate redirect pages
       run: |
-        chmod +x generate_redirects.sh
-        ./generate_redirects.sh data.csv
+        bash .github/workflows/generate_redirects.sh .github/workflows/data.csv
 
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
