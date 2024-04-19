@@ -20,8 +20,8 @@ Here's how you can create a bash script and GitHub Action to generate HTML redir
 2. Create a GitHub Actions workflow file named `.github/workflows/generate-redirects.yml`: ...
 3. Place your CSV file named `data.csv` in the root directory of your repository. For example: ...
 4. Commit and push the `generate_redirects.sh`, `.github/workflows/generate-redirects.yml`, and `data.csv` files to your GitHub repository.
-5. 
-Now, whenever you push changes to the `data.csv` file in the `main` branch, the GitHub Action will trigger and execute the following steps:
+
+**Now, whenever you push changes to the [`data.csv` file](https://github.com/statgenetics/statgen-courses/blob/master/.github/workflows/data.csv) in the `main` branch**, the GitHub Action will trigger and execute the following steps:
 
 1. Check out the repository.
 
@@ -41,5 +41,8 @@ Make sure to replace `<username>` and `<repository>` with your actual GitHub use
 
 ## Additional notes
 
-1. I ended up putting `generate_redirects.sh` and `data.csv` both under `.github/workflows/folder`
+1. I later asked claude to rewrite it by eliminating `generate_redirects.sh` to put all contents to the yaml file, and put `data.csv` under `.github/workflows/folder`
 2. We need to enable gh-pages from Settings of the repo and select source of gh-pages as Github Actions
+3. The yaml action file claude generated does not work. However I know that [hugo works](https://gohugo.io/hosting-and-deployment/hosting-on-github/) so I adopted it to this context eventually getting this file that works:
+
+https://github.com/statgenetics/statgen-courses/blob/master/.github/workflows/generate-redirects.yml
