@@ -51,8 +51,19 @@ jobs:
         </html>
         EOL
         done < ".github/workflows/data.csv"
-    - name: Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v3
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v3
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./public
+        path: ./public
+
+  # Deployment job
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: generate_redirects
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
