@@ -98,6 +98,13 @@ bash: expand = True, workdir = '~/'
     if [ $(command -v wslview) ] ; then wslview http://{ip}:{ports[_index]} ; fi
 
 [serve]
+parameter: docker = True
+if docker:
+    sos_run("serve_with_docker")
+else:
+    sos_run("serve_without_docker")
+
+[serve_with_docker]
 port = 8888 
 bash: expand = True, workdir = '~/'
     set -e
@@ -108,6 +115,31 @@ bash: expand = True, workdir = '~/'
     # Create a user folder for notebook instance and set the permission
     mkdir -p $HOME/statgen_course_{my_name} && (chmod g=u $HOME/statgen_course_{my_name} || true)
     docker run --rm -it {"--platform linux/amd64" if mac_chip else ""} -p 8888:8888 -v /tmp:/tmp -v $HOME/statgen_course_{my_name}:/home/jovyan/handson-tutorial --name statgen_course_{my_name} -e NB_UID=1000 yiweizh/rockefeller-jupyter
+
+[serve_without_docker]
+depends: executable("synapse"), executable("parallel")
+bash: expand = True
+    repo_dir=handson-tutorials
+    git clone https://github.com/cumc/handson-tutorials.git
+    # Download external resources
+    mkdir -p $repo_dir/contents/ldpred2
+    curl -o "$repo_dir/contents/ldpred2/ldpred.ipynb" https://raw.githubusercontent.com/cumc/bioworkflows/master/ldpred/ldpred.ipynb
+    curl -o "$repo_dir/contents/ldpred2/ldpred2_example.ipynb" https://raw.githubusercontent.com/cumc/bioworkflows/master/ldpred/ldpred2_example.ipynb
+    mkdir -p $repo_dir/contents/archive/clumping
+    curl -o "$repo_dir/contents/archive/clumping/clumping.ipynb" https://raw.githubusercontent.com/cumc/bioworkflows/master/GWAS/LD_Clumping.ipynb
+    mkdir -p $repo_dir/contents/ngs_qc_annotation/
+    mkdir -p $repo_dir/contents/ngs_qc_annotation/pipelines
+    curl -o "$repo_dir/contents/ngs_qc_annotation/pipelines/VCF_QC.ipynb" https://raw.githubusercontent.com/cumc/xqtl-protocol/main/code/data_preprocessing/genotype/VCF_QC.ipynb
+    curl -o "$repo_dir/contents/ngs_qc_annotation/pipelines/genotype_formatting.ipynb" https://raw.githubusercontent.com/cumc/xqtl-protocol/main/code/data_preprocessing/genotype/genotype_formatting.ipynb
+    curl -o "$repo_dir/contents/ngs_qc_annotation/pipelines/GWAS_QC.ipynb" https://raw.githubusercontent.com/cumc/xqtl-protocol/main/code/data_preprocessing/genotype/GWAS_QC.ipynb
+    curl -o "$repo_dir/contents/ngs_qc_annotation/pipelines/PCA.ipynb" https://raw.githubusercontent.com/cumc/xqtl-protocol/main/code/data_preprocessing/genotype/PCA.ipynb
+    curl -o "$repo_dir/contents/ngs_qc_annotation/pipelines/annovar.ipynb" https://raw.githubusercontent.com/cumc/bioworkflows/master/variant-annotation/annovar.ipynb
+    # Remove outputs from notebooks
+    mkdir -p ~/.parallel && touch ~/.parallel/will-cite
+    find "$repo_dir/contents" -type f -name "*.ipynb" | parallel -j $(nproc) "jupyter nbconvert --ClearOutputPreprocessor.enabled=True --inplace {}"
+    # Download data command
+    curl https://raw.githubusercontent.com/cumc/handson-tutorials/main/setup/.synapseConfig > ~/.synapseConfig
+    synapse get -r syn18700992 --downloadLocation $repo_dir/contents
 
 [login]
 # use --restart to false restart the container
