@@ -118,8 +118,8 @@ bash: expand = True, workdir = '~/'
 
 [serve_without_docker]
 depends: executable("synapse"), executable("parallel")
-bash: expand = True
-    repo_dir=handson-tutorials
+bash: expand = "$[ ]"
+    repo_dir="handson-tutorials"
     git clone https://github.com/cumc/handson-tutorials.git
     # Download external resources
     mkdir -p $repo_dir/contents/ldpred2
