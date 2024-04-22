@@ -117,10 +117,11 @@ bash: expand = True, workdir = '~/'
     docker run --rm -it {"--platform linux/amd64" if mac_chip else ""} -p 8888:8888 -v /tmp:/tmp -v $HOME/statgen_course_{my_name}:/home/jovyan/handson-tutorial --name statgen_course_{my_name} -e NB_UID=1000 yiweizh/rockefeller-jupyter
 
 [serve_without_docker]
+parameter: repo_url = "https://github.com/cumc/handson-tutorials.git" 
 depends: executable("synapse"), executable("parallel")
 bash: expand = "$[ ]"
     repo_dir="handson-tutorials"
-    git clone https://github.com/cumc/handson-tutorials.git
+    git clone $[repo_url]
     # Download external resources
     mkdir -p $repo_dir/contents/ldpred2
     curl -o "$repo_dir/contents/ldpred2/ldpred.ipynb" https://raw.githubusercontent.com/cumc/bioworkflows/master/ldpred/ldpred.ipynb
