@@ -140,6 +140,8 @@ bash: expand = True
     # Download data command
     curl https://raw.githubusercontent.com/cumc/handson-tutorials/main/setup/.synapseConfig > ~/.synapseConfig
     synapse get -r syn18700992 --downloadLocation $repo_dir/contents
+    # start server
+    cd $repo_dir/contents && jupyter-lab
 
 [login]
 # use --restart to false restart the container
