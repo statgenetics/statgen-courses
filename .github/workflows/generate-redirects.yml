@@ -54,6 +54,8 @@ jobs:
         </html>
         EOL
         done < <(cat .github/workflows/*.csv)
+    - name: List generated files (as a diagnosis step)
+      run: ls -R public
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v3
       with:
