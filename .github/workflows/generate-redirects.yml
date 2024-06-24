@@ -35,7 +35,7 @@ jobs:
       uses: actions/checkout@v4
     - name: Generate redirect pages
       run: |
-        while IFS=',' read -r name url jobid; do
+        while IFS=',' read -r name url; do
           filename=$(echo "$name" | tr '[:upper:]' '[:lower:]' | tr ' ' '_')
           mkdir -p "public/$filename"
           cat > "public/$filename/index.html" << EOL
