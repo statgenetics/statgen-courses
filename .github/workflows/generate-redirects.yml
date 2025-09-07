@@ -53,7 +53,7 @@ jobs:
         </body>
         </html>
         EOL
-        done < <(cat .github/workflows/*.csv)
+        done < <(for f in .github/workflows/*.csv; do cat "$f"; echo; done | grep -v '^$')
     - name: List generated files (as a diagnosis step)
       run: ls -R public
     - name: Upload artifact
