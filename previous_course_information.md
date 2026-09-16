@@ -1,4 +1,5 @@
-# For users
+# For users - ARCHIVE
+This markdown file details information and setup for previous courses, as of September 2026 the tutorials have been updated and these instructions are no longer relevant to run course materials. 
 
 
 ## How to launch course tutorials
