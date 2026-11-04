@@ -14,11 +14,11 @@ Our group
 # Statistical Genetics Courses
 
 ## Advance Gene Mapping     
-[Advanced Gene Mapping](https://github.com/statgenetics/statgen-courses/advance_gene_mapping_course.md)     
+[Advanced Gene Mapping](https://github.com/statgenetics/statgen-courses/blob/master/advance_gene_mapping_course.md)     
 (January 11-15, 2027)       
 The Rockefeller University, New York, USA       
 
-For more information about the course, please following the link to the [Advanced Gene Mapping course page](https://github.com/statgenetics/statgen-courses/advance_gene_mapping_course.md)
+For more information about the course, please following the link to the [Advanced Gene Mapping course page](https://github.com/statgenetics/statgen-courses//blob/master/advance_gene_mapping_course.md)
 
 **Application Deadline: November 16, 2026**
 
@@ -28,7 +28,7 @@ For more information about the course, please following the link to the [Advance
 
 
 ## Genomic Data Analyses for Complex Traits
-[Genomic Data Analyses for Complex Traits](https://github.com/statgenetics/statgen-courses/genomic_data_analyses_complex_traits.md)            
+[Genomic Data Analyses for Complex Traits](https://github.com/statgenetics/statgen-courses/blob/master/genomic_data_analyses_complex_traits.md)            
 September 27 - October 1, 2027          
 The Max Delbrück Center, Berlin, Germany          
 
